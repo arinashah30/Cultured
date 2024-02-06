@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		480F21F52B75969500CB5632 /* Quiz.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F21F42B75969500CB5632 /* Quiz.swift */; };
+		480F21F72B7596BA00CB5632 /* QuizQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F21F62B7596BA00CB5632 /* QuizQuestion.swift */; };
+		480F21F92B75A29500CB5632 /* Connections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F21F82B75A29500CB5632 /* Connections.swift */; };
+		480F21FB2B75A54700CB5632 /* WordGuessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F21FA2B75A54700CB5632 /* WordGuessing.swift */; };
 		66FB69C72B72A06D0066B826 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB69C62B72A06D0066B826 /* AppDelegate.swift */; };
 		66FB69C92B72A06D0066B826 /* TourView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB69C82B72A06D0066B826 /* TourView.swift */; };
 		66FB69CB2B72A06E0066B826 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66FB69CA2B72A06E0066B826 /* Assets.xcassets */; };
@@ -50,6 +54,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		480F21F42B75969500CB5632 /* Quiz.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quiz.swift; sourceTree = "<group>"; };
+		480F21F62B7596BA00CB5632 /* QuizQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizQuestion.swift; sourceTree = "<group>"; };
+		480F21F82B75A29500CB5632 /* Connections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connections.swift; sourceTree = "<group>"; };
+		480F21FA2B75A54700CB5632 /* WordGuessing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGuessing.swift; sourceTree = "<group>"; };
 		66FB69C32B72A06D0066B826 /* Cultured.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cultured.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66FB69C62B72A06D0066B826 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		66FB69C82B72A06D0066B826 /* TourView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourView.swift; sourceTree = "<group>"; };
@@ -149,6 +157,10 @@
 				66FB69F42B72A0B90066B826 /* Country.swift */,
 				66FB69F62B72A0BF0066B826 /* User.swift */,
 				66FB6A1A2B72A26E0066B826 /* Badge.swift */,
+				480F21F42B75969500CB5632 /* Quiz.swift */,
+				480F21F62B7596BA00CB5632 /* QuizQuestion.swift */,
+				480F21F82B75A29500CB5632 /* Connections.swift */,
+				480F21FA2B75A54700CB5632 /* WordGuessing.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -358,13 +370,16 @@
 				66FB6A072B72A15B0066B826 /* SelfProfileView.swift in Sources */,
 				66FB6A202B72A2F00066B826 /* TraditionsView.swift in Sources */,
 				66FB69FC2B72A11D0066B826 /* LeaderboardView.swift in Sources */,
+				480F21F92B75A29500CB5632 /* Connections.swift in Sources */,
 				66FB69C92B72A06D0066B826 /* TourView.swift in Sources */,
 				66FB6A002B72A1310066B826 /* MainView.swift in Sources */,
 				66FB6A042B72A1480066B826 /* SignUpView.swift in Sources */,
 				66FB69F32B72A0B30066B826 /* Module.swift in Sources */,
 				66FB6A1B2B72A26E0066B826 /* Badge.swift in Sources */,
 				66FB69F72B72A0BF0066B826 /* User.swift in Sources */,
+				480F21F72B7596BA00CB5632 /* QuizQuestion.swift in Sources */,
 				66FB69D82B72A08F0066B826 /* ViewModel.swift in Sources */,
+				480F21F52B75969500CB5632 /* Quiz.swift in Sources */,
 				66FB6A132B72A2150066B826 /* StartConnectionsView.swift in Sources */,
 				66FB6A0E2B72A1830066B826 /* ResultsView.swift in Sources */,
 				66FB6A152B72A21D0066B826 /* ConnectionsGameView.swift in Sources */,
@@ -377,6 +392,7 @@
 				66FB69F52B72A0B90066B826 /* Country.swift in Sources */,
 				66FB6A222B72A2FD0066B826 /* HolidaysView.swift in Sources */,
 				66FB6A092B72A1620066B826 /* EditSelfProfileView.swift in Sources */,
+				480F21FB2B75A54700CB5632 /* WordGuessing.swift in Sources */,
 				66FB69C72B72A06D0066B826 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
