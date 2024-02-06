@@ -8,7 +8,7 @@
 import SwiftUI
 import RealityKit
 
-struct ContentView : View {
+struct TourView : View {
     var body: some View {
         ARViewContainer().edgesIgnoringSafeArea(.all)
     }
@@ -42,5 +42,5 @@ struct ARViewContainer: UIViewRepresentable {
 }
 
 #Preview {
-    ContentView()
+    TourView()
 }
