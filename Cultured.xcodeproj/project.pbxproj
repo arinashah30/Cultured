@@ -47,6 +47,8 @@
 		66FB6A222B72A2FD0066B826 /* HolidaysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB6A212B72A2FD0066B826 /* HolidaysView.swift */; };
 		66FB6A272B72A4F00066B826 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 66FB6A262B72A4F00066B826 /* FirebaseFirestore */; };
 		66FB6A292B72A5020066B826 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 66FB6A282B72A5020066B826 /* FirebaseStorage */; };
+		66FE49432B7571610053D229 /* 3DModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FE49422B7571610053D229 /* 3DModelView.swift */; };
+		66FE49452B75773A0053D229 /* Dice.imported.usdc in Resources */ = {isa = PBXBuildFile; fileRef = 66FE49442B7577390053D229 /* Dice.imported.usdc */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -77,6 +79,8 @@
 		66FB6A1D2B72A2DF0066B826 /* MusicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicView.swift; sourceTree = "<group>"; };
 		66FB6A1F2B72A2F00066B826 /* TraditionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraditionsView.swift; sourceTree = "<group>"; };
 		66FB6A212B72A2FD0066B826 /* HolidaysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolidaysView.swift; sourceTree = "<group>"; };
+		66FE49422B7571610053D229 /* 3DModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 3DModelView.swift; sourceTree = "<group>"; };
+		66FE49442B7577390053D229 /* Dice.imported.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; name = Dice.imported.usdc; path = ../../../../Downloads/Dice.imported.usdc; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +128,7 @@
 		66FB69C52B72A06D0066B826 /* Cultured */ = {
 			isa = PBXGroup;
 			children = (
+				66FE49442B7577390053D229 /* Dice.imported.usdc */,
 				66FB69C62B72A06D0066B826 /* AppDelegate.swift */,
 				66FB69D62B72A0800066B826 /* Views */,
 				66FB69D52B72A07B0066B826 /* ViewModels */,
@@ -166,6 +171,7 @@
 			children = (
 				66FB6A1C2B72A2C40066B826 /* Modules */,
 				66FB69C82B72A06D0066B826 /* TourView.swift */,
+				66FE49422B7571610053D229 /* 3DModelView.swift */,
 				66FB69F82B72A1060066B826 /* Activity */,
 				66FB69FD2B72A1280066B826 /* HomeView.swift */,
 				66FB69FF2B72A1310066B826 /* MainView.swift */,
@@ -343,6 +349,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				66FB69CE2B72A06E0066B826 /* Preview Assets.xcassets in Resources */,
+				66FE49452B75773A0053D229 /* Dice.imported.usdc in Resources */,
 				66FB69CB2B72A06E0066B826 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -356,6 +363,7 @@
 			files = (
 				66FB69FE2B72A1280066B826 /* HomeView.swift in Sources */,
 				66FB6A072B72A15B0066B826 /* SelfProfileView.swift in Sources */,
+				66FE49432B7571610053D229 /* 3DModelView.swift in Sources */,
 				66FB6A202B72A2F00066B826 /* TraditionsView.swift in Sources */,
 				66FB69FC2B72A11D0066B826 /* LeaderboardView.swift in Sources */,
 				66FB69C92B72A06D0066B826 /* TourView.swift in Sources */,
@@ -514,7 +522,7 @@
 				DEVELOPMENT_TEAM = W25VYB4Y9F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Augmented Reality";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = arkit;
@@ -545,7 +553,7 @@
 				DEVELOPMENT_TEAM = W25VYB4Y9F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Augmented Reality";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = arkit;
