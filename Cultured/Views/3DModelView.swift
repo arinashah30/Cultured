@@ -11,7 +11,7 @@ import ARKit
 
 struct _DModelView : View {
     var body: some View {
-        RealityViewContainer(modelName: "Dice.imported", numFacts: 2).edgesIgnoringSafeArea(.all)
+        RealityViewContainer(modelName: "Eiffel_Tower", numFacts: 2).edgesIgnoringSafeArea(.all)
     }
 }
 
@@ -23,21 +23,24 @@ struct RealityViewContainer: UIViewRepresentable {
     func makeUIView(context: Context) -> ARView {
         
         let arView = ARView(frame: .zero)
-        let modelEntity = try? ModelEntity.loadModel(named: modelName)
-        
-        
-    
-        guard let modelEntity else {
-            return arView //add error message later
+        guard let modelEntity = try? ModelEntity.loadModel(named: modelName) else {
+            return arView
         }
+        
+        var material = SimpleMaterial()
+        material.color = .init(tint: .gray)
+        modelEntity.model?.materials[0] = material
+        
         modelEntity.scale = [0.1, 0.1, 0.1]
         
-        let anchor = AnchorEntity(.plane(.horizontal, classification: .any, minimumBounds: [0.5, 0.5]))
+        
+        let anchor = AnchorEntity(.plane(.horizontal, classification: .floor, minimumBounds: [0.5, 0.5]))
         anchor.addChild(modelEntity)
+        modelEntity.position = [0, 0, -10]
         for i in 0..<numFacts {
             var informationBubbleEntity = ModelEntity(mesh: MeshResource.generateSphere(radius: 0.5), materials: [SimpleMaterial(color: .red, isMetallic: true)])
             let relativeTransform = Transform(translation: [Float(i) + 1, Float(i) + 1, Float(i) + 1])
-                    informationBubbleEntity.transform = relativeTransform
+            informationBubbleEntity.transform = relativeTransform
             modelEntity.addChild(informationBubbleEntity)
         }
         
@@ -45,7 +48,7 @@ struct RealityViewContainer: UIViewRepresentable {
         return arView
         
     }
-
+    
     
     func updateUIView(_ uiView: ARView, context: Context) {}
     

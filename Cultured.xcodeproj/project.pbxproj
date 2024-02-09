@@ -49,6 +49,7 @@
 		66FB6A292B72A5020066B826 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 66FB6A282B72A5020066B826 /* FirebaseStorage */; };
 		66FE49432B7571610053D229 /* 3DModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FE49422B7571610053D229 /* 3DModelView.swift */; };
 		66FE49452B75773A0053D229 /* Dice.imported.usdc in Resources */ = {isa = PBXBuildFile; fileRef = 66FE49442B7577390053D229 /* Dice.imported.usdc */; };
+		66FE49472B75C0E70053D229 /* Eiffel_Tower.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 66FE49462B75C0E70053D229 /* Eiffel_Tower.usdz */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,6 +82,7 @@
 		66FB6A212B72A2FD0066B826 /* HolidaysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolidaysView.swift; sourceTree = "<group>"; };
 		66FE49422B7571610053D229 /* 3DModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 3DModelView.swift; sourceTree = "<group>"; };
 		66FE49442B7577390053D229 /* Dice.imported.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; name = Dice.imported.usdc; path = ../../../../Downloads/Dice.imported.usdc; sourceTree = "<group>"; };
+		66FE49462B75C0E70053D229 /* Eiffel_Tower.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = Eiffel_Tower.usdz; path = ../../../../Downloads/Eiffel_Tower.usdz; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +130,7 @@
 		66FB69C52B72A06D0066B826 /* Cultured */ = {
 			isa = PBXGroup;
 			children = (
+				66FE49462B75C0E70053D229 /* Eiffel_Tower.usdz */,
 				66FE49442B7577390053D229 /* Dice.imported.usdc */,
 				66FB69C62B72A06D0066B826 /* AppDelegate.swift */,
 				66FB69D62B72A0800066B826 /* Views */,
@@ -348,6 +351,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66FE49472B75C0E70053D229 /* Eiffel_Tower.usdz in Resources */,
 				66FB69CE2B72A06E0066B826 /* Preview Assets.xcassets in Resources */,
 				66FE49452B75773A0053D229 /* Dice.imported.usdc in Resources */,
 				66FB69CB2B72A06E0066B826 /* Assets.xcassets in Resources */,
