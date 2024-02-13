@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		663062F52B7BFD3500702E04 /* ARLandmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663062F42B7BFD3500702E04 /* ARLandmark.swift */; };
 		66FB69C72B72A06D0066B826 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB69C62B72A06D0066B826 /* AppDelegate.swift */; };
 		66FB69C92B72A06D0066B826 /* TourView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB69C82B72A06D0066B826 /* TourView.swift */; };
 		66FB69CB2B72A06E0066B826 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66FB69CA2B72A06E0066B826 /* Assets.xcassets */; };
@@ -53,6 +54,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		663062F42B7BFD3500702E04 /* ARLandmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARLandmark.swift; sourceTree = "<group>"; };
 		66FB69C32B72A06D0066B826 /* Cultured.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cultured.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66FB69C62B72A06D0066B826 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		66FB69C82B72A06D0066B826 /* TourView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourView.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 			isa = PBXGroup;
 			children = (
 				66FB69F22B72A0B30066B826 /* Module.swift */,
+				663062F42B7BFD3500702E04 /* ARLandmark.swift */,
 				66FB69F42B72A0B90066B826 /* Country.swift */,
 				66FB69F62B72A0BF0066B826 /* User.swift */,
 				66FB6A1A2B72A26E0066B826 /* Badge.swift */,
@@ -367,6 +370,7 @@
 			files = (
 				66FB69FE2B72A1280066B826 /* HomeView.swift in Sources */,
 				66FB6A072B72A15B0066B826 /* SelfProfileView.swift in Sources */,
+				663062F52B7BFD3500702E04 /* ARLandmark.swift in Sources */,
 				66FE49432B7571610053D229 /* 3DModelView.swift in Sources */,
 				66FB6A202B72A2F00066B826 /* TraditionsView.swift in Sources */,
 				66FB69FC2B72A11D0066B826 /* LeaderboardView.swift in Sources */,
