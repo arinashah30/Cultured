@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+class WordGuessingViewModel: ObservableObject {
+    @Published var current_user: User? = nil
+    @Published var current_word_guessing_game: WordGuessing? = nil
+    
+}

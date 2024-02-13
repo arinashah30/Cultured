@@ -12,4 +12,5 @@ struct QuizQuestion {
     var answers: [String]
     var correctAnswer: Int
     var correctAnswerDescription: String
+    var submitted: Bool = false
 }
