@@ -8,6 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		663062F52B7BFD3500702E04 /* ARLandmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663062F42B7BFD3500702E04 /* ARLandmark.swift */; };
+		480F21F52B75969500CB5632 /* Quiz.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F21F42B75969500CB5632 /* Quiz.swift */; };
+		480F21F72B7596BA00CB5632 /* QuizQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F21F62B7596BA00CB5632 /* QuizQuestion.swift */; };
+		480F21F92B75A29500CB5632 /* Connections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F21F82B75A29500CB5632 /* Connections.swift */; };
+		480F21FB2B75A54700CB5632 /* WordGuessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F21FA2B75A54700CB5632 /* WordGuessing.swift */; };
+		480F21FE2B7C19D800CB5632 /* StartWordGuessingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F21FD2B7C19D800CB5632 /* StartWordGuessingView.swift */; };
+		480F22002B7C19E500CB5632 /* WordGuessingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F21FF2B7C19E500CB5632 /* WordGuessingView.swift */; };
+		480F22022B7C19F900CB5632 /* WordGuessingResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F22012B7C19F900CB5632 /* WordGuessingResultsView.swift */; };
+		480F22062B7C1F9000CB5632 /* QuizViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F22052B7C1F9000CB5632 /* QuizViewModel.swift */; };
+		480F22082B7C1F9C00CB5632 /* WordGuessingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F22072B7C1F9C00CB5632 /* WordGuessingViewModel.swift */; };
+		480F220A2B7C1FA900CB5632 /* ConnectionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F22092B7C1FA900CB5632 /* ConnectionsViewModel.swift */; };
 		66FB69C72B72A06D0066B826 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB69C62B72A06D0066B826 /* AppDelegate.swift */; };
 		66FB69C92B72A06D0066B826 /* TourView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB69C82B72A06D0066B826 /* TourView.swift */; };
 		66FB69CB2B72A06E0066B826 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66FB69CA2B72A06E0066B826 /* Assets.xcassets */; };
@@ -51,10 +61,26 @@
 		66FE49432B7571610053D229 /* 3DModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FE49422B7571610053D229 /* 3DModelView.swift */; };
 		66FE49452B75773A0053D229 /* Dice.imported.usdc in Resources */ = {isa = PBXBuildFile; fileRef = 66FE49442B7577390053D229 /* Dice.imported.usdc */; };
 		66FE49472B75C0E70053D229 /* Eiffel_Tower.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 66FE49462B75C0E70053D229 /* Eiffel_Tower.usdz */; };
+		7C1B20F32B7BFF41008E0244 /* UIColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1B20F22B7BFF41008E0244 /* UIColors.swift */; };
+		7C1B20FE2B7C00A0008E0244 /* Quicksand-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B20F92B7C00A0008E0244 /* Quicksand-Bold.ttf */; };
+		7C1B20FF2B7C00A0008E0244 /* Quicksand-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B20FA2B7C00A0008E0244 /* Quicksand-Medium.ttf */; };
+		7C1B21002B7C00A0008E0244 /* Quicksand-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B20FB2B7C00A0008E0244 /* Quicksand-Regular.ttf */; };
+		7C1B21012B7C00A0008E0244 /* Quicksand-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B20FC2B7C00A0008E0244 /* Quicksand-SemiBold.ttf */; };
+		7C1B21022B7C00A0008E0244 /* Quicksand-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B20FD2B7C00A0008E0244 /* Quicksand-Light.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		663062F42B7BFD3500702E04 /* ARLandmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARLandmark.swift; sourceTree = "<group>"; };
+		480F21F42B75969500CB5632 /* Quiz.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Quiz.swift; sourceTree = "<group>"; };
+		480F21F62B7596BA00CB5632 /* QuizQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizQuestion.swift; sourceTree = "<group>"; };
+		480F21F82B75A29500CB5632 /* Connections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connections.swift; sourceTree = "<group>"; };
+		480F21FA2B75A54700CB5632 /* WordGuessing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGuessing.swift; sourceTree = "<group>"; };
+		480F21FD2B7C19D800CB5632 /* StartWordGuessingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartWordGuessingView.swift; sourceTree = "<group>"; };
+		480F21FF2B7C19E500CB5632 /* WordGuessingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGuessingView.swift; sourceTree = "<group>"; };
+		480F22012B7C19F900CB5632 /* WordGuessingResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGuessingResultsView.swift; sourceTree = "<group>"; };
+		480F22052B7C1F9000CB5632 /* QuizViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizViewModel.swift; sourceTree = "<group>"; };
+		480F22072B7C1F9C00CB5632 /* WordGuessingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGuessingViewModel.swift; sourceTree = "<group>"; };
+		480F22092B7C1FA900CB5632 /* ConnectionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsViewModel.swift; sourceTree = "<group>"; };
 		66FB69C32B72A06D0066B826 /* Cultured.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cultured.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66FB69C62B72A06D0066B826 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		66FB69C82B72A06D0066B826 /* TourView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourView.swift; sourceTree = "<group>"; };
@@ -85,6 +111,13 @@
 		66FE49422B7571610053D229 /* 3DModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 3DModelView.swift; sourceTree = "<group>"; };
 		66FE49442B7577390053D229 /* Dice.imported.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; name = Dice.imported.usdc; path = ../../../../Downloads/Dice.imported.usdc; sourceTree = "<group>"; };
 		66FE49462B75C0E70053D229 /* Eiffel_Tower.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = Eiffel_Tower.usdz; path = ../../../../Downloads/Eiffel_Tower.usdz; sourceTree = "<group>"; };
+		7C1B20F22B7BFF41008E0244 /* UIColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColors.swift; sourceTree = "<group>"; };
+		7C1B20F62B7C002C008E0244 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		7C1B20F92B7C00A0008E0244 /* Quicksand-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Bold.ttf"; sourceTree = "<group>"; };
+		7C1B20FA2B7C00A0008E0244 /* Quicksand-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Medium.ttf"; sourceTree = "<group>"; };
+		7C1B20FB2B7C00A0008E0244 /* Quicksand-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Regular.ttf"; sourceTree = "<group>"; };
+		7C1B20FC2B7C00A0008E0244 /* Quicksand-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-SemiBold.ttf"; sourceTree = "<group>"; };
+		7C1B20FD2B7C00A0008E0244 /* Quicksand-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Light.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +145,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		480F21FC2B75A91100CB5632 /* WordGuessing */ = {
+			isa = PBXGroup;
+			children = (
+				480F21FD2B7C19D800CB5632 /* StartWordGuessingView.swift */,
+				480F21FF2B7C19E500CB5632 /* WordGuessingView.swift */,
+				480F22012B7C19F900CB5632 /* WordGuessingResultsView.swift */,
+			);
+			path = WordGuessing;
+			sourceTree = "<group>";
+		};
 		66FB69BA2B72A06D0066B826 = {
 			isa = PBXGroup;
 			children = (
@@ -134,6 +177,7 @@
 			children = (
 				66FE49462B75C0E70053D229 /* Eiffel_Tower.usdz */,
 				66FE49442B7577390053D229 /* Dice.imported.usdc */,
+				7C1B20F62B7C002C008E0244 /* Info.plist */,
 				66FB69C62B72A06D0066B826 /* AppDelegate.swift */,
 				66FB69D62B72A0800066B826 /* Views */,
 				66FB69D52B72A07B0066B826 /* ViewModels */,
@@ -155,11 +199,17 @@
 		66FB69D42B72A0750066B826 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				7C1B20F82B7C00A0008E0244 /* Fonts */,
+				7C1B20F22B7BFF41008E0244 /* UIColors.swift */,
 				66FB69F22B72A0B30066B826 /* Module.swift */,
 				663062F42B7BFD3500702E04 /* ARLandmark.swift */,
 				66FB69F42B72A0B90066B826 /* Country.swift */,
 				66FB69F62B72A0BF0066B826 /* User.swift */,
 				66FB6A1A2B72A26E0066B826 /* Badge.swift */,
+				480F21F42B75969500CB5632 /* Quiz.swift */,
+				480F21F62B7596BA00CB5632 /* QuizQuestion.swift */,
+				480F21F82B75A29500CB5632 /* Connections.swift */,
+				480F21FA2B75A54700CB5632 /* WordGuessing.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -168,6 +218,9 @@
 			isa = PBXGroup;
 			children = (
 				66FB69D72B72A08F0066B826 /* ViewModel.swift */,
+				480F22052B7C1F9000CB5632 /* QuizViewModel.swift */,
+				480F22072B7C1F9C00CB5632 /* WordGuessingViewModel.swift */,
+				480F22092B7C1FA900CB5632 /* ConnectionsViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -218,6 +271,7 @@
 		66FB6A0F2B72A1860066B826 /* Quizzes_Games */ = {
 			isa = PBXGroup;
 			children = (
+				480F21FC2B75A91100CB5632 /* WordGuessing */,
 				66FB6A192B72A23B0066B826 /* Quiz */,
 				66FB6A182B72A22C0066B826 /* Connections */,
 			);
@@ -275,6 +329,18 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7C1B20F82B7C00A0008E0244 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				7C1B20F92B7C00A0008E0244 /* Quicksand-Bold.ttf */,
+				7C1B20FA2B7C00A0008E0244 /* Quicksand-Medium.ttf */,
+				7C1B20FB2B7C00A0008E0244 /* Quicksand-Regular.ttf */,
+				7C1B20FC2B7C00A0008E0244 /* Quicksand-SemiBold.ttf */,
+				7C1B20FD2B7C00A0008E0244 /* Quicksand-Light.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -357,7 +423,12 @@
 				66FE49472B75C0E70053D229 /* Eiffel_Tower.usdz in Resources */,
 				66FB69CE2B72A06E0066B826 /* Preview Assets.xcassets in Resources */,
 				66FE49452B75773A0053D229 /* Dice.imported.usdc in Resources */,
+				7C1B20FF2B7C00A0008E0244 /* Quicksand-Medium.ttf in Resources */,
+				7C1B20FE2B7C00A0008E0244 /* Quicksand-Bold.ttf in Resources */,
+				7C1B21022B7C00A0008E0244 /* Quicksand-Light.ttf in Resources */,
+				7C1B21012B7C00A0008E0244 /* Quicksand-SemiBold.ttf in Resources */,
 				66FB69CB2B72A06E0066B826 /* Assets.xcassets in Resources */,
+				7C1B21002B7C00A0008E0244 /* Quicksand-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,27 +444,38 @@
 				663062F52B7BFD3500702E04 /* ARLandmark.swift in Sources */,
 				66FE49432B7571610053D229 /* 3DModelView.swift in Sources */,
 				66FB6A202B72A2F00066B826 /* TraditionsView.swift in Sources */,
+				480F21FE2B7C19D800CB5632 /* StartWordGuessingView.swift in Sources */,
 				66FB69FC2B72A11D0066B826 /* LeaderboardView.swift in Sources */,
+				480F21F92B75A29500CB5632 /* Connections.swift in Sources */,
+				480F22062B7C1F9000CB5632 /* QuizViewModel.swift in Sources */,
 				66FB69C92B72A06D0066B826 /* TourView.swift in Sources */,
 				66FB6A002B72A1310066B826 /* MainView.swift in Sources */,
 				66FB6A042B72A1480066B826 /* SignUpView.swift in Sources */,
 				66FB69F32B72A0B30066B826 /* Module.swift in Sources */,
 				66FB6A1B2B72A26E0066B826 /* Badge.swift in Sources */,
+				480F22082B7C1F9C00CB5632 /* WordGuessingViewModel.swift in Sources */,
 				66FB69F72B72A0BF0066B826 /* User.swift in Sources */,
+				480F21F72B7596BA00CB5632 /* QuizQuestion.swift in Sources */,
+				480F22022B7C19F900CB5632 /* WordGuessingResultsView.swift in Sources */,
 				66FB69D82B72A08F0066B826 /* ViewModel.swift in Sources */,
+				480F21F52B75969500CB5632 /* Quiz.swift in Sources */,
 				66FB6A132B72A2150066B826 /* StartConnectionsView.swift in Sources */,
 				66FB6A0E2B72A1830066B826 /* ResultsView.swift in Sources */,
 				66FB6A152B72A21D0066B826 /* ConnectionsGameView.swift in Sources */,
+				7C1B20F32B7BFF41008E0244 /* UIColors.swift in Sources */,
 				66FB69FA2B72A1140066B826 /* ActivityView.swift in Sources */,
 				66FB6A1E2B72A2DF0066B826 /* MusicView.swift in Sources */,
 				66FB6A0C2B72A17C0066B826 /* QuestionView.swift in Sources */,
+				480F220A2B7C1FA900CB5632 /* ConnectionsViewModel.swift in Sources */,
 				66FB6A112B72A1EF0066B826 /* StartQuizView.swift in Sources */,
 				66FB6A172B72A2270066B826 /* ConnectionsResultsView.swift in Sources */,
 				66FB6A022B72A1400066B826 /* LogInView.swift in Sources */,
 				66FB69F52B72A0B90066B826 /* Country.swift in Sources */,
 				66FB6A222B72A2FD0066B826 /* HolidaysView.swift in Sources */,
 				66FB6A092B72A1620066B826 /* EditSelfProfileView.swift in Sources */,
+				480F21FB2B75A54700CB5632 /* WordGuessing.swift in Sources */,
 				66FB69C72B72A06D0066B826 /* AppDelegate.swift in Sources */,
+				480F22002B7C19E500CB5632 /* WordGuessingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -562,6 +644,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Augmented Reality";
+				INFOPLIST_FILE = Cultured/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = arkit;
