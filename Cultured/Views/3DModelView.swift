@@ -47,23 +47,28 @@ struct RealityViewContainer: UIViewRepresentable {
             let upTransform = Transform(translation: [Float(i) + 1, Float(i) + 3, Float(i) + 1])
             let downTransform = Transform(translation: [Float(i) + 1, Float(i) - 1, Float(i) + 1])
             
-            var animationUp = FromToByAnimation(to: upTransform, bindTarget: .transform)
-            var animationDown = FromToByAnimation(to: downTransform, bindTarget: .transform)
+            let animationUp = FromToByAnimation(from: downTransform, to: upTransform, duration: 2, bindTarget: .transform)
+            let animationDown = FromToByAnimation(from: upTransform, to: downTransform, duration: 2, bindTarget: .transform)
+            informationBubbleEntity.transform = downTransform
             
-            //var animationUp = FromToByAnimation(by: 10.0, duration: 5.0)
-            //var animationDown = FromToByAnimation(by: -10.0, duration: 5.0)
-            var animationGroup = AnimationGroup(group: [animationUp, animationDown]).repeatingForever()
-            
-            var animationResource: AnimationResource?
+            var animationResourceUp: AnimationResource?
+            var animationResourceDown: AnimationResource?
+            var animationResourceSequence: AnimationResource?
             do {
-                try animationResource = AnimationResource.generate(with: animationGroup)
+                try animationResourceUp = AnimationResource.generate(with: animationUp)
+                try animationResourceDown = AnimationResource.generate(with: animationDown)
+                if (animationResourceUp != nil), (animationResourceDown != nil) {
+                    try animationResourceSequence = AnimationResource.sequence(with: [animationResourceUp!, animationResourceDown!]).repeat(count: 1000)
+                } else {
+                    print("Error creating animation resources")
+                }
             } catch let error {
-                print(error.localizedDescription)
+                print("Error creating animation resources\n" + error.localizedDescription)
             }
             
             var animationController: AnimationPlaybackController?
-            if let animationResource {
-                animationController = informationBubbleEntity.playAnimation(animationResource, transitionDuration: 0, startsPaused: false)
+            if let animationResourceSequence {
+                animationController = informationBubbleEntity.playAnimation(animationResourceSequence, transitionDuration: 1, startsPaused: false)
             } else {
                 print("Error with animation")
             }
