@@ -19,7 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Create the SwiftUI view that provides the window contents.
         //let contentView = ContentView()
         //var contentView = MainView(vm: ViewModel())
-        var contentView = _DModelView()
+        //var contentView = _DModelView()
+        var contentView = ARVideoPortalView()
 
         // Use a UIHostingController as window root view controller.
         let window = UIWindow(frame: UIScreen.main.bounds)

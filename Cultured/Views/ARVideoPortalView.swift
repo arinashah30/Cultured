@@ -50,12 +50,26 @@ class ARViewController: UIViewController {
             let playerItem = AVPlayerItem(url: url)
             let player = AVQueuePlayer()
             playerLooper = AVPlayerLooper(player: player, templateItem: playerItem)
-
+            guard let modelEntity = try? ModelEntity.loadModel(named: "Eiffel_Tower") else {
+                return
+            }
+            
             let material = VideoMaterial(avPlayer: player)
             do {
                 let spaceModelEntity = try Entity.loadModel(named: spaceName)
+                let clearSphereEntity = try Entity.loadModel(named: spaceName)
+                var clearMaterial = SimpleMaterial()
+                clearMaterial.color = .init(tint: .green)
+                clearSphereEntity.model?.materials[0] = clearMaterial
+                anchorEntity.addChild(clearSphereEntity)
+                //clearSphereEntity.addChild(spaceModelEntity)
+                
                 spaceModelEntity.model?.materials = [material]
                 anchorEntity.addChild(spaceModelEntity)
+                anchorEntity.addChild(modelEntity)
+                clearSphereEntity.transform.translation = [0,0,-7]
+                spaceModelEntity.transform.translation = [0, 0, -5]
+                modelEntity.transform.translation = [0, 0, -5]
             } catch {
                 assertionFailure("Could not load the USDZ asset.")
             }

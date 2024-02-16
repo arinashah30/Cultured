@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		661DE1AB2B7EB5DD00522414 /* tower_bridge.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 661DE1AA2B7EB5DC00522414 /* tower_bridge.mp4 */; };
+		661DE1AD2B7EB5E800522414 /* SphereSpace.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 661DE1AC2B7EB5E800522414 /* SphereSpace.usdz */; };
 		663062F52B7BFD3500702E04 /* ARLandmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663062F42B7BFD3500702E04 /* ARLandmark.swift */; };
 		66EE625F2B7C40DE00A10EAE /* ARVideoPortalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66EE625E2B7C40DE00A10EAE /* ARVideoPortalView.swift */; };
 		66FB69C72B72A06D0066B826 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB69C62B72A06D0066B826 /* AppDelegate.swift */; };
@@ -55,6 +57,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		661DE1AA2B7EB5DC00522414 /* tower_bridge.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = tower_bridge.mp4; sourceTree = "<group>"; };
+		661DE1AC2B7EB5E800522414 /* SphereSpace.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = SphereSpace.usdz; sourceTree = "<group>"; };
 		663062F42B7BFD3500702E04 /* ARLandmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARLandmark.swift; sourceTree = "<group>"; };
 		66EE625E2B7C40DE00A10EAE /* ARVideoPortalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARVideoPortalView.swift; sourceTree = "<group>"; };
 		66FB69C32B72A06D0066B826 /* Cultured.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cultured.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -134,7 +138,9 @@
 		66FB69C52B72A06D0066B826 /* Cultured */ = {
 			isa = PBXGroup;
 			children = (
+				661DE1AA2B7EB5DC00522414 /* tower_bridge.mp4 */,
 				66FE49462B75C0E70053D229 /* Eiffel_Tower.usdz */,
+				661DE1AC2B7EB5E800522414 /* SphereSpace.usdz */,
 				66FE49442B7577390053D229 /* Dice.imported.usdc */,
 				66FB69C62B72A06D0066B826 /* AppDelegate.swift */,
 				66FB69D62B72A0800066B826 /* Views */,
@@ -358,8 +364,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				66FE49472B75C0E70053D229 /* Eiffel_Tower.usdz in Resources */,
+				661DE1AD2B7EB5E800522414 /* SphereSpace.usdz in Resources */,
 				66FB69CE2B72A06E0066B826 /* Preview Assets.xcassets in Resources */,
 				66FE49452B75773A0053D229 /* Dice.imported.usdc in Resources */,
+				661DE1AB2B7EB5DD00522414 /* tower_bridge.mp4 in Resources */,
 				66FB69CB2B72A06E0066B826 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -546,7 +554,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Arina-Shah.Cultured";
+				PRODUCT_BUNDLE_IDENTIFIER = ArinaShah.Cultured;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -577,7 +585,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Arina-Shah.Cultured";
+				PRODUCT_BUNDLE_IDENTIFIER = ArinaShah.Cultured;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
