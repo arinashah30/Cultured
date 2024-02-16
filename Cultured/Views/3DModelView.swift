@@ -33,12 +33,12 @@ struct RealityViewContainer: UIViewRepresentable {
         }
         
         
-        modelEntity.scale = [0.1, 0.1, 0.1]
+        modelEntity.scale = [0.02, 0.02, 0.02]
         
         
         let anchor = AnchorEntity(.plane(.horizontal, classification: .floor, minimumBounds: [0.5, 0.5]))
         anchor.addChild(modelEntity)
-        modelEntity.position = [0, 0, -10]
+        modelEntity.position = [0, 0, -2]
         for i in 0..<model.numFacts {
             var informationBubbleEntity = ModelEntity(mesh: MeshResource.generateSphere(radius: 0.5), materials: [SimpleMaterial(color: .red, isMetallic: true)])
             let relativeTransform = Transform(translation: [Float(i) + 1, Float(i) + 1, Float(i) + 1])
