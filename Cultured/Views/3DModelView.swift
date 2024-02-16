@@ -43,6 +43,31 @@ struct RealityViewContainer: UIViewRepresentable {
             var informationBubbleEntity = ModelEntity(mesh: MeshResource.generateSphere(radius: 0.5), materials: [SimpleMaterial(color: .red, isMetallic: true)])
             let relativeTransform = Transform(translation: [Float(i) + 1, Float(i) + 1, Float(i) + 1])
             informationBubbleEntity.transform = relativeTransform
+            
+            let upTransform = Transform(translation: [Float(i) + 1, Float(i) + 3, Float(i) + 1])
+            let downTransform = Transform(translation: [Float(i) + 1, Float(i) - 1, Float(i) + 1])
+            
+            var animationUp = FromToByAnimation(to: upTransform, bindTarget: .transform)
+            var animationDown = FromToByAnimation(to: downTransform, bindTarget: .transform)
+            
+            //var animationUp = FromToByAnimation(by: 10.0, duration: 5.0)
+            //var animationDown = FromToByAnimation(by: -10.0, duration: 5.0)
+            var animationGroup = AnimationGroup(group: [animationUp, animationDown]).repeatingForever()
+            
+            var animationResource: AnimationResource?
+            do {
+                try animationResource = AnimationResource.generate(with: animationGroup)
+            } catch let error {
+                print(error.localizedDescription)
+            }
+            
+            var animationController: AnimationPlaybackController?
+            if let animationResource {
+                animationController = informationBubbleEntity.playAnimation(animationResource, transitionDuration: 0, startsPaused: false)
+            } else {
+                print("Error with animation")
+            }
+            
             modelEntity.addChild(informationBubbleEntity)
         }
         
