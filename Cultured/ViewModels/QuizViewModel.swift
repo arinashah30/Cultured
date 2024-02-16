@@ -38,6 +38,21 @@ class QuizViewModel: ObservableObject {
         UserDefaults.setValue(current_quiz!.currentQuestion + 1, forKey: "currentQuizQuestion")
     }
     
+    func start_quiz() {
+        var questions: [QuizQuestion] = []
+        var answers: [String] = []
+        
+        for number in 1...4 {
+            answers.append("Answer \(number)")
+        }
+        
+        for number in 1...5 {
+            questions.append(QuizQuestion(question: "Question \(number)", answers: answers, correctAnswer: Int.random(in: 1...4), correctAnswerDescription: "Correct answer description"))
+        }
+        
+        current_quiz = Quiz(title: "Sample Quiz", questions: questions, points: 0, pointsGoal: 10, currentQuestion: 0)
+    }
+    
     func finish_quiz() {
         // add points function from FB
     }

@@ -63,6 +63,7 @@
 		7C1B21002B7C00A0008E0244 /* Quicksand-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B20FB2B7C00A0008E0244 /* Quicksand-Regular.ttf */; };
 		7C1B21012B7C00A0008E0244 /* Quicksand-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B20FC2B7C00A0008E0244 /* Quicksand-SemiBold.ttf */; };
 		7C1B21022B7C00A0008E0244 /* Quicksand-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B20FD2B7C00A0008E0244 /* Quicksand-Light.ttf */; };
+		7C1E76F22B7EE0A9006D6AF8 /* QuizTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1E76F12B7EE0A9006D6AF8 /* QuizTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -110,6 +111,7 @@
 		7C1B20FB2B7C00A0008E0244 /* Quicksand-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Regular.ttf"; sourceTree = "<group>"; };
 		7C1B20FC2B7C00A0008E0244 /* Quicksand-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-SemiBold.ttf"; sourceTree = "<group>"; };
 		7C1B20FD2B7C00A0008E0244 /* Quicksand-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Light.ttf"; sourceTree = "<group>"; };
+		7C1E76F12B7EE0A9006D6AF8 /* QuizTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -225,6 +227,7 @@
 				66FB6A052B72A14B0066B826 /* Onboarding */,
 				66FB6A0A2B72A1650066B826 /* Profile */,
 				66FB6A0F2B72A1860066B826 /* Quizzes_Games */,
+				7C1E76F12B7EE0A9006D6AF8 /* QuizTest.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -427,6 +430,7 @@
 			files = (
 				66FB69FE2B72A1280066B826 /* HomeView.swift in Sources */,
 				66FB6A072B72A15B0066B826 /* SelfProfileView.swift in Sources */,
+				7C1E76F22B7EE0A9006D6AF8 /* QuizTest.swift in Sources */,
 				66FB6A202B72A2F00066B826 /* TraditionsView.swift in Sources */,
 				480F21FE2B7C19D800CB5632 /* StartWordGuessingView.swift in Sources */,
 				66FB69FC2B72A11D0066B826 /* LeaderboardView.swift in Sources */,
