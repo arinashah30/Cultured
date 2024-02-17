@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5949CDBC2B7EDF4D009EEF05 /* Dice.usdc in Resources */ = {isa = PBXBuildFile; fileRef = 5949CDBB2B7EDF4D009EEF05 /* Dice.usdc */; };
+		5949CDBE2B7EDF62009EEF05 /* Eiffel_Tower.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 5949CDBD2B7EDF62009EEF05 /* Eiffel_Tower.usdz */; };
+		59AA6E8B2B80618B00686760 /* Pisa_Tower.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 59AA6E8A2B80618B00686760 /* Pisa_Tower.usdz */; };
+		59AA6E8D2B80690200686760 /* Burj_Khalifa.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 59AA6E8C2B80690100686760 /* Burj_Khalifa.usdz */; };
+		59AA6E8F2B80717700686760 /* Taj_Mahal.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 59AA6E8E2B80717700686760 /* Taj_Mahal.usdz */; };
+		59AA6E912B8071B900686760 /* Chichen_Itza.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 59AA6E902B8071B900686760 /* Chichen_Itza.usdz */; };
 		663062F52B7BFD3500702E04 /* ARLandmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663062F42B7BFD3500702E04 /* ARLandmark.swift */; };
 		66FB69C72B72A06D0066B826 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB69C62B72A06D0066B826 /* AppDelegate.swift */; };
 		66FB69C92B72A06D0066B826 /* TourView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB69C82B72A06D0066B826 /* TourView.swift */; };
@@ -49,11 +55,15 @@
 		66FB6A272B72A4F00066B826 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 66FB6A262B72A4F00066B826 /* FirebaseFirestore */; };
 		66FB6A292B72A5020066B826 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 66FB6A282B72A5020066B826 /* FirebaseStorage */; };
 		66FE49432B7571610053D229 /* 3DModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FE49422B7571610053D229 /* 3DModelView.swift */; };
-		92756E4E2B7C3CEE003C8441 /* Eiffel_Tower.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 92756E4D2B7C3CEE003C8441 /* Eiffel_Tower.usdz */; };
-		92756E502B7C3D0B003C8441 /* Dice.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 92756E4F2B7C3D0B003C8441 /* Dice.usdz */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5949CDBB2B7EDF4D009EEF05 /* Dice.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; name = Dice.usdc; path = ../../../../Downloads/Dice.usdc; sourceTree = "<group>"; };
+		5949CDBD2B7EDF62009EEF05 /* Eiffel_Tower.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = Eiffel_Tower.usdz; path = ../../../../Downloads/Eiffel_Tower.usdz; sourceTree = "<group>"; };
+		59AA6E8A2B80618B00686760 /* Pisa_Tower.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = Pisa_Tower.usdz; path = ../../../../Downloads/Pisa_Tower.usdz; sourceTree = "<group>"; };
+		59AA6E8C2B80690100686760 /* Burj_Khalifa.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = Burj_Khalifa.usdz; path = ../../../../Downloads/Burj_Khalifa.usdz; sourceTree = "<group>"; };
+		59AA6E8E2B80717700686760 /* Taj_Mahal.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = Taj_Mahal.usdz; path = ../../../../Downloads/Taj_Mahal.usdz; sourceTree = "<group>"; };
+		59AA6E902B8071B900686760 /* Chichen_Itza.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = Chichen_Itza.usdz; path = ../../../../Downloads/Chichen_Itza.usdz; sourceTree = "<group>"; };
 		663062F42B7BFD3500702E04 /* ARLandmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARLandmark.swift; sourceTree = "<group>"; };
 		66FB69C32B72A06D0066B826 /* Cultured.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cultured.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66FB69C62B72A06D0066B826 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -83,8 +93,6 @@
 		66FB6A1F2B72A2F00066B826 /* TraditionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraditionsView.swift; sourceTree = "<group>"; };
 		66FB6A212B72A2FD0066B826 /* HolidaysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolidaysView.swift; sourceTree = "<group>"; };
 		66FE49422B7571610053D229 /* 3DModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 3DModelView.swift; sourceTree = "<group>"; };
-		92756E4D2B7C3CEE003C8441 /* Eiffel_Tower.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = Eiffel_Tower.usdz; path = ../../../Downloads/Eiffel_Tower.usdz; sourceTree = "<group>"; };
-		92756E4F2B7C3D0B003C8441 /* Dice.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = Dice.usdz; path = ../../../Downloads/Dice.usdz; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,8 +140,12 @@
 		66FB69C52B72A06D0066B826 /* Cultured */ = {
 			isa = PBXGroup;
 			children = (
-				92756E4D2B7C3CEE003C8441 /* Eiffel_Tower.usdz */,
-				92756E4F2B7C3D0B003C8441 /* Dice.usdz */,
+				59AA6E8A2B80618B00686760 /* Pisa_Tower.usdz */,
+				59AA6E902B8071B900686760 /* Chichen_Itza.usdz */,
+				59AA6E8E2B80717700686760 /* Taj_Mahal.usdz */,
+				59AA6E8C2B80690100686760 /* Burj_Khalifa.usdz */,
+				5949CDBB2B7EDF4D009EEF05 /* Dice.usdc */,
+				5949CDBD2B7EDF62009EEF05 /* Eiffel_Tower.usdz */,
 				66FB69C62B72A06D0066B826 /* AppDelegate.swift */,
 				66FB69D62B72A0800066B826 /* Views */,
 				66FB69D52B72A07B0066B826 /* ViewModels */,
@@ -354,10 +366,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				59AA6E8B2B80618B00686760 /* Pisa_Tower.usdz in Resources */,
 				66FB69CE2B72A06E0066B826 /* Preview Assets.xcassets in Resources */,
-				92756E4E2B7C3CEE003C8441 /* Eiffel_Tower.usdz in Resources */,
+				59AA6E8F2B80717700686760 /* Taj_Mahal.usdz in Resources */,
+				5949CDBE2B7EDF62009EEF05 /* Eiffel_Tower.usdz in Resources */,
+				59AA6E8D2B80690200686760 /* Burj_Khalifa.usdz in Resources */,
 				66FB69CB2B72A06E0066B826 /* Assets.xcassets in Resources */,
-				92756E502B7C3D0B003C8441 /* Dice.usdz in Resources */,
+				59AA6E912B8071B900686760 /* Chichen_Itza.usdz in Resources */,
+				5949CDBC2B7EDF4D009EEF05 /* Dice.usdc in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -527,7 +543,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Cultured/Preview Content\"";
-				DEVELOPMENT_TEAM = 5PK5VP76FY;
+				DEVELOPMENT_TEAM = 422P875XS4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Augmented Reality";
@@ -542,7 +558,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Aryan-ChokshiCultured";
+				PRODUCT_BUNDLE_IDENTIFIER = "Rudra-Amin.Cultured";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -558,7 +574,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Cultured/Preview Content\"";
-				DEVELOPMENT_TEAM = 5PK5VP76FY;
+				DEVELOPMENT_TEAM = 422P875XS4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Augmented Reality";
@@ -573,7 +589,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Aryan-ChokshiCultured";
+				PRODUCT_BUNDLE_IDENTIFIER = "Rudra-Amin.Cultured";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
