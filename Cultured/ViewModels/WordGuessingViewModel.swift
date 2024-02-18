@@ -11,6 +11,25 @@ class WordGuessingViewModel: ObservableObject {
     @Published var current_user: User? = nil
     @Published var current_word_guessing_game: WordGuessing? = nil
     
+    func create_mock_wg_game() {
+        current_word_guessing_game = WordGuessing(title: "Mock Game for Testing", options: ["a", "b", "c", "d"], answer: "gt")
+    }
+    
+    func startNewGame(options: [String], answer: String, title: String = "New Game") {
+        current_word_guessing_game = WordGuessing(title: title, options: options, answer: answer)
+    }
+    
+    func flipTile() {
+        
+    }
+    
+    func winGame() {
+        
+    }
+    
+    func loseGame() {
+        
+    }
 }
 
 /*
