@@ -12,7 +12,9 @@ class WordGuessingViewModel: ObservableObject {
     @Published var current_word_guessing_game: WordGuessing? = nil
     
     func create_mock_wg_game() {
-        current_word_guessing_game = WordGuessing(title: "Mock Game for Testing", options: ["a", "b", "c", "d"], answer: "gt")
+        let options = ["a", "b", "c", "d", "e", "f", "g", "h", "i"]
+        let answer = "j"
+        current_word_guessing_game = WordGuessing(title: "Mock Game for Testing", options: options, answer: answer)
     }
     
     func startNewGame(options: [String], answer: String, title: String = "New Game") {
@@ -20,15 +22,33 @@ class WordGuessingViewModel: ObservableObject {
     }
     
     func flipTile() {
+        guard var game = current_word_guessing_game else { return }
+        game.totalPoints -= game.flipPoints
+        game.flipsDone += 1
+        current_word_guessing_game = game
+    }
+    
+    func submitGuess(_ currentGuess: String) {
+        guard var game = current_word_guessing_game else { return }
+        game.numberOfGuesses -= 1
         
+        if currentGuess.lowercased() == game.answer.lowercased() {
+            winGame()
+        } else {
+            game.totalPoints -= game.flipPoints
+            if game.numberOfGuesses <= 0 {
+                loseGame()
+            }
+        }
+        current_word_guessing_game = game
     }
     
     func winGame() {
-        
+        print("W")
     }
-    
-    func loseGame() {
         
+    func loseGame() {
+        print("L")
     }
 }
 
