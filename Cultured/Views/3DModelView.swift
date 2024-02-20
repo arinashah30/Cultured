@@ -58,7 +58,16 @@ struct RealityViewContainer: UIViewRepresentable {
                 try animationResourceUp = AnimationResource.generate(with: animationUp)
                 try animationResourceDown = AnimationResource.generate(with: animationDown)
                 if (animationResourceUp != nil), (animationResourceDown != nil) {
-                    try animationResourceSequence = AnimationResource.sequence(with: [animationResourceUp!, animationResourceDown!]).repeat(count: 1000)
+                    var animationResourceSequenceArray: [AnimationResource]
+                    if (i % 2 == 0) {
+                        informationBubbleEntity.transform = downTransform
+                        animationResourceSequenceArray = [animationResourceUp!, animationResourceDown!]
+                    } else {
+                        informationBubbleEntity.transform = upTransform
+                        animationResourceSequenceArray = [animationResourceDown!, animationResourceUp!]
+                    }
+                    
+                    try animationResourceSequence = AnimationResource.sequence(with: animationResourceSequenceArray).repeat(count: 1000)
                 } else {
                     print("Error creating animation resources")
                 }
