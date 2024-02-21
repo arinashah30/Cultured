@@ -16,6 +16,7 @@ class ViewModel: ObservableObject {
     let db = Firestore.firestore();
     let auth = Auth.auth();
     @Published var errorText: String? = nil
+    //@Published var points: Int = 100
     
     func fireBaseSignIn(email: String, password: String, completion: @escaping (Bool) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) {  authResult, error in
@@ -28,30 +29,6 @@ class ViewModel: ObservableObject {
             //doesn't handle the case where authResult is nil so write that in if needed
         }
     }
-    
-    func createNewCountry(countryName: String) {
-                let countryRef = db.collection("COUNTRIES").document(countryName)
-                countryRef.setData(["population": 5000])
-                
-                let modules = [
-                        "MUSIC",
-                        "CELEBRITIES",
-                        "ETIQUETTE",
-                        "FOOD",
-                        "HOLIDAYS",
-                        "LANDMARKS",
-                        "MAJORCITIES",
-                        "SPORTS",
-                        "TRADITIONS",
-                        "TVMOVIE"
-                    ]
-
-                    for module in modules {
-                        // For each module, create a new document in the "MODULES" subcollection
-                        countryRef.collection("MODULES").document(module).setData(["someData": "value"])
-                    }
-                
-            }
     
     func firebase_email_password_sign_up_(email: String, password: String, username: String, displayName: String) {
         auth.createUser(withEmail: email, password: password) { authResult, error in
@@ -75,6 +52,7 @@ class ViewModel: ObservableObject {
                      "badges" : [],
                      "bio" : "",
                      "friends" : [],
+                     "completedGames": [],
                      "incomingRequests": [],
                      "outgoingRequests": [],
                     ] as [String : Any]) { error in
@@ -85,4 +63,63 @@ class ViewModel: ObservableObject {
             }
         }
     }
+    
+    func getPts(userID: String, completion: @escaping (Int) -> Void) {
+        self.db.collection("USERS").document(userID).getDocument { document, error in
+            if let err = error {
+                print(err.localizedDescription)
+                return
+            } else {
+                if let doc = document {
+                    if let data = doc.data() {
+                        print(data)
+                        let points = data["points"] as? String
+                        let intPoints = Int(points ?? "0")
+                        completion(intPoints ?? 0)
+                    }
+                }
+            }
+        }
+    }
+
+    func getBadges(userID: String, completion: @escaping ([String]) -> Void) {
+        self.db.collection("USERS").document(userID).getDocument { document, error in
+            if let err = error {
+                print(err.localizedDescription)
+                return
+            } else {
+                if let doc = document {
+                    if let data = doc.data() {
+                        let badges = data["badges"] as? [String]
+                        completion(badges ?? ["Hello"])
+                    }
+                }
+            }
+        }
+    }
+    func createNewCountry(countryName: String) {
+        let countryRef = db.collection("COUNTRIES").document(countryName)
+        countryRef.setData(["population": 5000])
+        
+        let modules = [
+                "MUSIC",
+                "CELEBRITIES",
+                "ETIQUETTE",
+                "FOOD",
+                "HOLIDAYS",
+                "LANDMARKS",
+                "MAJORCITIES",
+                "SPORTS",
+                "TRADITIONS",
+                "TVMOVIE"
+            ]
+
+            for module in modules {
+                // For each module, create a new document in the "MODULES" subcollection
+                countryRef.collection("MODULES").document(module).setData(["someData": "value"])
+            }
+        
+    }
+    
+    
 }
