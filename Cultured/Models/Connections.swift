@@ -14,4 +14,5 @@ struct Connections {
     var answerKey: [String : [String]]
     var points: Int
     var attempts: Int
+    var correct_categories: Int
 }
