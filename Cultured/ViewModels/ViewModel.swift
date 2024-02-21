@@ -120,6 +120,44 @@ class ViewModel: ObservableObject {
             }
         
     }
+    func addBadges(userID: String, newBadge: String, completion: @escaping (Bool) -> Void) {
+            db.collection("USERS").document(userID).getDocument { [self] document, error in
+                if let err = error {
+                    print(err.localizedDescription)
+                    completion(false)
+                    return
+                }
+
+                guard let doc = document else {
+                    print("Not able to access the document")
+                    completion(false)
+                    return
+                }
+
+                guard var data = doc.data() else {
+                    print("Document has no data")
+                    completion(false)
+                    return
+                }
+
+                if var badges = data["badges"] as? [String] {
+                    badges.append(newBadge)
+                    data["badges"] = badges
+
+                    db.collection("USERS").document(userID).updateData(["badges": badges]) { error in
+                        if let err = error {
+                            print(err.localizedDescription)
+                            completion(false)
+                        } else {
+                            completion(true)
+                        }
+                    }
+                } else {
+                    print("No existing badges found")
+                    completion(false)
+                }
+            }
+        }
     
     
 }
