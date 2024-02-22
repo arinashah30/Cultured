@@ -22,7 +22,7 @@ struct _DModelView : View {
     @State private var selection = 0
     var body: some View {
         ZStack{
-            RealityViewContainer(model: landmarks[selection])
+            RealityViewContainer(model: landmarks[selection]).edgesIgnoringSafeArea(.all)
             VStack {
                 Spacer() // Pushes the VStack to the top
                 Picker("Select a Country", selection: $selection) {
@@ -30,7 +30,11 @@ struct _DModelView : View {
                         Text(landmarks[index].modelName).tag(index)
                     }
                 }
-                .pickerStyle(.menu)
+                .pickerStyle(DefaultPickerStyle()) // Apply a default picker style
+                .frame(width: 150, height: 40) // Set a fixed width and height for consistency
+                .background(.white) // Set a white background
+                .cornerRadius(10) // Apply corner radius for rounded edges
+                .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
             }
             .alignmentGuide(.bottom) { _ in
                 UIScreen.main.bounds.height * 0.05 // Adjust the value as needed
@@ -47,11 +51,7 @@ struct RealityViewContainer: UIViewRepresentable {
         let arView = ARView(frame: .zero)
         updateUIView(arView, context: context) // Manually call updateUIView initially
         return arView
-        
-        
-        
     }
-    
     
     func updateUIView(_ uiView: ARView, context: Context) {
         uiView.scene.anchors.removeAll()
@@ -65,9 +65,6 @@ struct RealityViewContainer: UIViewRepresentable {
             material.metallic = MaterialScalarParameter(floatLiteral: model.isMetallic ? 1.0 : 0.0)
             modelEntity.model?.materials[0] = material
         }
-        
-        
-        
         
         modelEntity.scale = [model.scale, model.scale, model.scale]
         
@@ -84,13 +81,8 @@ struct RealityViewContainer: UIViewRepresentable {
         
         uiView.scene.addAnchor(anchor)
     }
-    
-    
+        
 }
-
-
-
-
 
 
 #Preview {
