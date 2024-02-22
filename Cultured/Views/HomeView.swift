@@ -9,19 +9,17 @@ import SwiftUI
 
 struct HomeView: View {
     @ObservedObject var vm: ViewModel
+    @State var bindingVar: Bool = false
     var body: some View {
         Text("Home View")
         Button {
-            
+            vm.addCompletedQuiz(userID: "dummyUsername_12", quizID: "Cool Games Quiz") {
+                boolean in bindingVar = boolean
+            }
         } label: {
-            Text("Food")
-                .font(Font.custom("Quicksand-Bold", size: 20))
-                .foregroundStyle(.white)
-                .padding()
+            Text("Add Completed Quiz")
         }
-            .frame(maxWidth: 160)
-            .background(Color.cGreen)
-            .clipShape(.rect(cornerRadius: 14.0))
+        
     }
     
 }

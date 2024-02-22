@@ -63,6 +63,7 @@
 		7C1B21002B7C00A0008E0244 /* Quicksand-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B20FB2B7C00A0008E0244 /* Quicksand-Regular.ttf */; };
 		7C1B21012B7C00A0008E0244 /* Quicksand-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B20FC2B7C00A0008E0244 /* Quicksand-SemiBold.ttf */; };
 		7C1B21022B7C00A0008E0244 /* Quicksand-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B20FD2B7C00A0008E0244 /* Quicksand-Light.ttf */; };
+		E97B20662B88131300AF4319 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E97B20652B88131300AF4319 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -110,6 +111,7 @@
 		7C1B20FB2B7C00A0008E0244 /* Quicksand-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Regular.ttf"; sourceTree = "<group>"; };
 		7C1B20FC2B7C00A0008E0244 /* Quicksand-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-SemiBold.ttf"; sourceTree = "<group>"; };
 		7C1B20FD2B7C00A0008E0244 /* Quicksand-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Light.ttf"; sourceTree = "<group>"; };
+		E97B20652B88131300AF4319 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +169,7 @@
 		66FB69C52B72A06D0066B826 /* Cultured */ = {
 			isa = PBXGroup;
 			children = (
+				E97B20652B88131300AF4319 /* GoogleService-Info.plist */,
 				7C1B20F62B7C002C008E0244 /* Info.plist */,
 				66FB69C62B72A06D0066B826 /* AppDelegate.swift */,
 				66FB69D62B72A0800066B826 /* Views */,
@@ -409,6 +412,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				66FB69CE2B72A06E0066B826 /* Preview Assets.xcassets in Resources */,
+				E97B20662B88131300AF4319 /* GoogleService-Info.plist in Resources */,
 				7C1B20FF2B7C00A0008E0244 /* Quicksand-Medium.ttf in Resources */,
 				7C1B20FE2B7C00A0008E0244 /* Quicksand-Bold.ttf in Resources */,
 				7C1B21022B7C00A0008E0244 /* Quicksand-Light.ttf in Resources */,
