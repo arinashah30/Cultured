@@ -12,11 +12,6 @@ struct HomeView: View {
     var body: some View {
         Text("Home View")
         Button {
-            vm.firebase_email_password_sign_up_(email: "dummy@gmail.com", password: "dummy", username: "DummyDude", displayName: "CoolDude")
-        } label: {
-            Text("hello")
-        }
-        Button {
             
         } label: {
             Text("Food")
