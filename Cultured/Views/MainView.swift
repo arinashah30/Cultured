@@ -10,7 +10,9 @@ import SwiftUI
 struct MainView: View {
     @State var selectedView: TabSelection = .home
     @ObservedObject var vm: ViewModel
+    
     var body: some View {
+        
         
         TabView(selection: $selectedView,
                 content:  {
@@ -33,6 +35,7 @@ struct MainView: View {
                 }
                  }.tag(TabSelection.profile)
         })
+        .accentColor(.cDarkGray)
     }
 }
 
