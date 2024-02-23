@@ -29,7 +29,7 @@ class WordGuessingViewModel: ObservableObject {
         print("new game created successfully!")
     }
     
-    func startNewGame(options: [OptionTile], answer: String, title: String = "New Game") {
+    func startNewGame(options: [OptionTile], answer: String, title: String = "Guess the Word") {
         current_word_guessing_game = WordGuessing(
             title: title,
             options: options,
