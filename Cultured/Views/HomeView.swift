@@ -9,16 +9,8 @@ import SwiftUI
 
 struct HomeView: View {
     @ObservedObject var vm: ViewModel
-    @State var bindingVar: Bool = false
     var body: some View {
         Text("Home View")
-        Button {
-            vm.update_points(userID: "dummyUsername_12", pointToAdd: 50) { boolean in
-                bindingVar = boolean
-            }
-        } label: {
-            Text("Update Points: 50")
-        }
     }
     
 }
