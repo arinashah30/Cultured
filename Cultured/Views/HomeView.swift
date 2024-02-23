@@ -13,7 +13,7 @@ struct HomeView: View {
     var body: some View {
         Text("Home View")
         Button {
-            vm.update_points(userID: "dummyUsername_12", pointToAdd: 100) { boolean in
+            vm.update_points(userID: "dummyUsername_12", pointToAdd: 50) { boolean in
                 bindingVar = boolean
             }
         } label: {

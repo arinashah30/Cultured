@@ -61,14 +61,16 @@ class ViewModel: ObservableObject {
             } else {
                 if let doc = document {
                     if let data = doc.data() {
-                        let points = data["points"] as? Int
-                        print(points)
-                        guard let unwrappedPoints = points else {
-                            print("points is nil!")
-                            return
-                        }
-                        print(unwrappedPoints)
-                        let totalPoints = unwrappedPoints + pointToAdd
+                        let points = data["points"] as? String
+                        let unwrappedPoints = Int(points ?? "0")
+                        
+                        print("Before: ", unwrappedPoints as Any)
+//                        guard let unwrappedPoints = intPoints else {
+//                            print("points is nil!")
+//                            return
+//                        }
+                        print("After: ", unwrappedPoints)
+                        let totalPoints = (unwrappedPoints ?? 0) + pointToAdd
                         let newPoints: [String: Any] = ["points": totalPoints]
                         db.collection("USERS").document(userID).updateData(newPoints)  { error in
                             if let error = error {
