@@ -59,7 +59,6 @@ struct WordGuessingView: View {
 
 /*
  TODO:
- - view not updating based on view model logic
  - create text box to submit answers
  - options don't show unless tile is flipped
  */
