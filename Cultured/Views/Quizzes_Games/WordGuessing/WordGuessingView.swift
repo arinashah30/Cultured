@@ -29,13 +29,21 @@ struct WordGuessingView: View {
                 
                 LazyVGrid(columns: [GridItem(), GridItem(), GridItem()]) {
                     ForEach(game.options.indices, id: \.self) { index in
-                        Button(action: {
-                            vm.flipTile()
-                        }) {
-                            Text(game.options[index])
+                        if (!game.options[index].isFlipped) {
+                            Button(action: {
+                                vm.flipTile(optionIndex: index)
+                            }) {
+                                Text(game.options[index].option)
+                                    .foregroundColor(.white)
+                                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50)
+                                    .background(.blue)
+                                    .cornerRadius(10)
+                            }
+                        } else {
+                            Text(game.options[index].option)
                                 .foregroundColor(.white)
                                 .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50)
-                                .background(.blue)
+                                .background(.red)
                                 .cornerRadius(10)
                         }
                     }
