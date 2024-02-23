@@ -21,7 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AppCheck.setAppCheckProviderFactory(providerFactory)
         
         FirebaseApp.configure()
-
         // Create the SwiftUI view that provides the window contents.
         //let contentView = ContentView()
         var contentView = MainView(vm: ViewModel())

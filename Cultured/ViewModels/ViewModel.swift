@@ -63,9 +63,43 @@ class ViewModel: ObservableObject {
             }
         }
     }
-    
-    func getPts(userID: String, completion: @escaping (Int) -> Void) {
-        self.db.collection("USERS").document(userID).getDocument { document, error in
+        
+    func update_points(userID: String, pointToAdd: Int, completion: @escaping (Bool) -> Void) {
+        db.collection("USERS").document(userID).getDocument { [self] document, error in
+            if let err = error {
+                print(err.localizedDescription)
+                return
+            } else {
+                if let doc = document {
+                    if let data = doc.data() {
+                        let points = data["points"] as? String
+                        let unwrappedPoints = Int(points ?? "0")
+                        let totalPoints = (unwrappedPoints ?? 0) + pointToAdd
+                        let totalPointsString = String(totalPoints)
+                        db.collection("USERS").document(userID).updateData(["points": totalPointsString])  { error in
+                            if let error = error {
+                                print("Error updating document: \(error.localizedDescription)")
+                                completion(false)
+                            } else {
+                                // Document updated successfully
+                                completion(true)
+                            }
+                        }
+                    } else {
+                        print("Document data is nil")
+                        completion(false)
+                    }
+                } else {
+                    print("Document does not exist")
+                    completion(false)
+                }
+            }
+            
+        }
+    }
+
+ func getPts(userID: String, completion: @escaping (Int) -> Void) {
+        self.db.collection("USERS").document(userID).getDocument { document, error in                
             if let err = error {
                 print(err.localizedDescription)
                 return
@@ -157,7 +191,5 @@ class ViewModel: ObservableObject {
                     completion(false)
                 }
             }
-        }
-    
-    
+        }    
 }
