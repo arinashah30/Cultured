@@ -45,7 +45,8 @@ class ARViewController: UIViewController {
 
         let anchorEntity = AnchorEntity()
         arView.scene.addAnchor(anchorEntity)
-
+        var spaceModelEntity: ModelEntity
+        
         if let url = Bundle.main.url(forResource: videoName, withExtension: videoType) {
             let playerItem = AVPlayerItem(url: url)
             let player = AVQueuePlayer()
@@ -56,20 +57,22 @@ class ARViewController: UIViewController {
             
             let material = VideoMaterial(avPlayer: player)
             do {
-                let spaceModelEntity = try Entity.loadModel(named: spaceName)
-                let clearSphereEntity = try Entity.loadModel(named: spaceName)
-                var clearMaterial = SimpleMaterial()
-                clearMaterial.color = .init(tint: .green)
-                clearSphereEntity.model?.materials[0] = clearMaterial
-                anchorEntity.addChild(clearSphereEntity)
+                spaceModelEntity = try Entity.loadModel(named: spaceName)
+//                let clearSphereEntity = try Entity.loadModel(named: spaceName)
+//                var clearMaterial = SimpleMaterial()
+//                clearMaterial.color = .init(tint: .green)
+//                clearSphereEntity.model?.materials[0] = clearMaterial
+//                anchorEntity.addChild(clearSphereEntity)
                 //clearSphereEntity.addChild(spaceModelEntity)
                 
                 spaceModelEntity.model?.materials = [material]
                 anchorEntity.addChild(spaceModelEntity)
                 anchorEntity.addChild(modelEntity)
-                clearSphereEntity.transform.translation = [0,0,-7]
+                //clearSphereEntity.transform.translation = [0,0,-7]
                 spaceModelEntity.transform.translation = [0, 0, -5]
                 modelEntity.transform.translation = [0, 0, -5]
+                print("before disable")
+                spaceModelEntity.isEnabled = false
             } catch {
                 assertionFailure("Could not load the USDZ asset.")
             }
