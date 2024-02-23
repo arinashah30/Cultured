@@ -63,16 +63,9 @@ class ViewModel: ObservableObject {
                     if let data = doc.data() {
                         let points = data["points"] as? String
                         let unwrappedPoints = Int(points ?? "0")
-                        
-                        print("Before: ", unwrappedPoints as Any)
-//                        guard let unwrappedPoints = intPoints else {
-//                            print("points is nil!")
-//                            return
-//                        }
-                        print("After: ", unwrappedPoints)
                         let totalPoints = (unwrappedPoints ?? 0) + pointToAdd
-                        let newPoints: [String: Any] = ["points": totalPoints]
-                        db.collection("USERS").document(userID).updateData(newPoints)  { error in
+                        let totalPointsString = String(totalPoints)
+                        db.collection("USERS").document(userID).updateData(["points": totalPointsString])  { error in
                             if let error = error {
                                 print("Error updating document: \(error.localizedDescription)")
                                 completion(false)
