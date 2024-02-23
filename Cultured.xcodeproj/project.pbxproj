@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5949CDBC2B7EDF4D009EEF05 /* Dice.usdc in Resources */ = {isa = PBXBuildFile; fileRef = 5949CDBB2B7EDF4D009EEF05 /* Dice.usdc */; };
-		5949CDBE2B7EDF62009EEF05 /* Eiffel_Tower.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 5949CDBD2B7EDF62009EEF05 /* Eiffel_Tower.usdz */; };
-		59AA6E8B2B80618B00686760 /* Pisa_Tower.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 59AA6E8A2B80618B00686760 /* Pisa_Tower.usdz */; };
-		59AA6E8D2B80690200686760 /* Burj_Khalifa.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 59AA6E8C2B80690100686760 /* Burj_Khalifa.usdz */; };
-		59AA6E8F2B80717700686760 /* Taj_Mahal.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 59AA6E8E2B80717700686760 /* Taj_Mahal.usdz */; };
-		59AA6E912B8071B900686760 /* Chichen_Itza.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 59AA6E902B8071B900686760 /* Chichen_Itza.usdz */; };
+		59D244242B881A6900A30B66 /* Pisa_Tower.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 59D2441E2B881A6900A30B66 /* Pisa_Tower.usdz */; };
+		59D244252B881A6900A30B66 /* Chichen_Itza.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 59D2441F2B881A6900A30B66 /* Chichen_Itza.usdz */; };
+		59D244262B881A6900A30B66 /* Eiffel_Tower.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 59D244202B881A6900A30B66 /* Eiffel_Tower.usdz */; };
+		59D244272B881A6900A30B66 /* Taj_Mahal.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 59D244212B881A6900A30B66 /* Taj_Mahal.usdz */; };
+		59D244282B881A6900A30B66 /* Burj_Khalifa.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 59D244222B881A6900A30B66 /* Burj_Khalifa.usdz */; };
+		59D244292B881A6900A30B66 /* Dice.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 59D244232B881A6900A30B66 /* Dice.usdz */; };
 		663062F52B7BFD3500702E04 /* ARLandmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663062F42B7BFD3500702E04 /* ARLandmark.swift */; };
 		66FB69C72B72A06D0066B826 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB69C62B72A06D0066B826 /* AppDelegate.swift */; };
 		66FB69C92B72A06D0066B826 /* TourView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB69C82B72A06D0066B826 /* TourView.swift */; };
@@ -58,12 +58,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5949CDBB2B7EDF4D009EEF05 /* Dice.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; name = Dice.usdc; path = ../../../../Downloads/Dice.usdc; sourceTree = "<group>"; };
-		5949CDBD2B7EDF62009EEF05 /* Eiffel_Tower.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = Eiffel_Tower.usdz; path = ../../../../Downloads/Eiffel_Tower.usdz; sourceTree = "<group>"; };
-		59AA6E8A2B80618B00686760 /* Pisa_Tower.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = Pisa_Tower.usdz; path = ../../../../Downloads/Pisa_Tower.usdz; sourceTree = "<group>"; };
-		59AA6E8C2B80690100686760 /* Burj_Khalifa.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = Burj_Khalifa.usdz; path = ../../../../Downloads/Burj_Khalifa.usdz; sourceTree = "<group>"; };
-		59AA6E8E2B80717700686760 /* Taj_Mahal.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = Taj_Mahal.usdz; path = ../../../../Downloads/Taj_Mahal.usdz; sourceTree = "<group>"; };
-		59AA6E902B8071B900686760 /* Chichen_Itza.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = Chichen_Itza.usdz; path = ../../../../Downloads/Chichen_Itza.usdz; sourceTree = "<group>"; };
+		59D2441E2B881A6900A30B66 /* Pisa_Tower.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Pisa_Tower.usdz; sourceTree = "<group>"; };
+		59D2441F2B881A6900A30B66 /* Chichen_Itza.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Chichen_Itza.usdz; sourceTree = "<group>"; };
+		59D244202B881A6900A30B66 /* Eiffel_Tower.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Eiffel_Tower.usdz; sourceTree = "<group>"; };
+		59D244212B881A6900A30B66 /* Taj_Mahal.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Taj_Mahal.usdz; sourceTree = "<group>"; };
+		59D244222B881A6900A30B66 /* Burj_Khalifa.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Burj_Khalifa.usdz; sourceTree = "<group>"; };
+		59D244232B881A6900A30B66 /* Dice.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Dice.usdz; sourceTree = "<group>"; };
 		663062F42B7BFD3500702E04 /* ARLandmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARLandmark.swift; sourceTree = "<group>"; };
 		66FB69C32B72A06D0066B826 /* Cultured.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cultured.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66FB69C62B72A06D0066B826 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -140,12 +140,12 @@
 		66FB69C52B72A06D0066B826 /* Cultured */ = {
 			isa = PBXGroup;
 			children = (
-				59AA6E8A2B80618B00686760 /* Pisa_Tower.usdz */,
-				59AA6E902B8071B900686760 /* Chichen_Itza.usdz */,
-				59AA6E8E2B80717700686760 /* Taj_Mahal.usdz */,
-				59AA6E8C2B80690100686760 /* Burj_Khalifa.usdz */,
-				5949CDBB2B7EDF4D009EEF05 /* Dice.usdc */,
-				5949CDBD2B7EDF62009EEF05 /* Eiffel_Tower.usdz */,
+				59D244222B881A6900A30B66 /* Burj_Khalifa.usdz */,
+				59D2441F2B881A6900A30B66 /* Chichen_Itza.usdz */,
+				59D244232B881A6900A30B66 /* Dice.usdz */,
+				59D244202B881A6900A30B66 /* Eiffel_Tower.usdz */,
+				59D2441E2B881A6900A30B66 /* Pisa_Tower.usdz */,
+				59D244212B881A6900A30B66 /* Taj_Mahal.usdz */,
 				66FB69C62B72A06D0066B826 /* AppDelegate.swift */,
 				66FB69D62B72A0800066B826 /* Views */,
 				66FB69D52B72A07B0066B826 /* ViewModels */,
@@ -366,14 +366,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				59AA6E8B2B80618B00686760 /* Pisa_Tower.usdz in Resources */,
+				59D244262B881A6900A30B66 /* Eiffel_Tower.usdz in Resources */,
+				59D244252B881A6900A30B66 /* Chichen_Itza.usdz in Resources */,
+				59D244242B881A6900A30B66 /* Pisa_Tower.usdz in Resources */,
 				66FB69CE2B72A06E0066B826 /* Preview Assets.xcassets in Resources */,
-				59AA6E8F2B80717700686760 /* Taj_Mahal.usdz in Resources */,
-				5949CDBE2B7EDF62009EEF05 /* Eiffel_Tower.usdz in Resources */,
-				59AA6E8D2B80690200686760 /* Burj_Khalifa.usdz in Resources */,
+				59D244272B881A6900A30B66 /* Taj_Mahal.usdz in Resources */,
+				59D244292B881A6900A30B66 /* Dice.usdz in Resources */,
+				59D244282B881A6900A30B66 /* Burj_Khalifa.usdz in Resources */,
 				66FB69CB2B72A06E0066B826 /* Assets.xcassets in Resources */,
-				59AA6E912B8071B900686760 /* Chichen_Itza.usdz in Resources */,
-				5949CDBC2B7EDF4D009EEF05 /* Dice.usdc in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
