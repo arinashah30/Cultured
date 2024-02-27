@@ -47,7 +47,7 @@ struct HomeView: View {
                 
 
                 Text("Welcome to Mexico")
-                    .font(Font.custom("Quicksand-Normal", size: 32))
+                    .font(Font.custom("Quicksand-Semibold", size: 32))
                     .foregroundColor(.cDarkGray)
             
                 Text("change destination")
@@ -56,7 +56,7 @@ struct HomeView: View {
                     .padding(.bottom, 5)
             
                 Text("Learn")
-                .font(Font.custom("Quicksand-Normal", size: 24))
+                .font(Font.custom("Quicksand-Medium", size: 24))
                 .foregroundColor(.cDarkGray)
                 .padding(.bottom, -5)
             
@@ -143,7 +143,7 @@ struct HomeView: View {
                 .padding(.bottom, 8)
             
             Text("Take a Tour")
-            .font(Font.custom("Quicksand-Normal", size: 24))
+            .font(Font.custom("Quicksand-Medium", size: 24))
             .foregroundColor(.cDarkGray)
             .padding(.bottom, -5)
             
@@ -174,7 +174,7 @@ struct HomeView: View {
             .padding(.bottom, 8)
             
             Text("Explore")
-            .font(Font.custom("Quicksand-Normal", size: 24))
+            .font(Font.custom("Quicksand-Medium", size: 24))
             .foregroundColor(.cDarkGray)
             .padding(.bottom, -5)
             
@@ -225,10 +225,6 @@ struct HomeView: View {
                 
 
         }.padding(.leading, 10)
-        
-        
-        
-    
         
     }
     
