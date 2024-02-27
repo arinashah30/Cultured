@@ -12,16 +12,16 @@ extension Color {
     static let darkMode = false
     
     public static var cBlue: Color {
-        Color(red:0/255, green:102/255, blue:176/255)
+        Color(red:153/255, green:194/255, blue:223/255)
     }
     public static var cGreen: Color {
-        Color(red:45/255, green:198/255, blue:83/255)
+        Color(red:171/255, green:232/255, blue:186/255)
     }
     public static var cOrange: Color {
-        Color(red:254/255, green:165/255, blue:30/255)
+        Color(red:255/255, green:219/255, blue:165/255)
     }
     public static var cRed: Color {
-        Color(red:247/255, green:64/255, blue:64/255)
+        Color(red:252/255, green:179/255, blue:179/255)
     }
     public static var cDarkGray: Color {
         Color(red:64/255, green:64/255, blue:64/255)
