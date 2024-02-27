@@ -42,21 +42,22 @@ struct PlacesSectionView: View {
                     .clipShape(.rect(cornerRadius: 40))
                     .foregroundColor(.white)
                 VStack (alignment: .leading){
-                    Text("Food")
-                        .foregroundColor(.black)
+                    Text("Places")
+                        .foregroundColor(.cDarkGray)
                         .font(Font.custom("Quicksand-SemiBold", size: 32))
                     Text("Mexico")
                         .foregroundColor(.cMedGray)
                     Text("Categories")
-                        .font(Font.custom("Quicksand", size: 24))
+                        .font(Font.custom("Quicksand-Medium", size: 24))
+                        .foregroundColor(.cDarkGray)
                         .padding(.top, 20)
                     HStack {
                         Button {
                             
                         } label: {
                             Text("Landmarks")
-                                .font(Font.custom("Quicksand", size: 20))
-                                .foregroundStyle(.black)
+                                .font(.system(size: 20))
+                                .foregroundColor(.cDarkGray)
                                 .padding()
                         }
                         .frame(maxWidth: 159, maxHeight: 57)
@@ -67,8 +68,8 @@ struct PlacesSectionView: View {
                             
                         } label: {
                             Text("Major Cities")
-                                .font(Font.custom("Quicksand", size: 20))
-                                .foregroundStyle(.black)
+                                .font(.system(size: 20))
+                                .foregroundColor(.cDarkGray)
                                 .padding()
                         }
                         .frame(maxWidth: 159, maxHeight: 57)

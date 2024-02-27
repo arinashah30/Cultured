@@ -43,20 +43,21 @@ struct PopCultureSectionView: View {
                     .foregroundColor(.white)
                 VStack (alignment: .leading){
                     Text("Pop Culture")
-                        .foregroundColor(.black)
+                        .foregroundColor(.cDarkGray)
                         .font(Font.custom("Quicksand-SemiBold", size: 32))
                     Text("Mexico")
                         .foregroundColor(.cMedGray)
                     Text("Categories")
-                        .font(Font.custom("Quicksand", size: 24))
+                        .font(Font.custom("Quicksand-Medium", size: 24))
+                        .foregroundColor(.cDarkGray)
                         .padding(.top, 20)
                     HStack {
                         Button {
                             
                         } label: {
                             Text("Music")
-                                .font(Font.custom("Quicksand", size: 20))
-                                .foregroundStyle(.black)
+                                .font(.system(size: 20))
+                                .foregroundColor(.cDarkGray)
                                 .padding()
                         }
                         .frame(maxWidth: 159, maxHeight: 57)
@@ -67,8 +68,8 @@ struct PopCultureSectionView: View {
                             
                         } label: {
                             Text("Dance")
-                                .font(Font.custom("Quicksand", size: 20))
-                                .foregroundStyle(.black)
+                                .font(.system(size: 20))
+                                .foregroundColor(.cDarkGray)
                                 .padding()
                         }
                         .frame(maxWidth: 159, maxHeight: 57)
@@ -83,8 +84,8 @@ struct PopCultureSectionView: View {
                             
                         } label: {
                             Text("Sports")
-                                .font(Font.custom("Quicksand", size: 20))
-                                .foregroundStyle(.black)
+                                .font(.system(size: 20))
+                                .foregroundColor(.cDarkGray)
                                 .padding()
                         }
                         .frame(maxWidth: 159, maxHeight: 57)
@@ -95,8 +96,8 @@ struct PopCultureSectionView: View {
                             
                         } label: {
                             Text("Movies/TV")
-                                .font(Font.custom("Quicksand", size: 20))
-                                .foregroundStyle(.black)
+                                .font(.system(size: 20))
+                                .foregroundColor(.cDarkGray)
                                 .padding()
                         }
                         .frame(maxWidth: 159, maxHeight: 57)
