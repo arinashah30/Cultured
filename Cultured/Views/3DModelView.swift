@@ -20,43 +20,76 @@ let landmarks: [ARLandmark] = [
 
 struct _DModelView : View {
     @State private var selection = 0
+    enum ViewShown {
+        case Landmark, ARVideoPortal
+    }
+    
+    @State var videoShown = false
+    
     var body: some View {
-        ZStack{
-            RealityViewContainer(model: landmarks[selection]).edgesIgnoringSafeArea(.all)
-            VStack {
-                Spacer() // Pushes the VStack to the top
-                Picker("Select a Country", selection: $selection) {
-                    ForEach(0..<landmarks.count) { index in
-                        Text(landmarks[index].modelName).tag(index)
+
+        if (!videoShown) {
+            ZStack{
+                RealityViewContainer(model: landmarks[selection], showPortalFunc: showARVideoPortal).edgesIgnoringSafeArea(.all)
+                VStack {
+                    Spacer() // Pushes the VStack to the top
+                    Picker("Select a Country", selection: $selection) {
+                        ForEach(0..<landmarks.count) { index in
+                            Text(landmarks[index].modelName).tag(index)
+                        }
                     }
+                    .pickerStyle(DefaultPickerStyle()) // Apply a default picker style
+                    .frame(width: 150, height: 40) // Set a fixed width and height for consistency
+                    .background(.white) // Set a white background
+                    .cornerRadius(10) // Apply corner radius for rounded edges
+                    .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
                 }
-                .pickerStyle(DefaultPickerStyle()) // Apply a default picker style
-                .frame(width: 150, height: 40) // Set a fixed width and height for consistency
-                .background(.white) // Set a white background
-                .cornerRadius(10) // Apply corner radius for rounded edges
-                .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
+                .alignmentGuide(.bottom) { _ in
+                    UIScreen.main.bounds.height * 0.05 // Adjust the value as needed
+                }
             }
-            .alignmentGuide(.bottom) { _ in
-                UIScreen.main.bounds.height * 0.05 // Adjust the value as needed
-            }
+        } else {
+            ARVideoPortalView()
         }
+        
+        
+        
+    }
+    
+    func showARVideoPortal() {
+        videoShown.toggle()
     }
 }
 
 struct RealityViewContainer: UIViewRepresentable {
     
     var model: ARLandmark
+    var showPortalFunc: () -> ()
     
-    func makeUIView(context: Context) -> ARView {
-        let arView = ARView(frame: .zero)
-        updateUIView(arView, context: context) // Manually call updateUIView initially
-        return arView
+    
+    
+    func updateUIView(_ uiView: RealityARView, context: Context) { }
+    
+    func makeUIView(context: Context) -> RealityARView {
+        return RealityARView(model: model, showPortalFunc: showPortalFunc)
     }
     
-    func updateUIView(_ uiView: ARView, context: Context) {
-        uiView.scene.anchors.removeAll()
+    
+}
+
+
+class RealityARView: ARView {
+    
+    var model: ARLandmark
+    var showPortalFunc: (() -> ())?
+    
+    init(model: ARLandmark, showPortalFunc: @escaping () -> ()) {
+        self.model = model
+        self.showPortalFunc = showPortalFunc
+        super.init(frame: . zero)
+        self.scene.anchors.removeAll()
         guard let modelEntity = try? ModelEntity.loadModel(named: model.modelName) else {
-            return
+            fatalError("Could not load model with name \(model.modelName)")
         }
         
         if let color = model.color {
@@ -66,22 +99,68 @@ struct RealityViewContainer: UIViewRepresentable {
             modelEntity.model?.materials[0] = material
         }
         
+        
         modelEntity.scale = [model.scale, model.scale, model.scale]
-        
-        
+        // addding the landmark to the view
         let anchor = AnchorEntity(.plane(.horizontal, classification: .floor, minimumBounds: [0.5, 0.5]))
         anchor.addChild(modelEntity)
         modelEntity.position = [Float(model.xDistance), 0, Float(model.zDistance)]
+        
+        modelEntity.name = model.modelName
+        modelEntity.generateCollisionShapes(recursive: true)
+        
+        // adding the information bubbles
         for i in 0..<model.numFacts {
-            var informationBubbleEntity = ModelEntity(mesh: MeshResource.generateSphere(radius: 0.5), materials: [SimpleMaterial(color: .red, isMetallic: true)])
+            var informationBubbleEntity = ModelEntity(mesh: MeshResource.generateSphere(radius: 15.0), materials: [SimpleMaterial(color: .red, isMetallic: true)])
             let relativeTransform = Transform(translation: [Float(i) + 1, Float(i) + 1, Float(i) + 1])
             informationBubbleEntity.transform = relativeTransform
+            informationBubbleEntity.generateCollisionShapes(recursive: true) // adding collision boxes to each bubble
+            informationBubbleEntity.name = "Fact " + String(i)
             modelEntity.addChild(informationBubbleEntity)
         }
         
-        uiView.scene.addAnchor(anchor)
-    }
+        self.scene.addAnchor(anchor)
         
+        self.installGestures([.rotation, .translation, .scale], for: modelEntity as HasCollision)
+        
+        let handleTap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
+        self.addGestureRecognizer(handleTap) // calling the objc function
+    }
+    
+    // errors that were generated by XCode
+    @MainActor required dynamic init?(coder decoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    @MainActor required dynamic init(frame frameRect: CGRect) {
+        fatalError("init(frame:) has not been implemented")
+    }
+    
+    
+    
+    @objc func handleTap(_ recognizer: UITapGestureRecognizer? = nil) {
+        
+        guard let touchInView = recognizer?.location(in: self) else {
+            return
+        }
+        
+        guard let modelEntity = self.entity(at: touchInView) as? ModelEntity else {
+            print("modelEntity not found in handletap func")
+            return
+        }
+        
+        print("Tap detected on - \(modelEntity.name)")
+        // detect tap on main model
+        if (modelEntity.name == model.modelName) {
+            if let showPortalFunc {
+                showPortalFunc()
+            }
+        } else if (modelEntity.name.prefix(4) == "Fact") {
+            print("found a bubble")
+        }
+        
+        
+    }
 }
 
 

@@ -18,6 +18,14 @@
 		480F22082B7C1F9C00CB5632 /* WordGuessingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F22072B7C1F9C00CB5632 /* WordGuessingViewModel.swift */; };
 		480F220A2B7C1FA900CB5632 /* ConnectionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F22092B7C1FA900CB5632 /* ConnectionsViewModel.swift */; };
 		663062F52B7BFD3500702E04 /* ARLandmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663062F42B7BFD3500702E04 /* ARLandmark.swift */; };
+		6690A2C62B8D74E7002C33C5 /* ARVideoPortalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6690A2C52B8D74E7002C33C5 /* ARVideoPortalView.swift */; };
+		6690A2CB2B8D7A2A002C33C5 /* SphereSpace.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 6690A2C92B8D7A2A002C33C5 /* SphereSpace.usdz */; };
+		6690A2CC2B8D7A2A002C33C5 /* tower_bridge.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 6690A2CA2B8D7A2A002C33C5 /* tower_bridge.mp4 */; };
+		6690A2D12B8D7AC7002C33C5 /* Taj_Mahal.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 6690A2CD2B8D7AC7002C33C5 /* Taj_Mahal.usdz */; };
+		6690A2D22B8D7AC7002C33C5 /* Chichen_Itza.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 6690A2CE2B8D7AC7002C33C5 /* Chichen_Itza.usdz */; };
+		6690A2D32B8D7AC7002C33C5 /* Pisa_Tower.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 6690A2CF2B8D7AC7002C33C5 /* Pisa_Tower.usdz */; };
+		6690A2D42B8D7AC7002C33C5 /* Burj_Khalifa.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 6690A2D02B8D7AC7002C33C5 /* Burj_Khalifa.usdz */; };
+		6690A2D62B8D7EE5002C33C5 /* Eiffel_Tower.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 6690A2D52B8D7EE4002C33C5 /* Eiffel_Tower.usdz */; };
 		66FB69C72B72A06D0066B826 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB69C62B72A06D0066B826 /* AppDelegate.swift */; };
 		66FB69C92B72A06D0066B826 /* TourView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB69C82B72A06D0066B826 /* TourView.swift */; };
 		66FB69CB2B72A06E0066B826 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66FB69CA2B72A06E0066B826 /* Assets.xcassets */; };
@@ -60,7 +68,6 @@
 		66FB6A292B72A5020066B826 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 66FB6A282B72A5020066B826 /* FirebaseStorage */; };
 		66FE49432B7571610053D229 /* 3DModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FE49422B7571610053D229 /* 3DModelView.swift */; };
 		66FE49452B75773A0053D229 /* Dice.imported.usdc in Resources */ = {isa = PBXBuildFile; fileRef = 66FE49442B7577390053D229 /* Dice.imported.usdc */; };
-		66FE49472B75C0E70053D229 /* Eiffel_Tower.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 66FE49462B75C0E70053D229 /* Eiffel_Tower.usdz */; };
 		7C1B20F32B7BFF41008E0244 /* UIColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1B20F22B7BFF41008E0244 /* UIColors.swift */; };
 		7C1B20FE2B7C00A0008E0244 /* Quicksand-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B20F92B7C00A0008E0244 /* Quicksand-Bold.ttf */; };
 		7C1B20FF2B7C00A0008E0244 /* Quicksand-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B20FA2B7C00A0008E0244 /* Quicksand-Medium.ttf */; };
@@ -81,6 +88,14 @@
 		480F22072B7C1F9C00CB5632 /* WordGuessingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGuessingViewModel.swift; sourceTree = "<group>"; };
 		480F22092B7C1FA900CB5632 /* ConnectionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsViewModel.swift; sourceTree = "<group>"; };
 		663062F42B7BFD3500702E04 /* ARLandmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARLandmark.swift; sourceTree = "<group>"; };
+		6690A2C52B8D74E7002C33C5 /* ARVideoPortalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ARVideoPortalView.swift; sourceTree = "<group>"; };
+		6690A2C92B8D7A2A002C33C5 /* SphereSpace.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = SphereSpace.usdz; sourceTree = "<group>"; };
+		6690A2CA2B8D7A2A002C33C5 /* tower_bridge.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = tower_bridge.mp4; sourceTree = "<group>"; };
+		6690A2CD2B8D7AC7002C33C5 /* Taj_Mahal.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Taj_Mahal.usdz; sourceTree = "<group>"; };
+		6690A2CE2B8D7AC7002C33C5 /* Chichen_Itza.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Chichen_Itza.usdz; sourceTree = "<group>"; };
+		6690A2CF2B8D7AC7002C33C5 /* Pisa_Tower.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Pisa_Tower.usdz; sourceTree = "<group>"; };
+		6690A2D02B8D7AC7002C33C5 /* Burj_Khalifa.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Burj_Khalifa.usdz; sourceTree = "<group>"; };
+		6690A2D52B8D7EE4002C33C5 /* Eiffel_Tower.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Eiffel_Tower.usdz; sourceTree = "<group>"; };
 		66FB69C32B72A06D0066B826 /* Cultured.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cultured.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66FB69C62B72A06D0066B826 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		66FB69C82B72A06D0066B826 /* TourView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourView.swift; sourceTree = "<group>"; };
@@ -110,7 +125,6 @@
 		66FB6A212B72A2FD0066B826 /* HolidaysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolidaysView.swift; sourceTree = "<group>"; };
 		66FE49422B7571610053D229 /* 3DModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 3DModelView.swift; sourceTree = "<group>"; };
 		66FE49442B7577390053D229 /* Dice.imported.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; name = Dice.imported.usdc; path = ../../../../Downloads/Dice.imported.usdc; sourceTree = "<group>"; };
-		66FE49462B75C0E70053D229 /* Eiffel_Tower.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = Eiffel_Tower.usdz; path = ../../../../Downloads/Eiffel_Tower.usdz; sourceTree = "<group>"; };
 		7C1B20F22B7BFF41008E0244 /* UIColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColors.swift; sourceTree = "<group>"; };
 		7C1B20F62B7C002C008E0244 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		7C1B20F92B7C00A0008E0244 /* Quicksand-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Bold.ttf"; sourceTree = "<group>"; };
@@ -175,7 +189,13 @@
 		66FB69C52B72A06D0066B826 /* Cultured */ = {
 			isa = PBXGroup;
 			children = (
-				66FE49462B75C0E70053D229 /* Eiffel_Tower.usdz */,
+				6690A2D52B8D7EE4002C33C5 /* Eiffel_Tower.usdz */,
+				6690A2C92B8D7A2A002C33C5 /* SphereSpace.usdz */,
+				6690A2D02B8D7AC7002C33C5 /* Burj_Khalifa.usdz */,
+				6690A2CE2B8D7AC7002C33C5 /* Chichen_Itza.usdz */,
+				6690A2CF2B8D7AC7002C33C5 /* Pisa_Tower.usdz */,
+				6690A2CD2B8D7AC7002C33C5 /* Taj_Mahal.usdz */,
+				6690A2CA2B8D7A2A002C33C5 /* tower_bridge.mp4 */,
 				66FE49442B7577390053D229 /* Dice.imported.usdc */,
 				7C1B20F62B7C002C008E0244 /* Info.plist */,
 				66FB69C62B72A06D0066B826 /* AppDelegate.swift */,
@@ -231,6 +251,7 @@
 				66FB6A1C2B72A2C40066B826 /* Modules */,
 				66FB69C82B72A06D0066B826 /* TourView.swift */,
 				66FE49422B7571610053D229 /* 3DModelView.swift */,
+				6690A2C52B8D74E7002C33C5 /* ARVideoPortalView.swift */,
 				66FB69F82B72A1060066B826 /* Activity */,
 				66FB69FD2B72A1280066B826 /* HomeView.swift */,
 				66FB69FF2B72A1310066B826 /* MainView.swift */,
@@ -420,13 +441,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				66FE49472B75C0E70053D229 /* Eiffel_Tower.usdz in Resources */,
+				6690A2D32B8D7AC7002C33C5 /* Pisa_Tower.usdz in Resources */,
 				66FB69CE2B72A06E0066B826 /* Preview Assets.xcassets in Resources */,
+				6690A2CB2B8D7A2A002C33C5 /* SphereSpace.usdz in Resources */,
 				66FE49452B75773A0053D229 /* Dice.imported.usdc in Resources */,
 				7C1B20FF2B7C00A0008E0244 /* Quicksand-Medium.ttf in Resources */,
 				7C1B20FE2B7C00A0008E0244 /* Quicksand-Bold.ttf in Resources */,
 				7C1B21022B7C00A0008E0244 /* Quicksand-Light.ttf in Resources */,
 				7C1B21012B7C00A0008E0244 /* Quicksand-SemiBold.ttf in Resources */,
+				6690A2D12B8D7AC7002C33C5 /* Taj_Mahal.usdz in Resources */,
+				6690A2CC2B8D7A2A002C33C5 /* tower_bridge.mp4 in Resources */,
+				6690A2D22B8D7AC7002C33C5 /* Chichen_Itza.usdz in Resources */,
+				6690A2D42B8D7AC7002C33C5 /* Burj_Khalifa.usdz in Resources */,
+				6690A2D62B8D7EE5002C33C5 /* Eiffel_Tower.usdz in Resources */,
 				66FB69CB2B72A06E0066B826 /* Assets.xcassets in Resources */,
 				7C1B21002B7C00A0008E0244 /* Quicksand-Regular.ttf in Resources */,
 			);
@@ -468,6 +495,7 @@
 				66FB6A0C2B72A17C0066B826 /* QuestionView.swift in Sources */,
 				480F220A2B7C1FA900CB5632 /* ConnectionsViewModel.swift in Sources */,
 				66FB6A112B72A1EF0066B826 /* StartQuizView.swift in Sources */,
+				6690A2C62B8D74E7002C33C5 /* ARVideoPortalView.swift in Sources */,
 				66FB6A172B72A2270066B826 /* ConnectionsResultsView.swift in Sources */,
 				66FB6A022B72A1400066B826 /* LogInView.swift in Sources */,
 				66FB69F52B72A0B90066B826 /* Country.swift in Sources */,
