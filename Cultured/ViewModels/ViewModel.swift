@@ -191,5 +191,38 @@ class ViewModel: ObservableObject {
                     completion(false)
                 }
             }
-        }    
+        }
+    func createNewQuiz(quiz: Quiz) {
+
+            db.collection("GAMES").document(quiz.title).setData(
+
+                ["title": quiz.title,
+
+                 "pointsGoal": quiz.pointsGoal,
+
+                 "points": quiz.points
+
+                ])
+
+            let quizQuestions = quiz.questions
+
+            let quizRef = db.collection("GAMES").document(quiz.title)
+
+            for question in quizQuestions {
+
+                quizRef.collection("QUESTIONS").document(question.question).setData(
+
+                    ["question": question.question,
+
+                     "answerChoices": question.answers,
+
+                     "correctAnswer": String(question.correctAnswer),
+
+                     "correctAnswerDescription": question.correctAnswerDescription,
+
+                    ])
+
+            }
+
+    }
 }
