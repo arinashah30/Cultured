@@ -49,19 +49,24 @@ struct HomeView: View {
                 Text("Welcome to Mexico")
                     .font(Font.custom("Quicksand-Semibold", size: 32))
                     .foregroundColor(.cDarkGray)
+                    .padding(.leading, 10)
             
                 Text("change destination")
                 .font(.system(size: 16))
                     .foregroundColor(.cMedGray)
                     .padding(.bottom, 5)
+                    .padding(.leading, 10)
             
                 Text("Learn")
                 .font(Font.custom("Quicksand-Medium", size: 24))
                 .foregroundColor(.cDarkGray)
                 .padding(.bottom, -5)
+                .padding(.leading, 10)
             
             ScrollView(.horizontal) {
                 HStack {
+                    Spacer(minLength: 10)
+                    
                     ZStack{
                         Image("HomeQuiz")
                             .resizable()
@@ -137,6 +142,8 @@ struct HomeView: View {
                     }
                     .clipShape(.rect(cornerRadius: 14.0))
                     .padding(.trailing, 8)
+                    
+                    Spacer(minLength: 10)
                 }
             }
                 .scrollIndicators(.hidden)
@@ -146,40 +153,47 @@ struct HomeView: View {
             .font(Font.custom("Quicksand-Medium", size: 24))
             .foregroundColor(.cDarkGray)
             .padding(.bottom, -5)
+            .padding(.leading, 10)
             
-            ZStack{
-                Image("HomeARTour")
-                    .resizable()
-                    .frame(width: 360, height: 135)
-                Text("Walk the streets of Mexico right where you are.")
-                    .foregroundColor(.white)
-                    .frame(width:240)
-                    .multilineTextAlignment(.center)
-                    .font(.system(size: 20))
-                    .offset(y:-20)
-                Button {
-                    
-                } label: {
-                    Text("Let's go!")
-                        .font(.system(size: 16))
-                        .foregroundStyle(.black)
-                        .padding()
+            HStack {
+                Spacer()
+                ZStack{
+                    Image("HomeARTour")
+                        .resizable()
+                        .frame(width: 360, height: 135)
+                    Text("Walk the streets of Mexico right where you are.")
+                        .foregroundColor(.white)
+                        .frame(width:240)
+                        .multilineTextAlignment(.center)
+                        .font(.system(size: 20))
+                        .offset(y:-20)
+                    Button {
+                        
+                    } label: {
+                        Text("Let's go!")
+                            .font(.system(size: 16))
+                            .foregroundStyle(.black)
+                            .padding()
+                    }
+                    .frame(maxWidth: 105, maxHeight: 30)
+                    .background(.white)
+                    .clipShape(.rect(cornerRadius: 14.0))
+                    .offset(y:25)
                 }
-                .frame(maxWidth: 105, maxHeight: 30)
-                .background(.white)
                 .clipShape(.rect(cornerRadius: 14.0))
-                .offset(y:25)
+                .padding(.bottom, 8)
+                Spacer()
             }
-            .clipShape(.rect(cornerRadius: 14.0))
-            .padding(.bottom, 8)
             
             Text("Explore")
             .font(Font.custom("Quicksand-Medium", size: 24))
             .foregroundColor(.cDarkGray)
             .padding(.bottom, -5)
+            .padding(.leading, 10)
             
             ScrollView(.horizontal) {
                 HStack{
+                    Spacer(minLength: 10)
                     ZStack{
                         Image("PopCultureIcon")
                             .resizable()
@@ -219,12 +233,12 @@ struct HomeView: View {
                     .clipShape(.rect(cornerRadius: 14.0))
                     .padding(.bottom, 15)
                     
+                    Spacer(minLength: 10)
                 }
             }
             .scrollIndicators(.hidden)
-                
 
-        }.padding(.leading, 10)
+        }
         
     }
     
