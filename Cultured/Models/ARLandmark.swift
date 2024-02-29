@@ -17,4 +17,5 @@ struct ARLandmark: Hashable {
     var xDistance: Int = 0
     var scale: Float
     var isMetallic: Bool = false
+    var facts: [TextBoxEntity]
 }
