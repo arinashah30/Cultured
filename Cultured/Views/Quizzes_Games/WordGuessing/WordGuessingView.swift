@@ -27,7 +27,7 @@ struct WordGuessingView: View {
                     Spacer(minLength: 190)
                     
                     Button(action: {
-//                        vm.flipTile()
+                        vm.flipTile()
                     }) {
                         Text("Next hint")
                             .font(.title3)
@@ -40,7 +40,7 @@ struct WordGuessingView: View {
                     VStack {
                         ForEach(game.options.indices, id: \.self) { index in
                             if (!game.options[index].isFlipped) {
-                                Text(game.options[index].option)
+                                Text("")
                                     .foregroundColor(.black)
                                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50)
                                     .background(colors[index % colors.count])
