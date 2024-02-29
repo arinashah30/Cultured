@@ -42,23 +42,27 @@ class WordGuessingViewModel: ObservableObject {
         game.totalPoints -= game.flipPoints
         game.flipsDone += 1
         game.options[optionIndex].isFlipped = true
-        if (game.totalPoints == 0) {
-            loseGame()
-        }
+//        if (game.totalPoints == 0) {
+//            print("Lose because of points reaching 0")
+//            loseGame()
+//        }
         game.numberOfGuesses = 2
         current_word_guessing_game = game
     }
     
     func submitGuess(_ currentGuess: String) {
         guard var game = current_word_guessing_game else { return }
+        if game.numberOfGuesses == 0 && game.flipsDone < game.options.count - 1 {
+            return promptUser()
+        }
+        
         game.numberOfGuesses -= 1
         
         if currentGuess.lowercased() == game.answer.lowercased() {
             winGame()
         } else {
-            game.totalPoints -= game.flipPoints
             if game.numberOfGuesses == 0 {
-                if (game.flipsDone == 0) {
+                if (game.flipsDone >= game.options.count - 1) {
                     loseGame()
                 } else {
                     promptUser()
