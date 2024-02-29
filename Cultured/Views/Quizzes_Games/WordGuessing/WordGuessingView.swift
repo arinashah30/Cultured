@@ -10,6 +10,8 @@ import SwiftUI
 struct WordGuessingView: View {
     @ObservedObject var vm: WordGuessingViewModel
     @State private var currentGuess: String = ""
+    
+
     let colors: [Color] = [Color("Gradient1"), Color("Gradient2"), Color("Gradient3"), Color("Gradient4"), Color("Gradient5"), Color("Gradient6"), Color("Gradient6"), Color("Gradient6"), Color("Gradient6")]
         
     var body: some View {
@@ -59,9 +61,21 @@ struct WordGuessingView: View {
                     .padding()
                 }
                 
+                ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(vm.guessesMade, id: \.self) { guess in
+                                Text(guess)
+                                    .foregroundColor(.red.opacity(0.5))
+                                    .padding()
+                            }
+                        }
+                        .padding(.horizontal)
+                    }
+                    .frame(height: 50)
+                
                 HStack {
                     Spacer(minLength: 20)
-                    TextField("Type your guess...", text: $currentGuess)
+                    TextField("Type your guess...                 \(vm.current_word_guessing_game?.numberOfGuesses ?? 0) left", text: $currentGuess)
                         .padding(9)
                                 .background(
                                     RoundedRectangle(cornerRadius: 10, style: .continuous)
@@ -93,3 +107,4 @@ struct WordGuessingView: View {
 #Preview {
     WordGuessingView(vm: WordGuessingViewModel())
 }
+
