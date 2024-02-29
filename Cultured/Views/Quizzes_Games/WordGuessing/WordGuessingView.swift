@@ -27,7 +27,7 @@ struct WordGuessingView: View {
                     Spacer(minLength: 190)
                     
                     Button(action: {
-//                        vm.flipTile()
+                        vm.flipTile()
                     }) {
                         Text("Next hint")
                             .font(.title3)
