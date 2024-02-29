@@ -15,53 +15,66 @@ struct WordGuessingView: View {
         Spacer()
         VStack {
             if let game = vm.current_word_guessing_game {
-                
+                Spacer()
                 Text(game.title)
                     .font(.title)
                     .padding()
-                Text("Hints")
-                    .font(.title2)
+                HStack{
+                    Spacer(minLength: 20)
+                    Text("Hints")
+                        .font(.title2)
+                    Spacer(minLength: 190)
+                    Text("Next hint")
+                        .font(.title3)
+                        .foregroundColor(.gray)
+                    Spacer(minLength: 20)
+                }
                 
-//                Text("Points: \(game.totalPoints)")
-//                    .padding()
-//                
-//                Text("Flips done: \(game.flipsDone)")
-//                    .padding()
-//                
-//                Text("Guesses: \(game.numberOfGuesses)")
-//                    .padding()
-                
-                LazyVGrid(columns: [GridItem()]) {
-                    ForEach(game.options.indices, id: \.self) { index in
-                        // not flipped
-                        if (!game.options[index].isFlipped) {
-                            Button(action: {
-                                vm.flipTile(optionIndex: index)
-                            }) {
+                ScrollView {
+                    VStack {
+                        ForEach(game.options.indices, id: \.self) { index in
+                            if (!game.options[index].isFlipped) {
+                                Button(action: {
+                                    vm.flipTile(optionIndex: index)
+                                }) {
+                                    Text("")
+                                        .foregroundColor(.black)
+                                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50)
+                                        .cornerRadius(10)
+                                        .padding(.horizontal)
+                                }
+                            } else {
                                 Text(game.options[index].option)
-                                    .foregroundColor(.gray)
+                                    .foregroundColor(.black)
                                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50)
-                                    .border(.gray, width: 3)
+                                    .background(.green)
+                                    .cornerRadius(10)
+                                    .padding(.horizontal)
                             }
-                        } else {
-                            // flipped
-                            Text(game.options[index].option)
-                                .foregroundColor(.white)
-                                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50)
-                                .background(.pink)
-                                .cornerRadius(10)
                         }
                     }
-                }
-                .padding()
-                
-                TextField("Type your guess...", text: $currentGuess)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
+                }
+
                 
-                Button("Submit Guess") {
-                    vm.submitGuess(currentGuess)
-                    currentGuess = ""
+                HStack {
+                    Spacer(minLength: 20)
+                    TextField("Type your guess...", text: $currentGuess)
+                        .padding(9)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                        .stroke(Color.gray, lineWidth: 2)
+                                )
+                    Button("Enter") {
+                        vm.submitGuess(currentGuess)
+                        currentGuess = ""
+                    }
+                    .foregroundColor(.black)
+                    .frame(minWidth: 0, maxWidth: 71, minHeight: 45)
+                    .background(.yellow)
+                    .cornerRadius(10)
+                    Spacer(minLength: 20)
+
                 }
                 Spacer()
 
@@ -83,6 +96,6 @@ struct WordGuessingView: View {
 
 /*
  TODO:
- - create text box to submit answers
  - options don't show unless tile is flipped
+ - 
  */
