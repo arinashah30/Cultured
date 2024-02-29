@@ -78,13 +78,16 @@ struct WordGuessingView: View {
                 HStack {
                     Spacer(minLength: 20)
                     TextField("Type your guess...                 \(vm.current_word_guessing_game?.numberOfGuesses ?? 0) left", text: $currentGuess)
+                        .keyboardType(.default)
                         .padding(9)
                                 .background(
                                     RoundedRectangle(cornerRadius: 10, style: .continuous)
                                         .stroke(Color.gray, lineWidth: 2)
                                 )
                     Button("Enter") {
-                        vm.submitGuess(currentGuess)
+                        if currentGuess != "" {
+                            vm.submitGuess(currentGuess)
+                        }
                         currentGuess = ""
                     }
                     .foregroundColor(.black)
@@ -110,3 +113,7 @@ struct WordGuessingView: View {
     WordGuessingView(vm: WordGuessingViewModel())
 }
 
+/*
+ - show answer at the end
+ - enter button gray once no more guesses left
+ */
