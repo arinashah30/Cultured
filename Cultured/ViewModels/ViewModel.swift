@@ -264,6 +264,34 @@ class ViewModel: ObservableObject {
                     completion(false)
                 }
             }
-        }    
+        }
+    
+    func updateScore(userID: String, activity: String, newScore: Int, completion: @escaping (Bool) -> Void) {
+        self.db.collection("USERS").document(userID).getDocument { document, error in
+            if let err = error {
+                print(err.localizedDescription)
+                completion(false)
+                return
+            }
+            
+            guard let document = document, document.exists else {
+                print("no doc")
+                completion(false)
+                return
+            }
+            
+            let actCollection = document.reference.collection("Activities")
+            
+            actCollection.document(activity).updateData(["score": newScore]){ err in
+                if let err = err {
+                    print("Error updating document: \(err.localizedDescription)")
+                    completion(false)
+                } else {
+                    // Document updated successfully
+                    completion(true)
+                }
+            }
+        }
+    }
 }
 
