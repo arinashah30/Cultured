@@ -93,10 +93,3 @@ struct WordGuessingView: View {
 #Preview {
     WordGuessingView(vm: WordGuessingViewModel())
 }
-
-
-/*
- TODO:
- - options don't show unless tile is flipped
- - 
- */
