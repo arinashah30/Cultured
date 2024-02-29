@@ -10,6 +10,7 @@ import Foundation
 class WordGuessingViewModel: ObservableObject {
     @Published var current_user: User? = nil
     @Published var current_word_guessing_game: WordGuessing? = nil
+    @Published var guessesMade: [String] = ["guess1", "guess2", "guess3", "guess4"]
     
     func create_mock_wg_game() {
         print("creating a new game...")
