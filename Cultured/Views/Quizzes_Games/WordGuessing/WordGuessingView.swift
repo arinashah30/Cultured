@@ -10,6 +10,7 @@ import SwiftUI
 struct WordGuessingView: View {
     @ObservedObject var vm: WordGuessingViewModel
     @State private var currentGuess: String = ""
+    let colors: [Color] = [.red, .blue, .green, .orange, .yellow, .purple, .pink, .gray, .pink]
         
     var body: some View {
         Spacer()
@@ -24,9 +25,14 @@ struct WordGuessingView: View {
                     Text("Hints")
                         .font(.title2)
                     Spacer(minLength: 190)
-                    Text("Next hint")
-                        .font(.title3)
-                        .foregroundColor(.gray)
+                    
+                    Button(action: {
+//                        vm.flipTile()
+                    }) {
+                        Text("Next hint")
+                            .font(.title3)
+                            .foregroundColor(.gray)
+                    }
                     Spacer(minLength: 20)
                 }
                 
@@ -34,20 +40,17 @@ struct WordGuessingView: View {
                     VStack {
                         ForEach(game.options.indices, id: \.self) { index in
                             if (!game.options[index].isFlipped) {
-                                Button(action: {
-                                    vm.flipTile(optionIndex: index)
-                                }) {
-                                    Text("")
-                                        .foregroundColor(.black)
-                                        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50)
-                                        .cornerRadius(10)
-                                        .padding(.horizontal)
-                                }
+                                Text(game.options[index].option)
+                                    .foregroundColor(.black)
+                                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50)
+                                    .background(colors[index % colors.count])
+                                    .cornerRadius(10)
+                                    .padding(.horizontal)
                             } else {
                                 Text(game.options[index].option)
                                     .foregroundColor(.black)
                                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50)
-                                    .background(.green)
+                                    .background(colors[index % colors.count])
                                     .cornerRadius(10)
                                     .padding(.horizontal)
                             }
