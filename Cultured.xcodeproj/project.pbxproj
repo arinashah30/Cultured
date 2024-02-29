@@ -65,6 +65,10 @@
 		7C1B21012B7C00A0008E0244 /* Quicksand-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B20FC2B7C00A0008E0244 /* Quicksand-SemiBold.ttf */; };
 		7C1B21022B7C00A0008E0244 /* Quicksand-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B20FD2B7C00A0008E0244 /* Quicksand-Light.ttf */; };
 		B31D2BFA2B8EB3EF00FAF095 /* ViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31D2BF92B8EB3EF00FAF095 /* ViewModelUnitTests.swift */; };
+		CA64398A2B8579AF00181C5F /* FoodCategorySectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6439892B8579AF00181C5F /* FoodCategorySectionView.swift */; };
+		CA64398C2B857B0900181C5F /* CustomsSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA64398B2B857B0900181C5F /* CustomsSectionView.swift */; };
+		CA64398E2B857BF200181C5F /* PlacesSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA64398D2B857BF200181C5F /* PlacesSectionView.swift */; };
+		CA7570192B7C3B4000240F06 /* PopCultureSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7570182B7C3B4000240F06 /* PopCultureSectionView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,6 +129,10 @@
 		7C1B20FD2B7C00A0008E0244 /* Quicksand-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Light.ttf"; sourceTree = "<group>"; };
 		B31D2BF72B8EB3EF00FAF095 /* ViewModelUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ViewModelUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B31D2BF92B8EB3EF00FAF095 /* ViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelUnitTests.swift; sourceTree = "<group>"; };
+		CA6439892B8579AF00181C5F /* FoodCategorySectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCategorySectionView.swift; sourceTree = "<group>"; };
+		CA64398B2B857B0900181C5F /* CustomsSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomsSectionView.swift; sourceTree = "<group>"; };
+		CA64398D2B857BF200181C5F /* PlacesSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesSectionView.swift; sourceTree = "<group>"; };
+		CA7570182B7C3B4000240F06 /* PopCultureSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopCultureSectionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -250,6 +258,10 @@
 				66FB6A052B72A14B0066B826 /* Onboarding */,
 				66FB6A0A2B72A1650066B826 /* Profile */,
 				66FB6A0F2B72A1860066B826 /* Quizzes_Games */,
+				CA7570182B7C3B4000240F06 /* PopCultureSectionView.swift */,
+				CA6439892B8579AF00181C5F /* FoodCategorySectionView.swift */,
+				CA64398B2B857B0900181C5F /* CustomsSectionView.swift */,
+				CA64398D2B857BF200181C5F /* PlacesSectionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -497,15 +509,19 @@
 				480F21F92B75A29500CB5632 /* Connections.swift in Sources */,
 				480F22062B7C1F9000CB5632 /* QuizViewModel.swift in Sources */,
 				66FB69C92B72A06D0066B826 /* TourView.swift in Sources */,
+				CA64398E2B857BF200181C5F /* PlacesSectionView.swift in Sources */,
+				CA64398A2B8579AF00181C5F /* FoodCategorySectionView.swift in Sources */,
 				66FB6A002B72A1310066B826 /* MainView.swift in Sources */,
 				66FB6A042B72A1480066B826 /* SignUpView.swift in Sources */,
 				66FB69F32B72A0B30066B826 /* Module.swift in Sources */,
+				CA7570192B7C3B4000240F06 /* PopCultureSectionView.swift in Sources */,
 				66FB6A1B2B72A26E0066B826 /* Badge.swift in Sources */,
 				480F22082B7C1F9C00CB5632 /* WordGuessingViewModel.swift in Sources */,
 				66FB69F72B72A0BF0066B826 /* User.swift in Sources */,
 				480F21F72B7596BA00CB5632 /* QuizQuestion.swift in Sources */,
 				480F22022B7C19F900CB5632 /* WordGuessingResultsView.swift in Sources */,
 				66FB69D82B72A08F0066B826 /* ViewModel.swift in Sources */,
+				CA64398C2B857B0900181C5F /* CustomsSectionView.swift in Sources */,
 				480F21F52B75969500CB5632 /* Quiz.swift in Sources */,
 				66FB6A132B72A2150066B826 /* StartConnectionsView.swift in Sources */,
 				66FB6A0E2B72A1830066B826 /* ResultsView.swift in Sources */,
