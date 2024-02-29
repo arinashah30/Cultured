@@ -10,6 +10,7 @@ import Foundation
 class WordGuessingViewModel: ObservableObject {
     @Published var current_user: User? = nil
     @Published var current_word_guessing_game: WordGuessing? = nil
+    @Published var guessesMade: [String] = []
     
     func create_mock_wg_game() {
         print("creating a new game...")
@@ -35,19 +36,23 @@ class WordGuessingViewModel: ObservableObject {
             options: options,
             answer: answer
         )
+        current_word_guessing_game?.options[0].isFlipped = true
     }
     
-    func flipTile(optionIndex: Int) {
+    func flipTile() {
         guard var game = current_word_guessing_game else { return }
-        game.totalPoints -= game.flipPoints
-        game.flipsDone += 1
-        game.options[optionIndex].isFlipped = true
-//        if (game.totalPoints == 0) {
-//            print("Lose because of points reaching 0")
-//            loseGame()
-//        }
-        game.numberOfGuesses = 2
-        current_word_guessing_game = game
+        if game.flipsDone < game.options.count - 1 {
+            game.totalPoints -= game.flipPoints
+            game.flipsDone += 1
+            let optionIndex = game.flipsDone
+            game.options[optionIndex].isFlipped = true
+            //        if (game.totalPoints == 0) {
+            //            print("Lose because of points reaching 0")
+            //            loseGame()
+            //        }
+            game.numberOfGuesses = 2
+            current_word_guessing_game = game
+        }
     }
     
     func submitGuess(_ currentGuess: String) {
@@ -57,7 +62,7 @@ class WordGuessingViewModel: ObservableObject {
         }
         
         game.numberOfGuesses -= 1
-        
+        guessesMade.append(currentGuess)
         if currentGuess.lowercased() == game.answer.lowercased() {
             winGame()
         } else {
