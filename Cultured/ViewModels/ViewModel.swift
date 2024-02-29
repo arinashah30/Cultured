@@ -191,5 +191,31 @@ class ViewModel: ObservableObject {
                     completion(false)
                 }
             }
-        }    
+        }
+    
+    func getInfoFromModule(countryName: String, moduleName: String, completion: @escaping (String) -> Void) {
+        self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document(moduleName).getDocument { document, error in
+            if let err = error {
+                print(err.localizedDescription)
+                return
+            } else {
+                if let doc = document {
+                    if let data = doc.data() {
+                        
+                        let info = data["someData"] as? String
+//                        print (info)
+                        if let unwrappedInfo = info {
+                            completion(unwrappedInfo)
+                        } else {
+                            completion("Could Not unwrap info. Could be not a string")
+                        }
+                    } else {
+                        completion("Data for the document does not exist")
+                    }
+                } else {
+                    completion("Document does not exist")
+                }
+            }
+        }
+    }
 }
