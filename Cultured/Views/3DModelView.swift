@@ -10,11 +10,11 @@ import RealityKit
 import ARKit
 
 let landmarks: [ARLandmark] = [
-    ARLandmark(modelName: "Eiffel_Tower", numFacts: 2, color: .gray, scale: 0.025, isMetallic: true),
-    ARLandmark(modelName: "Pisa_Tower", numFacts: 2, color: UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0), scale: 0.1),
-    ARLandmark(modelName: "Burj_Khalifa", numFacts: 2, color: nil, scale: 0.06, isMetallic: true),
-    ARLandmark(modelName: "Taj_Mahal", numFacts: 2, color: nil, scale: 0.02),
-    ARLandmark(modelName: "Chichen_Itza", numFacts: 2, color: nil, scale: 0.02)
+    ARLandmark(modelName: "Eiffel_Tower", color: .gray, scale: 0.025, isMetallic: true, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."]),
+    ARLandmark(modelName: "Pisa_Tower", color: UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0), scale: 0.1, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."]),
+    ARLandmark(modelName: "Burj_Khalifa", color: nil, scale: 0.06, isMetallic: true, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."]),
+    ARLandmark(modelName: "Taj_Mahal", color: nil, scale: 0.02, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."]),
+    ARLandmark(modelName: "Chichen_Itza", color: nil, scale: 0.02, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."])
 ]
 
 
@@ -88,6 +88,8 @@ class RealityARView: ARView {
         }
     }
     var showPortalFunc: (() -> ())?
+    var informationBubbles: [ModelEntity] = []
+    var informationTextBoxes: [Entity] = []
     
     init(model: ARLandmark, showPortalFunc: @escaping () -> ()) {
         self.model = model
@@ -125,6 +127,17 @@ class RealityARView: ARView {
         modelEntity.scale = [model.scale, model.scale, model.scale]
         // addding the landmark to the view
         let anchor = AnchorEntity(.plane(.horizontal, classification: .floor, minimumBounds: [0.5, 0.5]))
+        
+        for fact in model.facts {
+            var textbox = TextBoxEntity(text: fact, boxWidth: 0.3, boxHeight: 0.13)
+            textbox.scale = [5,5,5]
+            anchor.addChild(textbox)
+            textbox.position = [Float(model.xDistance), 0, Float(-2)]
+            informationTextBoxes.append(textbox)
+            textbox.isEnabled = false //hides textbox at first
+        }
+        
+        
         anchor.addChild(modelEntity)
         modelEntity.position = [Float(model.xDistance), 0, Float(model.zDistance)]
         
@@ -132,13 +145,14 @@ class RealityARView: ARView {
         modelEntity.generateCollisionShapes(recursive: true)
         
         // adding the information bubbles
-        for i in 0..<model.numFacts {
+        for i in 0..<model.facts.count {
             var informationBubbleEntity = ModelEntity(mesh: MeshResource.generateSphere(radius: 15.0), materials: [SimpleMaterial(color: .red, isMetallic: true)])
             let relativeTransform = Transform(translation: [Float(i) + 1, Float(i) + 1, Float(i) + 1])
             informationBubbleEntity.transform = relativeTransform
             informationBubbleEntity.generateCollisionShapes(recursive: true) // adding collision boxes to each bubble
             informationBubbleEntity.name = "Fact " + String(i)
             modelEntity.addChild(informationBubbleEntity)
+            informationBubbles.append(informationBubbleEntity)
         }
         
         self.scene.addAnchor(anchor)
@@ -172,6 +186,51 @@ class RealityARView: ARView {
         }
         
         
+    }
+}
+
+class TextBoxEntity: Entity {
+    init(text: String, boxWidth: CGFloat, boxHeight: CGFloat) {
+        super.init()
+
+
+        // Create a plane for the background
+        let boardWidth: CGFloat = boxWidth
+        let boardHeight: CGFloat = boxHeight
+        let textWidth: CGFloat = boardWidth - 0.02
+        let textHeight: CGFloat = boardHeight - 0.02
+
+        let boardEntity = ModelEntity(
+            mesh: .generatePlane(width: Float(boardWidth), height: Float(boardHeight), cornerRadius: 0.01),
+            materials: [SimpleMaterial(
+                color: .white,
+                isMetallic: false)
+            ]
+        )
+        self.addChild(boardEntity)
+
+        let textYPosition = -(Float(boardHeight) / 2.0) + 0.01
+        let textXPosition = -(Float(boardWidth) / 2.0) + 0.01
+
+        let textContainerFrame = CGRect(x: CGFloat(textXPosition), y: CGFloat(textYPosition), width: textWidth, height: textHeight)
+
+        // Create an entity for the text
+        let textEntityMesh = MeshResource.generateText(
+            text,
+            extrusionDepth: 0.004,
+            font: .systemFont(ofSize: 0.017, weight: .bold),
+            containerFrame: textContainerFrame,
+            alignment: .center,
+            lineBreakMode: .byWordWrapping
+        )
+
+        let textEntity = ModelEntity(mesh: textEntityMesh, materials: [SimpleMaterial(color: .black, isMetallic: false)])
+        self.addChild(textEntity)
+
+    }
+
+    required init() {
+        fatalError("init() has not been implemented")
     }
 }
 
