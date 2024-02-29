@@ -44,17 +44,19 @@ struct WordGuessingView: View {
                             if (!game.options[index].isFlipped) {
                                 Text("")
                                     .foregroundColor(.black)
-                                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50)
+                                    .frame(width: 336 - CGFloat((23 * index)), height: 51)
                                     .background(colors[index % colors.count])
                                     .cornerRadius(10)
                                     .padding(.horizontal)
+                                    .padding(.bottom, 10)
                             } else {
                                 Text(game.options[index].option)
                                     .foregroundColor(.black)
-                                    .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50)
+                                    .frame(width: 336 - CGFloat((23 * index)), height: 51)
                                     .background(colors[index % colors.count])
                                     .cornerRadius(10)
                                     .padding(.horizontal)
+                                    .padding(.bottom, 10)
                             }
                         }
                     }
