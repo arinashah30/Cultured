@@ -50,7 +50,7 @@ struct WordGuessingView: View {
                                 Text(game.options[index].option)
                                     .foregroundColor(.black)
                                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50)
-                                    .background(colors[index % colors.count])
+                                    .background(.green)
                                     .cornerRadius(10)
                                     .padding(.horizontal)
                             }
@@ -58,7 +58,6 @@ struct WordGuessingView: View {
                     }
                     .padding()
                 }
-
                 
                 HStack {
                     Spacer(minLength: 20)
@@ -74,10 +73,9 @@ struct WordGuessingView: View {
                     }
                     .foregroundColor(.black)
                     .frame(minWidth: 0, maxWidth: 71, minHeight: 45)
-                    .background(.yellow)
+                    .background(Color("EnterButtonColor"))
                     .cornerRadius(10)
                     Spacer(minLength: 20)
-
                 }
                 Spacer()
 
