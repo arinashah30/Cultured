@@ -18,6 +18,7 @@
 		480F22082B7C1F9C00CB5632 /* WordGuessingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F22072B7C1F9C00CB5632 /* WordGuessingViewModel.swift */; };
 		480F220A2B7C1FA900CB5632 /* ConnectionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F22092B7C1FA900CB5632 /* ConnectionsViewModel.swift */; };
 		663062F52B7BFD3500702E04 /* ARLandmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663062F42B7BFD3500702E04 /* ARLandmark.swift */; };
+		665997482B90EDCD00247314 /* TextBoxEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665997472B90EDCD00247314 /* TextBoxEntity.swift */; };
 		6690A2C62B8D74E7002C33C5 /* ARVideoPortalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6690A2C52B8D74E7002C33C5 /* ARVideoPortalView.swift */; };
 		6690A2CB2B8D7A2A002C33C5 /* SphereSpace.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 6690A2C92B8D7A2A002C33C5 /* SphereSpace.usdz */; };
 		6690A2CC2B8D7A2A002C33C5 /* tower_bridge.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 6690A2CA2B8D7A2A002C33C5 /* tower_bridge.mp4 */; };
@@ -88,6 +89,7 @@
 		480F22072B7C1F9C00CB5632 /* WordGuessingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGuessingViewModel.swift; sourceTree = "<group>"; };
 		480F22092B7C1FA900CB5632 /* ConnectionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsViewModel.swift; sourceTree = "<group>"; };
 		663062F42B7BFD3500702E04 /* ARLandmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARLandmark.swift; sourceTree = "<group>"; };
+		665997472B90EDCD00247314 /* TextBoxEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBoxEntity.swift; sourceTree = "<group>"; };
 		6690A2C52B8D74E7002C33C5 /* ARVideoPortalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ARVideoPortalView.swift; sourceTree = "<group>"; };
 		6690A2C92B8D7A2A002C33C5 /* SphereSpace.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = SphereSpace.usdz; sourceTree = "<group>"; };
 		6690A2CA2B8D7A2A002C33C5 /* tower_bridge.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = tower_bridge.mp4; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 				66FB6A1C2B72A2C40066B826 /* Modules */,
 				66FB69C82B72A06D0066B826 /* TourView.swift */,
 				66FE49422B7571610053D229 /* 3DModelView.swift */,
+				665997472B90EDCD00247314 /* TextBoxEntity.swift */,
 				6690A2C52B8D74E7002C33C5 /* ARVideoPortalView.swift */,
 				66FB69F82B72A1060066B826 /* Activity */,
 				66FB69FD2B72A1280066B826 /* HomeView.swift */,
@@ -485,6 +488,7 @@
 				480F21F72B7596BA00CB5632 /* QuizQuestion.swift in Sources */,
 				480F22022B7C19F900CB5632 /* WordGuessingResultsView.swift in Sources */,
 				66FB69D82B72A08F0066B826 /* ViewModel.swift in Sources */,
+				665997482B90EDCD00247314 /* TextBoxEntity.swift in Sources */,
 				480F21F52B75969500CB5632 /* Quiz.swift in Sources */,
 				66FB6A132B72A2150066B826 /* StartConnectionsView.swift in Sources */,
 				66FB6A0E2B72A1830066B826 /* ResultsView.swift in Sources */,

@@ -10,11 +10,11 @@ import RealityKit
 import ARKit
 
 let landmarks: [ARLandmark] = [
-    ARLandmark(modelName: "Eiffel_Tower", color: .gray, scale: 0.025, isMetallic: true, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."]),
-    ARLandmark(modelName: "Pisa_Tower", color: UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0), scale: 0.1, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."]),
-    ARLandmark(modelName: "Burj_Khalifa", color: nil, scale: 0.06, isMetallic: true, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."]),
-    ARLandmark(modelName: "Taj_Mahal", color: nil, scale: 0.02, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."]),
-    ARLandmark(modelName: "Chichen_Itza", color: nil, scale: 0.02, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."])
+    ARLandmark(modelName: "Eiffel_Tower", color: .gray, scale: 0.025, isMetallic: true, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], video: "tower_bridge"),
+    ARLandmark(modelName: "Pisa_Tower", color: UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0), scale: 0.1, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], video: "tower_bridge"),
+    ARLandmark(modelName: "Burj_Khalifa", color: nil, scale: 0.06, isMetallic: true, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], video: "tower_bridge"),
+    ARLandmark(modelName: "Taj_Mahal", color: nil, scale: 0.02, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], video: "tower_bridge"),
+    ARLandmark(modelName: "Chichen_Itza", color: nil, scale: 0.02, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], video: "tower_bridge")
 ]
 
 
@@ -30,7 +30,7 @@ struct _DModelView : View {
 
         if (!videoShown) {
             ZStack{
-                RealityViewContainer(model: landmarks[selection], showPortalFunc: showARVideoPortal).edgesIgnoringSafeArea(.all)
+                LandmarkViewContainer(model: landmarks[selection], videoShown: $videoShown).edgesIgnoringSafeArea(.all)
                 VStack {
                     Spacer() // Pushes the VStack to the top
                     Picker("Select a Country", selection: $selection) {
@@ -49,38 +49,33 @@ struct _DModelView : View {
                 }
             }
         } else {
-            ARVideoPortalView()
+            ARVideoPortalView(model: landmarks[selection], videoShown: $videoShown)
         }
         
-        
-        
     }
     
-    func showARVideoPortal() {
-        videoShown.toggle()
-    }
 }
 
-struct RealityViewContainer: UIViewRepresentable {
+struct LandmarkViewContainer: UIViewRepresentable {
     
     var model: ARLandmark
-    var showPortalFunc: () -> ()
+    @Binding var videoShown: Bool
     
     
     
-    func updateUIView(_ uiView: RealityARView, context: Context) { 
+    func updateUIView(_ uiView: LandmarkARView, context: Context) {
         uiView.updateModel(model)
     }
     
-    func makeUIView(context: Context) -> RealityARView {
-        return RealityARView(model: model, showPortalFunc: showPortalFunc)
+    func makeUIView(context: Context) -> LandmarkARView {
+        return LandmarkARView(model: model, videoShown: $videoShown)
     }
     
     
 }
 
 
-class RealityARView: ARView {
+class LandmarkARView: ARView {
     
     var model: ARLandmark {
         didSet {
@@ -90,10 +85,11 @@ class RealityARView: ARView {
     var showPortalFunc: (() -> ())?
     var informationBubbles: [ModelEntity] = []
     var informationTextBoxes: [Entity] = []
+    @Binding var videoShown: Bool
     
-    init(model: ARLandmark, showPortalFunc: @escaping () -> ()) {
+    init(model: ARLandmark, videoShown: Binding<Bool>) {
         self.model = model
-        self.showPortalFunc = showPortalFunc
+        _videoShown = videoShown
         super.init(frame: . zero)
     }
     
@@ -129,7 +125,7 @@ class RealityARView: ARView {
         let anchor = AnchorEntity(.plane(.horizontal, classification: .floor, minimumBounds: [0.5, 0.5]))
         
         for fact in model.facts {
-            var textbox = TextBoxEntity(text: fact, boxWidth: 0.3, boxHeight: 0.13)
+            let textbox = TextBoxEntity(text: fact, boxWidth: 0.3, boxHeight: 0.13)
             textbox.scale = [5,5,5]
             anchor.addChild(textbox)
             textbox.position = [Float(model.xDistance), 0, Float(-2)]
@@ -146,7 +142,7 @@ class RealityARView: ARView {
         
         // adding the information bubbles
         for i in 0..<model.facts.count {
-            var informationBubbleEntity = ModelEntity(mesh: MeshResource.generateSphere(radius: 15.0), materials: [SimpleMaterial(color: .red, isMetallic: true)])
+            let informationBubbleEntity = ModelEntity(mesh: MeshResource.generateSphere(radius: 15.0), materials: [SimpleMaterial(color: .red, isMetallic: true)])
             let relativeTransform = Transform(translation: [Float(i) + 1, Float(i) + 1, Float(i) + 1])
             informationBubbleEntity.transform = relativeTransform
             informationBubbleEntity.generateCollisionShapes(recursive: true) // adding collision boxes to each bubble
@@ -178,9 +174,7 @@ class RealityARView: ARView {
         print("Tap detected on - \(modelEntity.name)")
         // detect tap on main model
         if (modelEntity.name == model.modelName) {
-            if let showPortalFunc {
-                showPortalFunc()
-            }
+            videoShown = true
         } else if (modelEntity.name.prefix(4) == "Fact") {
             print("found a bubble")
         }
@@ -188,52 +182,6 @@ class RealityARView: ARView {
         
     }
 }
-
-class TextBoxEntity: Entity {
-    init(text: String, boxWidth: CGFloat, boxHeight: CGFloat) {
-        super.init()
-
-
-        // Create a plane for the background
-        let boardWidth: CGFloat = boxWidth
-        let boardHeight: CGFloat = boxHeight
-        let textWidth: CGFloat = boardWidth - 0.02
-        let textHeight: CGFloat = boardHeight - 0.02
-
-        let boardEntity = ModelEntity(
-            mesh: .generatePlane(width: Float(boardWidth), height: Float(boardHeight), cornerRadius: 0.01),
-            materials: [SimpleMaterial(
-                color: .white,
-                isMetallic: false)
-            ]
-        )
-        self.addChild(boardEntity)
-
-        let textYPosition = -(Float(boardHeight) / 2.0) + 0.01
-        let textXPosition = -(Float(boardWidth) / 2.0) + 0.01
-
-        let textContainerFrame = CGRect(x: CGFloat(textXPosition), y: CGFloat(textYPosition), width: textWidth, height: textHeight)
-
-        // Create an entity for the text
-        let textEntityMesh = MeshResource.generateText(
-            text,
-            extrusionDepth: 0.004,
-            font: .systemFont(ofSize: 0.017, weight: .bold),
-            containerFrame: textContainerFrame,
-            alignment: .center,
-            lineBreakMode: .byWordWrapping
-        )
-
-        let textEntity = ModelEntity(mesh: textEntityMesh, materials: [SimpleMaterial(color: .black, isMetallic: false)])
-        self.addChild(textEntity)
-
-    }
-
-    required init() {
-        fatalError("init() has not been implemented")
-    }
-}
-
 
 #Preview {
     _DModelView()

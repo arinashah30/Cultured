@@ -12,9 +12,10 @@ import RealityKit
 struct ARLandmark: Hashable {
     var modelName: String
     var color: UIColor? = nil
-    var zDistance: Int = -6
+    var zDistance: Int = -2
     var xDistance: Int = 0
     var scale: Float
     var isMetallic: Bool = false
     var facts: [String]
+    var video: String
 }
