@@ -10,7 +10,7 @@ import SwiftUI
 struct WordGuessingView: View {
     @ObservedObject var vm: WordGuessingViewModel
     @State private var currentGuess: String = ""
-    let colors: [Color] = [.red, .blue, .green, .orange, .yellow, .purple, .pink, .gray, .pink]
+    let colors: [Color] = [Color("Gradient1"), Color("Gradient2"), Color("Gradient3"), Color("Gradient4"), Color("Gradient5"), Color("Gradient6"), Color("Gradient6"), Color("Gradient6"), Color("Gradient6")]
         
     var body: some View {
         Spacer()
@@ -40,7 +40,7 @@ struct WordGuessingView: View {
                     VStack {
                         ForEach(game.options.indices, id: \.self) { index in
                             if (!game.options[index].isFlipped) {
-                                Text(game.options[index].option)
+                                Text("")
                                     .foregroundColor(.black)
                                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50)
                                     .background(colors[index % colors.count])
@@ -50,7 +50,7 @@ struct WordGuessingView: View {
                                 Text(game.options[index].option)
                                     .foregroundColor(.black)
                                     .frame(minWidth: 0, maxWidth: .infinity, minHeight: 50)
-                                    .background(.green)
+                                    .background(colors[index % colors.count])
                                     .cornerRadius(10)
                                     .padding(.horizontal)
                             }
