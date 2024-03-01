@@ -193,36 +193,41 @@ class ViewModel: ObservableObject {
             }
         }
     func createNewQuiz(quiz: Quiz) {
-
-            db.collection("GAMES").document(quiz.title).setData(
-
-                ["title": quiz.title,
-
-                 "pointsGoal": quiz.pointsGoal,
-
-                 "points": quiz.points
-
+        db.collection("GAMES").document(quiz.title).setData(
+            ["title": quiz.title,
+                "pointsGoal": quiz.pointsGoal,
+                "points": quiz.points
+            ])
+        let quizQuestions = quiz.questions
+        let quizRef = db.collection("GAMES").document(quiz.title)
+        for question in quizQuestions {
+            quizRef.collection("QUESTIONS").document(question.question).setData(
+                ["question": question.question,
+                "answerChoices": question.answers,
+                "correctAnswer": String(question.correctAnswer),
+                "correctAnswerDescription": question.correctAnswerDescription,
                 ])
-
-            let quizQuestions = quiz.questions
-
-            let quizRef = db.collection("GAMES").document(quiz.title)
-
-            for question in quizQuestions {
-
-                quizRef.collection("QUESTIONS").document(question.question).setData(
-
-                    ["question": question.question,
-
-                     "answerChoices": question.answers,
-
-                     "correctAnswer": String(question.correctAnswer),
-
-                     "correctAnswerDescription": question.correctAnswerDescription,
-
-                    ])
-
-            }
-
+        }
+    }
+    func createNewConnections(connection: Connections) {
+        db.collection("GAMES").document(connection.title).setData(
+            ["title": connection.title,
+             //these are arrays of strings
+             "categories": connection.categories,
+             "options": connection.options,
+             "answerKey": connection.answerKey,
+             
+             "points": connection.points,
+             "attempts": connection.attempts,
+            ])
+    }
+    func createNewWordGuessing(wordGuessing: WordGuessing) {
+        db.collection("GAMES").document(wordGuessing.title).setData(
+            ["title": wordGuessing.title,
+             "options": wordGuessing.options,
+             "answer": wordGuessing.answer,
+             "totalPoints": wordGuessing.totalPoints,
+             "flipPoints": wordGuessing.flipPoints,
+            ])
     }
 }
