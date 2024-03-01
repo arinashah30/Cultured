@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+
 struct QuestionFailView: View {
     @ObservedObject var vm: QuizViewModel
 //    @State private var selectedCategory:String = ""
@@ -55,8 +56,8 @@ struct QuestionFailView: View {
             VStack{
                     VStack(alignment: .leading) {
                         Text("Quiz")
-                            .font(.system(size: 32))
                             .foregroundColor(colorRed)
+                            .font(Font.custom("Quicksand-semibold",size: 32))
                         HStack{
                             Text("India-Music")
                                 .font(.system(size: 16))
@@ -69,14 +70,16 @@ struct QuestionFailView: View {
                         }
                        
                         
-                        ProgressView(value: progress, total: 1.0)
-                                    .progressViewStyle(LinearProgressViewStyle(tint: Color.red))
-                                    .frame(height: 19)
+//                        ProgressView(value: progress, total: 1.0)
+//                                    .progressViewStyle(LinearProgressViewStyle(tint: Color.red))
+//                                    .frame(height: 19)
+                        ProgressBar(progress: progress, height:5)
+                            .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
                         Text("Incorrect Answer!")
                             .foregroundColor(colorRed)
-                            .font(.system(size:24))
+                            .font(Font.custom("Quicksand-semibold",size: 24))
                         Text("Correct Answer: \(correctAnswer)")
-                            .font(.system(size: 16))
+                            .font(Font.custom("Quicksand-medium",size: 16))
                             .foregroundColor(Color(red: 64/255, green: 64/255, blue: 64/255))
                         Text("The ‘Ravanahatha’ is musical instrument believed to have originated among the ‘Hela.’")
                             .padding(.vertical, 20).font(.system(size: 18))

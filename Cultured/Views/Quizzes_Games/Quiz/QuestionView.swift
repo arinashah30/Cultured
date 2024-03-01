@@ -43,8 +43,9 @@ struct QuestionView: View {
             VStack{
                     VStack(alignment: .leading) {
                         Text("Quiz")
-                            .font(.system(size: 32))
+                            .font(Font.custom("Quicksand-semibold",size: 32))
                             .foregroundColor(colorRed)
+                            
                         HStack{
                             Text("India-Music")
                                 .font(.system(size: 16))
@@ -57,9 +58,11 @@ struct QuestionView: View {
                         }
                        
                         
-                        ProgressView(value: progress, total: 1.0)
-                                    .progressViewStyle(LinearProgressViewStyle(tint: Color.red))
-                                    .frame(height: 20) 
+//                        ProgressView(value: progress, total: 1.0)
+//                                    .progressViewStyle(LinearProgressViewStyle(tint: Color.red))
+//                                    .frame(height: 20) 
+                        ProgressBar(progress: progress, height:5)
+                            .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
                         
                         Text("This bow and string instrument is usually made by the player itself. It is an important folk music instrument of Rajasthan made up of bamboo and coconut shell. It’s strings are made up of horsehair.")
                             .padding(.vertical, 20).font(.system(size: 20))
