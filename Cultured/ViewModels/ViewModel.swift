@@ -191,5 +191,17 @@ class ViewModel: ObservableObject {
                     completion(false)
                 }
             }
-        }    
+    }
+    
+    func addOnGoingQuiz(userID: String, country: String, titleOfActivity: String, completion: @escaping(Bool) -> Void) {
+        db.collection("USERS").document(userID).collection("ACTIVITIES").document("\(country)\(titleOfActivity)").setData(
+            ["completed": false,
+
+             "current": "",
+
+             "history": [],
+             
+             "score": 0,
+            ])
+    }
 }
