@@ -48,7 +48,7 @@ class ViewModel: ObservableObject {
                      "name" : displayName,
                      "profilePicture" : "https://static-00.iconduck.com/assets.00/person-crop-circle-icon-256x256-02mzjh1k.png", // default icon
                      "email" : email,
-                     "points" : "0", //points is a string and we can cast it to an int when we use it
+                     "points" : 0, //points is a string and we can cast it to an int when we use it
                      "badges" : [],
                      "bio" : "",
                      "friends" : [],
@@ -72,11 +72,9 @@ class ViewModel: ObservableObject {
             } else {
                 if let doc = document {
                     if let data = doc.data() {
-                        let points = data["points"] as? String
-                        let unwrappedPoints = Int(points ?? "0")
-                        let totalPoints = (unwrappedPoints ?? 0) + pointToAdd
-                        let totalPointsString = String(totalPoints)
-                        db.collection("USERS").document(userID).updateData(["points": totalPointsString])  { error in
+                        let points = data["points"] as? Int
+                        let totalPoints = (points ?? 0) + pointToAdd
+                        db.collection("USERS").document(userID).updateData(["points": totalPoints])  { error in
                             if let error = error {
                                 print("Error updating document: \(error.localizedDescription)")
                                 completion(false)
@@ -98,8 +96,8 @@ class ViewModel: ObservableObject {
         }
     }
 
- func getPts(userID: String, completion: @escaping (Int) -> Void) {
-        self.db.collection("USERS").document(userID).getDocument { document, error in                
+    func getPts(userID: String, completion: @escaping (Int) -> Void) {
+        self.db.collection("USERS").document(userID).getDocument { document, error in
             if let err = error {
                 print(err.localizedDescription)
                 return
@@ -107,9 +105,8 @@ class ViewModel: ObservableObject {
                 if let doc = document {
                     if let data = doc.data() {
                         print(data)
-                        let points = data["points"] as? String
-                        let intPoints = Int(points ?? "0")
-                        completion(intPoints ?? 0)
+                        let points = data["points"] as? Int
+                        completion(points ?? 0)
                     }
                 }
             }
@@ -191,6 +188,23 @@ class ViewModel: ObservableObject {
                     completion(false)
                 }
             }
+        }
+    func createNewQuiz(quiz: Quiz) {
+        db.collection("GAMES").document(quiz.title).setData(
+            ["title": quiz.title,
+                "pointsGoal": quiz.pointsGoal,
+                "points": quiz.points
+            ])
+        let quizQuestions = quiz.questions
+        let quizRef = db.collection("GAMES").document(quiz.title)
+        for question in quizQuestions {
+            quizRef.collection("QUESTIONS").document(question.question).setData(
+                ["question": question.question,
+                "answerChoices": question.answers,
+                "correctAnswer": String(question.correctAnswer),
+                "correctAnswerDescription": question.correctAnswerDescription,
+                ])
+        }
     }
     
     func addOnGoingQuiz(userID: String, country: String, titleOfActivity: String, completion: @escaping(Bool) -> Void) {
