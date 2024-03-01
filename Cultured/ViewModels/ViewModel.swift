@@ -280,9 +280,93 @@ class ViewModel: ObservableObject {
                 return
             }
             
-            let actCollection = document.reference.collection("Activities")
+            let actCollection = document.reference.collection("ACTIVITIES")
             
             actCollection.document(activity).updateData(["score": newScore]){ err in
+                if let err = err {
+                    print("Error updating document: \(err.localizedDescription)")
+                    completion(false)
+                } else {
+                    // Document updated successfully
+                    completion(true)
+                }
+            }
+        }
+    }
+    
+    func updateCompleted(userID: String, activity: String, completed: Bool, completion: @escaping (Bool) -> Void) {
+        self.db.collection("USERS").document(userID).getDocument { document, error in
+            if let err = error {
+                print(err.localizedDescription)
+                completion(false)
+                return
+            }
+            
+            guard let document = document, document.exists else {
+                print("no doc")
+                completion(false)
+                return
+            }
+            
+            let actCollection = document.reference.collection("ACTIVITIES")
+            
+            actCollection.document(activity).updateData(["completed": completed]){ err in
+                if let err = err {
+                    print("Error updating document: \(err.localizedDescription)")
+                    completion(false)
+                } else {
+                    // Document updated successfully
+                    completion(true)
+                }
+            }
+        }
+    }
+    
+    func updateHistory(userID: String, activity: String, history: [String], completion: @escaping (Bool) -> Void) {
+        self.db.collection("USERS").document(userID).getDocument { document, error in
+            if let err = error {
+                print(err.localizedDescription)
+                completion(false)
+                return
+            }
+            
+            guard let document = document, document.exists else {
+                print("no doc")
+                completion(false)
+                return
+            }
+            
+            let actCollection = document.reference.collection("ACTIVITIES")
+            
+            actCollection.document(activity).updateData(["history": history]){ err in
+                if let err = err {
+                    print("Error updating document: \(err.localizedDescription)")
+                    completion(false)
+                } else {
+                    // Document updated successfully
+                    completion(true)
+                }
+            }
+        }
+    }
+    
+    func updateCurrent(userID: String, activity: String, current: String, completion: @escaping (Bool) -> Void) {
+        self.db.collection("USERS").document(userID).getDocument { document, error in
+            if let err = error {
+                print(err.localizedDescription)
+                completion(false)
+                return
+            }
+            
+            guard let document = document, document.exists else {
+                print("no doc")
+                completion(false)
+                return
+            }
+            
+            let actCollection = document.reference.collection("ACTIVITIES")
+            
+            actCollection.document(activity).updateData(["current": current]){ err in
                 if let err = err {
                     print("Error updating document: \(err.localizedDescription)")
                     completion(false)
