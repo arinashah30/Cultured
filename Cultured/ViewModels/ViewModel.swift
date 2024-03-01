@@ -191,5 +191,15 @@ class ViewModel: ObservableObject {
                     completion(false)
                 }
             }
-        }    
+        }   
+    
+    func updateLastLoggedOn(userID: String) {
+        let date = Date()
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd-MM-yyyy HH:mm"
+        let dateInFormat = dateFormatter.string(from: date)
+        
+        self.db.collection("USERS").document(userID).updateData(["lastLoggedOn": dateInFormat])
+    }
 }
