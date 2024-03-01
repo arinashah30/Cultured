@@ -14,7 +14,8 @@ let landmarks: [ARLandmark] = [
     ARLandmark(modelName: "Pisa_Tower", color: UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0), scale: 0.1, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], video: "tower_bridge"),
     ARLandmark(modelName: "Burj_Khalifa", color: nil, scale: 0.06, isMetallic: true, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], video: "tower_bridge"),
     ARLandmark(modelName: "Taj_Mahal", color: nil, scale: 0.02, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], video: "tower_bridge"),
-    ARLandmark(modelName: "Chichen_Itza", color: nil, scale: 0.02, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], video: "tower_bridge")
+    ARLandmark(modelName: "Chichen_Itza", color: nil, scale: 0.02, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], video: "tower_bridge"),
+    ARLandmark(modelName: "Colosseum_Rome_Italy", color: nil, zDistance: -200, scale: 0.5, isMetallic: false, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], video: "tower_bridge")
 ]
 
 

@@ -17,6 +17,7 @@
 		480F22062B7C1F9000CB5632 /* QuizViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F22052B7C1F9000CB5632 /* QuizViewModel.swift */; };
 		480F22082B7C1F9C00CB5632 /* WordGuessingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F22072B7C1F9C00CB5632 /* WordGuessingViewModel.swift */; };
 		480F220A2B7C1FA900CB5632 /* ConnectionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F22092B7C1FA900CB5632 /* ConnectionsViewModel.swift */; };
+		4821535E2B914F91000C02FB /* Colosseum_Rome_Italy.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 4821535D2B914F91000C02FB /* Colosseum_Rome_Italy.usdz */; };
 		663062F52B7BFD3500702E04 /* ARLandmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663062F42B7BFD3500702E04 /* ARLandmark.swift */; };
 		665997482B90EDCD00247314 /* TextBoxEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665997472B90EDCD00247314 /* TextBoxEntity.swift */; };
 		6690A2C62B8D74E7002C33C5 /* ARVideoPortalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6690A2C52B8D74E7002C33C5 /* ARVideoPortalView.swift */; };
@@ -68,7 +69,6 @@
 		66FB6A272B72A4F00066B826 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 66FB6A262B72A4F00066B826 /* FirebaseFirestore */; };
 		66FB6A292B72A5020066B826 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 66FB6A282B72A5020066B826 /* FirebaseStorage */; };
 		66FE49432B7571610053D229 /* 3DModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FE49422B7571610053D229 /* 3DModelView.swift */; };
-		66FE49452B75773A0053D229 /* Dice.imported.usdc in Resources */ = {isa = PBXBuildFile; fileRef = 66FE49442B7577390053D229 /* Dice.imported.usdc */; };
 		7C1B20F32B7BFF41008E0244 /* UIColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1B20F22B7BFF41008E0244 /* UIColors.swift */; };
 		7C1B20FE2B7C00A0008E0244 /* Quicksand-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B20F92B7C00A0008E0244 /* Quicksand-Bold.ttf */; };
 		7C1B20FF2B7C00A0008E0244 /* Quicksand-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B20FA2B7C00A0008E0244 /* Quicksand-Medium.ttf */; };
@@ -88,6 +88,7 @@
 		480F22052B7C1F9000CB5632 /* QuizViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizViewModel.swift; sourceTree = "<group>"; };
 		480F22072B7C1F9C00CB5632 /* WordGuessingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGuessingViewModel.swift; sourceTree = "<group>"; };
 		480F22092B7C1FA900CB5632 /* ConnectionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsViewModel.swift; sourceTree = "<group>"; };
+		4821535D2B914F91000C02FB /* Colosseum_Rome_Italy.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; name = Colosseum_Rome_Italy.usdz; path = ../../../../Downloads/Colosseum_Rome_Italy.usdz; sourceTree = "<group>"; };
 		663062F42B7BFD3500702E04 /* ARLandmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARLandmark.swift; sourceTree = "<group>"; };
 		665997472B90EDCD00247314 /* TextBoxEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBoxEntity.swift; sourceTree = "<group>"; };
 		6690A2C52B8D74E7002C33C5 /* ARVideoPortalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ARVideoPortalView.swift; sourceTree = "<group>"; };
@@ -126,7 +127,6 @@
 		66FB6A1F2B72A2F00066B826 /* TraditionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraditionsView.swift; sourceTree = "<group>"; };
 		66FB6A212B72A2FD0066B826 /* HolidaysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolidaysView.swift; sourceTree = "<group>"; };
 		66FE49422B7571610053D229 /* 3DModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 3DModelView.swift; sourceTree = "<group>"; };
-		66FE49442B7577390053D229 /* Dice.imported.usdc */ = {isa = PBXFileReference; lastKnownFileType = file; name = Dice.imported.usdc; path = ../../../../Downloads/Dice.imported.usdc; sourceTree = "<group>"; };
 		7C1B20F22B7BFF41008E0244 /* UIColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColors.swift; sourceTree = "<group>"; };
 		7C1B20F62B7C002C008E0244 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		7C1B20F92B7C00A0008E0244 /* Quicksand-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Bold.ttf"; sourceTree = "<group>"; };
@@ -198,7 +198,7 @@
 				6690A2CF2B8D7AC7002C33C5 /* Pisa_Tower.usdz */,
 				6690A2CD2B8D7AC7002C33C5 /* Taj_Mahal.usdz */,
 				6690A2CA2B8D7A2A002C33C5 /* tower_bridge.mp4 */,
-				66FE49442B7577390053D229 /* Dice.imported.usdc */,
+				4821535D2B914F91000C02FB /* Colosseum_Rome_Italy.usdz */,
 				7C1B20F62B7C002C008E0244 /* Info.plist */,
 				66FB69C62B72A06D0066B826 /* AppDelegate.swift */,
 				66FB69D62B72A0800066B826 /* Views */,
@@ -447,12 +447,12 @@
 				6690A2D32B8D7AC7002C33C5 /* Pisa_Tower.usdz in Resources */,
 				66FB69CE2B72A06E0066B826 /* Preview Assets.xcassets in Resources */,
 				6690A2CB2B8D7A2A002C33C5 /* SphereSpace.usdz in Resources */,
-				66FE49452B75773A0053D229 /* Dice.imported.usdc in Resources */,
 				7C1B20FF2B7C00A0008E0244 /* Quicksand-Medium.ttf in Resources */,
 				7C1B20FE2B7C00A0008E0244 /* Quicksand-Bold.ttf in Resources */,
 				7C1B21022B7C00A0008E0244 /* Quicksand-Light.ttf in Resources */,
 				7C1B21012B7C00A0008E0244 /* Quicksand-SemiBold.ttf in Resources */,
 				6690A2D12B8D7AC7002C33C5 /* Taj_Mahal.usdz in Resources */,
+				4821535E2B914F91000C02FB /* Colosseum_Rome_Italy.usdz in Resources */,
 				6690A2CC2B8D7A2A002C33C5 /* tower_bridge.mp4 in Resources */,
 				6690A2D22B8D7AC7002C33C5 /* Chichen_Itza.usdz in Resources */,
 				6690A2D42B8D7AC7002C33C5 /* Burj_Khalifa.usdz in Resources */,
@@ -641,7 +641,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Cultured/Preview Content\"";
-				DEVELOPMENT_TEAM = W25VYB4Y9F;
+				DEVELOPMENT_TEAM = 3KPBV7865L;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Augmented Reality";
@@ -656,7 +656,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ArinaShah.Cultured;
+				PRODUCT_BUNDLE_IDENTIFIER = "Shaunak-Karnik.Cultured";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -672,7 +672,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Cultured/Preview Content\"";
-				DEVELOPMENT_TEAM = W25VYB4Y9F;
+				DEVELOPMENT_TEAM = 3KPBV7865L;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Cultured/Info.plist;
@@ -688,7 +688,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ArinaShah.Cultured;
+				PRODUCT_BUNDLE_IDENTIFIER = "Shaunak-Karnik.Cultured";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
