@@ -218,4 +218,26 @@ class ViewModel: ObservableObject {
              "score": 0,
             ])
     }
+    
+    func createNewConnections(connection: Connections) {
+        db.collection("GAMES").document(connection.title).setData(
+            ["title": connection.title,
+             //these are arrays of strings
+             "categories": connection.categories,
+             "options": connection.options,
+             "answerKey": connection.answerKey,
+             
+             "points": connection.points,
+             "attempts": connection.attempts,
+            ])
+    }
+    func createNewWordGuessing(wordGuessing: WordGuessing) {
+        db.collection("GAMES").document(wordGuessing.title).setData(
+            ["title": wordGuessing.title,
+             "options": wordGuessing.options,
+             "answer": wordGuessing.answer,
+             "totalPoints": wordGuessing.totalPoints,
+             "flipPoints": wordGuessing.flipPoints,
+            ])
+    }
 }
