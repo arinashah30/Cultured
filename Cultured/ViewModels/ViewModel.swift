@@ -63,7 +63,7 @@ class ViewModel: ObservableObject {
             }
         }
     }
-        
+
     func update_points(userID: String, pointToAdd: Int, completion: @escaping (Bool) -> Void) {
         db.collection("USERS").document(userID).getDocument { [self] document, error in
             if let err = error {
@@ -128,81 +128,110 @@ class ViewModel: ObservableObject {
             }
         }
     }
+    
     func createNewCountry(countryName: String) {
         let countryRef = db.collection("COUNTRIES").document(countryName)
         countryRef.setData(["population": 5000])
         
         let modules = [
-                "MUSIC",
-                "CELEBRITIES",
-                "ETIQUETTE",
-                "FOOD",
-                "HOLIDAYS",
-                "LANDMARKS",
-                "MAJORCITIES",
-                "SPORTS",
-                "TRADITIONS",
-                "TVMOVIE"
-            ]
-
-            for module in modules {
-                // For each module, create a new document in the "MODULES" subcollection
-                countryRef.collection("MODULES").document(module).setData(["someData": "value"])
-            }
+            "MUSIC",
+            "CELEBRITIES",
+            "ETIQUETTE",
+            "FOOD",
+            "HOLIDAYS",
+            "LANDMARKS",
+            "MAJORCITIES",
+            "SPORTS",
+            "TRADITIONS",
+            "TVMOVIE"
+        ]
+        
+        for module in modules {
+            // For each module, create a new document in the "MODULES" subcollection
+            countryRef.collection("MODULES").document(module).setData(["someData": "value"])
+        }
         
     }
+
     func addBadges(userID: String, newBadge: String, completion: @escaping (Bool) -> Void) {
-            db.collection("USERS").document(userID).getDocument { [self] document, error in
-                if let err = error {
-                    print(err.localizedDescription)
-                    completion(false)
-                    return
+        db.collection("USERS").document(userID).getDocument { [self] document, error in
+            if let err = error {
+                print(err.localizedDescription)
+                completion(false)
+                return
+            }
+            
+            guard let doc = document else {
+                print("Not able to access the document")
+                completion(false)
+                return
+            }
+            
+            guard var data = doc.data() else {
+                print("Document has no data")
+                completion(false)
+                return
+            }
+            
+            if var badges = data["badges"] as? [String] {
+                badges.append(newBadge)
+                data["badges"] = badges
+                
+                db.collection("USERS").document(userID).updateData(["badges": badges]) { error in
+                    if let err = error {
+                        print(err.localizedDescription)
+                        completion(false)
+                    } else {
+                        completion(true)
+                    }
                 }
+            } else {
+                print("No existing badges found")
+                completion(false)
+            }
+        }
+    }
 
-                guard let doc = document else {
-                    print("Not able to access the document")
-                    completion(false)
-                    return
-                }
-
-                guard var data = doc.data() else {
-                    print("Document has no data")
-                    completion(false)
-                    return
-                }
-
-                if var badges = data["badges"] as? [String] {
-                    badges.append(newBadge)
-                    data["badges"] = badges
-
-                    db.collection("USERS").document(userID).updateData(["badges": badges]) { error in
-                        if let err = error {
-                            print(err.localizedDescription)
-                            completion(false)
+    func getInfoFromModule(countryName: String, moduleName: String, completion: @escaping (String) -> Void) {
+        self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document(moduleName).getDocument { document, error in
+            if let err = error {
+                print(err.localizedDescription)
+                return
+            } else {
+                if let doc = document {
+                    if let data = doc.data() {
+                        
+                        let info = data["someData"] as? String
+                        //                        print (info)
+                        if let unwrappedInfo = info {
+                            completion(unwrappedInfo)
                         } else {
-                            completion(true)
+                            completion("Could Not unwrap info. Could be not a string")
                         }
+                    } else {
+                        completion("Data for the document does not exist")
                     }
                 } else {
-                    print("No existing badges found")
-                    completion(false)
+                    completion("Document does not exist")
                 }
             }
         }
+    }
+
     func createNewQuiz(quiz: Quiz) {
         db.collection("GAMES").document(quiz.title).setData(
             ["title": quiz.title,
-                "pointsGoal": quiz.pointsGoal,
-                "points": quiz.points
+             "pointsGoal": quiz.pointsGoal,
+             "points": quiz.points
             ])
         let quizQuestions = quiz.questions
         let quizRef = db.collection("GAMES").document(quiz.title)
         for question in quizQuestions {
             quizRef.collection("QUESTIONS").document(question.question).setData(
                 ["question": question.question,
-                "answerChoices": question.answers,
-                "correctAnswer": String(question.correctAnswer),
-                "correctAnswerDescription": question.correctAnswerDescription,
+                 "answerChoices": question.answers,
+                 "correctAnswer": String(question.correctAnswer),
+                 "correctAnswerDescription": question.correctAnswerDescription,
                 ])
         }
     }
@@ -210,15 +239,15 @@ class ViewModel: ObservableObject {
     func addOnGoingQuiz(userID: String, country: String, titleOfActivity: String, completion: @escaping(Bool) -> Void) {
         db.collection("USERS").document(userID).collection("ACTIVITIES").document("\(country)\(titleOfActivity)").setData(
             ["completed": false,
-
+             
              "current": "",
-
+             
              "history": [],
              
              "score": 0,
             ])
     }
-    
+
     func createNewConnections(connection: Connections) {
         db.collection("GAMES").document(connection.title).setData(
             ["title": connection.title,
@@ -231,6 +260,7 @@ class ViewModel: ObservableObject {
              "attempts": connection.attempts,
             ])
     }
+
     func createNewWordGuessing(wordGuessing: WordGuessing) {
         db.collection("GAMES").document(wordGuessing.title).setData(
             ["title": wordGuessing.title,
