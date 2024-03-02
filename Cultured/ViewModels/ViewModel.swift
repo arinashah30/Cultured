@@ -63,7 +63,7 @@ class ViewModel: ObservableObject {
             }
         }
     }
-
+    
     func update_points(userID: String, pointToAdd: Int, completion: @escaping (Bool) -> Void) {
         db.collection("USERS").document(userID).getDocument { [self] document, error in
             if let err = error {
@@ -95,7 +95,7 @@ class ViewModel: ObservableObject {
             
         }
     }
-
+    
     func getPts(userID: String, completion: @escaping (Int) -> Void) {
         self.db.collection("USERS").document(userID).getDocument { document, error in
             if let err = error {
@@ -112,7 +112,7 @@ class ViewModel: ObservableObject {
             }
         }
     }
-
+    
     func getBadges(userID: String, completion: @escaping ([String]) -> Void) {
         self.db.collection("USERS").document(userID).getDocument { document, error in
             if let err = error {
@@ -152,7 +152,7 @@ class ViewModel: ObservableObject {
         }
         
     }
-
+    
     func addBadges(userID: String, newBadge: String, completion: @escaping (Bool) -> Void) {
         db.collection("USERS").document(userID).getDocument { [self] document, error in
             if let err = error {
@@ -191,7 +191,7 @@ class ViewModel: ObservableObject {
             }
         }
     }
-
+    
     func getInfoFromModule(countryName: String, moduleName: String, completion: @escaping (String) -> Void) {
         self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document(moduleName).getDocument { document, error in
             if let err = error {
@@ -215,8 +215,9 @@ class ViewModel: ObservableObject {
                     completion("Document does not exist")
                 }
             }
-
-        }   
+            
+        }
+    }
     
     func updateLastLoggedOn(userID: String) {
         let date = Date()
@@ -226,10 +227,10 @@ class ViewModel: ObservableObject {
         let dateInFormat = dateFormatter.string(from: date)
         
         self.db.collection("USERS").document(userID).updateData(["lastLoggedOn": dateInFormat])
-
-        }
+        
     }
-
+    
+    
     func createNewQuiz(quiz: Quiz) {
         db.collection("GAMES").document(quiz.title).setData(
             ["title": quiz.title,
@@ -259,7 +260,7 @@ class ViewModel: ObservableObject {
              "score": 0,
             ])
     }
-
+    
     func createNewConnections(connection: Connections) {
         db.collection("GAMES").document(connection.title).setData(
             ["title": connection.title,
@@ -272,7 +273,7 @@ class ViewModel: ObservableObject {
              "attempts": connection.attempts,
             ])
     }
-
+    
     func createNewWordGuessing(wordGuessing: WordGuessing) {
         db.collection("GAMES").document(wordGuessing.title).setData(
             ["title": wordGuessing.title,
