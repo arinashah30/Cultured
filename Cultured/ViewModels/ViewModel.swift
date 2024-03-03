@@ -27,7 +27,48 @@ class ViewModel: ObservableObject {
                 completion(true)
             }
             //doesn't handle the case where authResult is nil so write that in if needed
+            let db = Firestore.firestore()
+            let auth = Auth.auth()
         }
+    }
+            
+    func getInfoFromModule(country: String, module: String, completion: @escaping (String?) -> Void) {
+        db.collection("COUNTRIES").document(country).getDocument {(doc, error) in
+            if let err = error {
+                print(err.localizedDescription)
+                completion(nil)
+                return
+            }
+            
+            guard let document = doc, document.exists else {
+                print("no doc")
+                completion(nil)
+                return
+            }
+            
+            let modules = document.reference.collection("MODULES")
+            
+            modules.document(module).getDocument {(docu, e) in
+                if let e = e {
+                    print(e.localizedDescription)
+                    completion(nil)
+                    return
+                }
+                guard let modsdoc = docu, modsdoc.exists else {
+                    print("no doc")
+                    completion(nil)
+                    return
+                }
+                
+                let data: [String: Any]? = modsdoc.data()
+                
+                let moduleInfo: String? = data?[module] as? String
+                completion(moduleInfo)
+                
+            }
+            
+        }
+        
     }
     
     func firebase_email_password_sign_up_(email: String, password: String, username: String, displayName: String) {
@@ -95,6 +136,7 @@ class ViewModel: ObservableObject {
             
         }
     }
+
     
     func getPts(userID: String, completion: @escaping (Int) -> Void) {
         self.db.collection("USERS").document(userID).getDocument { document, error in
@@ -160,18 +202,17 @@ class ViewModel: ObservableObject {
                 completion(false)
                 return
             }
-            
             guard let doc = document else {
                 print("Not able to access the document")
                 completion(false)
                 return
             }
-            
             guard var data = doc.data() else {
                 print("Document has no data")
                 completion(false)
                 return
             }
+
             
             if var badges = data["badges"] as? [String] {
                 badges.append(newBadge)
@@ -211,13 +252,122 @@ class ViewModel: ObservableObject {
                     } else {
                         completion("Data for the document does not exist")
                     }
-                } else {
-                    completion("Document does not exist")
                 }
             }
+        }                                                                                                            
+    }
+    func updateScore(userID: String, activity: String, newScore: Int, completion: @escaping (Bool) -> Void) {
+        self.db.collection("USERS").document(userID).getDocument { document, error in
+            if let err = error {
+                print(err.localizedDescription)
+                completion(false)
+                return
+            }
             
+            guard let document = document, document.exists else {
+                print("no doc")
+                completion(false)
+                return
+            }
+            
+            let actCollection = document.reference.collection("ACTIVITIES")
+            
+            actCollection.document(activity).updateData(["score": newScore]){ err in
+                if let err = err {
+                    print("Error updating document: \(err.localizedDescription)")
+                    completion(false)
+                } else {
+                    // Document updated successfully
+                    completion(true)
+                }
+            }
         }
     }
+    
+    func updateCompleted(userID: String, activity: String, completed: Bool, completion: @escaping (Bool) -> Void) {
+        self.db.collection("USERS").document(userID).getDocument { document, error in
+            if let err = error {
+                print(err.localizedDescription)
+                completion(false)
+                return
+            }
+            
+            guard let document = document, document.exists else {
+                print("no doc")
+                completion(false)
+                return
+            }
+            
+            let actCollection = document.reference.collection("ACTIVITIES")
+            
+            actCollection.document(activity).updateData(["completed": completed]){ err in
+                if let err = err {
+                    print("Error updating document: \(err.localizedDescription)")
+                    completion(false)
+                } else {
+                    // Document updated successfully
+                    completion(true)
+                }
+            }
+        }
+    }
+    
+    func updateHistory(userID: String, activity: String, history: [String], completion: @escaping (Bool) -> Void) {
+        self.db.collection("USERS").document(userID).getDocument { document, error in
+            if let err = error {
+                print(err.localizedDescription)
+                completion(false)
+                return
+            }
+            
+            guard let document = document, document.exists else {
+                print("no doc")
+                completion(false)
+                return
+            }
+            
+            let actCollection = document.reference.collection("ACTIVITIES")
+            
+            actCollection.document(activity).updateData(["history": history]){ err in
+                if let err = err {
+                    print("Error updating document: \(err.localizedDescription)")
+                    completion(false)
+                } else {
+                    // Document updated successfully
+                    completion(true)
+                }
+            }
+        }
+    }
+    
+    func updateCurrent(userID: String, activity: String, current: String, completion: @escaping (Bool) -> Void) {
+        self.db.collection("USERS").document(userID).getDocument { document, error in
+            if let err = error {
+                print(err.localizedDescription)
+                completion(false)
+                return
+            }
+            
+            guard let document = document, document.exists else {
+                print("no doc")
+                completion(false)
+                return
+            }
+            
+            let actCollection = document.reference.collection("ACTIVITIES")
+            
+            actCollection.document(activity).updateData(["current": current]){ err in
+                if let err = err {
+                    print("Error updating document: \(err.localizedDescription)")
+                    completion(false)
+                } else {
+                    // Document updated successfully
+                    completion(true)
+                }
+            }
+        }
+    }
+
     
     func updateLastLoggedOn(userID: String) {
         let date = Date()
@@ -284,3 +434,4 @@ class ViewModel: ObservableObject {
             ])
     }
 }
+
