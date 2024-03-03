@@ -17,5 +17,7 @@ struct ARLandmark: Hashable {
     var scale: Float
     var isMetallic: Bool = false
     var facts: [String]
+    var textBoxWidths: [Float]
+    var textBoxHeights: [Float]
     var video: String
 }

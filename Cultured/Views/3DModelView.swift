@@ -10,11 +10,11 @@ import RealityKit
 import ARKit
 
 let landmarks: [ARLandmark] = [
-    ARLandmark(modelName: "Eiffel_Tower", color: .gray, scale: 0.025, isMetallic: true, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], video: "tower_bridge"),
-    ARLandmark(modelName: "Pisa_Tower", color: UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0), scale: 0.1, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], video: "tower_bridge"),
-    ARLandmark(modelName: "Burj_Khalifa", color: nil, scale: 0.06, isMetallic: true, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], video: "tower_bridge"),
-    ARLandmark(modelName: "Taj_Mahal", color: nil, scale: 0.02, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], video: "tower_bridge"),
-    ARLandmark(modelName: "Chichen_Itza", color: nil, scale: 0.02, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], video: "tower_bridge")
+    ARLandmark(modelName: "Eiffel_Tower", color: .gray, scale: 0.025, isMetallic: true, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], textBoxWidths: [0.3], textBoxHeights: [0.13], video: "tower_bridge"),
+    ARLandmark(modelName: "Pisa_Tower", color: UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0), scale: 0.1, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], textBoxWidths: [0.3], textBoxHeights: [0.13], video: "tower_bridge"),
+    ARLandmark(modelName: "Burj_Khalifa", color: nil, scale: 0.06, isMetallic: true, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], textBoxWidths: [0.3], textBoxHeights: [0.13], video: "tower_bridge"),
+    ARLandmark(modelName: "Taj_Mahal", color: nil, scale: 0.02, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], textBoxWidths: [0.3], textBoxHeights: [0.13], video: "tower_bridge"),
+    ARLandmark(modelName: "Chichen_Itza", color: nil, scale: 0.02, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], textBoxWidths: [0.3], textBoxHeights: [0.13], video: "tower_bridge")
 ]
 
 
@@ -124,8 +124,8 @@ class LandmarkARView: ARView {
         // addding the landmark to the view
         let anchor = AnchorEntity(.plane(.horizontal, classification: .floor, minimumBounds: [0.5, 0.5]))
         
-        for fact in model.facts {
-            let textbox = TextBoxEntity(text: fact, boxWidth: 0.3, boxHeight: 0.13)
+        for i in 0..<model.facts.count {
+            let textbox = TextBoxEntity(text: model.facts[i], boxWidth: CGFloat(model.textBoxWidths[i]), boxHeight: CGFloat(model.textBoxHeights[i]))
             textbox.scale = [5,5,5]
             anchor.addChild(textbox)
             textbox.position = [Float(model.xDistance), 0, Float(-2)]
@@ -152,9 +152,7 @@ class LandmarkARView: ARView {
         }
         
         self.scene.addAnchor(anchor)
-        
-        self.installGestures([.rotation, .translation, .scale], for: modelEntity as HasCollision)
-        
+                
         let handleTap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         self.addGestureRecognizer(handleTap) // calling the objc function
     }
@@ -176,7 +174,7 @@ class LandmarkARView: ARView {
         if (modelEntity.name == model.modelName) {
             videoShown = true
         } else if (modelEntity.name.prefix(4) == "Fact") {
-            print("found a bubble")
+            informationTextBoxes[Int(modelEntity.name.suffix(from: modelEntity.name.index(modelEntity.name.startIndex, offsetBy: 5)))!].isEnabled = !informationTextBoxes[Int(modelEntity.name.suffix(from: modelEntity.name.index(modelEntity.name.startIndex, offsetBy: 5)))!].isEnabled
         }
         
         
