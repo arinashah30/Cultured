@@ -29,78 +29,46 @@ class ViewModel: ObservableObject {
             //doesn't handle the case where authResult is nil so write that in if needed
             let db = Firestore.firestore()
             let auth = Auth.auth()
+        }
+    }
             
-            func getPts(userID: String, completion: @escaping (Int) -> Void) {
-                db.collection("USERS").document(userID).getDocument { document, error in
-                    if let err = error {
-                        print(err.localizedDescription)
-                        return
-                    } else {
-                        if let doc = document {
-                            if let data = doc.data() {
-                                let points = data["points"] as? Int
-                                completion(points!)
-                            }
-                        }
-                    }
-                }
+    func getInfoFromModule(country: String, module: String, completion: @escaping (String?) -> Void) {
+        db.collection("COUNTRIES").document(country).getDocument {(doc, error) in
+            if let err = error {
+                print(err.localizedDescription)
+                completion(nil)
+                return
             }
             
-            func getBadges(userID: String, completion: @escaping ([String]) -> Void) {
-                db.collection("USERS").document(userID).getDocument { document, error in
-                    if let err = error {
-                        print(err.localizedDescription)
-                        return
-                    } else {
-                        if let doc = document {
-                            if let data = doc.data() {
-                                let badges = data["badges"] as? [String]
-                                completion(badges!)
-                            }
-                        }
-                    }
-                }
+            guard let document = doc, document.exists else {
+                print("no doc")
+                completion(nil)
+                return
             }
             
-            func getInfoFromModule(country: String, module: String, completion: @escaping (String?) -> Void) {
-                db.collection("COUNTRIES").document(country).getDocument {(doc, error) in
-                    if let err = error {
-                        print(err.localizedDescription)
-                        completion(nil)
-                        return
-                    }
-                    
-                    guard let document = doc, document.exists else {
-                        print("no doc")
-                        completion(nil)
-                        return
-                    }
-                    
-                    let modules = document.reference.collection("MODULES")
-                    
-                    modules.document(module).getDocument {(docu, e) in
-                        if let e = e {
-                            print(e.localizedDescription)
-                            completion(nil)
-                            return
-                        }
-                        guard let modsdoc = docu, modsdoc.exists else {
-                            print("no doc")
-                            completion(nil)
-                            return
-                        }
-                        
-                        let data: [String: Any]? = modsdoc.data()
-                        
-                        let moduleInfo: String? = data?[module] as? String
-                        completion(moduleInfo)
-                        
-                    }
-                    
+            let modules = document.reference.collection("MODULES")
+            
+            modules.document(module).getDocument {(docu, e) in
+                if let e = e {
+                    print(e.localizedDescription)
+                    completion(nil)
+                    return
+                }
+                guard let modsdoc = docu, modsdoc.exists else {
+                    print("no doc")
+                    completion(nil)
+                    return
                 }
                 
+                let data: [String: Any]? = modsdoc.data()
+                
+                let moduleInfo: String? = data?[module] as? String
+                completion(moduleInfo)
+                
             }
+            
         }
+        
     }
     
     func firebase_email_password_sign_up_(email: String, password: String, username: String, displayName: String) {
@@ -171,7 +139,7 @@ class ViewModel: ObservableObject {
         }
     }
 
- func getPts(userID: String, completion: @escaping (Int) -> Void) {
+    func getPts(userID: String, completion: @escaping (Int) -> Void) {
         self.db.collection("USERS").document(userID).getDocument { document, error in                
             if let err = error {
                 print(err.localizedDescription)
@@ -228,44 +196,43 @@ class ViewModel: ObservableObject {
         
     }
     func addBadges(userID: String, newBadge: String, completion: @escaping (Bool) -> Void) {
-            db.collection("USERS").document(userID).getDocument { [self] document, error in
-                if let err = error {
-                    print(err.localizedDescription)
-                    completion(false)
-                    return
-                }
+        db.collection("USERS").document(userID).getDocument { [self] document, error in
+            if let err = error {
+                print(err.localizedDescription)
+                completion(false)
+                return
+            }
 
-                guard let doc = document else {
-                    print("Not able to access the document")
-                    completion(false)
-                    return
-                }
+            guard let doc = document else {
+                print("Not able to access the document")
+                completion(false)
+                return
+            }
 
-                guard var data = doc.data() else {
-                    print("Document has no data")
-                    completion(false)
-                    return
-                }
+            guard var data = doc.data() else {
+                print("Document has no data")
+                completion(false)
+                return
+            }
 
-                if var badges = data["badges"] as? [String] {
-                    badges.append(newBadge)
-                    data["badges"] = badges
+            if var badges = data["badges"] as? [String] {
+                badges.append(newBadge)
+                data["badges"] = badges
 
-                    db.collection("USERS").document(userID).updateData(["badges": badges]) { error in
-                        if let err = error {
-                            print(err.localizedDescription)
-                            completion(false)
-                        } else {
-                            completion(true)
-                        }
+                db.collection("USERS").document(userID).updateData(["badges": badges]) { error in
+                    if let err = error {
+                        print(err.localizedDescription)
+                        completion(false)
+                    } else {
+                        completion(true)
                     }
-                } else {
-                    print("No existing badges found")
-                    completion(false)
                 }
+            } else {
+                print("No existing badges found")
+                completion(false)
             }
         }
-    
+    }
     func updateScore(userID: String, activity: String, newScore: Int, completion: @escaping (Bool) -> Void) {
         self.db.collection("USERS").document(userID).getDocument { document, error in
             if let err = error {
