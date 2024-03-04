@@ -1,9 +1,19 @@
+//
+//  QuestionFailView.swift
+//  Cultured
+//
+//  Created by Hannah Huang on 2/29/24.
+//
+
+
 import SwiftUI
 
-struct QuestionView: View {
+
+struct QuestionFailView: View {
     @ObservedObject var vm: QuizViewModel
-    @State private var selectedCategory:String = ""
+//    @State private var selectedCategory:String = ""
     let categories = ["Ravanhatha", "Sitar", "Morchang", "Veena"]
+    
     
     let buttonColors: [Color] = [Color(red: 255/255, green: 164/255, blue: 164/255), Color(red: 255/255, green: 204/255, blue: 153/255), Color(red: 168/255, green: 220/255, blue: 168/255), Color(red: 179/255, green: 230/255, blue: 255/255)]
     let colorRed: Color = Color(red: 241/255, green: 72/255, blue: 72/255)
@@ -14,6 +24,9 @@ struct QuestionView: View {
     @State private var totalSteps = 10
     @State private var currentStep = 1
     @State private var progress = 0.1
+    
+    let correctAnswer="Ravanhatha"
+    let answer="Veena"
     
 
     var body: some View {
@@ -43,9 +56,8 @@ struct QuestionView: View {
             VStack{
                     VStack(alignment: .leading) {
                         Text("Quiz")
-                            .font(Font.custom("Quicksand-semibold",size: 32))
                             .foregroundColor(colorRed)
-                            
+                            .font(Font.custom("Quicksand-semibold",size: 32))
                         HStack{
                             Text("India-Music")
                                 .font(.system(size: 16))
@@ -58,21 +70,24 @@ struct QuestionView: View {
                         }
                        
                         
-                        ProgressView(value: progress, total: 1.0)
-                                    .progressViewStyle(LinearProgressViewStyle(tint: Color.red))
-                                    .frame(height: 20)
-                        //ProgressView(progress: progress, height:5)
-                        //    .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
-                        
-                        Text("This bow and string instrument is usually made by the player itself. It is an important folk music instrument of Rajasthan made up of bamboo and coconut shell. It’s strings are made up of horsehair.")
-                            .padding(.vertical, 20).font(.system(size: 20))
+//                        ProgressView(value: progress, total: 1.0)
+//                                    .progressViewStyle(LinearProgressViewStyle(tint: Color.red))
+//                                    .frame(height: 19)
+                        ProgressBar(progress: progress, height:5)
+                            .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
+                        Text("Incorrect Answer!")
+                            .foregroundColor(colorRed)
+                            .font(Font.custom("Quicksand-semibold",size: 24))
+                        Text("Correct Answer: \(correctAnswer)")
+                            .font(Font.custom("Quicksand-medium",size: 16))
+                            .foregroundColor(Color(red: 64/255, green: 64/255, blue: 64/255))
+                        Text("The ‘Ravanahatha’ is musical instrument believed to have originated among the ‘Hela.’")
+                            .padding(.vertical, 20).font(.system(size: 18))
                         
                         VStack(spacing: 16) {
                             HStack(spacing: 16) {
                                 ForEach(categories.prefix(2), id: \.self) { category in
-                                    Button(action: {
-                                        toggleCategorySelection(category)
-                                    }) {
+                                    Button(action: {}) {
                                         HStack {
                                             Text(category)
                                                 .padding().font(.system(size:20))
@@ -88,9 +103,7 @@ struct QuestionView: View {
                             
                             HStack(spacing: 16) {
                                 ForEach(categories.suffix(2), id: \.self) { category in
-                                    Button(action: {
-                                        toggleCategorySelection(category)
-                                    }) {
+                                    Button(action: {}) {
                                         HStack {
                                             Text(category)
                                                 .padding().font(.system(size:20))
@@ -109,8 +122,8 @@ struct QuestionView: View {
                     
                     Button(action: {
                     }) {
-                        Text("Submit")
-                            .foregroundColor(.red)
+                        Text("Next")
+                            .foregroundColor(colorRed)
                             .padding()
                             .background(Color.white)
                             .frame(width: buttonWidth, height: buttonHeight)
@@ -129,19 +142,23 @@ struct QuestionView: View {
 
         }
     
-    func toggleCategorySelection(_ category: String) {
-        selectedCategory=category
-    }
+//    func toggleCategorySelection(_ category: String) {
+//        selectedCategory=category
+//    }
     
     func buttonColor(category: String) -> Color {
-        if selectedCategory==category{
-            return Color(red: 178 / 255, green: 178 / 255, blue: 178 / 255)
-        }else{
+        if correctAnswer==category{
+            return Color(red: 84 / 255, green: 191 / 255, blue: 110 / 255)
+        }
+        else if answer==category{
+            return colorRed
+        }
+        else{
             return Color(#colorLiteral(red: 0.9254902005, green: 0.9254902005, blue: 0.9254902005, alpha: 1))
         }
     }
     func textColor(category: String)->Color{
-        if selectedCategory==category{
+        if answer==category || correctAnswer==category{
             return .white
         }else{
             return .black
@@ -152,7 +169,7 @@ struct QuestionView: View {
 
 
 #Preview {
-    QuestionView(vm: QuizViewModel())
+    QuestionFailView(vm: QuizViewModel())
 }
 
 
