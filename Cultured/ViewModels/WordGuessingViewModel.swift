@@ -102,3 +102,8 @@ class WordGuessingViewModel: ObservableObject {
  ordered hints
  win criteria - guessing the right word (lowercase for everything)
  */
+
+struct OptionTile {
+    var option: String
+    var isFlipped: Bool = false
+}
