@@ -9,6 +9,15 @@ import SwiftUI
 
 struct StartWordGuessingView: View {
     @ObservedObject var vm: ViewModel
+    @Environment(\.presentationMode) var presentationMode
+    @State private var selectedCategories: Set<String> = []
+    let categories = ["Pop Culture", "Food", "Customs", "Places"]
+    
+    let buttonColors: [Color] = [Color(red: 252/255, green: 179/255, blue: 179/255), Color(red: 255/255, green: 219/255, blue: 165/255), Color(red: 171/255, green: 232/255, blue: 186/255), Color(red: 153/255, green: 194/255, blue: 223/255)]
+    
+    let buttonWidth: CGFloat = 156
+    let buttonHeight: CGFloat = 57
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -16,20 +25,21 @@ struct StartWordGuessingView: View {
                     Image("WordGuessing")
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: 400, height: 470)
+                        .frame(width: 400, height: 470, alignment: .top)
+                
                     
                     Button {
-                        
+                        self.presentationMode.wrappedValue.dismiss()
                     } label: {
                         
                         ZStack {
                             Circle()
                                 .frame(width: 50, height: 50)
-                                .padding(.top, 50)
+                                .padding(.top, 150)
                                 .padding(.leading, 20)
                                 .foregroundColor(Color.white.opacity(0.8))
                             Image("Arrow")
-                                .padding(.top, 50)
+                                .padding(.top, 150)
                                 .padding(.leading, 18)
                         }
                         
@@ -121,11 +131,14 @@ struct StartWordGuessingView: View {
                         .clipShape(.rect(cornerRadius: 100.0))
                         .padding(.top, 15)
                         .padding(.leading, 85)
+                        //.padding(.bottom, 200)
                     }
                     .padding(.top, 30)
                     .padding(.leading, 35)
+                    //.frame(alignment: .center)
                 }
             }
+            .padding(.bottom, 200)
         }
         .navigationBarBackButtonHidden()
     }

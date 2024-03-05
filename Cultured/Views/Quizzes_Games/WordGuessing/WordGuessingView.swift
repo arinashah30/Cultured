@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct WordGuessingView: View {
+    @Environment(\.presentationMode) var presentationMode
     @ObservedObject var vm: WordGuessingViewModel
     @State private var currentGuess: String = ""
     
@@ -19,9 +20,9 @@ struct WordGuessingView: View {
             VStack {
                 if let game = vm.current_word_guessing_game {
                     HStack {
-                        NavigationLink(destination: {
-                            StartWordGuessingView(vm: ViewModel())
-                                    }, label: {
+                        Button {
+                            self.presentationMode.wrappedValue.dismiss()
+                        } label: {
                             ZStack {
                                 Circle()
                                     .frame(width: 50, height: 50)
@@ -32,7 +33,7 @@ struct WordGuessingView: View {
                                     .padding(.top, 5)
                                     .padding(.leading, 18)
                             }
-                        })
+                        }
                         .padding(.trailing, 300)
                     }
                     Spacer(minLength: 15)
@@ -102,7 +103,7 @@ struct WordGuessingView: View {
                                     .stroke(Color.gray, lineWidth: 2)
                             )
                         Button("Enter") {
-                            if currentGuess != "" {
+                            if currentGuess != "" && vm.current_word_guessing_game?.numberOfGuesses != 0 {
                                 vm.submitGuess(currentGuess)
                             }
                             currentGuess = ""
@@ -122,6 +123,7 @@ struct WordGuessingView: View {
             .onAppear {
                 vm.create_mock_wg_game()
             }
+            .navigationBarBackButtonHidden()
             .navigationBarBackButtonHidden()
         }
     }
