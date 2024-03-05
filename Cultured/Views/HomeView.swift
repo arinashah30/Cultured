@@ -199,6 +199,7 @@ struct HomeView: View {
                     NavigationLink {
                         PopCultureSectionView(vm: vm)
                             .navigationBarBackButtonHidden(true)
+                            .toolbar(.hidden, for: .tabBar)
                     } label: {
                         ZStack{
                             Image("PopCultureIcon")
@@ -217,6 +218,7 @@ struct HomeView: View {
                     NavigationLink{
                         FoodCategorySectionView(vm: vm)
                             .navigationBarBackButtonHidden(true)
+                            .toolbar(.hidden, for: .tabBar)
                     } label: {
                         ZStack{
                             Image("FoodIcon")
@@ -235,6 +237,7 @@ struct HomeView: View {
                     NavigationLink {
                         CustomsSectionView(vm:vm)
                             .navigationBarBackButtonHidden(true)
+                            .toolbar(.hidden, for: .tabBar)
                     } label: {
                         ZStack{
                             Image("CustomsIcon")
@@ -253,6 +256,7 @@ struct HomeView: View {
                     NavigationLink {
                         PlacesSectionView(vm:vm)
                             .navigationBarBackButtonHidden(true)
+                            .toolbar(.hidden, for: .tabBar)
                     } label: {
                         ZStack{
                             Image("Places")
