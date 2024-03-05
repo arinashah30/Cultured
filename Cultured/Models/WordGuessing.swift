@@ -9,8 +9,10 @@ import Foundation
 
 struct WordGuessing {
     var title: String
-    var options: [String]
+    var options: [OptionTile]
     var answer: String
-    var totalPoints: Int
-    var flipPoints: Int
+    var totalPoints: Int = 100
+    var flipPoints: Int = 10
+    var flipsDone: Int = 0
+    var numberOfGuesses: Int = 2
 }
