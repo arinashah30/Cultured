@@ -13,21 +13,19 @@ class WordGuessingViewModel: ObservableObject {
     @Published var guessesMade: [String] = []
     
     func create_mock_wg_game() {
-        print("creating a new game...")
         let options = [
-            OptionTile(option: "a"),
-            OptionTile(option: "b"),
-            OptionTile(option: "c"),
-            OptionTile(option: "d"),
-            OptionTile(option: "e"),
-            OptionTile(option: "f"),
-            OptionTile(option: "g"),
-            OptionTile(option: "h"),
-            OptionTile(option: "i")
+            OptionTile(option: "Edible"),
+            OptionTile(option: "Treat"),
+            OptionTile(option: "Chocolate"),
+            OptionTile(option: "Crumbs"),
+            OptionTile(option: "Cake"),
+            OptionTile(option: "Single-served"),
+            OptionTile(option: "Stick"),
+            OptionTile(option: "Ball"),
+            OptionTile(option: "Lollipop")
         ]
-        let answer = "j"
+        let answer = "Cakepop"
         startNewGame(options: options, answer: answer)
-        print("new game created successfully!")
     }
     
     func startNewGame(options: [OptionTile], answer: String, title: String = "Guess the Word") {

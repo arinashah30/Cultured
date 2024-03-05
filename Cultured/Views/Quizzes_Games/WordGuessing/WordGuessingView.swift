@@ -20,7 +20,7 @@ struct WordGuessingView: View {
                 if let game = vm.current_word_guessing_game {
                     HStack {
                         NavigationLink(destination: {
-                            StartWordGuessingView(vm: ViewModel())
+                            //StartWordGuessingView(vm: ViewModel())
                                     }, label: {
                             ZStack {
                                 Circle()
