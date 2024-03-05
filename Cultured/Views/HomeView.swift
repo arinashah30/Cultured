@@ -99,7 +99,7 @@ struct HomeView: View {
                                 .bold()
                                 .offset(y:-15)
                             NavigationLink {
-                                StartConnectionsView(vm: ConnectionsViewModel())
+                                ConnectionsGameView(vm: ConnectionsViewModel())
                             } label: {
                                 Text("Start")
                                     .font(.system(size: 16))

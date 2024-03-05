@@ -30,7 +30,7 @@ struct StartQuizView: View {
                     .offset(y:-UIScreen.main.bounds.width/3.5)
                 
                 Button(action: {
-                    // Button Action
+                    self.presentationMode.wrappedValue.dismiss()
                 }) {
                     Image(systemName: "chevron.left")
                         .font(.system(size: 20))
@@ -38,7 +38,7 @@ struct StartQuizView: View {
                         .padding(16)
                         .background(Color.cLightGray.opacity(0.8))
                         .clipShape(Circle())
-                        .offset(x: -140, y: -350)
+                        //.offset(x: -140, y: -350)
                 }
                 
                 // the quiz
@@ -56,11 +56,8 @@ struct StartQuizView: View {
                     RoundedRectangle(cornerRadius: 40)
                         .fill(Color.white)
                         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 2)
-                        .offset(y:UIScreen.main.bounds.height / 4)
-                }
+                        .offset(y:UIScreen.main.bounds.height / 2 )
                 
-                
-                VStack {
                     Spacer()
                     VStack(alignment: .leading) {
                         Text("Quiz")
@@ -137,6 +134,7 @@ struct StartQuizView: View {
                     .padding()
                 }
             }
+            .padding(.bottom, 200)
         }
     }
     

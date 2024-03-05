@@ -15,16 +15,16 @@ class WordGuessingViewModel: ObservableObject {
     func create_mock_wg_game() {
         let options = [
             OptionTile(option: "Edible"),
-            OptionTile(option: "Treat"),
-            OptionTile(option: "Chocolate"),
-            OptionTile(option: "Crumbs"),
-            OptionTile(option: "Cake"),
-            OptionTile(option: "Single-served"),
-            OptionTile(option: "Stick"),
-            OptionTile(option: "Ball"),
-            OptionTile(option: "Lollipop")
+            OptionTile(option: "Italian"),
+            OptionTile(option: "Sandwich"),
+            OptionTile(option: "Semi-hard"),
+            OptionTile(option: "White"),
+            OptionTile(option: "Sliced"),
+            OptionTile(option: "Rounded"),
+            OptionTile(option: "Deli Sub"),
+            OptionTile(option: "Cheese")
         ]
-        let answer = "Cakepop"
+        let answer = "Provolone"
         startNewGame(options: options, answer: answer)
     }
     
@@ -63,7 +63,7 @@ class WordGuessingViewModel: ObservableObject {
             winGame()
         } else {
             game.numberOfGuesses -= 1
-            guessesMade.append(currentGuess)
+            guessesMade.insert(currentGuess, at: 0)
             if game.numberOfGuesses == 0 {
                 if (game.flipsDone >= game.options.count - 1) {
                     loseGame()

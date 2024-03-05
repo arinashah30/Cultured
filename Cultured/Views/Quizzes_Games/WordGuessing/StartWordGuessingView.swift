@@ -35,11 +35,11 @@ struct StartWordGuessingView: View {
                         ZStack {
                             Circle()
                                 .frame(width: 50, height: 50)
-                                .padding(.top, 175)
+                                .padding(.top, 150)
                                 .padding(.leading, 20)
                                 .foregroundColor(Color.white.opacity(0.8))
                             Image("Arrow")
-                                .padding(.top, 175)
+                                .padding(.top, 150)
                                 .padding(.leading, 18)
                         }
                         
@@ -131,13 +131,14 @@ struct StartWordGuessingView: View {
                         .clipShape(.rect(cornerRadius: 100.0))
                         .padding(.top, 15)
                         .padding(.leading, 85)
-                        .padding(.bottom, 200)
+                        //.padding(.bottom, 200)
                     }
                     .padding(.top, 30)
                     .padding(.leading, 35)
                     //.frame(alignment: .center)
                 }
             }
+            .padding(.bottom, 200)
         }
         .navigationBarBackButtonHidden()
     }

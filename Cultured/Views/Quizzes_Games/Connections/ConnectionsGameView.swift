@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ConnectionsGameView: View {
+    @Environment(\.presentationMode) var presentationMode
     @ObservedObject var vm: ConnectionsViewModel
     
     var body: some View {
@@ -31,13 +32,14 @@ struct ConnectionsGameView: View {
                 Spacer()
             }
             .padding()
+            .navigationBarBackButtonHidden()
         }
     }
     
     var back: some View {
         HStack {
             Button() {
-                // back
+                self.presentationMode.wrappedValue.dismiss()
             } label: {
                 Image(systemName: "lessthan.circle")
                     .resizable()
