@@ -90,7 +90,7 @@ class ViewModel: ObservableObject {
         
     }
     
-    func firebase_email_password_sign_up_(email: String, password: String, username: String, displayName: String) {
+    func firebase_email_password_sign_up_(email: String, password: String, username: String) {
         auth.createUser(withEmail: email, password: password) { authResult, error in
             if let errorSignUp = error {
                 let firebaseError = AuthErrorCode.Code(rawValue: errorSignUp._code)
@@ -105,7 +105,7 @@ class ViewModel: ObservableObject {
             } else if let user = authResult?.user {
                 self.db.collection("USERS").document(username).setData(
                     ["id" : username,
-                     "name" : displayName,
+                     "name" : username,
                      "profilePicture" : "https://static-00.iconduck.com/assets.00/person-crop-circle-icon-256x256-02mzjh1k.png", // default icon
                      "email" : email,
                      "points" : 0, //points is a string and we can cast it to an int when we use it

@@ -130,8 +130,7 @@ struct SignUpView: View {
                             vm.firebase_email_password_sign_up_(
                                 email: self.email,
                                 password: self.password,
-                                username: self.username, 
-                                displayName: "a"
+                                username: self.username
                             )
                         }
                         else {
