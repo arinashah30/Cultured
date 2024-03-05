@@ -127,6 +127,7 @@ struct StartWordGuessingView: View {
                 }
             }
         }
+        .navigationBarBackButtonHidden()
     }
 }
 
