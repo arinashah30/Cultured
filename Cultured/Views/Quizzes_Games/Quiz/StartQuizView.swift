@@ -12,30 +12,63 @@ struct StartQuizView: View {
     @State private var selectedCategories: Set<String> = []
     let categories = ["Pop Culture", "Food", "Customs", "Places"]
     
-    let buttonColors: [Color] = [Color(red: 255/255, green: 164/255, blue: 164/255), Color(red: 255/255, green: 204/255, blue: 153/255), Color(red: 168/255, green: 220/255, blue: 168/255), Color(red: 179/255, green: 230/255, blue: 255/255)]
+    let buttonColors: [Color] = [Color(red: 252/255, green: 179/255, blue: 179/255), Color(red: 255/255, green: 219/255, blue: 165/255), Color(red: 171/255, green: 232/255, blue: 186/255), Color(red: 153/255, green: 194/255, blue: 223/255)]
     
-    let buttonWidth: CGFloat = 150
-    let buttonHeight: CGFloat = 50
+    let buttonWidth: CGFloat = 156
+    let buttonHeight: CGFloat = 57
     
     var body: some View {
         ZStack {
             // the background image
-            Image("backgroundImage")
+            Image("StartQuizImage")
                 .resizable()
                 .scaledToFill()
                 .edgesIgnoringSafeArea(.all)
-                .opacity(0.5)
-            // the quiz
+                .frame(width:UIScreen.main.bounds.width, height: 2*UIScreen.main.bounds.width/3)
+                .offset(y:-UIScreen.main.bounds.width/3.5)
+            
+            Button(action: {
+                // Button Action
+            }) {
+                Image(systemName: "chevron.left")
+                    .font(.system(size: 20))
+                    .foregroundColor(.cDarkGray)
+                    .padding(16)
+                    .background(Color.cLightGray.opacity(0.8))
+                    .clipShape(Circle())
+                    .offset(x: -140, y: -350)
+            }
+            
+        // the quiz
+            VStack{
+                Image("quizQuestionPicture")
+                    .resizable()
+                    .scaledToFill()
+                    .edgesIgnoringSafeArea(.all)
+                    .frame(width:UIScreen.main.bounds.width, height: 2*UIScreen.main.bounds.width/3)
+                    .offset(y:-UIScreen.main.bounds.width/2)
+                }
+
+            VStack{
+
+                RoundedRectangle(cornerRadius: 40)
+                    .fill(Color.white)
+                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 2)
+                    .offset(y:UIScreen.main.bounds.height / 4)
+                }
+
+            
             VStack {
                 Spacer()
                 VStack(alignment: .leading) {
                     Text("Quiz")
-                        .font(.title)
+                        .font(Font.custom("Quicksand-SemiBold", size: 32))
                     Text("India")
-                        .font(.subheadline)
-                        
+                        .font(.system(size: 16))
+                        .foregroundColor(Color(red: 157/255, green: 157/255, blue: 157/255))
+                    
                     Text("Select Category")
-                        .font(.headline)
+                        .font(Font.custom("Quicksand", size: 20))
                         .padding(.vertical, 10)
                     VStack(spacing: 16) {
                         HStack(spacing: 16) {
@@ -45,6 +78,7 @@ struct StartQuizView: View {
                                 }) {
                                     HStack {
                                         Text(category)
+                                            .font(.system(size: 20))
                                         if selectedCategories.contains(category) {
                                             Image(systemName: "checkmark.circle.fill")
                                                 .foregroundColor(checkmarkColor(for: category))
@@ -55,9 +89,10 @@ struct StartQuizView: View {
                                 .frame(width: buttonWidth, height: buttonHeight)
                                 .background(buttonColors[categories.firstIndex(of: category)!])
                                 .foregroundColor(.black)
-                                .cornerRadius(8)
+                                .cornerRadius(13)
                             }
                         }
+                        
                         
                         HStack(spacing: 16) {
                             ForEach(categories.suffix(2), id: \.self) { category in
@@ -66,7 +101,7 @@ struct StartQuizView: View {
                                 }) {
                                     HStack {
                                         Text(category)
-                                            //.padding()
+                                            .font(.system(size: 20))
                                         if selectedCategories.contains(category) {
                                             Image(systemName: "checkmark.circle.fill")
                                                 .foregroundColor(checkmarkColor(for: category))
@@ -78,29 +113,28 @@ struct StartQuizView: View {
                                 .frame(width: buttonWidth, height: buttonHeight)
                                 .background(buttonColors[categories.firstIndex(of: category)!])
                                 .foregroundColor(.black)
-                                .cornerRadius(8)
+                                .cornerRadius(13)
                             }
                         }
-                        .padding()
+                        
                     }
                 }
-                  
+                
                 Button(action: {
-                    }) {
-                        Text("Start")
-                            .padding()
-                            .font(.system(size: 20, weight: .bold))
-                    }
-                    .frame(width: buttonWidth, height: buttonHeight)
-                    .background(Color.cLightGray)
-                    .foregroundColor(.black)
-                    .cornerRadius(buttonHeight / 2)
-                    .padding()
-        
+                }) {
+                    Text("Start")
+                        .padding()
+                        .foregroundColor(.black)
+                        .font(.system(size: 20, weight: .bold))
                 }
+                .frame(width: buttonWidth, height: buttonHeight)
+                .background(Color(red: 228/255, green: 228/255, blue: 228/255))
+                .cornerRadius(buttonHeight / 2)
+                .padding()
             }
-
         }
+    }
+    
     
     func toggleCategorySelection(_ category: String) {
         selectedCategories = []
@@ -112,20 +146,19 @@ struct StartQuizView: View {
     }
     func checkmarkColor(for category: String) -> Color {
         switch category {
-            case "Pop Culture":
-                return .red
-            case "Food":
-                return .orange
-            case "Customs":
-                return .green
-            case "Places":
-                return .blue
-            default:
-                return .white
+        case "Pop Culture":
+            return .red
+        case "Food":
+            return .orange
+        case "Customs":
+            return .green
+        case "Places":
+            return .blue
+        default:
+            return .white
         }
     }
 }
-
 struct StartQuizViewPreviews: PreviewProvider {
     static var previews: some View {
         StartQuizView(vm: QuizViewModel())
