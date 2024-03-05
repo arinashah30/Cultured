@@ -120,6 +120,7 @@ struct WordGuessingView: View {
         .onAppear {
             vm.create_mock_wg_game()
         }
+        .navigationBarBackButtonHidden()
     }
 }
 
