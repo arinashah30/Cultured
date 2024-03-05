@@ -99,7 +99,6 @@ struct LogInView: View {
                     .frame(maxWidth: .infinity, minHeight:45)
                     .background(Color.cOrange)
                     .clipShape(.rect(cornerRadius: 60))
-                    .padding(.top, 20)
                     
                 }
                 .padding([.leading, .trailing], 20)

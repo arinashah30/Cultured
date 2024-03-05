@@ -18,12 +18,31 @@ class ViewModel: ObservableObject {
     @Published var errorText: String? = nil
     //@Published var points: Int = 100
     
+    init(current_user: User? = nil, errorText: String? = nil) {
+        self.current_user = current_user
+        self.errorText = errorText
+        UserDefaults.standard.setValue(false, forKey: "log_Status")
+    }
+    
     func fireBaseSignIn(email: String, password: String, completion: @escaping (Bool) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) {  authResult, error in
             if let error = error{
+                    print(error.localizedDescription)
+                    let firebaseError = AuthErrorCode.Code(rawValue: error._code)
+                    switch firebaseError {
+                    case .wrongPassword:
+                        self.errorText = "Password incorrect"
+                    case .userNotFound:
+                        self.errorText = "User not found"
+                    case .userDisabled:
+                        self.errorText = "Your account has been disabled"
+                    default:
+                        self.errorText = "An error has occurred"
+                }
                 completion(false)
             }
             else {
+                UserDefaults.standard.setValue(true, forKey: "log_Status")
                 completion(true)
             }
             //doesn't handle the case where authResult is nil so write that in if needed
@@ -91,19 +110,43 @@ class ViewModel: ObservableObject {
                      "email" : email,
                      "points" : 0, //points is a string and we can cast it to an int when we use it
                      "badges" : [],
-                     "bio" : "",
-                     "friends" : [],
-                     "completedGames": [],
-                     "incomingRequests": [],
-                     "outgoingRequests": [],
+                     "streak" : 0,
+                     "completedChallenges": [],
+                     "savedArtists": []
                     ] as [String : Any]) { error in
                         if let error = error {
                             self.errorText = error.localizedDescription
+                        } else {
+                            self.setCurrentUser(userId: username) {
+                                UserDefaults.standard.setValue(true, forKey: "log_Status")
+                            }
                         }
                     }
             }
         }
     }
+    
+    func setCurrentUser(userId: String, completion: @escaping (() -> Void)) {
+        db.collection("USERS").document(userId).getDocument (completion: { [weak self] document, error in
+            if let error = error {
+                print("SetCurrentUserError: \(error.localizedDescription)")
+            } else if let document = document {
+                self?.current_user = User(id: document.documentID,
+                                          name: document["name"] as! String,
+                                          profilePicture: document["profilePicture"] as! String,
+                                          email: document["email"] as! String, 
+                                          points: document["points"] as? Int ?? 0,
+                                          streak: document["streak"] as? Int ?? 0,
+                                          completedChallenges: document["completedChallenges"] as? [String] ?? [],
+                                          badges: document["badges"] as? [String] ?? [],
+                                          savedArtists: document["savedArtists"] as? [String] ?? []
+                                          )
+                
+                completion()
+            }
+        })
+    }
+    
     
     func update_points(userID: String, pointToAdd: Int, completion: @escaping (Bool) -> Void) {
         db.collection("USERS").document(userID).getDocument { [self] document, error in
