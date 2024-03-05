@@ -12,20 +12,32 @@ struct WordGuessingView: View {
     @State private var currentGuess: String = ""
     
 
-    let colors: [Color] = [Color("Gradient1"), Color("Gradient2"), Color("Gradient3"), Color("Gradient4"), Color("Gradient5"), Color("Gradient6"), Color("Gradient6"), Color("Gradient6"), Color("Gradient6")]
+    let colors: [Color] = [Color("Gradient1"), Color("Gradient2"), Color("Gradient3"), Color("Gradient4"), Color("Gradient5"), Color("Gradient6"), Color("Gradient7"), Color("Gradient8"), Color("Gradient9")]
         
     var body: some View {
-        Spacer()
         VStack {
             if let game = vm.current_word_guessing_game {
-                Spacer()
-                Text(game.title)
-                    .font(.title)
-                    .padding()
+                HStack {
+                    Button {
+                    } label: {
+                        ZStack {
+                            Circle()
+                                .frame(width: 50, height: 50)
+                                .padding(.top, 5)
+                                .padding(.leading, 20)
+                                .foregroundColor(Color.black.opacity(0.1))
+                            Image("Arrow")
+                                .padding(.top, 5)
+                                .padding(.leading, 18)
+                        }
+                    }
+                    .padding(.trailing, 300)
+                }
+                Spacer(minLength: 15)
                 HStack{
                     Spacer(minLength: 20)
                     Text("Hints")
-                        .font(.title2)
+                        .font(Font.custom("Quicksand-Medium", size: 24))
                     Spacer(minLength: 190)
                     
                     Button(action: {
@@ -34,6 +46,7 @@ struct WordGuessingView: View {
                         Text("Next hint")
                             .font(.title3)
                             .foregroundColor(.gray)
+                            .font(Font.custom("SF-Pro-Display-Light", size: 18))
                     }
                     Spacer(minLength: 20)
                 }
@@ -51,6 +64,7 @@ struct WordGuessingView: View {
                                     .padding(.bottom, 10)
                             } else {
                                 Text(game.options[index].option)
+                                    .font(Font.custom("SF-Pro-Display-Light", size: 19))
                                     .foregroundColor(.black)
                                     .frame(width: 336 - CGFloat((23 * index)), height: 51)
                                     .background(colors[index % colors.count])
@@ -64,37 +78,40 @@ struct WordGuessingView: View {
                 }
                 
                 ScrollView(.horizontal, showsIndicators: false) {
-                        HStack {
-                            ForEach(vm.guessesMade, id: \.self) { guess in
-                                Text(guess)
-                                    .foregroundColor(.red.opacity(0.5))
-                                    .padding()
-                            }
+                    HStack {
+                        ForEach(vm.guessesMade, id: \.self) { guess in
+                            Text(guess)
+                                .foregroundColor(.red.opacity(0.5))
+                                .padding()
                         }
-                        .padding(.horizontal)
                     }
-                    .frame(height: 50)
+                    .padding(.horizontal)
+                }
+                .frame(height: 50)
                 
                 HStack {
                     Spacer(minLength: 20)
-                    TextField("Type your guess...                 \(vm.current_word_guessing_game?.numberOfGuesses ?? 0) left", text: $currentGuess)
+                    TextField("Type your guess...           \(vm.current_word_guessing_game?.numberOfGuesses ?? 0) left", text: $currentGuess)
+                        .font(Font.custom("SF-Pro-Display-Light", size: 19))
+                        .keyboardType(.default)
                         .padding(9)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                        .stroke(Color.gray, lineWidth: 2)
-                                )
+                        .background(
+                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                                .stroke(Color.gray, lineWidth: 2)
+                        )
                     Button("Enter") {
-                        vm.submitGuess(currentGuess)
+                        if currentGuess != "" {
+                            vm.submitGuess(currentGuess)
+                        }
                         currentGuess = ""
                     }
+                    .font(Font.custom("SF-Pro-Display-Light", size: 19))
                     .foregroundColor(.black)
                     .frame(minWidth: 0, maxWidth: 71, minHeight: 45)
-                    .background(Color("EnterButtonColor"))
+                    .background(vm.current_word_guessing_game?.numberOfGuesses ?? 0 > 0 ? Color("EnterButtonColor") : Color.black.opacity(0.1))
                     .cornerRadius(10)
                     Spacer(minLength: 20)
                 }
-                Spacer()
-
             } else {
                 Text("No game available")
                 .padding()
@@ -103,6 +120,7 @@ struct WordGuessingView: View {
         .onAppear {
             vm.create_mock_wg_game()
         }
+        .navigationBarBackButtonHidden()
     }
 }
 
@@ -110,3 +128,7 @@ struct WordGuessingView: View {
     WordGuessingView(vm: WordGuessingViewModel())
 }
 
+/*
+ - show answer at the end
+ - enter button gray once no more guesses left
+ */

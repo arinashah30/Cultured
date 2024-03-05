@@ -61,11 +61,11 @@ class WordGuessingViewModel: ObservableObject {
             return promptUser()
         }
         
-        game.numberOfGuesses -= 1
-        guessesMade.append(currentGuess)
         if currentGuess.lowercased() == game.answer.lowercased() {
             winGame()
         } else {
+            game.numberOfGuesses -= 1
+            guessesMade.append(currentGuess)
             if game.numberOfGuesses == 0 {
                 if (game.flipsDone >= game.options.count - 1) {
                     loseGame()
@@ -102,3 +102,8 @@ class WordGuessingViewModel: ObservableObject {
  ordered hints
  win criteria - guessing the right word (lowercase for everything)
  */
+
+struct OptionTile {
+    var option: String
+    var isFlipped: Bool = false
+}
