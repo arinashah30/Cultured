@@ -11,8 +11,29 @@ class ConnectionsViewModel: ObservableObject {
     @Published var current_user: User? = nil
     
     static func start_connections() -> Connections {
+        let optionsDict: [String: String] = ["Swift": "Pop megastars",
+                                       "Vehicle": "Method",
+                                       "Large": "Living ___",
+                                       "Legend": "Living ___",
+                                       "Small": "Unlikely, as chances",
+                                       "Means": "Method",
+                                       "Medium": "Method",
+                                       "Mars": "Pop megastars",
+                                       "Outside": "Unlikely, as chances",
+                                       "Room": "Living ___",
+                                       "Grande": "Pop megastars",
+                                       "Slim": "Unlikely, as chances",
+                                       "Proof": "Living ___",
+                                       "Styles": "Pop megastars",
+                                       "Remote": "Unlikely, as chances",
+                                       "Channel": "Method"]
+        let optionsContent: [String] = Array(optionsDict.keys)
+        let optionsCategories: [String] = Array(optionsDict.values)
+        
         return Connections() { index in
-            return ["Fellow", "Spy", "Peep", "Birthmark", "Study", "Animal", "Peer", "Unit", "Bunny", "Hall", "Associate", "Egg", "Lounge", "Jelly Bean", "Library", "Partner"][index]
+            return optionsContent[index]
+        } optionCategory: { index in
+            return optionsCategories[index]
         }
     }
     
@@ -22,8 +43,28 @@ class ConnectionsViewModel: ObservableObject {
         return current_connections_game!.options
     }
     
-    func choose(_ option: Connections.Option) {
-        current_connections_game!.choose(option)
+    var history: [[Connections.Option]] {
+        return current_connections_game!.history
+    }
+    
+    var selection: [Connections.Option] {
+        return current_connections_game!.selection
+    }
+    
+    var mistakes_remaining: Int {
+        return current_connections_game!.mistakes_remaining
+    }
+    
+    var correct_categories: Int {
+        return current_connections_game!.correct_categories
+    }
+    
+    func select(_ option: Connections.Option) {
+        current_connections_game!.select(option)
+    }
+    
+    func submit() {
+        current_connections_game!.submit()
     }
     
     func shuffle() {
