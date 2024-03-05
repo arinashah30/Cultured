@@ -433,5 +433,38 @@ class ViewModel: ObservableObject {
              "flipPoints": wordGuessing.flipPoints,
             ])
     }
+    
+    func getLeaderBoardInfo(completion: @escaping([(String, Int)]?) -> Void) {
+        let usersCollectionReference = db.collection("USERS")
+        usersCollectionReference.whereField("points", isGreaterThan: 0).order(by: "points", descending: true).limit(to: 20).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error getting Documents \(error)")
+                completion(nil)
+            } else {
+                var topUsers: [(String, Int)] = []
+                print(topUsers.count)
+                for document in querySnapshot!.documents {
+                    let data = document.data()
+                    let id = data["id"] as? String ?? ""
+                    let points = data["points"] as? Int ?? 0
+                    
+                    // Add the user ID and streak to the topUsers dictionary
+                    topUsers.append((id, points))
+                }
+                completion(topUsers)
+            }
+        }
+    }
+    
+    //Helper Function to Ensure the Leaderboard is properly sorted
+    func isSorted(_ array: [(String, Int)]) -> Bool {
+        for i in 0..<(array.count - 1) {
+            if array[i].1 < array[i + 1].1 {
+                return false
+            }
+        }
+        return true
+    }
+    
 }
 
