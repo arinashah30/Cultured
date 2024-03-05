@@ -44,7 +44,7 @@ struct SignUpView: View {
                         Image("User")
                             .resizable()
                             .frame(width:16, height:20)
-                            .padding([.leading, .trailing], 16)
+                            .padding([.leading, .trailing], 18.5)
                         TextField("", text: $username, prompt: Text("Name")                .foregroundColor(.cMedGray))
                             .textInputAutocapitalization(.never)
                     }
@@ -115,8 +115,29 @@ struct SignUpView: View {
                     .clipShape(.rect(cornerRadius: 14.0))
                     
                     
+                    if let errorText = vm.errorText {
+                        Text(errorText).foregroundStyle(Color.red)
+                    } else {
+                        Text(" ")
+                    }
                     
-                    Button{} label: {
+                    Button{
+                        vm.errorText = nil
+                        email = email.trimmingCharacters(in: .whitespacesAndNewlines)
+                        password = password.trimmingCharacters(in: .whitespacesAndNewlines)
+                        
+                        if !email.isEmpty && !username.isEmpty &&  !password.isEmpty && password == repeatPassword {
+                            vm.firebase_email_password_sign_up_(
+                                email: self.email,
+                                password: self.password,
+                                username: self.username, 
+                                displayName: "a"
+                            )
+                        }
+                        else {
+                            vm.errorText = "You must fill out all fields"
+                        }
+                    } label: {
                         Text("Sign Up")
                             .foregroundColor(.black)
                             .font(.system(size: 19))
@@ -130,7 +151,7 @@ struct SignUpView: View {
                 .padding([.leading, .trailing], 20)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 
-                Spacer()
+                Spacer(minLength: 75)
                 
                 HStack{
                     Text("Already have an account?")
@@ -138,6 +159,7 @@ struct SignUpView: View {
                     Spacer()
                     NavigationLink{
                         LogInView(vm: vm)
+                            .navigationBarBackButtonHidden(true)
                     } label: {
                         Text("Log In")
                             .foregroundStyle(Color.cDarkGray)

@@ -72,7 +72,26 @@ struct LogInView: View {
                     .background(Color.cLightGray)
                     .clipShape(.rect(cornerRadius: 14.0))
                     
-                    Button{} label: {
+                    
+                    if let errorText = vm.errorText {
+                        Text(errorText).foregroundStyle(Color.red)
+                    } else {
+                        Text(" ")
+                    }
+                    
+                    Button{
+                        vm.errorText = nil
+                        email = email.trimmingCharacters(in: .whitespacesAndNewlines)
+                        password = password.trimmingCharacters(in: .whitespacesAndNewlines)
+                        
+                        if !email.isEmpty && !password.isEmpty {
+                            vm.fireBaseSignIn(email: email, password: password) { completed in
+                                
+                            }
+                        } else {
+                            vm.errorText = "You must fill out all fields"
+                        }
+                    } label: {
                         Text("Sign In")
                             .foregroundColor(.black)
                             .font(.system(size: 19))
@@ -84,7 +103,6 @@ struct LogInView: View {
                     
                 }
                 .padding([.leading, .trailing], 20)
-                //            .background(Color.cBlue)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 
                 Spacer()
@@ -95,6 +113,7 @@ struct LogInView: View {
                     Spacer()
                     NavigationLink{
                         SignUpView(vm: vm)
+                            .navigationBarBackButtonHidden(true)
                     } label: {
                         Text("Sign Up")
                             .foregroundStyle(Color.cDarkGray)
