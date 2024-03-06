@@ -484,6 +484,50 @@ class ViewModel: ObservableObject {
         
         return QuizQuestion(question: question, answers: answers, correctAnswer: correctAnswerIndex, correctAnswerDescription: correctAnswerDescription)
     }
+    
+    func getWordGameFromFirebase(activityName: String, completion: @escaping (WordGuessing?) -> Void) {
+            let documentReference = db.collection("GAMES").document(activityName)
+            documentReference.getDocument { (activityDocument, error) in
+                if let error = error {
+                    print("Error Getting Documents \(error)")
+                    completion(nil)
+                } else {
+                    guard let actDoc = activityDocument, actDoc.exists else {
+                        print("Document Does Not Exist")
+                        completion(nil)
+                        return
+                    }
+                    guard let data = actDoc.data() else {
+                        completion(nil)
+                        return
+                    }
+                    let title = data["title"] as? String ?? ""
+                    let options = data["options"] as? [OptionTile] ?? []
+                    let answer = data["answer"] as? String ?? ""
+                    let points = data["totalPoints"] as? Int ?? 0
+                    let flipPoints = data["flipPoints"] as? Int ?? 0
+                    
+                    let wordGuessing = WordGuessing(title: title,
+                                                    options: [OptionTile](),
+                                                    answer: answer,
+                                                    totalPoints: points,
+                                                    flipPoints: flipPoints,
+                                                    flipsDone: 0,
+                                                    numberOfGuesses: 3)
+
+                    completion(wordGuessing)
+                    
+    //                //Get the Tile Questions subcollection
+    //                documentReference.collection("options").getDocuments { (querySnapshot, error) in
+    //                    if let error = error {
+    //                        print("Error getting the Quiz Questions \(error.localizedDescription)")
+    //                        completion(nil)
+    //                        return
+    //                    }
+    //                }
+                }
+            }
+        }
 
 }
 

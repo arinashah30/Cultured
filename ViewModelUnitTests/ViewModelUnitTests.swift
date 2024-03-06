@@ -45,7 +45,7 @@ final class ViewModelUnitTests: XCTestCase {
     
     
     func testGetQuizFromFirebase() {
-        let expectation = self.expectation(description: "Retrieve information from module")
+        let expectation = self.expectation(description: "Retrieve information from Quiz")
         
         vm.getQuizFromFirebase(activityName: "FrenchCultureQuiz") {quiz in
             XCTAssertNotNil(quiz, "Quiz should not be nil")
@@ -54,6 +54,25 @@ final class ViewModelUnitTests: XCTestCase {
             XCTAssertEqual(quiz?.title, "FrenchCultureQuiz")
             XCTAssertFalse(quiz?.questions.isEmpty ??  true)
             print("Quiz =====", quiz!)
+            expectation.fulfill()
+        }
+            
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
+    
+    func testGetWordGameFromFirebase() {
+        let expectation = self.expectation(description: "Retrieve information from WordGame")
+        
+        vm.getWordGameFromFirebase(activityName: "FrenchCultureQuiz") {wordgame in
+            XCTAssertNotNil(wordgame, "Word Game should not be nil")
+            
+            print("WordGame =====", wordgame!)
+
+            
             expectation.fulfill()
         }
             
