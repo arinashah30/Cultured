@@ -141,7 +141,6 @@ class ViewModel: ObservableObject {
                                           badges: document["badges"] as? [String] ?? [],
                                           savedArtists: document["savedArtists"] as? [String] ?? []
                                           )
-                
                 completion()
             }
         })

@@ -252,6 +252,7 @@
 		66FB69D62B72A0800066B826 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7CFE0FC32B979F3100D7283B /* ContentView.swift */,
 				66FB6A1C2B72A2C40066B826 /* Modules */,
 				66FB69C82B72A06D0066B826 /* TourView.swift */,
 				66FB69F82B72A1060066B826 /* Activity */,
@@ -264,7 +265,6 @@
 				CA6439892B8579AF00181C5F /* FoodCategorySectionView.swift */,
 				CA64398B2B857B0900181C5F /* CustomsSectionView.swift */,
 				CA64398D2B857BF200181C5F /* PlacesSectionView.swift */,
-				7CFE0FC32B979F3100D7283B /* ContentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

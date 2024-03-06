@@ -86,8 +86,6 @@ struct LogInView: View {
                         
                         if !email.isEmpty && !password.isEmpty {
                             vm.fireBaseSignIn(email: email, password: password) { completed in
-                                print(completed)
-                                print(vm.current_user ?? "none")
                             }
                         } else {
                             vm.errorText = "You must fill out all fields"
