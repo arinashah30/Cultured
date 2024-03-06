@@ -433,5 +433,38 @@ class ViewModel: ObservableObject {
              "flipPoints": wordGuessing.flipPoints,
             ])
     }
+    
+    func checkIfStreakIsIntact(userID: String, completion: @escaping (Bool) -> Void) {
+        self.db.collection("USERS").document(userID).getDocument { document, error in
+            if let err = error {
+                print(err.localizedDescription)
+                return
+            } else {
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "dd-MM-yyyy HH:mm"
+                if let doc = document {
+                    if let data = doc.data(), let lastlogged = data["lastLoggedOn"] as? String {
+                        guard let last_date = dateFormatter.date(from: lastlogged) else {
+                            print("Error converting last logged-on date string to Date")
+                            completion(false)
+                            return
+                        }
+                        let curr_date = Date()
+                        
+                        let calendar = Calendar.current
+                        let components = calendar.dateComponents([.day], from: last_date, to: curr_date)
+                        
+                        if let daysSinceLastLoggedOn = components.day, daysSinceLastLoggedOn < 1 {
+                            completion(true)
+                            return
+                        } else {
+                            completion(false)
+                            return
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
