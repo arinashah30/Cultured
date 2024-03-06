@@ -433,5 +433,57 @@ class ViewModel: ObservableObject {
              "flipPoints": wordGuessing.flipPoints,
             ])
     }
+    
+    func getQuizFromFirebase(activityName: String, completion: @escaping(Quiz?) -> Void) {
+        let documentReference = db.collection("GAMES").document(activityName)
+        documentReference.getDocument { (activityDocument, error) in
+            if let error = error {
+                print("Error Getting Documents \(error)")
+                completion(nil)
+            } else {
+                guard let actDoc = activityDocument, actDoc.exists else {
+                    print("Document Does Not Exist")
+                    completion(nil)
+                    return
+                }
+                guard let data = actDoc.data() else {
+                    completion(nil)
+                    return
+                }
+                let title = data["title"] as? String ?? ""
+                let points = data["points"] as? Int ?? 0
+                let pointsGoal = data["pointsGoal"] as? Int ?? 0
+                //Get the Quiz Questions subcollection
+                documentReference.collection("QUESTIONS").getDocuments { (querySnapshot, error) in
+                    if let error = error {
+                        print("Error getting the Quiz Questions \(error.localizedDescription)")
+                        completion(nil)
+                        return
+                    }
+                    var questionsArray = [QuizQuestion]()
+                    for questionsDocuments in querySnapshot!.documents {
+                        let questionData = questionsDocuments.data()
+                        if let question = self.parseQuestionData(questionData) {
+                            questionsArray.append(question)
+                        }
+                    }
+                    let quiz = Quiz(title: title, questions: questionsArray, points: points, pointsGoal: pointsGoal)
+                    completion(quiz)
+                }
+            }
+        }
+    }
+    
+    
+    //Helper Function to Turn the data from Firebase into a Quiz Question
+    func parseQuestionData(_ questionData: [String: Any]) -> QuizQuestion? {
+        let question = questionData["question"] as? String ?? ""
+        let answers = questionData["answerChoices"] as? [String] ?? []
+        let correctAnswerIndex = questionData["correctAnswer"] as? Int ?? 0
+        let correctAnswerDescription = questionData["correctAnswerDescription"] as? String ?? ""
+        
+        return QuizQuestion(question: question, answers: answers, correctAnswer: correctAnswerIndex, correctAnswerDescription: correctAnswerDescription)
+    }
+
 }
 

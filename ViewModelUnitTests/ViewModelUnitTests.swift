@@ -42,6 +42,30 @@ final class ViewModelUnitTests: XCTestCase {
             
         } // Adjust the timeout as needed
         }
+    
+    
+    func testGetQuizFromFirebase() {
+        let expectation = self.expectation(description: "Retrieve information from module")
+        
+        vm.getQuizFromFirebase(activityName: "FrenchCultureQuiz") {quiz in
+            XCTAssertNotNil(quiz, "Quiz should not be nil")
+            XCTAssertEqual(quiz?.points, 999)
+            XCTAssertEqual(quiz?.pointsGoal, 800000000000)
+            XCTAssertEqual(quiz?.title, "FrenchCultureQuiz")
+            XCTAssertFalse(quiz?.questions.isEmpty ??  true)
+            print("Quiz =====", quiz!)
+
+//            print("Quiz", quiz?.questions[0])
+//            print("Quiz", quiz!)
+            expectation.fulfill()
+        }
+            
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
 
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
