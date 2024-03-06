@@ -399,7 +399,7 @@ class ViewModel: ObservableObject {
         }
     }
     
-    func addOnGoingQuiz(userID: String, country: String, titleOfActivity: String, completion: @escaping(Bool) -> Void) {
+    func addOnGoingActivity(userID: String, country: String, titleOfActivity: String, typeOfActivity: String, completion: @escaping(Bool) -> Void) {
         db.collection("USERS").document(userID).collection("ACTIVITIES").document("\(country)\(titleOfActivity)").setData(
             ["completed": false,
              
@@ -408,6 +408,8 @@ class ViewModel: ObservableObject {
              "history": [],
              
              "score": 0,
+             
+             "type": typeOfActivity, //MUST be "quiz", "connection", or "wordgame"
             ])
     }
     
@@ -432,6 +434,27 @@ class ViewModel: ObservableObject {
              "totalPoints": wordGuessing.totalPoints,
              "flipPoints": wordGuessing.flipPoints,
             ])
+    }
+    
+    func getOnGoingActivity(userId: String, type: String, completion: @escaping(String) -> Void) {
+        db.collection("USERS").document(userId).collection("ACTIVITIES").whereField("type", isEqualTo: type).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error Getting Documents \(error)")
+                completion("")
+            } else {
+                for document in querySnapshot!.documents {
+                    let data = document.data()
+                    let completed = data["completed"] as? Bool ?? false
+                    if !completed {
+                        let nameOfActivity = document.documentID
+                        completion(nameOfActivity)
+                        return
+                    }
+                }
+                
+                completion("No on Going Activity of Type '\(type)' in progress!")
+            }
+        }
     }
 }
 
