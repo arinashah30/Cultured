@@ -54,9 +54,6 @@ final class ViewModelUnitTests: XCTestCase {
             XCTAssertEqual(quiz?.title, "FrenchCultureQuiz")
             XCTAssertFalse(quiz?.questions.isEmpty ??  true)
             print("Quiz =====", quiz!)
-
-//            print("Quiz", quiz?.questions[0])
-//            print("Quiz", quiz!)
             expectation.fulfill()
         }
             
