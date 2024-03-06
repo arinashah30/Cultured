@@ -13,21 +13,19 @@ class WordGuessingViewModel: ObservableObject {
     @Published var guessesMade: [String] = []
     
     func create_mock_wg_game() {
-        print("creating a new game...")
         let options = [
-            OptionTile(option: "a"),
-            OptionTile(option: "b"),
-            OptionTile(option: "c"),
-            OptionTile(option: "d"),
-            OptionTile(option: "e"),
-            OptionTile(option: "f"),
-            OptionTile(option: "g"),
-            OptionTile(option: "h"),
-            OptionTile(option: "i")
+            OptionTile(option: "Edible"),
+            OptionTile(option: "Italian"),
+            OptionTile(option: "Sandwich"),
+            OptionTile(option: "Semi-hard"),
+            OptionTile(option: "White"),
+            OptionTile(option: "Sliced"),
+            OptionTile(option: "Rounded"),
+            OptionTile(option: "Deli Sub"),
+            OptionTile(option: "Cheese")
         ]
-        let answer = "j"
+        let answer = "Provolone"
         startNewGame(options: options, answer: answer)
-        print("new game created successfully!")
     }
     
     func startNewGame(options: [OptionTile], answer: String, title: String = "Guess the Word") {
@@ -65,7 +63,7 @@ class WordGuessingViewModel: ObservableObject {
             winGame()
         } else {
             game.numberOfGuesses -= 1
-            guessesMade.append(currentGuess)
+            guessesMade.insert(currentGuess, at: 0)
             if game.numberOfGuesses == 0 {
                 if (game.flipsDone >= game.options.count - 1) {
                     loseGame()
