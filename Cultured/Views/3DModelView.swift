@@ -10,11 +10,11 @@ import RealityKit
 import ARKit
 
 let landmarks: [ARLandmark] = [
-    ARLandmark(modelName: "Eiffel_Tower", color: .gray, scale: 0.025, isMetallic: true, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], video: "tower_bridge"),
-    ARLandmark(modelName: "Pisa_Tower", color: UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0), scale: 0.1, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], video: "tower_bridge"),
-    ARLandmark(modelName: "Burj_Khalifa", color: nil, scale: 0.06, isMetallic: true, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], video: "tower_bridge"),
-    ARLandmark(modelName: "Taj_Mahal", color: nil, scale: 0.02, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], video: "tower_bridge"),
-    ARLandmark(modelName: "Chichen_Itza", color: nil, scale: 0.02, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."], video: "tower_bridge")
+    ARLandmark(modelName: "Eiffel_Tower", color: .gray, scale: 0.025, isMetallic: true, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Shaunak shaunak shaunak"], video: "tower_bridge"),
+    ARLandmark(modelName: "Pisa_Tower", color: UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0), scale: 0.1, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Shaunak shaunak shaunak"], video: "tower_bridge"),
+    ARLandmark(modelName: "Burj_Khalifa", color: nil, scale: 0.05, isMetallic: true, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Shaunak shaunak shaunak"], video: "tower_bridge"),
+    ARLandmark(modelName: "Taj_Mahal", color: nil, scale: 0.005, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Shaunak shaunak shaunak"], video: "tower_bridge"),
+    ARLandmark(modelName: "Chichen_Itza", color: nil, scale: 0.01, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Shaunak shaunak shaunak"], video: "tower_bridge")
 ]
 
 
@@ -133,17 +133,22 @@ class LandmarkARView: ARView {
             textbox.isEnabled = false //hides textbox at first
         }
         
-        
         anchor.addChild(modelEntity)
         modelEntity.position = [Float(model.xDistance), 0, Float(model.zDistance)]
         
         modelEntity.name = model.modelName
         modelEntity.generateCollisionShapes(recursive: true)
         
+        let box = modelEntity.visualBounds(relativeTo: nil)
+        let size = box.extents
+        print(size)
+        let bubbleRadius: Float = 5.0
+        
         // adding the information bubbles
         for i in 0..<model.facts.count {
-            let informationBubbleEntity = ModelEntity(mesh: MeshResource.generateSphere(radius: 15.0), materials: [SimpleMaterial(color: .red, isMetallic: true)])
-            let relativeTransform = Transform(translation: [Float(i) + 1, Float(i) + 1, Float(i) + 1])
+            print(model.facts.count)
+            let informationBubbleEntity = ModelEntity(mesh: MeshResource.generateSphere(radius: bubbleRadius), materials: [SimpleMaterial(color: .red, isMetallic: true)])
+            let relativeTransform = Transform(translation: [bubbleRadius * 2*Float(i+1) + Float(size.x), bubbleRadius + Float(size.y), bubbleRadius * 2*Float(i+1) + Float(size.z)])
             informationBubbleEntity.transform = relativeTransform
             informationBubbleEntity.generateCollisionShapes(recursive: true) // adding collision boxes to each bubble
             informationBubbleEntity.name = "Fact " + String(i)
@@ -153,7 +158,7 @@ class LandmarkARView: ARView {
         
         self.scene.addAnchor(anchor)
         
-        self.installGestures([.rotation, .translation, .scale], for: modelEntity as HasCollision)
+//        self.installGestures([.rotation, .translation, .scale], for: modelEntity as HasCollision)
         
         let handleTap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         self.addGestureRecognizer(handleTap) // calling the objc function
@@ -175,8 +180,10 @@ class LandmarkARView: ARView {
         // detect tap on main model
         if (modelEntity.name == model.modelName) {
             videoShown = true
+            print("Heyyy")
         } else if (modelEntity.name.prefix(4) == "Fact") {
             print("found a bubble")
+            print("heeeeeyyy")
         }
         
         
@@ -186,3 +193,8 @@ class LandmarkARView: ARView {
 #Preview {
     _DModelView()
 }
+
+// scale as a function for radius
+// collision box for eiffel tower
+// even on both sides
+
