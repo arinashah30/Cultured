@@ -523,5 +523,51 @@ class ViewModel: ObservableObject {
             }
         }
     }
+    
+    func getConnectionsFromFirebase(activityName: String, completion: @escaping (Connections?) -> Void) {
+        let documentReference = db.collection("GAMES").document(activityName)
+        documentReference.getDocument { (activityDocument, error) in
+            if let error = error {
+                print("Error Getting Documents \(error)")
+                completion(nil)
+            } else {
+                guard let actDoc = activityDocument, actDoc.exists else {
+                    print("Document Does Not Exist")
+                    completion(nil)
+                    return
+                }
+                guard let data = actDoc.data() else {
+                    completion(nil)
+                    return
+                }
+                
+                let title = data["title"] as? String ?? ""
+                let categories = data["categories"] as? [String] ?? []
+                let answerKey = data["answerKey"] as? [String : [String]] ?? [:]
+                let attempts = data["attempts"] as? Int ?? 0
+                let points = data["points"] as? Int ?? 0
+                
+                let optionsStrings = data["options"] as? [String] ?? []
+                let options = optionsStrings.enumerated().map { (index, content) in
+                   return Connections.Option(id: "\(index + 1)", content: content, category: "") // You may need to provide a category here
+               }
+                
+                let connections = Connections(title: title,
+                                  categories: categories,
+                                  answerKey: answerKey,
+                                  options: options,
+                                  selection: [],
+                                  history: [],
+                                  points: points,
+                                  attempts: attempts,
+                                  mistakes_remaining: 4,
+                                  correct_categories: 0)
+                completion(connections)
+            }
+        }
+    }
+    
+    
+    
 }
 

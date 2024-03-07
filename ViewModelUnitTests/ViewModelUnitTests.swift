@@ -53,7 +53,7 @@ final class ViewModelUnitTests: XCTestCase {
             XCTAssertEqual(quiz?.pointsGoal, 800000000000)
             XCTAssertEqual(quiz?.title, "FrenchCultureQuiz")
             XCTAssertFalse(quiz?.questions.isEmpty ??  true)
-            print("Quiz =====", quiz!)
+            //print("Quiz =====", quiz!)
             expectation.fulfill()
         }
             
@@ -73,7 +73,27 @@ final class ViewModelUnitTests: XCTestCase {
             XCTAssertEqual(wordgame?.title, "UAETraditionsWordGuessing")
             XCTAssertEqual(wordgame?.totalPoints, 17)
             XCTAssertFalse(wordgame?.options.isEmpty ?? true, "The Options array is Empty")
-//            print("WordGame =====", wordgame!)            
+            //print("WordGame =====", wordgame!)
+            expectation.fulfill()
+        }
+            
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
+    
+    func testGetConnectionsFromFirebase() {
+        let expectation = self.expectation(description: "Retrieve information from Connections")
+        
+        vm.getConnectionsFromFirebase(activityName: "ChinaFoodConnections") {connection in
+            XCTAssertNotNil(connection, "Connection should not be nil")
+            XCTAssertEqual(connection?.title, "ChinaFoodConnections")
+            XCTAssertEqual(connection?.points, 1500)
+            XCTAssertEqual(connection?.attempts, 2)
+            XCTAssertFalse(connection?.options.isEmpty ?? true, "The Options array is Empty")
+            print("Connections =====", connection!)
             expectation.fulfill()
         }
             
