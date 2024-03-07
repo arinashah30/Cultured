@@ -59,6 +59,10 @@ class ConnectionsViewModel: ObservableObject {
         return current_connections_game!.correct_categories
     }
     
+    var categories: [String] {
+        return current_connections_game!.categories
+    }
+    
     func select(_ option: Connections.Option) {
         current_connections_game!.select(option)
     }
@@ -74,7 +78,7 @@ class ConnectionsViewModel: ObservableObject {
     func get_amount_correct(submission: [String]) -> Int {
         var amountCorrect: Int = 0
         for category in current_connections_game!.categories {
-            var answerOptions: [String] = current_connections_game!.answerKey[category]!
+            let answerOptions: [String] = current_connections_game!.answerKey[category]!
             for option in submission {
                 for answerOption in answerOptions {
                     if (answerOption == option) {
@@ -93,6 +97,27 @@ class ConnectionsViewModel: ObservableObject {
         }
         
         return amountCorrect
+    }
+    
+    func get_category_info(index: Int) -> [String] {
+        var infoArray : [String] = []
+        let category : String = current_connections_game!.categories[index]
+
+        infoArray.append(category)
+
+        var wordsOfCategory = current_connections_game!.answerKey[category]
+
+        if let wordsOfCategory = current_connections_game!.answerKey[category] {
+            for word in wordsOfCategory {
+                infoArray.append(word)
+            }
+        }
+
+        return infoArray
+    }
+    
+    func startGame() {
+        current_connections_game = ConnectionsViewModel.start_connections()
     }
     
 }
