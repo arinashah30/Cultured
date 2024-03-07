@@ -60,7 +60,7 @@ struct WordGuessingView: View {
                                 if (!game.options[index].isFlipped) {
                                     Text("")
                                         .foregroundColor(.black)
-                                        .frame(width: 336 - CGFloat((23 * index)), height: 51)
+                                        .frame(width: 129 + CGFloat((23 * index)), height: 51)
                                         .background(colors[index % colors.count])
                                         .cornerRadius(10)
                                         .padding(.horizontal)
@@ -69,7 +69,7 @@ struct WordGuessingView: View {
                                     Text(game.options[index].option)
                                         .font(Font.custom("SF-Pro-Display-Light", size: 19))
                                         .foregroundColor(.black)
-                                        .frame(width: 336 - CGFloat((23 * index)), height: 51)
+                                        .frame(width: 129 + CGFloat((23 * index)), height: 51)
                                         .background(colors[index % colors.count])
                                         .cornerRadius(10)
                                         .padding(.horizontal)
@@ -94,7 +94,7 @@ struct WordGuessingView: View {
                     
                     HStack {
                         Spacer(minLength: 20)
-                        TextField("Type your guess...           \(vm.current_word_guessing_game?.numberOfGuesses ?? 0) left", text: $currentGuess)
+                        TextField("Type your guess...", text: $currentGuess)
                             .font(Font.custom("SF-Pro-Display-Light", size: 19))
                             .keyboardType(.default)
                             .padding(9)
@@ -108,6 +108,7 @@ struct WordGuessingView: View {
                             }
                             currentGuess = ""
                         }
+                        .disabled(vm.current_word_guessing_game?.numberOfGuesses ?? 0 <= 0)
                         .font(Font.custom("SF-Pro-Display-Light", size: 19))
                         .foregroundColor(.black)
                         .frame(minWidth: 0, maxWidth: 71, minHeight: 45)

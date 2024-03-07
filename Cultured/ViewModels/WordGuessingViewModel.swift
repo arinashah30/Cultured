@@ -48,7 +48,7 @@ class WordGuessingViewModel: ObservableObject {
             //            print("Lose because of points reaching 0")
             //            loseGame()
             //        }
-            game.numberOfGuesses = 2
+            game.numberOfGuesses = 1
             current_word_guessing_game = game
         }
     }
