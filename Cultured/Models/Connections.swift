@@ -36,6 +36,9 @@ struct Connections {
             let content = optionContent(index)
             let category = optionCategory(index)
             options.append(Option(id: "\(index + 1)", content: content, category: category))
+            if !categories.contains(category) {
+                categories.append(category)
+            }
         }
     }
     
