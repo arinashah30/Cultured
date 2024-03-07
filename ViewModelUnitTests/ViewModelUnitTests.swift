@@ -67,12 +67,13 @@ final class ViewModelUnitTests: XCTestCase {
     func testGetWordGameFromFirebase() {
         let expectation = self.expectation(description: "Retrieve information from WordGame")
         
-        vm.getWordGameFromFirebase(activityName: "FrenchCultureQuiz") {wordgame in
+        vm.getWordGameFromFirebase(activityName: "UAETraditionsWordGuessing") {wordgame in
             XCTAssertNotNil(wordgame, "Word Game should not be nil")
-            
-            print("WordGame =====", wordgame!)
-
-            
+            XCTAssertEqual(wordgame?.answer, "THE Olympic Pool")
+            XCTAssertEqual(wordgame?.title, "UAETraditionsWordGuessing")
+            XCTAssertEqual(wordgame?.totalPoints, 17)
+            XCTAssertFalse(wordgame?.options.isEmpty ?? true, "The Options array is Empty")
+//            print("WordGame =====", wordgame!)            
             expectation.fulfill()
         }
             

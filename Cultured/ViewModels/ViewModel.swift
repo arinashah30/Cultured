@@ -467,13 +467,15 @@ class ViewModel: ObservableObject {
                             questionsArray.append(question)
                         }
                     }
-                    let quiz = Quiz(title: title, questions: questionsArray, points: points, pointsGoal: pointsGoal)
+                    let quiz = Quiz(title: title, 
+                                    questions: questionsArray,
+                                    points: points,
+                                    pointsGoal: pointsGoal)
                     completion(quiz)
                 }
             }
         }
     }
-    
     
     //Helper Function to Turn the data from Firebase into a Quiz Question
     func parseQuestionData(_ questionData: [String: Any]) -> QuizQuestion? {
@@ -482,7 +484,10 @@ class ViewModel: ObservableObject {
         let correctAnswerIndex = questionData["correctAnswer"] as? Int ?? 0
         let correctAnswerDescription = questionData["correctAnswerDescription"] as? String ?? ""
         
-        return QuizQuestion(question: question, answers: answers, correctAnswer: correctAnswerIndex, correctAnswerDescription: correctAnswerDescription)
+        return QuizQuestion(question: question, 
+                            answers: answers,
+                            correctAnswer: correctAnswerIndex,
+                            correctAnswerDescription: correctAnswerDescription)
     }
     
     func getWordGameFromFirebase(activityName: String, completion: @escaping (WordGuessing?) -> Void) {
@@ -502,32 +507,21 @@ class ViewModel: ObservableObject {
                         return
                     }
                     let title = data["title"] as? String ?? ""
-                    let options = data["options"] as? [OptionTile] ?? []
+                    let optionsStrings = data["options"] as? [String] ?? []
+                    let options = optionsStrings.map { OptionTile(option: $0) } // Maps the strings to OptionTile instances and creates an array of OptionTiles
                     let answer = data["answer"] as? String ?? ""
                     let points = data["totalPoints"] as? Int ?? 0
                     let flipPoints = data["flipPoints"] as? Int ?? 0
-                    
                     let wordGuessing = WordGuessing(title: title,
-                                                    options: [OptionTile](),
+                                                    options: options,
                                                     answer: answer,
                                                     totalPoints: points,
                                                     flipPoints: flipPoints,
                                                     flipsDone: 0,
-                                                    numberOfGuesses: 3)
-
-                    completion(wordGuessing)
-                    
-    //                //Get the Tile Questions subcollection
-    //                documentReference.collection("options").getDocuments { (querySnapshot, error) in
-    //                    if let error = error {
-    //                        print("Error getting the Quiz Questions \(error.localizedDescription)")
-    //                        completion(nil)
-    //                        return
-    //                    }
-    //                }
-                }
+                                                    numberOfGuesses: 0)
+                completion(wordGuessing)
             }
         }
-
+    }
 }
 
