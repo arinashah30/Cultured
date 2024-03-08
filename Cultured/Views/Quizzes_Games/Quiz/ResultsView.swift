@@ -41,16 +41,23 @@ struct CircularProgressBar: View {
             Spacer()
             
             VStack {
-                Text("You answered \(Int(progress * CGFloat(total))) out of \(total) questions correctly!")
+                Text("You answered \(Int(progress * CGFloat(total))) out of \(total)")
                     .font(Font.custom("Quicksand-SemiBold", size: 24))
-                    .multilineTextAlignment(.center)
+                    .foregroundColor(Color(red: 64/255, green: 64/255, blue: 64/255))
+                    .fixedSize(horizontal: true, vertical: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
+                Text("questions correctly!")
+                    .font(Font.custom("Quicksand-SemiBold", size: 24))
+                    .foregroundColor(Color(red: 64/255, green: 64/255, blue: 64/255))
+                    .fixedSize(horizontal: true, vertical: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
                     .padding(.bottom, 20)
                 
                 Text("Points Collected: 48")
                     .font(.system(size: 20))
+                    .foregroundColor(Color(red: 64/255, green: 64/255, blue: 64/255))
                 
                 Text("Total Points: 786")
                     .font(.system(size: 20))
+                    .foregroundColor(Color(red: 64/255, green: 64/255, blue: 64/255))
                     .padding(.top, 20)
             }
             Spacer()
@@ -65,26 +72,24 @@ struct CircularProgressBar: View {
                     }) {
                         Text("New Quiz")
                             .padding()
-                            .background(Color(red: 228/255, green: 228/255, blue: 228/255))
-                            .foregroundColor(.black)
-                            .font(.system(size: 20, weight: .bold))
-                            .cornerRadius(8)
                             .frame(width: buttonWidth, height: buttonHeight)
-                            .cornerRadius(14)
+                            .background(Color(red: 228/255, green: 228/255, blue: 228/255))
+                            .foregroundColor(Color(red: 64/255, green: 64/255, blue: 64/255))
+                            .font(.system(size: 20, weight: .bold))
                     }
+                    .cornerRadius(100)
                     
                     Button(action: {
                         
                     }) {
                         Text("Exit")
                             .padding()
-                            .background(Color(red: 228/255, green: 228/255, blue: 228/255))
-                            .foregroundColor(.black)
-                            .font(.system(size: 20, weight: .bold))
-                            .cornerRadius(8)
                             .frame(width: buttonWidth, height: buttonHeight)
-                            .cornerRadius(14)
+                            .background(Color(red: 228/255, green: 228/255, blue: 228/255))
+                            .foregroundColor(Color(red: 64/255, green: 64/255, blue: 64/255))
+                            .font(.system(size: 20, weight: .bold))
                     }
+                    .cornerRadius(100)
                 }
                 .padding()
             }
