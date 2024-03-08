@@ -425,13 +425,31 @@ class ViewModel: ObservableObject {
     }
     
     func createNewWordGuessing(wordGuessing: WordGuessing) {
-        db.collection("GAMES").document(wordGuessing.title).setData(
+        
+        let optionsReference = db.collection("GAMES").document(wordGuessing.title)
+
+        optionsReference.setData(
             ["title": wordGuessing.title,
-             "options": wordGuessing.options,
              "answer": wordGuessing.answer,
              "totalPoints": wordGuessing.totalPoints,
              "flipPoints": wordGuessing.flipPoints,
+             "flipsDone" : wordGuessing.flipsDone,
+             "numberOfGuesses" : wordGuessing.numberOfGuesses,
             ])
+        
+        let optionTileArray = wordGuessing.options //[OptionTile]
+        for optionTile in optionTileArray {
+            optionsReference.collection("OPTIONS").document(optionTile.option).setData(
+                ["option": optionTile.option,
+                 "isFlipped": optionTile.isFlipped,
+                ]) { error in
+                    if let error = error {
+                        print("Error writing option document: \(error.localizedDescription)")
+                    } else {
+                        print("Option document successfully written")
+                    }
+                }
+        }
     }
     
     func getQuizFromFirebase(activityName: String, completion: @escaping(Quiz?) -> Void) {
@@ -566,8 +584,5 @@ class ViewModel: ObservableObject {
             }
         }
     }
-    
-    
-    
 }
 

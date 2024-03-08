@@ -6,16 +6,33 @@
 //
 
 import XCTest
+import Firebase
 @testable import Cultured
+
 
 final class ViewModelUnitTests: XCTestCase {
 
     var vm: ViewModel!
+    var db: Firestore!
 
     
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
         vm = ViewModel()
+//        let options = [
+//            OptionTile(option: "Sandwich", isFlipped: true),
+//            OptionTile(option: "Deli", isFlipped: true),
+//            OptionTile(option: "Provolone", isFlipped: false)
+//        ]
+//        let wordGuessing = WordGuessing(title: "MexicoFoodWordGuessing",
+//                                       options: options,
+//                                       answer: "Cheese",
+//                                       totalPoints: 200,
+//                                       flipPoints: 18,
+//                                       flipsDone: 0,
+//                                       numberOfGuesses: 0)
+//        
+//        vm.createNewWordGuessing(wordGuessing: wordGuessing)
     }
 
     override func tearDownWithError() throws {
@@ -57,6 +74,34 @@ final class ViewModelUnitTests: XCTestCase {
             expectation.fulfill()
         }
             
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
+    
+    func testCreateNewWordGuessing() {
+        let expectation = self.expectation(description: "Update Information in Firebase")
+        
+        let options = [
+            OptionTile(option: "Sandwich", isFlipped: true),
+            OptionTile(option: "Deli", isFlipped: true),
+            OptionTile(option: "Provolone", isFlipped: false)
+        ]
+        let wordGuessing = WordGuessing(title: "MexicoFoodWordGuessing",
+                                       options: options,
+                                       answer: "Cheese",
+                                       totalPoints: 200,
+                                       flipPoints: 18,
+                                       flipsDone: 0,
+                                       numberOfGuesses: 0)
+        
+        vm.createNewWordGuessing(wordGuessing: wordGuessing)
+        
+        
+        expectation.fulfill()
+        
         waitForExpectations(timeout: 5) { error in
             if let error = error {
                 XCTFail("waitForExpectations error: \(error)")
