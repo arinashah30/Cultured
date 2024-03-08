@@ -27,25 +27,40 @@ final class ViewModelUnitTests: XCTestCase {
 
     //Unit Test for basic functionality of 'getInfoFromModule()'
     func testGetInfoFromModule() {
-            let expectation = self.expectation(description: "Retrieve information from module")
-            
-            vm.getInfoFromModule(countryName: "UAE", moduleName: "TRADITIONS") { information in
-                XCTAssertNotNil(information, "Information should not be nil")
-                print("Value of Information: \(information)")
-                XCTAssertEqual(information, "value")
-                XCTAssertNotEqual(information, "anythingElse")
-                expectation.fulfill()
-            }
-            
+        let expectation = self.expectation(description: "Retrieve information from module")
+        
+        vm.getInfoFromModule(countryName: "UAE", moduleName: "TRADITIONS") { information in
+            XCTAssertNotNil(information, "Information should not be nil")
+            print("Value of Information: \(information)")
+            XCTAssertEqual(information, "value")
+            XCTAssertNotEqual(information, "anythingElse")
+            expectation.fulfill()
+        }
+        
         waitForExpectations(timeout: 5) { error in
             if let error = error {
                 XCTFail("waitForExpectations error: \(error)")
             }
-            
-        } // Adjust the timeout as needed
         }
+    }
     
-    
+    func testGetLeaderBoardInfo() {
+        let expectation = self.expectation(description: "Print top 20 users with highest points")
+        
+        vm.getLeaderBoardInfo() { topUsers in
+            print("Top Users:",topUsers ?? [("None", 0)])
+            XCTAssertNotNil(topUsers, "Top users shouldn't be nil")
+            XCTAssertEqual(true, self.vm.isSorted(topUsers ?? [("None", 0)]))
+            expectation.fulfill()
+       }
+        
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
+        
     func testGetQuizFromFirebase() {
         let expectation = self.expectation(description: "Retrieve information from Quiz")
         
@@ -142,6 +157,7 @@ final class ViewModelUnitTests: XCTestCase {
             }
         }
     }
+    
 
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
