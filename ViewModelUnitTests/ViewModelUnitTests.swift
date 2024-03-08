@@ -48,14 +48,16 @@ final class ViewModelUnitTests: XCTestCase {
     //Next Three unit tests assess the functinoality for each activity: quiz, connection, wordgame
     func testGetOnGoingQuiz() {
         let expectation = self.expectation(description: "Retrieve an On-Going Quiz")
-            
-        vm.getOnGoingActivity(userId: "dummyUsername_12", type: "quiz") { nameOfQuiz in
-            XCTAssertNotNil(nameOfQuiz, "Information should not be nil")
-            print("Name of On-Going Quiz: \(nameOfQuiz)")
-            XCTAssertEqual(nameOfQuiz, "FranceQuiz")
+                    
+        vm.getOnGoingActivity(userId: "ryanomeara", type: "quiz") { quizArray in
+            XCTAssertNotNil(quizArray, "Information should not be nil")
+            print("Name of On-Going Quizzes: \(quizArray)")
+            XCTAssertTrue(quizArray.contains("MexicoTraditionQuiz"))
+            XCTAssertTrue(quizArray.contains("IndiaCultureQuiz"))
+            XCTAssertFalse(quizArray.contains("EgyptFoodQuiz"))
             expectation.fulfill()
         }
-            
+             
         waitForExpectations(timeout: 5) { error in
             if let error = error {
                 XCTFail("waitForExpectations error: \(error)")
@@ -65,14 +67,16 @@ final class ViewModelUnitTests: XCTestCase {
     
     func testGetOnGoingConnection() {
         let expectation = self.expectation(description: "Retrieve an On-Going Connection")
-            
-        vm.getOnGoingActivity(userId: "dummyUsername_12", type: "connection") { nameOfConnection in
-            XCTAssertNotNil(nameOfConnection, "Information should not be nil")
-            print("Name of On-Going Connection: \(nameOfConnection)")
-            XCTAssertEqual(nameOfConnection, "UAEConnection")
+                    
+        vm.getOnGoingActivity(userId: "ryanomeara", type: "connection") { connectionArray in
+            XCTAssertNotNil(connectionArray, "Information should not be nil")
+            print("Name of On-Going Connections: \(connectionArray)")
+            XCTAssertFalse(connectionArray.contains("FranceFoodConnections"))
+            XCTAssertTrue(connectionArray.contains("UAECelebritiesConnections"))
+            XCTAssertTrue(connectionArray.contains("ChinaCultureConnections"))
             expectation.fulfill()
         }
-            
+        
         waitForExpectations(timeout: 5) { error in
             if let error = error {
                 XCTFail("waitForExpectations error: \(error)")
@@ -83,13 +87,12 @@ final class ViewModelUnitTests: XCTestCase {
     func testGetOnGoingWordGame() {
         let expectation = self.expectation(description: "Retrieve an On-Going Word Game")
             
-        vm.getOnGoingActivity(userId: "dummyUsername_12", type: "wordgame") { nameOfWordGame in
-            XCTAssertNotNil(nameOfWordGame, "Information should not be nil")
-            print("Name of On-Going Word Game: \(nameOfWordGame)")
-            XCTAssertEqual(nameOfWordGame, "NigeriaWordGame")
-            XCTAssertNotEqual(nameOfWordGame, "EgyptWordGame")
-            XCTAssertNotEqual(nameOfWordGame, "UAEWordGame")
-
+        vm.getOnGoingActivity(userId: "ryanomeara", type: "wordgame") { wordGameArray in
+            XCTAssertNotNil(wordGameArray, "Information should not be nil")
+            print("Name of On-Going Word Games: \(wordGameArray)")
+            XCTAssertFalse(wordGameArray.contains("UAELandmarkWordGame"))
+            XCTAssertTrue(wordGameArray.contains("NigeriaMusicWordGame"))
+            XCTAssertTrue(wordGameArray.contains("IndiaTraditionWordGame"))
             expectation.fulfill()
         }
 
