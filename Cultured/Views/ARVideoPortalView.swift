@@ -77,7 +77,7 @@ class ARViewController: ARView {
     
     func downloadVideo(_ closure: @escaping (URL) -> ()) {
         let storage = Storage.storage()
-        let pathReference = storage.reference(withPath: "videos/\(modelName).\(videoType)")
+        let pathReference = storage.reference(withPath: "360videos/\(modelName).\(videoType)")
         let localURL = URL.documentsDirectory.appending(path: "videos/\(modelName).\(videoType)")
         
         // Download to the local filesystem
