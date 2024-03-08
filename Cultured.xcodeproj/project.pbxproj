@@ -64,6 +64,7 @@
 		7C1B21002B7C00A0008E0244 /* Quicksand-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B20FB2B7C00A0008E0244 /* Quicksand-Regular.ttf */; };
 		7C1B21012B7C00A0008E0244 /* Quicksand-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B20FC2B7C00A0008E0244 /* Quicksand-SemiBold.ttf */; };
 		7C1B21022B7C00A0008E0244 /* Quicksand-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B20FD2B7C00A0008E0244 /* Quicksand-Light.ttf */; };
+		A94743BF2B9A894B000C7000 /* MajorCitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94743BE2B9A894B000C7000 /* MajorCitiesView.swift */; };
 		B31D2BFA2B8EB3EF00FAF095 /* ViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31D2BF92B8EB3EF00FAF095 /* ViewModelUnitTests.swift */; };
 		CA64398A2B8579AF00181C5F /* FoodCategorySectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6439892B8579AF00181C5F /* FoodCategorySectionView.swift */; };
 		CA64398C2B857B0900181C5F /* CustomsSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA64398B2B857B0900181C5F /* CustomsSectionView.swift */; };
@@ -127,6 +128,7 @@
 		7C1B20FB2B7C00A0008E0244 /* Quicksand-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Regular.ttf"; sourceTree = "<group>"; };
 		7C1B20FC2B7C00A0008E0244 /* Quicksand-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-SemiBold.ttf"; sourceTree = "<group>"; };
 		7C1B20FD2B7C00A0008E0244 /* Quicksand-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Light.ttf"; sourceTree = "<group>"; };
+		A94743BE2B9A894B000C7000 /* MajorCitiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MajorCitiesView.swift; sourceTree = "<group>"; };
 		B31D2BF72B8EB3EF00FAF095 /* ViewModelUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ViewModelUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B31D2BF92B8EB3EF00FAF095 /* ViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelUnitTests.swift; sourceTree = "<group>"; };
 		CA6439892B8579AF00181C5F /* FoodCategorySectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCategorySectionView.swift; sourceTree = "<group>"; };
@@ -326,6 +328,7 @@
 		66FB6A1C2B72A2C40066B826 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				A94743BD2B9A893C000C7000 /* Places */,
 				66FB6A232B72A34D0066B826 /* PopCulture */,
 				66FB6A242B72A35A0066B826 /* Customs */,
 			);
@@ -366,6 +369,14 @@
 				7C1B20FD2B7C00A0008E0244 /* Quicksand-Light.ttf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		A94743BD2B9A893C000C7000 /* Places */ = {
+			isa = PBXGroup;
+			children = (
+				A94743BE2B9A894B000C7000 /* MajorCitiesView.swift */,
+			);
+			path = Places;
 			sourceTree = "<group>";
 		};
 		B31D2BF82B8EB3EF00FAF095 /* ViewModelUnitTests */ = {
@@ -506,6 +517,7 @@
 				66FB6A202B72A2F00066B826 /* TraditionsView.swift in Sources */,
 				480F21FE2B7C19D800CB5632 /* StartWordGuessingView.swift in Sources */,
 				66FB69FC2B72A11D0066B826 /* LeaderboardView.swift in Sources */,
+				A94743BF2B9A894B000C7000 /* MajorCitiesView.swift in Sources */,
 				480F21F92B75A29500CB5632 /* Connections.swift in Sources */,
 				39C1D8252B8815AE007B2601 /* StartQuizView.swift in Sources */,
 				480F22062B7C1F9000CB5632 /* QuizViewModel.swift in Sources */,
