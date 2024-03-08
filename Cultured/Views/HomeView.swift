@@ -77,8 +77,8 @@ struct HomeView: View {
                             .font(.system(size: 20))
                             .bold()
                             .offset(y:-15)
-                        Button {
-                            
+                        NavigationLink {
+                            StartQuizView(vm: QuizViewModel())
                         } label: {
                             Text("start")
                                 .font(.system(size: 16))
@@ -103,8 +103,8 @@ struct HomeView: View {
                             .font(.system(size: 20))
                             .bold()
                             .offset(y:-15)
-                        Button {
-                            
+                        NavigationLink {
+                            ConnectionsGameView(vm:ConnectionsViewModel())
                         } label: {
                             Text("start")
                                 .font(.system(size: 16))
@@ -123,13 +123,13 @@ struct HomeView: View {
                         Image("Home20Questions")
                             .resizable()
                             .frame(width: 170, height: 125)
-                        Text("20 Questions")
+                        Text("Guess the Word")
                             .foregroundColor(.white)
                             .font(.system(size: 20))
                             .bold()
                             .offset(y:-15)
-                        Button {
-                            
+                        NavigationLink {
+                            StartWordGuessingView(vm: vm)
                         } label: {
                             Text("start")
                                 .font(.system(size: 16))
