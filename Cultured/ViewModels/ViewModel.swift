@@ -424,7 +424,7 @@ class ViewModel: ObservableObject {
             ])
     }
     
-    func createNewWordGuessing(wordGuessing: WordGuessing, completion: @escaping (Bool) -> Void) {
+    func createNewWordGuessing(wordGuessing: WordGuessing) {
         
         let optionsReference = db.collection("GAMES").document(wordGuessing.title)
 
@@ -446,7 +446,6 @@ class ViewModel: ObservableObject {
         let optionTileArray = wordGuessing.options //[OptionTile]
         let optionsArrayReference = optionsReference.collection("OPTIONS")
         for optionTile in optionTileArray {
-            print(optionTile)
             optionsArrayReference.document(optionTile.option).setData(
                 ["option": optionTile.option,
                  "isFlipped": optionTile.isFlipped,
@@ -458,7 +457,6 @@ class ViewModel: ObservableObject {
                     }
                 }
         }
-        completion(true)
     }
     
     func getQuizFromFirebase(activityName: String, completion: @escaping(Quiz?) -> Void) {
@@ -523,32 +521,60 @@ class ViewModel: ObservableObject {
                 if let error = error {
                     print("Error Getting Documents \(error)")
                     completion(nil)
-                } else {
-                    guard let actDoc = activityDocument, actDoc.exists else {
-                        print("Document Does Not Exist")
+                    return
+                }
+                
+                guard let actDoc = activityDocument, actDoc.exists else {
+                    print("Document Does Not Exist")
+                    completion(nil)
+                    return
+                }
+                
+                guard let data = actDoc.data() else {
+                    completion(nil)
+                    return
+                }
+                
+                let title = data["title"] as? String ?? ""
+                let answer = data["answer"] as? String ?? ""
+                let points = data["totalPoints"] as? Int ?? 0
+                let flipPoints = data["flipPoints"] as? Int ?? 0
+                
+                //Get the Options Reference
+                documentReference.collection("OPTIONS").getDocuments { (querySnapshot, error) in
+                    if let error = error {
+                        print("Error getting the Quiz Questions \(error.localizedDescription)")
                         completion(nil)
                         return
                     }
-                    guard let data = actDoc.data() else {
-                        completion(nil)
-                        return
+                    
+                    var optionTileArray = [OptionTile]()
+                    for optionDocuments in querySnapshot!.documents {
+                        let optionData = optionDocuments.data()
+                        if let option = self.parseOptionTile(optionData) {
+                            optionTileArray.append(option)
+                        }
                     }
-                    let title = data["title"] as? String ?? ""
-                    let optionsStrings = data["options"] as? [String] ?? []
-                    let options = optionsStrings.map { OptionTile(option: $0) } // Maps the strings to OptionTile instances and creates an array of OptionTiles
-                    let answer = data["answer"] as? String ?? ""
-                    let points = data["totalPoints"] as? Int ?? 0
-                    let flipPoints = data["flipPoints"] as? Int ?? 0
                     let wordGuessing = WordGuessing(title: title,
-                                                    options: options,
+                                                    options: optionTileArray,
                                                     answer: answer,
                                                     totalPoints: points,
                                                     flipPoints: flipPoints,
                                                     flipsDone: 0,
                                                     numberOfGuesses: 0)
-                completion(wordGuessing)
-            }
+                    completion(wordGuessing)
+                }
         }
+    }
+    
+    
+    //Helper Function to Turn the data from Firebase into a Quiz Question
+    func parseOptionTile(_ optionData: [String: Any]) -> OptionTile? {
+        let option = optionData["option"] as? String ?? ""
+        let isFlipped = optionData["isFlipped"] as? Bool ?? false
+        return OptionTile(option: option,
+                          isFlipped: isFlipped)
+                    
     }
     
     func getConnectionsFromFirebase(activityName: String, completion: @escaping (Connections?) -> Void) {

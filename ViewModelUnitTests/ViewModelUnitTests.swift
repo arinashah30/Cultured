@@ -13,7 +13,6 @@ import Firebase
 final class ViewModelUnitTests: XCTestCase {
 
     var vm: ViewModel!
-    var db: Firestore!
 
     
     override func setUpWithError() throws {
@@ -71,22 +70,28 @@ final class ViewModelUnitTests: XCTestCase {
         let expectation = self.expectation(description: "Update Information in Firebase")
         
         let options = [
-            OptionTile(option: "Sandwich", isFlipped: true),
-            OptionTile(option: "Deli", isFlipped: true),
-            OptionTile(option: "Provolone", isFlipped: false)
+            OptionTile(option: "Bio Quad", isFlipped: true),
+            OptionTile(option: "THE Olympic Pool", isFlipped: true),
+            OptionTile(option: "Stamps Student Health Center", isFlipped: false),
+            OptionTile(option: "Dorothy Crossland Tower", isFlipped: false),
+            OptionTile(option: "Clough Undergraduate Learning Commons", isFlipped: false),
+            OptionTile(option: "Bobby Dodd", isFlipped: false)
         ]
-        let wordGuessing = WordGuessing(title: "MexicoFoodWordGuessing",
+        let wordGuessing = WordGuessing(title: "UAETraditionsWordGuessing",
                                        options: options,
-                                       answer: "Cheese",
-                                       totalPoints: 200,
-                                       flipPoints: 18,
-                                       flipsDone: 0,
-                                       numberOfGuesses: 0)
+                                       answer: "THE Olympic Pool",
+                                       totalPoints: 17,
+                                       flipPoints: 4,
+                                       flipsDone: 2,
+                                       numberOfGuesses: 3)
         
-        vm.createNewWordGuessing(wordGuessing: wordGuessing) { success in
-                XCTAssertTrue(success, "Creation of game failed")
-                expectation.fulfill()
-            }
+        vm.createNewWordGuessing(wordGuessing: wordGuessing)
+        
+        // Wait for some time for Firestore operation to complete
+        // !!!THIS IS VITAL TO TEST FUNCTIONS THAT UPDATE TO THE FIRESTORE!!!
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            expectation.fulfill()
+        }
                 
         waitForExpectations(timeout: 5) { error in
             if let error = error {
@@ -98,13 +103,16 @@ final class ViewModelUnitTests: XCTestCase {
     func testGetWordGameFromFirebase() {
         let expectation = self.expectation(description: "Retrieve information from WordGame")
         
-        vm.getWordGameFromFirebase(activityName: "UAETraditionsWordGuessing") {wordgame in
+        vm.getWordGameFromFirebase(activityName: "MexicoFoodWordGuessing") {wordgame in
             XCTAssertNotNil(wordgame, "Word Game should not be nil")
-            XCTAssertEqual(wordgame?.answer, "THE Olympic Pool")
-            XCTAssertEqual(wordgame?.title, "UAETraditionsWordGuessing")
-            XCTAssertEqual(wordgame?.totalPoints, 17)
+            XCTAssertEqual(wordgame?.answer, "Cheese")
+            XCTAssertEqual(wordgame?.flipPoints, 18)
+            XCTAssertEqual(wordgame?.flipsDone, 0)
+            XCTAssertEqual(wordgame?.numberOfGuesses, 0)
+            XCTAssertEqual(wordgame?.title, "MexicoFoodWordGuessing")
+            XCTAssertEqual(wordgame?.totalPoints, 200)
             XCTAssertFalse(wordgame?.options.isEmpty ?? true, "The Options array is Empty")
-            //print("WordGame =====", wordgame!)
+            print("WordGame =====", wordgame!)
             expectation.fulfill()
         }
             
