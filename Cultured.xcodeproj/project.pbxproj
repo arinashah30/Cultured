@@ -27,6 +27,7 @@
 		6690A2D32B8D7AC7002C33C5 /* Pisa_Tower.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 6690A2CF2B8D7AC7002C33C5 /* Pisa_Tower.usdz */; };
 		6690A2D42B8D7AC7002C33C5 /* Burj_Khalifa.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 6690A2D02B8D7AC7002C33C5 /* Burj_Khalifa.usdz */; };
 		6690A2D62B8D7EE5002C33C5 /* Eiffel_Tower.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 6690A2D52B8D7EE4002C33C5 /* Eiffel_Tower.usdz */; };
+		66F71B802B9A9344007EB198 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 66F71B7F2B9A9344007EB198 /* GoogleService-Info.plist */; };
 		66FB69C72B72A06D0066B826 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB69C62B72A06D0066B826 /* AppDelegate.swift */; };
 		66FB69C92B72A06D0066B826 /* TourView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB69C82B72A06D0066B826 /* TourView.swift */; };
 		66FB69CB2B72A06E0066B826 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66FB69CA2B72A06E0066B826 /* Assets.xcassets */; };
@@ -98,6 +99,7 @@
 		6690A2CF2B8D7AC7002C33C5 /* Pisa_Tower.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Pisa_Tower.usdz; sourceTree = "<group>"; };
 		6690A2D02B8D7AC7002C33C5 /* Burj_Khalifa.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Burj_Khalifa.usdz; sourceTree = "<group>"; };
 		6690A2D52B8D7EE4002C33C5 /* Eiffel_Tower.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Eiffel_Tower.usdz; sourceTree = "<group>"; };
+		66F71B7F2B9A9344007EB198 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		66FB69C32B72A06D0066B826 /* Cultured.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cultured.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66FB69C62B72A06D0066B826 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		66FB69C82B72A06D0066B826 /* TourView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourView.swift; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 				6690A2CA2B8D7A2A002C33C5 /* tower_bridge.mp4 */,
 				66FE49442B7577390053D229 /* Dice.imported.usdc */,
 				7C1B20F62B7C002C008E0244 /* Info.plist */,
+				66F71B7F2B9A9344007EB198 /* GoogleService-Info.plist */,
 				66FB69C62B72A06D0066B826 /* AppDelegate.swift */,
 				66FB69D62B72A0800066B826 /* Views */,
 				66FB69D52B72A07B0066B826 /* ViewModels */,
@@ -453,6 +456,7 @@
 				7C1B21022B7C00A0008E0244 /* Quicksand-Light.ttf in Resources */,
 				7C1B21012B7C00A0008E0244 /* Quicksand-SemiBold.ttf in Resources */,
 				6690A2D12B8D7AC7002C33C5 /* Taj_Mahal.usdz in Resources */,
+				66F71B802B9A9344007EB198 /* GoogleService-Info.plist in Resources */,
 				6690A2CC2B8D7A2A002C33C5 /* tower_bridge.mp4 in Resources */,
 				6690A2D22B8D7AC7002C33C5 /* Chichen_Itza.usdz in Resources */,
 				6690A2D42B8D7AC7002C33C5 /* Burj_Khalifa.usdz in Resources */,
@@ -640,6 +644,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"Cultured/Preview Content\"";
 				DEVELOPMENT_TEAM = W25VYB4Y9F;
 				ENABLE_PREVIEWS = YES;
