@@ -424,7 +424,7 @@ class ViewModel: ObservableObject {
             ])
     }
     
-    func createNewWordGuessing(wordGuessing: WordGuessing) {
+    func createNewWordGuessing(wordGuessing: WordGuessing, completion: @escaping (Bool) -> Void) {
         
         let optionsReference = db.collection("GAMES").document(wordGuessing.title)
 
@@ -435,11 +435,19 @@ class ViewModel: ObservableObject {
              "flipPoints": wordGuessing.flipPoints,
              "flipsDone" : wordGuessing.flipsDone,
              "numberOfGuesses" : wordGuessing.numberOfGuesses,
-            ])
+            ]) { error in
+                if let error = error {
+                    print("Error writing game document: \(error.localizedDescription)")
+                } else {
+                    print("Game document successfully written")
+                }
+            }
         
         let optionTileArray = wordGuessing.options //[OptionTile]
+        let optionsArrayReference = optionsReference.collection("OPTIONS")
         for optionTile in optionTileArray {
-            optionsReference.collection("OPTIONS").document(optionTile.option).setData(
+            print(optionTile)
+            optionsArrayReference.document(optionTile.option).setData(
                 ["option": optionTile.option,
                  "isFlipped": optionTile.isFlipped,
                 ]) { error in
@@ -450,6 +458,7 @@ class ViewModel: ObservableObject {
                     }
                 }
         }
+        completion(true)
     }
     
     func getQuizFromFirebase(activityName: String, completion: @escaping(Quiz?) -> Void) {

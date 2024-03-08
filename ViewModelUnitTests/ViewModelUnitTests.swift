@@ -19,20 +19,6 @@ final class ViewModelUnitTests: XCTestCase {
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
         vm = ViewModel()
-//        let options = [
-//            OptionTile(option: "Sandwich", isFlipped: true),
-//            OptionTile(option: "Deli", isFlipped: true),
-//            OptionTile(option: "Provolone", isFlipped: false)
-//        ]
-//        let wordGuessing = WordGuessing(title: "MexicoFoodWordGuessing",
-//                                       options: options,
-//                                       answer: "Cheese",
-//                                       totalPoints: 200,
-//                                       flipPoints: 18,
-//                                       flipsDone: 0,
-//                                       numberOfGuesses: 0)
-//        
-//        vm.createNewWordGuessing(wordGuessing: wordGuessing)
     }
 
     override func tearDownWithError() throws {
@@ -97,11 +83,11 @@ final class ViewModelUnitTests: XCTestCase {
                                        flipsDone: 0,
                                        numberOfGuesses: 0)
         
-        vm.createNewWordGuessing(wordGuessing: wordGuessing)
-        
-        
-        expectation.fulfill()
-        
+        vm.createNewWordGuessing(wordGuessing: wordGuessing) { success in
+                XCTAssertTrue(success, "Creation of game failed")
+                expectation.fulfill()
+            }
+                
         waitForExpectations(timeout: 5) { error in
             if let error = error {
                 XCTFail("waitForExpectations error: \(error)")
