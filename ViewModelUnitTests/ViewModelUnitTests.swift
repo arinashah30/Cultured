@@ -42,6 +42,15 @@ final class ViewModelUnitTests: XCTestCase {
             
         } // Adjust the timeout as needed
         }
+    
+    func testConnectionsData() {
+        let answer_key: [String: [String]] = ["Pop megastars": ["Swift", "Mars", "Grande", "Styles"], "Method": ["Vehicle", "Means", "Medium", "Channel"], "Living ___": ["Large", "Legend", "Room", "Proof"], "Unlikely, as chances": ["Small", "Outside", "Slim", "Remote"]]
+        let title = "TestConnectionsOne"
+        
+        let connection = Connections(title: title, answer_key: answer_key, history: [])
+        
+        vm.createNewConnections(connection: connection)
+    }
 
     func testPerformanceExample() throws {
         // This is an example of a performance test case.

@@ -412,15 +412,21 @@ class ViewModel: ObservableObject {
     }
     
     func createNewConnections(connection: Connections) {
+        var answer_key: [String: [String]] = [:]
+        
+        for key in connection.answer_key.keys {
+            for value in connection.answer_key[key]! {
+                if answer_key.keys.contains(key) {
+                    answer_key[key]?.append(value.content)
+                } else {
+                    answer_key.updateValue([value.content], forKey: key)
+                }
+            }
+        }
+        print(answer_key)
         db.collection("GAMES").document(connection.title).setData(
             ["title": connection.title,
-             //these are arrays of strings
-             "categories": connection.categories,
-             "options": connection.options,
-             "answerKey": connection.answerKey,
-             
-             "points": connection.points,
-             "attempts": connection.attempts,
+             "answerKey": answer_key
             ])
     }
     
