@@ -96,7 +96,7 @@ struct ConnectionsResultsView: View {
     
     var back_to_home: some View {
         Button(action: {
-            vm.submit()
+            //implement switching screens
         }) {
             Text("Back to Home")
                 .frame(width: 200 , height: 60, alignment: .center)
