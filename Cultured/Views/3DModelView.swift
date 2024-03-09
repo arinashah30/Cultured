@@ -95,6 +95,8 @@ class LandmarkARView: ARView {
     
     func updateModel(_ newModel: ARLandmark) {
         self.scene.anchors.removeAll()
+        informationBubbles = []
+        informationTextBoxes = []
         self.model = newModel
     }
     
@@ -128,7 +130,7 @@ class LandmarkARView: ARView {
             let textbox = TextBoxEntity(text: model.facts[i], boxWidth: CGFloat(model.textBoxWidths[i]), boxHeight: CGFloat(model.textBoxHeights[i]))
             textbox.scale = [5,5,5]
             anchor.addChild(textbox)
-            textbox.position = [Float(model.xDistance), 0, Float(-2)]
+            textbox.position = [0, 0, 0]
             informationTextBoxes.append(textbox)
             textbox.isEnabled = false //hides textbox at first
         }
