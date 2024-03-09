@@ -49,5 +49,23 @@ final class ViewModelUnitTests: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
+    
+    func testUpdateLastLoggedOn() {
+        vm.updateLastLoggedOn(userID: "ryanomeara") {completed in
+            print(completed)
+        }
+    }
+    
+    func testStreak() {
+        print("Hello world")
+        let expectation = XCTestExpectation(description: "Streak check")
+        vm.checkIfStreakIsIntact(userID: "ryanomeara") { intact in
+            print("Is intact?: \(intact)")
+            print("Hello world")
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 5) // Adjust timeout as needed
+        print("Hello world")
+    }
 
 }
