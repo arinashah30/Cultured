@@ -126,15 +126,6 @@ class LandmarkARView: ARView {
         // addding the landmark to the view
         let anchor = AnchorEntity(.plane(.horizontal, classification: .floor, minimumBounds: [0.5, 0.5]))
         
-        for i in 0..<model.facts.count {
-            let textbox = TextBoxEntity(text: model.facts[i], boxWidth: CGFloat(model.textBoxWidths[i]), boxHeight: CGFloat(model.textBoxHeights[i]))
-            textbox.scale = [5,5,5]
-            anchor.addChild(textbox)
-            textbox.position = [0, 0, 0]
-            informationTextBoxes.append(textbox)
-            textbox.isEnabled = false //hides textbox at first
-        }
-        
         
         anchor.addChild(modelEntity)
         modelEntity.position = [Float(model.xDistance), 0, Float(model.zDistance)]
@@ -144,13 +135,23 @@ class LandmarkARView: ARView {
         
         // adding the information bubbles
         for i in 0..<model.facts.count {
-            let informationBubbleEntity = ModelEntity(mesh: MeshResource.generateSphere(radius: 15.0), materials: [SimpleMaterial(color: .red, isMetallic: true)])
+            let informationBubbleEntity = ModelEntity(mesh: MeshResource.generateSphere(radius: 5.0), materials: [SimpleMaterial(color: .red, isMetallic: true)])
             let relativeTransform = Transform(translation: [Float(i) + 1, Float(i) + 1, Float(i) + 1])
             informationBubbleEntity.transform = relativeTransform
+            informationBubbleEntity.scale = [1,1,1]
             informationBubbleEntity.generateCollisionShapes(recursive: true) // adding collision boxes to each bubble
             informationBubbleEntity.name = "Fact " + String(i)
             modelEntity.addChild(informationBubbleEntity)
             informationBubbles.append(informationBubbleEntity)
+            
+            let textbox = TextBoxEntity(text: model.facts[i], boxWidth: CGFloat(model.textBoxWidths[i]), boxHeight: CGFloat(model.textBoxHeights[i]))
+            textbox.scale = [50,50,50]
+            informationBubbleEntity.addChild(textbox)
+            textbox.position = [informationBubbleEntity.position.x + 12.5, informationBubbleEntity.position.y, informationBubbleEntity.position.z]
+            informationTextBoxes.append(textbox)
+            textbox.isEnabled = true //hides textbox at first
+            print(textbox.position)
+            print(informationBubbleEntity.position)
         }
         
         self.scene.addAnchor(anchor)
