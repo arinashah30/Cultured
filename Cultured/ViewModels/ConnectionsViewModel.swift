@@ -6,16 +6,35 @@
 //
 
 import Foundation
-import OrderedCollections
 
 class ConnectionsViewModel: ObservableObject {
     @Published var current_user: User? = nil
     
     static func start_connections() -> Connections {
-        let answer_key: [String: [String]] = ["Pop megastars": ["Swift", "Mars", "Grande", "Styles"], "Method": ["Vehicle", "Means", "Medium", "Channel"], "Living ___": ["Large", "Legend", "Room", "Proof"], "Unlikely, as chances": ["Small", "Outside", "Slim", "Remote"]]
-        let title = "TestConnectionsOne"
+        let optionsDict: [String: String] = ["Swift": "Pop megastars",
+                                       "Vehicle": "Method",
+                                       "Large": "Living ___",
+                                       "Legend": "Living ___",
+                                       "Small": "Unlikely, as chances",
+                                       "Means": "Method",
+                                       "Medium": "Method",
+                                       "Mars": "Pop megastars",
+                                       "Outside": "Unlikely, as chances",
+                                       "Room": "Living ___",
+                                       "Grande": "Pop megastars",
+                                       "Slim": "Unlikely, as chances",
+                                       "Proof": "Living ___",
+                                       "Styles": "Pop megastars",
+                                       "Remote": "Unlikely, as chances",
+                                       "Channel": "Method"]
+        let optionsContent: [String] = Array(optionsDict.keys)
+        let optionsCategories: [String] = Array(optionsDict.values)
         
-        return Connections(title: title, answer_key: answer_key, history: [])
+        return Connections() { index in
+            return optionsContent[index]
+        } optionCategory: { index in
+            return optionsCategories[index]
+        }
     }
     
     @Published var current_connections_game: Connections? = start_connections()
@@ -24,28 +43,8 @@ class ConnectionsViewModel: ObservableObject {
         return current_connections_game!.options
     }
     
-    var mistake_history: OrderedDictionary<[Connections.Option], Bool> {
-        return current_connections_game!.mistake_history
-    }
-    
-    var mistake_history_keys: [[Connections.Option]] {
-        var store: [[Connections.Option]] = []
-        for key in current_connections_game!.mistake_history.keys {
-            store.append(key)
-        }
-        return store
-    }
-    
-    var correct_history: OrderedDictionary<String, [Connections.Option]> {
-        return current_connections_game!.correct_history
-    }
-    
-    var correct_history_keys: [String] {
-        var store: [String] = []
-        for key in current_connections_game!.correct_history.keys {
-            store.append(key)
-        }
-        return store
+    var history: [[Connections.Option]] {
+        return current_connections_game!.history
     }
     
     var selection: [Connections.Option] {
@@ -56,12 +55,8 @@ class ConnectionsViewModel: ObservableObject {
         return current_connections_game!.mistakes_remaining
     }
     
-    var one_away: Bool {
-        return current_connections_game!.one_away
-    }
-    
-    var already_guessed: Bool {
-        return current_connections_game!.already_guessed
+    var correct_categories: Int {
+        return current_connections_game!.correct_categories
     }
     
     func select(_ option: Connections.Option) {
@@ -76,7 +71,48 @@ class ConnectionsViewModel: ObservableObject {
         current_connections_game!.shuffle()
     }
     
-    func reset_alerts() {
-        current_connections_game!.reset_alerts()
+    func get_amount_correct(submission: [String]) -> Int {
+        var amountCorrect: Int = 0
+        for category in current_connections_game!.categories {
+            var answerOptions: [String] = current_connections_game!.answerKey[category]!
+            for option in submission {
+                for answerOption in answerOptions {
+                    if (answerOption == option) {
+                        amountCorrect += 1
+                    }
+                }
+            }
+        }
+        
+        if (amountCorrect == 4) {
+            current_connections_game?.correct_categories += 1
+        }
+        
+        if (current_connections_game?.correct_categories == 4) {
+            return -1
+        }
+        
+        return amountCorrect
     }
+    
+    func playConnections() {
+        
+    }
+
+    
+    //METHOD IN PROGRESS
+//    func getCategoryInfo(index: Int) -> [String] {
+//        var infoArray : [String] = []
+//        var category : String = Connections.categories[index]
+//        
+//        infoArray.append(category)
+//        
+//        var wordsOfCategory = Connections.answerKey[category]
+//        
+//        for word in wordsOfCategory {
+//            infoArray.append(word)
+//        }
+//        
+//        return infoArray
+//    }
 }

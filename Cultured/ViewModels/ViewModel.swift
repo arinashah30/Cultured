@@ -464,22 +464,59 @@ class ViewModel: ObservableObject {
     }
     
     func createNewConnections(connection: Connections) {
-        var answer_key: [String: [String]] = [:]
         
-        for key in connection.answer_key.keys {
-            for value in connection.answer_key[key]! {
-                if answer_key.keys.contains(key) {
-                    answer_key[key]?.append(value.content)
+        let connectionsReference = db.collection("GAMES").document(connection.title)
+        
+        connectionsReference.setData(
+            ["title": connection.title,
+             "categories": connection.categories,
+             "answerKey": connection.answerKey,
+             "points": connection.points,
+             "attempts": connection.attempts,
+             "mistakesRemaining": connection.mistakes_remaining,
+             "correctCategories": connection.correct_categories
+            ]) { error in
+                if let error = error {
+                    print("Error writing game document: \(error.localizedDescription)")
                 } else {
-                    answer_key.updateValue([value.content], forKey: key)
+                    print("Game document successfully written")
                 }
             }
+        
+        //private(set) var options: [Option]
+        let optionArray = connection.options //[Option]
+        let optionArrayReference = connectionsReference.collection("OPTIONS")
+        for option in optionArray {
+            optionArrayReference.document(option.id).setData(
+                ["id": option.id,
+                 "isSelected": option.isSelected,
+                 "isSubmitted": option.isSubmitted,
+                 "content": option.content,
+                 "category": option.category
+                ])
         }
-        print(answer_key)
-        db.collection("GAMES").document(connection.title).setData(
-            ["title": connection.title,
-             "answerKey": answer_key
-            ])
+            
+        //var selection: [Option]
+        let optionSelectionArray = connection.selection //[Option]
+        let optionSelectionArrayReference = connectionsReference.collection("SELECTIONS")
+        for option in optionSelectionArray {
+            optionSelectionArrayReference.document(option.id).setData(
+                ["id": option.id,
+                 "isSelected": option.isSelected,
+                 "isSubmitted": option.isSubmitted,
+                 "content": option.content,
+                 "category": option.category
+                ])
+        }
+            
+        //var history: [[Option]]
+        let historyArrayOfArrays = connection.history //[[Option]]
+        let historyReference = connectionsReference.collection("HISTORY")
+        for (index, options) in historyArrayOfArrays.enumerated() {
+            let optionDictionaryArray = options.map {optionToDictionary(option: $0)}
+            let documentData: [String: Any] = ["options": optionDictionaryArray]
+            historyReference.document("History\(index)").setData(documentData)
+        }
     }
             
     func optionToDictionary(option: Connections.Option) -> [String: Any] {

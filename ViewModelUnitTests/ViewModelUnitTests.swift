@@ -51,7 +51,7 @@ final class ViewModelUnitTests: XCTestCase {
             XCTAssertNotNil(topUsers, "Top users shouldn't be nil")
             XCTAssertEqual(true, self.vm.isSorted(topUsers ?? [("None", 0)]))
             expectation.fulfill()
-        }
+       }
         
         waitForExpectations(timeout: 5) { error in
             if let error = error {
@@ -275,15 +275,6 @@ final class ViewModelUnitTests: XCTestCase {
                 XCTFail("waitForExpectations error: \(error)")
             }
         }
-    }
-        
-    func testConnectionsData() {
-        let answer_key: [String: [String]] = ["Pop megastars": ["Swift", "Mars", "Grande", "Styles"], "Method": ["Vehicle", "Means", "Medium", "Channel"], "Living ___": ["Large", "Legend", "Room", "Proof"], "Unlikely, as chances": ["Small", "Outside", "Slim", "Remote"]]
-        let title = "TestConnectionsOne"
-        
-        let connection = Connections(title: title, answer_key: answer_key, history: [])
-        
-        vm.createNewConnections(connection: connection)
     }
 
     func testPerformanceExample() throws {
