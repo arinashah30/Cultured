@@ -18,12 +18,31 @@ class ViewModel: ObservableObject {
     @Published var errorText: String? = nil
     //@Published var points: Int = 100
     
+    init(current_user: User? = nil, errorText: String? = nil) {
+        self.current_user = current_user
+        self.errorText = errorText
+        UserDefaults.standard.setValue(false, forKey: "log_Status")
+    }
+    
     func fireBaseSignIn(email: String, password: String, completion: @escaping (Bool) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) {  authResult, error in
             if let error = error{
+                    print(error.localizedDescription)
+                    let firebaseError = AuthErrorCode.Code(rawValue: error._code)
+                    switch firebaseError {
+                    case .wrongPassword:
+                        self.errorText = "Password incorrect"
+                    case .userNotFound:
+                        self.errorText = "User not found"
+                    case .userDisabled:
+                        self.errorText = "Your account has been disabled"
+                    default:
+                        self.errorText = "An error has occurred"
+                }
                 completion(false)
             }
             else {
+                UserDefaults.standard.setValue(true, forKey: "log_Status")
                 completion(true)
             }
             //doesn't handle the case where authResult is nil so write that in if needed
@@ -71,7 +90,7 @@ class ViewModel: ObservableObject {
         
     }
     
-    func firebase_email_password_sign_up_(email: String, password: String, username: String, displayName: String) {
+    func firebase_email_password_sign_up_(email: String, password: String, username: String) {
         auth.createUser(withEmail: email, password: password) { authResult, error in
             if let errorSignUp = error {
                 let firebaseError = AuthErrorCode.Code(rawValue: errorSignUp._code)
@@ -86,24 +105,47 @@ class ViewModel: ObservableObject {
             } else if let user = authResult?.user {
                 self.db.collection("USERS").document(username).setData(
                     ["id" : username,
-                     "name" : displayName,
+                     "name" : username,
                      "profilePicture" : "https://static-00.iconduck.com/assets.00/person-crop-circle-icon-256x256-02mzjh1k.png", // default icon
                      "email" : email,
                      "points" : 0, //points is a string and we can cast it to an int when we use it
                      "badges" : [],
-                     "bio" : "",
-                     "friends" : [],
-                     "completedGames": [],
-                     "incomingRequests": [],
-                     "outgoingRequests": [],
+                     "streak" : 0,
+                     "completedChallenges": [],
+                     "savedArtists": []
                     ] as [String : Any]) { error in
                         if let error = error {
                             self.errorText = error.localizedDescription
+                        } else {
+                            self.setCurrentUser(userId: username) {
+                                UserDefaults.standard.setValue(true, forKey: "log_Status")
+                            }
                         }
                     }
             }
         }
     }
+    
+    func setCurrentUser(userId: String, completion: @escaping (() -> Void)) {
+        db.collection("USERS").document(userId).getDocument (completion: { [weak self] document, error in
+            if let error = error {
+                print("SetCurrentUserError: \(error.localizedDescription)")
+            } else if let document = document {
+                self?.current_user = User(id: document.documentID,
+                                          name: document["name"] as! String,
+                                          profilePicture: document["profilePicture"] as! String,
+                                          email: document["email"] as! String, 
+                                          points: document["points"] as? Int ?? 0,
+                                          streak: document["streak"] as? Int ?? 0,
+                                          completedChallenges: document["completedChallenges"] as? [String] ?? [],
+                                          badges: document["badges"] as? [String] ?? [],
+                                          savedArtists: document["savedArtists"] as? [String] ?? []
+                                          )
+                completion()
+            }
+        })
+    }
+    
     
     func update_points(userID: String, pointToAdd: Int, completion: @escaping (Bool) -> Void) {
         db.collection("USERS").document(userID).getDocument { [self] document, error in
@@ -369,14 +411,22 @@ class ViewModel: ObservableObject {
     }
 
     
-    func updateLastLoggedOn(userID: String) {
+    func updateLastLoggedOn(userID: String, completion: @escaping (Bool) -> Void) {
         let date = Date()
         
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd-MM-yyyy HH:mm"
+        dateFormatter.dateFormat = "MM-dd-yyyy HH:mm"
         let dateInFormat = dateFormatter.string(from: date)
         
-        self.db.collection("USERS").document(userID).updateData(["lastLoggedOn": dateInFormat])
+        self.db.collection("USERS").document(userID).updateData(["lastLoggedOn": dateInFormat]) {err in
+            if let err = err {
+                print("Error updating document: \(err.localizedDescription)")
+                completion(false)
+            } else {
+                // Document updated successfully
+                completion(true)
+            }
+        }
         
     }
     
@@ -478,6 +528,61 @@ class ViewModel: ObservableObject {
     }
         
             
+    
+    func checkIfStreakIsIntact(userID: String, completion: @escaping (Bool) -> Void) {
+        self.db.collection("USERS").document(userID).getDocument { document, error in
+            if let err = error {
+                print(err.localizedDescription)
+                completion(false)
+                return
+            } else {
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "MM-dd-yyyy HH:mm"
+                if let doc = document {
+                    if let data = doc.data(), let lastlogged = data["lastLoggedOn"] as? String {
+                        print("Logged: \(lastlogged)")
+                        guard let last_date = dateFormatter.date(from: lastlogged) else {
+                            print("Error converting last logged-on date string to Date")
+                            completion(false)
+                            return
+                        }
+                        let curr_date = Date()
+                        
+                        let calendar = Calendar.current
+                        let components = calendar.dateComponents([.day], from: last_date, to: curr_date)
+                        
+                        if let daysSinceLastLoggedOn = components.day {
+                            if daysSinceLastLoggedOn > 1 {
+                                self.db.collection("USERS").document(userID).updateData(["streak": 0]) { error in
+                                    if let error = error {
+                                        print("Error updating document: \(error)")
+                                    } else {
+                                        print("Document updated successfully")
+                                        completion(false)
+                                    }
+                                }
+                                return
+                            } else if daysSinceLastLoggedOn == 1 {
+                                self.db.collection("USERS").document(userID).updateData(["streak": FieldValue.increment(Int64(1))]) { error in
+                                    if let error = error {
+                                        print("Error updating document: \(error)")
+                                    } else {
+                                        print("Document updated successfully")
+                                        completion(true)
+                                    }
+                                }
+                                return
+                            } else {
+                                completion(true)
+                                return
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     
     func createNewWordGuessing(wordGuessing: WordGuessing) {
         
@@ -733,5 +838,38 @@ class ViewModel: ObservableObject {
                                   category: category)
                     
     }
+    
+    func getLeaderBoardInfo(completion: @escaping([(String, Int)]?) -> Void) {
+        let usersCollectionReference = db.collection("USERS")
+        usersCollectionReference.whereField("points", isGreaterThan: 0).order(by: "points", descending: true).limit(to: 20).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error getting Documents \(error)")
+                completion(nil)
+            } else {
+                var topUsers: [(String, Int)] = []
+                print(topUsers.count)
+                for document in querySnapshot!.documents {
+                    let data = document.data()
+                    let id = data["id"] as? String ?? ""
+                    let points = data["points"] as? Int ?? 0
+                    
+                    // Add the user ID and streak to the topUsers dictionary
+                    topUsers.append((id, points))
+                }
+                completion(topUsers)
+            }
+        }
+    }
+    
+    //Helper Function to Ensure the Leaderboard is properly sorted
+    func isSorted(_ array: [(String, Int)]) -> Bool {
+        for i in 0..<(array.count - 1) {
+            if array[i].1 < array[i + 1].1 {
+                return false
+            }
+        }
+        return true
+    }
+    
 }
 
