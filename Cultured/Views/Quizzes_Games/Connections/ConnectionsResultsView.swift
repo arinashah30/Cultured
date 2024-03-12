@@ -15,12 +15,12 @@ struct ConnectionsResultsView: View {
             // IN PROGRESS
 //            VStack (alignment: .leading) {
 //                categoryInfoList = vm.getCategoryInfo(index: 0)
-//                
-            }
+//            }
+            
         }
     }
 }
 
 #Preview {
-    ConnectionsResultsView(vm: ConnectionsViewModel())
+    ConnectionsResultsView(vm: ConnectionsViewModel(), categoryInfoList: [])
 }
