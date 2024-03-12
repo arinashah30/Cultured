@@ -52,6 +52,19 @@ struct Connections {
         options.shuffle()
     }
     
+    init(title: String, categories: [String], answerKey: [String : [String]], options: [Option], selection: [Option], history: [[Option]], points: Int, attempts: Int, mistakes_remaining: Int, correct_categories: Int) {
+            self.title = title
+            self.categories = categories
+            self.answerKey = answerKey
+            self.options = options
+            self.selection = selection
+            self.history = history
+            self.points = points
+            self.attempts = attempts
+            self.mistakes_remaining = mistakes_remaining
+            self.correct_categories = correct_categories
+    }
+    
     mutating func select(_ option: Option) {
         let chosenIndex = index(of: option)
         if chosenIndex >= 0 {
