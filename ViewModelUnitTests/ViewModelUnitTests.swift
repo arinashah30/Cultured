@@ -23,10 +23,9 @@ final class ViewModelUnitTests: XCTestCase {
     }
 
 
-    //Unit Test for basic functionality of 'getInfoFromModule()'
+    //Unit Test for basic functionality of 'getInfoFromModule(countryName, moduleName, completion)'
     func testGetInfoFromModule() {
         let expectation = self.expectation(description: "Retrieve information from module")
-        
         vm.getInfoFromModule(countryName: "UAE", moduleName: "TRADITIONS") { information in
             XCTAssertNotNil(information, "Information should not be nil")
             print("Value of Information: \(information)")
@@ -52,6 +51,68 @@ final class ViewModelUnitTests: XCTestCase {
             expectation.fulfill()
        }
         
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
+    
+    
+    
+    //Unit Tests for basic functionality of 'getOnGoingActivity(userId, type, completion)'
+    //Next Three unit tests assess the functinoality for each activity: quiz, connection, wordgame
+    func testGetOnGoingQuiz() {
+        let expectation = self.expectation(description: "Retrieve an On-Going Quiz")
+                    
+        vm.getOnGoingActivity(userId: "ryanomeara", type: "quiz") { quizArray in
+            XCTAssertNotNil(quizArray, "Information should not be nil")
+            print("Name of On-Going Quizzes: \(quizArray)")
+            XCTAssertTrue(quizArray.contains("MexicoTraditionQuiz"))
+            XCTAssertTrue(quizArray.contains("IndiaCultureQuiz"))
+            XCTAssertFalse(quizArray.contains("EgyptFoodQuiz"))
+            expectation.fulfill()
+        }
+             
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
+    
+    func testGetOnGoingConnection() {
+        let expectation = self.expectation(description: "Retrieve an On-Going Connection")
+                    
+        vm.getOnGoingActivity(userId: "ryanomeara", type: "connection") { connectionArray in
+            XCTAssertNotNil(connectionArray, "Information should not be nil")
+            print("Name of On-Going Connections: \(connectionArray)")
+            XCTAssertFalse(connectionArray.contains("FranceFoodConnections"))
+            XCTAssertTrue(connectionArray.contains("UAECelebritiesConnections"))
+            XCTAssertTrue(connectionArray.contains("ChinaCultureConnections"))
+            expectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
+    
+    func testGetOnGoingWordGame() {
+        let expectation = self.expectation(description: "Retrieve an On-Going Word Game")
+            
+        vm.getOnGoingActivity(userId: "ryanomeara", type: "wordgame") { wordGameArray in
+            XCTAssertNotNil(wordGameArray, "Information should not be nil")
+            print("Name of On-Going Word Games: \(wordGameArray)")
+            XCTAssertFalse(wordGameArray.contains("UAELandmarkWordGame"))
+            XCTAssertTrue(wordGameArray.contains("NigeriaMusicWordGame"))
+            XCTAssertTrue(wordGameArray.contains("IndiaTraditionWordGame"))
+            expectation.fulfill()
+        }
+    }
+
         waitForExpectations(timeout: 5) { error in
             if let error = error {
                 XCTFail("waitForExpectations error: \(error)")

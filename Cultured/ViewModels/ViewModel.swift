@@ -449,7 +449,7 @@ class ViewModel: ObservableObject {
         }
     }
     
-    func addOnGoingQuiz(userID: String, country: String, titleOfActivity: String, completion: @escaping(Bool) -> Void) {
+    func addOnGoingActivity(userID: String, country: String, titleOfActivity: String, typeOfActivity: String) {
         db.collection("USERS").document(userID).collection("ACTIVITIES").document("\(country)\(titleOfActivity)").setData(
             ["completed": false,
              
@@ -458,6 +458,8 @@ class ViewModel: ObservableObject {
              "history": [],
              
              "score": 0,
+             
+             "type": typeOfActivity, //MUST be "quiz", "connection", or "wordgame"
             ])
     }
     
@@ -539,6 +541,26 @@ class ViewModel: ObservableObject {
             ])
     }
     
+    func getOnGoingActivity(userId: String, type: String, completion: @escaping([String]) -> Void) {
+        db.collection("USERS").document(userId).collection("ACTIVITIES").whereField("type", isEqualTo: type).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error Getting Documents \(error)")
+                completion([])
+            } else {
+                var activityArray = [String]()
+                for document in querySnapshot!.documents {
+                    let data = document.data()
+                    let completed = data["completed"] as? Bool ?? false
+                    if !completed {
+                        let nameOfActivity = document.documentID
+                        activityArray.append(nameOfActivity)
+                    }
+                }
+                
+                completion(activityArray)
+            }
+        }
+    }
     func getLeaderBoardInfo(completion: @escaping([(String, Int)]?) -> Void) {
         let usersCollectionReference = db.collection("USERS")
         usersCollectionReference.whereField("points", isGreaterThan: 0).order(by: "points", descending: true).limit(to: 20).getDocuments { (querySnapshot, error) in
