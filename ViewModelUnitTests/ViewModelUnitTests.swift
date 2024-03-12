@@ -26,7 +26,6 @@ final class ViewModelUnitTests: XCTestCase {
     //Unit Test for basic functionality of 'getInfoFromModule(countryName, moduleName, completion)'
     func testGetInfoFromModule() {
         let expectation = self.expectation(description: "Retrieve information from module")
-            
         vm.getInfoFromModule(countryName: "UAE", moduleName: "TRADITIONS") { information in
             XCTAssertNotNil(information, "Information should not be nil")
             print("Value of Information: \(information)")
@@ -34,7 +33,24 @@ final class ViewModelUnitTests: XCTestCase {
             XCTAssertNotEqual(information, "anythingElse")
             expectation.fulfill()
         }
-            
+        
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
+    
+    func testGetLeaderBoardInfo() {
+        let expectation = self.expectation(description: "Print top 20 users with highest points")
+        
+        vm.getLeaderBoardInfo() { topUsers in
+            print("Top Users:",topUsers ?? [("None", 0)])
+            XCTAssertNotNil(topUsers, "Top users shouldn't be nil")
+            XCTAssertEqual(true, self.vm.isSorted(topUsers ?? [("None", 0)]))
+            expectation.fulfill()
+       }
+        
         waitForExpectations(timeout: 5) { error in
             if let error = error {
                 XCTFail("waitForExpectations error: \(error)")
@@ -95,6 +111,7 @@ final class ViewModelUnitTests: XCTestCase {
             XCTAssertTrue(wordGameArray.contains("IndiaTraditionWordGame"))
             expectation.fulfill()
         }
+    }
 
         waitForExpectations(timeout: 5) { error in
             if let error = error {
@@ -108,6 +125,24 @@ final class ViewModelUnitTests: XCTestCase {
         measure {
             // Put the code you want to measure the time of here.
         }
+    }
+    
+    func testUpdateLastLoggedOn() {
+        vm.updateLastLoggedOn(userID: "ryanomeara") {completed in
+            print(completed)
+        }
+    }
+    
+    func testStreak() {
+        print("Hello world")
+        let expectation = XCTestExpectation(description: "Streak check")
+        vm.checkIfStreakIsIntact(userID: "ryanomeara") { intact in
+            print("Is intact?: \(intact)")
+            print("Hello world")
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 5) // Adjust timeout as needed
+        print("Hello world")
     }
 
 }
