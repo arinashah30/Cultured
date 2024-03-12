@@ -9,8 +9,15 @@ import SwiftUI
 
 struct ConnectionsResultsView: View {
     @ObservedObject var vm: ConnectionsViewModel
+    @State var categoryInfoList : [String]
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            // IN PROGRESS
+//            VStack (alignment: .leading) {
+//                categoryInfoList = vm.getCategoryInfo(index: 0)
+//                
+            }
+        }
     }
 }
 
