@@ -149,7 +149,7 @@ class LandmarkARView: ARView {
             informationBubbleEntity.addChild(textbox)
             textbox.position = [informationBubbleEntity.position.x + 12.5, informationBubbleEntity.position.y, informationBubbleEntity.position.z]
             informationTextBoxes.append(textbox)
-            textbox.isEnabled = true //hides textbox at first
+            textbox.isEnabled = false //hides textbox at first
             print(textbox.position)
             print(informationBubbleEntity.position)
         }
