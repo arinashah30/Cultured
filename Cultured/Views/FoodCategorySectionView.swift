@@ -9,6 +9,8 @@ import SwiftUI
 
 struct FoodCategorySectionView: View {
     @ObservedObject var vm: ViewModel
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
         VStack {
             ZStack (alignment: .topLeading){
@@ -18,7 +20,7 @@ struct FoodCategorySectionView: View {
                     .frame(width: 400, height: 470)
                 
                 Button {
-                    
+                    dismiss()
                 } label: {
                     
                     ZStack {
