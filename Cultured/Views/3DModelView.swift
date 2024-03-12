@@ -9,8 +9,13 @@ import SwiftUI
 import RealityKit
 import ARKit
 
+// Pisa: SIMD3<Float>(1.8556165, 5.707096, 1.7870302) -> Scale = 0.025
+// Eiffel: SIMD3<Float>(3.166112, 7.5, 3.1185064) -> Scale = 0.8
+// Burj: SIMD3<Float>(2.9548383, 14.999998, 2.5737598) -> Scale = 0.05
+// Taj: SIMD3<Float>(2.610077, 1.4999999, 2.6542776) -> Scale = 0.005
+// Chichen_Itza: SIMD3<Float>(5.768788, 2.1969662, 5.7694755) -> Scale = 0.01
 let landmarks: [ARLandmark] = [
-    ARLandmark(modelName: "Eiffel_Tower", color: .gray, scale: 0.025, isMetallic: true, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Shaunak shaunak shaunak"], video: "tower_bridge"),
+    ARLandmark(modelName: "Eiffel_Tower", color: .gray, scale: 0.025, isMetallic: true, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Shaunak shaunak shaunak", "Wow i am cultured", "Micheal Jordan the goat"], video: "tower_bridge"),
     ARLandmark(modelName: "Pisa_Tower", color: UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0), scale: 0.1, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Shaunak shaunak shaunak"], video: "tower_bridge"),
     ARLandmark(modelName: "Burj_Khalifa", color: nil, scale: 0.05, isMetallic: true, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Shaunak shaunak shaunak"], video: "tower_bridge"),
     ARLandmark(modelName: "Taj_Mahal", color: nil, scale: 0.005, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Shaunak shaunak shaunak"], video: "tower_bridge"),
@@ -142,18 +147,20 @@ class LandmarkARView: ARView {
         let box = modelEntity.visualBounds(relativeTo: nil)
         let size = box.extents
         print(size)
-        let bubbleRadius: Float = 5.0
-        
+        let bubbleRadius: Float = 15.0 / (40.0 * model.scale) // 40.0 is the constant to reduce the value depending on scale
+        print("Radius: " + String(bubbleRadius) + " Scale " + String(model.scale) + " Name: " + model.modelName)
+        var isEven: Float = 1.0
         // adding the information bubbles
         for i in 0..<model.facts.count {
             print(model.facts.count)
             let informationBubbleEntity = ModelEntity(mesh: MeshResource.generateSphere(radius: bubbleRadius), materials: [SimpleMaterial(color: .red, isMetallic: true)])
-            let relativeTransform = Transform(translation: [bubbleRadius * 2*Float(i+1) + Float(size.x), bubbleRadius + Float(size.y), bubbleRadius * 2*Float(i+1) + Float(size.z)])
+            let relativeTransform = Transform(translation: [isEven * (bubbleRadius * 2.0 + Float(size.x)), 2.0 * Float(i / 2) * (bubbleRadius + Float(size.y)), bubbleRadius + Float(size.z)])
             informationBubbleEntity.transform = relativeTransform
             informationBubbleEntity.generateCollisionShapes(recursive: true) // adding collision boxes to each bubble
             informationBubbleEntity.name = "Fact " + String(i)
             modelEntity.addChild(informationBubbleEntity)
             informationBubbles.append(informationBubbleEntity)
+            isEven = -1.0 * isEven
         }
         
         self.scene.addAnchor(anchor)
@@ -197,4 +204,6 @@ class LandmarkARView: ARView {
 // scale as a function for radius
 // collision box for eiffel tower
 // even on both sides
+// figure out how to ground it more
+// popculture view
 
