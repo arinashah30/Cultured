@@ -9,11 +9,6 @@ import SwiftUI
 import RealityKit
 import ARKit
 
-// Pisa: SIMD3<Float>(1.8556165, 5.707096, 1.7870302) -> Scale = 0.025
-// Eiffel: SIMD3<Float>(3.166112, 7.5, 3.1185064) -> Scale = 0.8
-// Burj: SIMD3<Float>(2.9548383, 14.999998, 2.5737598) -> Scale = 0.05
-// Taj: SIMD3<Float>(2.610077, 1.4999999, 2.6542776) -> Scale = 0.005
-// Chichen_Itza: SIMD3<Float>(5.768788, 2.1969662, 5.7694755) -> Scale = 0.01
 let landmarks: [ARLandmark] = [
     ARLandmark(modelName: "Eiffel_Tower", color: .gray, scale: 0.025, isMetallic: true, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Shaunak shaunak shaunak", "Wow i am cultured", "Micheal Jordan the goat"], video: "tower_bridge"),
     ARLandmark(modelName: "Pisa_Tower", color: UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0), scale: 0.1, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Shaunak shaunak shaunak"], video: "tower_bridge"),
@@ -201,9 +196,5 @@ class LandmarkARView: ARView {
     _DModelView()
 }
 
-// scale as a function for radius
-// collision box for eiffel tower
-// even on both sides
-// figure out how to ground it more
-// popculture view
+
 
