@@ -589,6 +589,11 @@ class ViewModel: ObservableObject {
     func createNewWordGuessing(wordGuessing: WordGuessing) {
         
         let optionsReference = db.collection("GAMES").document(wordGuessing.title)
+        
+        var winCount = [String : Int]()
+        for i in 1..<10 {
+            winCount["\(i)"] = 0 //initialize every win count to 0 for every hint number
+        }
 
         optionsReference.setData(
             ["title": wordGuessing.title,
@@ -597,6 +602,7 @@ class ViewModel: ObservableObject {
              "flipPoints": wordGuessing.flipPoints,
              "flipsDone" : wordGuessing.flipsDone,
              "numberOfGuesses" : wordGuessing.numberOfGuesses,
+             "winCount" : winCount
             ]) { error in
                 if let error = error {
                     print("Error writing game document: \(error.localizedDescription)")
@@ -897,5 +903,32 @@ class ViewModel: ObservableObject {
         return true
     }
     
+    
+    func getWinCountDictionary(nameOfWordgame: String, completion: @escaping([String : Int]) -> Void) {
+        
+        let wordgameReference = db.collection("GAMES").document(nameOfWordgame)
+        var winCount = [String : Int]()
+
+        wordgameReference.getDocument() { (activityDocument, error) in
+            if let error = error {
+                print("Error Getting Documents \(error)")
+                completion([:])
+                return
+            }
+            
+            guard let actDoc = activityDocument, actDoc.exists else {
+                print("Document Does Not Exist")
+                completion([:])
+                return
+            }
+            
+            guard let data = actDoc.data() else {
+                return
+            }
+            
+            winCount = data["winCount"] as? [String : Int] ?? [:]
+        }
+        completion(winCount)
+    }
 }
 

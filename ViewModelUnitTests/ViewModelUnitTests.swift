@@ -301,5 +301,12 @@ final class ViewModelUnitTests: XCTestCase {
         wait(for: [expectation], timeout: 5) // Adjust timeout as needed
         print("Hello world")
     }
+    
+    func testGetWinCountDictionary() {
+        vm.getWinCountDictionary(nameOfWordgame: "UAETraditionsWordGuessing") { (result) in
+            XCTAssertNotNil(result)
+            print("Result: ", result)
+        }
+    }
 
 }
