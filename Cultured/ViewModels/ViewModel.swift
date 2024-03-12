@@ -411,14 +411,22 @@ class ViewModel: ObservableObject {
     }
 
     
-    func updateLastLoggedOn(userID: String) {
+    func updateLastLoggedOn(userID: String, completion: @escaping (Bool) -> Void) {
         let date = Date()
         
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd-MM-yyyy HH:mm"
+        dateFormatter.dateFormat = "MM-dd-yyyy HH:mm"
         let dateInFormat = dateFormatter.string(from: date)
         
-        self.db.collection("USERS").document(userID).updateData(["lastLoggedOn": dateInFormat])
+        self.db.collection("USERS").document(userID).updateData(["lastLoggedOn": dateInFormat]) {err in
+            if let err = err {
+                print("Error updating document: \(err.localizedDescription)")
+                completion(false)
+            } else {
+                // Document updated successfully
+                completion(true)
+            }
+        }
         
     }
     
@@ -465,6 +473,61 @@ class ViewModel: ObservableObject {
              "attempts": connection.attempts,
             ])
     }
+    
+    func checkIfStreakIsIntact(userID: String, completion: @escaping (Bool) -> Void) {
+        self.db.collection("USERS").document(userID).getDocument { document, error in
+            if let err = error {
+                print(err.localizedDescription)
+                completion(false)
+                return
+            } else {
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "MM-dd-yyyy HH:mm"
+                if let doc = document {
+                    if let data = doc.data(), let lastlogged = data["lastLoggedOn"] as? String {
+                        print("Logged: \(lastlogged)")
+                        guard let last_date = dateFormatter.date(from: lastlogged) else {
+                            print("Error converting last logged-on date string to Date")
+                            completion(false)
+                            return
+                        }
+                        let curr_date = Date()
+                        
+                        let calendar = Calendar.current
+                        let components = calendar.dateComponents([.day], from: last_date, to: curr_date)
+                        
+                        if let daysSinceLastLoggedOn = components.day {
+                            if daysSinceLastLoggedOn > 1 {
+                                self.db.collection("USERS").document(userID).updateData(["streak": 0]) { error in
+                                    if let error = error {
+                                        print("Error updating document: \(error)")
+                                    } else {
+                                        print("Document updated successfully")
+                                        completion(false)
+                                    }
+                                }
+                                return
+                            } else if daysSinceLastLoggedOn == 1 {
+                                self.db.collection("USERS").document(userID).updateData(["streak": FieldValue.increment(Int64(1))]) { error in
+                                    if let error = error {
+                                        print("Error updating document: \(error)")
+                                    } else {
+                                        print("Document updated successfully")
+                                        completion(true)
+                                    }
+                                }
+                                return
+                            } else {
+                                completion(true)
+                                return
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     
     func createNewWordGuessing(wordGuessing: WordGuessing) {
         db.collection("GAMES").document(wordGuessing.title).setData(
