@@ -51,13 +51,14 @@ final class ViewModelUnitTests: XCTestCase {
             XCTAssertNotNil(topUsers, "Top users shouldn't be nil")
             XCTAssertEqual(true, self.vm.isSorted(topUsers ?? [("None", 0)]))
             expectation.fulfill()
-       }
+        }
         
         waitForExpectations(timeout: 5) { error in
             if let error = error {
                 XCTFail("waitForExpectations error: \(error)")
             }
         }
+    }
     
     
     func testGetQuizFromFirebase() {
@@ -268,7 +269,6 @@ final class ViewModelUnitTests: XCTestCase {
             XCTAssertTrue(wordGameArray.contains("IndiaTraditionWordGame"))
             expectation.fulfill()
         }
-    }
 
         waitForExpectations(timeout: 5) { error in
             if let error = error {
