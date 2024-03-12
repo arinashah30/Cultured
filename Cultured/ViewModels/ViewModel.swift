@@ -885,6 +885,10 @@ class ViewModel: ObservableObject {
     
     //Helper Function to Ensure the Leaderboard is properly sorted
     func isSorted(_ array: [(String, Int)]) -> Bool {
+        if array.count == 0 {
+            return true
+        }
+        
         for i in 0..<(array.count - 1) {
             if array[i].1 < array[i + 1].1 {
                 return false
