@@ -304,7 +304,7 @@ final class ViewModelUnitTests: XCTestCase {
     
     func testAddOngoingActivity() {
         let expectation = XCTestExpectation(description: "Ongoing check")
-        vm.addOnGoingActivity(userID: "Austin Hugueneard", numQuestions: 4, titleOfActivity: "IndiaCultureQuiz", typeOfActivity: "connection") { completed in
+        vm.addOnGoingActivity(userID: "ryanomeara", numQuestions: 9, titleOfActivity: "NigeriaMusicWordGame", typeOfActivity: "wordgame") { completed in
             print(completed)
             expectation.fulfill()
         }
