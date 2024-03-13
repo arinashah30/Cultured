@@ -861,6 +861,28 @@ class ViewModel: ObservableObject {
             }
         }
     }
+    
+    func getfieldsofOnGoingActivity(userId: String, activity: String, completion: @escaping([String: Any]?) -> Void) {
+        db.collection("USERS").document(userId).collection("ACTIVITIES").document(activity).getDocument{ doc, error in
+            if let err = error {
+                print(err.localizedDescription)
+                completion(nil)
+                return
+            } else {
+                if let document = doc {
+                    if let data = document.data() {
+                        var dictionary = [String: Any]()
+                        for (key, val) in data {
+                            dictionary[key] = val
+                        }
+                        completion(dictionary)
+                        return
+                    }
+                }
+            }
+        }
+    }
+    
     func getLeaderBoardInfo(completion: @escaping([(String, Int)]?) -> Void) {
         let usersCollectionReference = db.collection("USERS")
         usersCollectionReference.whereField("points", isGreaterThan: 0).order(by: "points", descending: true).limit(to: 20).getDocuments { (querySnapshot, error) in

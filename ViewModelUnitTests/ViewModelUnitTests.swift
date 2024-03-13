@@ -301,5 +301,18 @@ final class ViewModelUnitTests: XCTestCase {
         wait(for: [expectation], timeout: 5) // Adjust timeout as needed
         print("Hello world")
     }
+    
+    
+    func testOngoingActivityFields() {
+        print("Hello world")
+        let expectation = XCTestExpectation(description: "ongoing activity fields check")
+        vm.getfieldsofOnGoingActivity(userId: "ryanomeara", activity: "ChinaCultureConnections") { intact in
+            print("Is intact?: \(String(describing: intact))")
+            print("Hello world")
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 5) // Adjust timeout as needed
+        print("Hello world")
+    }
 
 }
