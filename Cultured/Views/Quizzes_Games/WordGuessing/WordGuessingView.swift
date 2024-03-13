@@ -6,11 +6,15 @@
 //
 
 import SwiftUI
+import PopupView
 
 struct WordGuessingView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var vm: WordGuessingViewModel
     @State private var currentGuess: String = ""
+    @State private var localHasWon: Bool = false
+//    @State var showingPopup = false
+//    @State var hasWon = false
     
 
     let colors: [Color] = [Color("Gradient1"), Color("Gradient2"), Color("Gradient3"), Color("Gradient4"), Color("Gradient5"), Color("Gradient6"), Color("Gradient7"), Color("Gradient8"), Color("Gradient9")]
@@ -124,6 +128,15 @@ struct WordGuessingView: View {
             .onAppear {
                 vm.create_mock_wg_game()
             }
+            .onReceive(vm.$hasWon) { newHasWon in
+                        self.localHasWon = newHasWon
+                    }
+            .popup(isPresented: $vm.isOver) {
+                        ZStack {
+                            Color.blue.frame(width: 200, height: 100)
+                            Text(self.localHasWon ? "You win!!" : "You lose")
+                        }
+                    }
             .navigationBarBackButtonHidden()
             .navigationBarBackButtonHidden()
         }

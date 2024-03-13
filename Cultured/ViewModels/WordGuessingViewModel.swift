@@ -11,6 +11,8 @@ class WordGuessingViewModel: ObservableObject {
     @Published var current_user: User? = nil
     @Published var current_word_guessing_game: WordGuessing? = nil
     @Published var guessesMade: [String] = []
+    @Published var isOver = false
+    @Published var hasWon = false
     
     func create_mock_wg_game() {
         let options = [
@@ -35,6 +37,7 @@ class WordGuessingViewModel: ObservableObject {
             answer: answer
         )
         current_word_guessing_game?.options[0].isFlipped = true
+        isOver = false
     }
     
     func flipTile() {
@@ -77,11 +80,15 @@ class WordGuessingViewModel: ObservableObject {
     
     func winGame() {
         guard var game = current_word_guessing_game else { return }
+        isOver = true
+        hasWon = true
         print(game.answer + " was the correct word. You Win!!")
     }
         
     func loseGame() {
         guard var game = current_word_guessing_game else { return }
+        isOver = true
+        hasWon = false
         print("Game Over. The word was " + game.answer)
     }
     
