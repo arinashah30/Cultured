@@ -301,5 +301,15 @@ final class ViewModelUnitTests: XCTestCase {
         wait(for: [expectation], timeout: 5) // Adjust timeout as needed
         print("Hello world")
     }
+    
+    func testAddOngoingActivity() {
+        let expectation = XCTestExpectation(description: "Ongoing check")
+        vm.addOnGoingActivity(userID: "Austin Hugueneard", numQuestions: 4, titleOfActivity: "IndiaCultureQuiz", typeOfActivity: "connection") { completed in
+            print(completed)
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 5)
+        print("Hello world")
+    }
 
 }
