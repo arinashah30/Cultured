@@ -111,7 +111,7 @@ class ViewModel: ObservableObject {
                      "points" : 0, //points is a string and we can cast it to an int when we use it
                      "badges" : [],
                      "streak" : 0,
-                     "completedChallenges": [],
+                     "completedCountries": [],
                      "savedArtists": []
                     ] as [String : Any]) { error in
                         if let error = error {
