@@ -11,10 +11,10 @@ import ARKit
 
 let landmarks: [ARLandmark] = [
     ARLandmark(modelName: "Eiffel_Tower", color: .gray, scale: 0.025, isMetallic: true, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Shaunak shaunak shaunak", "Wow i am cultured", "Micheal Jordan the goat"], video: "tower_bridge"),
-    ARLandmark(modelName: "Pisa_Tower", color: UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0), scale: 0.1, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Shaunak shaunak shaunak"], video: "tower_bridge"),
-    ARLandmark(modelName: "Burj_Khalifa", color: nil, scale: 0.05, isMetallic: true, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Shaunak shaunak shaunak"], video: "tower_bridge"),
-    ARLandmark(modelName: "Taj_Mahal", color: nil, scale: 0.005, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Shaunak shaunak shaunak"], video: "tower_bridge"),
-    ARLandmark(modelName: "Chichen_Itza", color: nil, scale: 0.01, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Shaunak shaunak shaunak"], video: "tower_bridge")
+    ARLandmark(modelName: "Pisa_Tower", color: UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0), scale: 0.1, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Shaunak shaunak shaunak", "Wow i am cultured", "Micheal Jordan the goat"], video: "tower_bridge"),
+    ARLandmark(modelName: "Burj_Khalifa", color: nil, scale: 0.05, isMetallic: true, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Shaunak shaunak shaunak", "Wow i am cultured", "Micheal Jordan the goat"], video: "tower_bridge"),
+    ARLandmark(modelName: "Taj_Mahal", color: nil, scale: 0.005, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Shaunak shaunak shaunak", "Wow i am cultured", "Micheal Jordan the goat"], video: "tower_bridge"),
+    ARLandmark(modelName: "Chichen_Itza", color: nil, scale: 0.005, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Shaunak shaunak shaunak", "Wow i am cultured", "Micheal Jordan the goat"], video: "tower_bridge")
 ]
 
 
@@ -141,15 +141,13 @@ class LandmarkARView: ARView {
         
         let box = modelEntity.visualBounds(relativeTo: nil)
         let size = box.extents
-        print(size)
         let bubbleRadius: Float = 15.0 / (40.0 * model.scale) // 40.0 is the constant to reduce the value depending on scale
         print("Radius: " + String(bubbleRadius) + " Scale " + String(model.scale) + " Name: " + model.modelName)
         var isEven: Float = 1.0
         // adding the information bubbles
         for i in 0..<model.facts.count {
-            print(model.facts.count)
             let informationBubbleEntity = ModelEntity(mesh: MeshResource.generateSphere(radius: bubbleRadius), materials: [SimpleMaterial(color: .red, isMetallic: true)])
-            let relativeTransform = Transform(translation: [isEven * (bubbleRadius * 2.0 + Float(size.x)), 2.0 * Float(i / 2) * (bubbleRadius + Float(size.y)), bubbleRadius + Float(size.z)])
+            let relativeTransform = Transform(translation: [isEven * (bubbleRadius * 2.0 + Float(2.0 / (3.0 * model.scale)) * Float(size.x)), 2.0 * Float(i / 2) * (bubbleRadius + Float(1.0 / (9.0 * model.scale)) * Float(size.y)), bubbleRadius + Float(size.z)])
             informationBubbleEntity.transform = relativeTransform
             informationBubbleEntity.generateCollisionShapes(recursive: true) // adding collision boxes to each bubble
             informationBubbleEntity.name = "Fact " + String(i)
@@ -185,7 +183,6 @@ class LandmarkARView: ARView {
             print("Heyyy")
         } else if (modelEntity.name.prefix(4) == "Fact") {
             print("found a bubble")
-            print("heeeeeyyy")
         }
         
         
