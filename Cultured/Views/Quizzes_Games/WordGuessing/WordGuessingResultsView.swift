@@ -13,7 +13,7 @@ struct WordGuessingResultsView: View {
 
     var body: some View {
         ZStack {
-            Color.black.opacity(0.3).edgesIgnoringSafeArea(.all)
+            Color.black.opacity(0.4).edgesIgnoringSafeArea(.all)
             RoundedRectangle(cornerRadius: 14.0)
                 .foregroundColor(.white)
                 .frame(width: 304, height: 550)
