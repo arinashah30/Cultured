@@ -273,7 +273,6 @@ class ViewModel: ObservableObject {
                     return self.parseOption(data)
                 }
                 
-                // Retrieve selections
                 selectionsRef.getDocuments { (selectionsSnapshot, selectionsError) in
                     guard let selectionsSnapshot = selectionsSnapshot, selectionsError == nil else {
                         print("Error fetching selections: \(selectionsError?.localizedDescription ?? "")")
