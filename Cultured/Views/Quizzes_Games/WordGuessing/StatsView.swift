@@ -9,6 +9,7 @@ import SwiftUI
 
 struct StatsView: View {
     @ObservedObject var vm: WordGuessingViewModel
+    @State var localHasWon: Bool = false
     
     var body: some View {
         HStack(alignment: .bottom, spacing: 4) {
@@ -17,9 +18,15 @@ struct StatsView: View {
                 VStack() {
                     Text(String(vm.stats[index]))
                         .foregroundColor(Color.black.opacity(0.35))
-                    Rectangle()
-                        .frame(width: 25, height: 200 * CGFloat(adjustedStats[index]))
-                        .foregroundColor(Color.black.opacity(0.15))
+                    if localHasWon && vm.current_word_guessing_game?.flipsDone == index {
+                        Rectangle()
+                            .frame(width: 25, height: 200 * CGFloat(adjustedStats[index]))
+                            .foregroundColor(Color("WinningBar"))
+                    } else {
+                        Rectangle()
+                            .frame(width: 25, height: 200 * CGFloat(adjustedStats[index]))
+                            .foregroundColor(Color.black.opacity(0.15))
+                    }
                     Text(String(index + 1))
                         .foregroundColor(Color.black.opacity(0.5))
                 }

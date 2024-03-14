@@ -29,7 +29,7 @@ struct WordGuessingResultsView: View {
                     .foregroundColor(localHasWon ? Color("WinningText") : .red)
                 Text("Answer: word")
                     .font(Font.custom("Quicksand-Medium", size: 20))
-                StatsView(vm: vm)
+                StatsView(vm: vm, localHasWon: localHasWon)
             }
             .padding([.top, .leading], 20)
         }
