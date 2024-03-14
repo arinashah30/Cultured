@@ -61,6 +61,40 @@ final class ViewModelUnitTests: XCTestCase {
     }
     
     
+    func testCreateNewQuiz() {
+        let expectation = self.expectation(description: "Update Quiz information in Firebase")
+        
+        let quizQuestion1 = QuizQuestion(question: String,
+                                         answers: <#[String]#>,
+                                         correctAnswer: <#Int#>,
+                                         correctAnswerDescription: <#String#>)
+        
+        let wordGuessing = WordGuessing(title: "UAETraditionsWordGuessing",
+                                       options: ,
+                                       answer: "THE Olympic Pool",
+                                       totalPoints: 17,
+                                       flipPoints: 4,
+                                       flipsDone: 2,
+                                       numberOfGuesses: 3)
+        
+        vm.createNewWordGuessing(wordGuessing: wordGuessing)
+        
+        // Wait for some time for Firestore operation to complete
+        // !!!THIS IS VITAL TO TEST FUNCTIONS THAT UPDATE TO THE FIRESTORE!!!
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            expectation.fulfill()
+        }
+        
+        
+        
+            
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
+    
     func testGetQuizFromFirebase() {
         let expectation = self.expectation(description: "Retrieve information from Quiz")
         

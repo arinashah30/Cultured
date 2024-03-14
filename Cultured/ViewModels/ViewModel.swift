@@ -433,10 +433,7 @@ class ViewModel: ObservableObject {
     
     func createNewQuiz(quiz: Quiz) {
         db.collection("GAMES").document(quiz.title).setData(
-            ["title": quiz.title,
-             "pointsGoal": quiz.pointsGoal,
-             "points": quiz.points
-            ])
+            ["title": quiz.title])
         let quizQuestions = quiz.questions
         let quizRef = db.collection("GAMES").document(quiz.title)
         for question in quizQuestions {
