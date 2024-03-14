@@ -13,8 +13,6 @@ struct WordGuessingView: View {
     @ObservedObject var vm: WordGuessingViewModel
     @State private var currentGuess: String = ""
     @State private var localHasWon: Bool = false
-//    @State var showingPopup = false
-//    @State var hasWon = false
     
 
     let colors: [Color] = [Color("Gradient1"), Color("Gradient2"), Color("Gradient3"), Color("Gradient4"), Color("Gradient5"), Color("Gradient6"), Color("Gradient7"), Color("Gradient8"), Color("Gradient9")]
