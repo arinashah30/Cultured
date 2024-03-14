@@ -883,6 +883,76 @@ class ViewModel: ObservableObject {
         }
     }
     
+    func getTopSongs(for country: Country, amount: Int) async -> [Song] {
+        var result = [Song]()
+        var playlist_uri: String
+        
+        switch (country.name) {
+        // NOTE: no data for China
+        case "FRANCE":
+            playlist_uri = "37i9dQZEVXbIPWwFssbupI"
+        case "INDIA":
+            playlist_uri = "37i9dQZEVXbLZ52XmnySJg"
+        case "MEXICO":
+            playlist_uri = "37i9dQZEVXbO3qyFxbkOE1"
+        case "NIGERIA":
+            playlist_uri = "37i9dQZEVXbKY7jLzlJ11V"
+        case "UAE":
+            playlist_uri = "37i9dQZEVXbM4UZuIrvHvA"
+        default:
+            return []
+        }
+        
+        let authURL = URL(string: "https://accounts.spotify.com/api/token")!
+        var requestAuth = URLRequest(url: authURL)
+        requestAuth.allHTTPHeaderFields = [
+            "Content-Type": "application/x-www-form-urlencoded"
+        ]
+        requestAuth.httpMethod = "POST"
+        let clientID = "a7704f381d02423d978245c28c31419f"
+        let clientSecret = "b5be23d3682d44668ff87ae55f6231e7"
+        requestAuth.httpBody = Data("grant_type=client_credentials&client_id=\(clientID)&client_secret=\(clientSecret)".utf8)
+        do {
+            let (authData, _) = try await URLSession.shared.data(for: requestAuth)
+            let response = try JSONDecoder().decode(SpotifyAccessTokenResponse.self, from: authData)
+            
+            let url = URL(string: "https://api.spotify.com/v1/playlists/\(playlist_uri)/tracks?market=US&limit=\(amount)")!
+            var request = URLRequest(url: url)
+            request.allHTTPHeaderFields = [
+                "Authorization": "Bearer \(response.access_token)"
+            ]
+            do {
+                let (data, _) = try await URLSession.shared.data(for: request)
+                
+                let wrapper = try JSONDecoder().decode(SpotifyPlaylistAPIResult.self, from: data)
+                
+                for song in wrapper.items {
+                    let track = song.track
+                    var artists = track.artists.map( {$0.name} )
+                    let albumName = track.album.name
+                    var albumImageURL: URL? = nil
+                    if let firstImage = track.album.images.first {
+                        albumImageURL = firstImage.url
+                    }
+                    let spotifyURL = URL(string: "http://open.spotify.com/track/\(track.uri.split(separator: ":")[2])")
+                    var previewURL: URL? = nil
+                    if let urlString = track.previewURL {
+                        previewURL = URL(string: urlString)
+                    }
+                    
+                    let songObject = Song(name: track.name, artists: artists, albumName: albumName, albumImageURL: albumImageURL, spotifyURL: spotifyURL, previewURL: previewURL)
+                    result.append(songObject)
+                }
+                
+                return result
+            } catch {
+                return []
+            }
+        } catch {
+            return []
+        }
+    }
+    
     //Helper Function to Ensure the Leaderboard is properly sorted
     func isSorted(_ array: [(String, Int)]) -> Bool {
         if array.count == 0 {
