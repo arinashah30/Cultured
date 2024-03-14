@@ -907,7 +907,7 @@ class ViewModel: ObservableObject {
     func getWinCountDictionary(nameOfWordgame: String, completion: @escaping([String : Int]) -> Void) {
         
         let wordgameReference = db.collection("GAMES").document(nameOfWordgame)
-        var winCount = [String : Int]()
+//        var winCount = [String : Int]()
 
         wordgameReference.getDocument() { (activityDocument, error) in
             if let error = error {
@@ -926,9 +926,24 @@ class ViewModel: ObservableObject {
                 return
             }
             
-            winCount = data["winCount"] as? [String : Int] ?? [:]
+            let winCount = data["winCount"] as? [String : Int] ?? [:]
+            completion(winCount)
         }
-        completion(winCount)
+    }
+    
+    func updateWinCountDictionary(nameOfWordgame: String, hintCount: Int, completion: @escaping(Bool) -> Void) {
+        let wordgameReference = db.collection("GAMES").document(nameOfWordgame)
+
+        // Update the specific key in the map
+        wordgameReference.updateData(["winCount.\(hintCount)": FieldValue.increment(Int64(1))]) { error in
+            if let error = error {
+                print("Error updating document: \(error)")
+                completion(false)
+            } else {
+                print("Document successfully updated")
+                completion(true)
+            }
+        }
     }
 }
 

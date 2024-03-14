@@ -303,9 +303,42 @@ final class ViewModelUnitTests: XCTestCase {
     }
     
     func testGetWinCountDictionary() {
-        vm.getWinCountDictionary(nameOfWordgame: "UAETraditionsWordGuessing") { (result) in
+        
+        let expectation = self.expectation(description: "Retrieving Win Count Dictionary")
+        var winCount = [String : Int]()
+        for i in 1..<10 {
+            winCount["\(i)"] = 0 //initialize every win count to 0 for every hint number
+        }
+        
+        vm.getWinCountDictionary(nameOfWordgame: "UAETraditionsWordGuessing") { result in
             XCTAssertNotNil(result)
+            XCTAssertEqual(winCount, result)
             print("Result: ", result)
+            expectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
+    
+    func testUpdateWinCountDictionary() {
+        let expectation = self.expectation(description: "Updating Win Count Dictionary")
+        
+        vm.updateWinCountDictionary(nameOfWordgame: "UAETraditionsWordGuessing", hintCount: 7) { result in
+            XCTAssertNotNil(result)
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            expectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
         }
     }
 
