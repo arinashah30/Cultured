@@ -335,5 +335,15 @@ final class ViewModelUnitTests: XCTestCase {
         wait(for: [expectation], timeout: 5) // Adjust timeout as needed
         print("Hello world")
     }
+    
+    func testAddOngoingActivity() {
+        let expectation = XCTestExpectation(description: "Ongoing check")
+        vm.addOnGoingActivity(userID: "ryanomeara", numQuestions: 9, titleOfActivity: "NigeriaMusicWordGame", typeOfActivity: "wordgame") { completed in
+            print(completed)
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 5)
+        print("Hello world")
+    }
 
 }
