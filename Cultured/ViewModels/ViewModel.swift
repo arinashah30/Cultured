@@ -111,7 +111,7 @@ class ViewModel: ObservableObject {
                      "points" : 0, //points is a string and we can cast it to an int when we use it
                      "badges" : [],
                      "streak" : 0,
-                     "completedChallenges": [],
+                     "completedCountries": [],
                      "savedArtists": []
                     ] as [String : Any]) { error in
                         if let error = error {
@@ -449,20 +449,23 @@ class ViewModel: ObservableObject {
         }
     }
     
-    func addOnGoingActivity(userID: String, country: String, titleOfActivity: String, typeOfActivity: String) {
-        db.collection("USERS").document(userID).collection("ACTIVITIES").document("\(country)\(titleOfActivity)").setData(
+    func addOnGoingActivity(userID: String, numQuestions: Int, titleOfActivity: String, typeOfActivity: String, completion: @escaping (Bool) -> Void) {
+        db.collection("USERS").document(userID).collection("ACTIVITIES").document("Wassup").setData(
             ["completed": false,
              
-             "current": "",
+             "current": 0,
              
              "history": [],
              
              "score": 0,
              
+             "numberOfQuestions": numQuestions,
+             
              "type": typeOfActivity, //MUST be "quiz", "connection", or "wordgame"
             ])
+        completion(true)
     }
-    
+
     func createNewConnections(connection: Connections) {
         
         let connectionsReference = db.collection("GAMES").document(connection.title)
@@ -907,6 +910,10 @@ class ViewModel: ObservableObject {
     
     //Helper Function to Ensure the Leaderboard is properly sorted
     func isSorted(_ array: [(String, Int)]) -> Bool {
+        if array.count == 0 {
+            return true
+        }
+        
         for i in 0..<(array.count - 1) {
             if array[i].1 < array[i + 1].1 {
                 return false
