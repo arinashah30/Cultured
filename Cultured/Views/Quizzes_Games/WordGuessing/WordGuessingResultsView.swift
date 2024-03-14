@@ -17,11 +17,6 @@ struct WordGuessingResultsView: View {
             RoundedRectangle(cornerRadius: 14.0)
                 .foregroundColor(.white)
                 .frame(width: 304, height: 550)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 14.0)
-                        .stroke(Color.black, lineWidth: 1)
-                )
-
             
 
             VStack(alignment: .leading, spacing: 10) {
