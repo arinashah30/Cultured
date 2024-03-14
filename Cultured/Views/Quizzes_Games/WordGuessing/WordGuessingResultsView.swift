@@ -13,6 +13,7 @@ struct WordGuessingResultsView: View {
 
     var body: some View {
         ZStack {
+            Color.black.opacity(0.3).edgesIgnoringSafeArea(.all)
             RoundedRectangle(cornerRadius: 14.0)
                 .foregroundColor(.white)
                 .frame(width: 304, height: 550)
@@ -23,14 +24,14 @@ struct WordGuessingResultsView: View {
 
             
 
-            VStack(alignment: .leading, spacing: 15) {
+            VStack(alignment: .leading, spacing: 10) {
                 
                 
                 
                 VStack(alignment: .leading, spacing: 6) {
                     HStack {
                         Text("Results")
-                            .font(Font.custom("Quicksand-Medium", size: 24))
+                            .font(Font.custom("Quicksand-Medium", size: 22))
                         HStack() {
                             Spacer()
                             Button(action: {
@@ -44,13 +45,13 @@ struct WordGuessingResultsView: View {
                     }
                     VStack(alignment: .leading, spacing: 2) {
                         Text(localHasWon ? "You guessed it!" : "Nice try...")
-                            .font(Font.custom("Quicksand-Medium", size: 20))
+                            .font(Font.custom("Quicksand-Medium", size: 18))
                             .foregroundColor(localHasWon ? Color("WinningText") : .red)
                         Text("Answer: " + String(vm.current_word_guessing_game?.answer ?? ""))
-                            .font(Font.custom("Quicksand-Medium", size: 20))
+                            .font(Font.custom("Quicksand-Medium", size: 18))
                     }
                 }
-                .padding(.top, 5)
+                .padding(.top, 10)
                 .padding(.leading, 25)
                 
 
@@ -60,14 +61,14 @@ struct WordGuessingResultsView: View {
                     Spacer()
                     VStack {
                         Text(String(vm.current_word_guessing_game?.totalPoints ?? 0))
-                            .font(Font.custom("Quicksand-Bold", size: 24))
+                            .font(Font.custom("Quicksand-Bold", size: 22))
                             .foregroundColor(.black)
                         Text("points")
                             .foregroundColor(Color.black.opacity(0.5))
                     }
                     VStack {
                         Text(String(vm.winPercent) + "%")
-                            .font(Font.custom("Quicksand-Bold", size: 24))
+                            .font(Font.custom("Quicksand-Bold", size: 22))
                             .foregroundColor(.black)
                         Text("Win %")
                             .foregroundColor(Color.black.opacity(0.5))
@@ -112,7 +113,7 @@ struct WordGuessingResultsView: View {
                         // action to go home
                     }) {
                         Text("Back to Home")
-                            .font(Font.custom("Quicksand-Medium", size: 19))
+                            .font(Font.custom("Quicksand-Medium", size: 17))
                             .foregroundColor(.black.opacity(0.5))
                     }
                     Spacer()
