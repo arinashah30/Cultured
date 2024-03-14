@@ -130,12 +130,10 @@ struct WordGuessingView: View {
                         self.localHasWon = newHasWon
                     }
             .popup(isPresented: $vm.isOver) {
-                        ZStack {
-                            Color.blue.frame(width: 200, height: 100)
-                            Text(self.localHasWon ? "You win!!" : "You lose")
-                        }
-                    }
-            .navigationBarBackButtonHidden()
+                ZStack {
+                    WordGuessingResultsView(vm: vm)
+                }
+            }
             .navigationBarBackButtonHidden()
         }
     }
