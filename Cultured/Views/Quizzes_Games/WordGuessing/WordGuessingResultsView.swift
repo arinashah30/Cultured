@@ -22,6 +22,7 @@ struct WordGuessingResultsView: View {
                 )
 
             
+
             VStack(alignment: .leading, spacing: 25) {
                 
                 
@@ -81,6 +82,7 @@ struct WordGuessingResultsView: View {
                     Spacer()
                 }
                 
+                StatsView(vm: vm, localHasWon: localHasWon)
                 
                 HStack(spacing: 35) {
                     Spacer()
