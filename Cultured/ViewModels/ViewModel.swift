@@ -732,6 +732,23 @@ class ViewModel: ObservableObject {
                 ])
         }
     }
+    
+    func addOnGoingActivity(userID: String, numQuestions: Int, titleOfActivity: String, typeOfActivity: String, completion: @escaping (Bool) -> Void) {
+        db.collection("USERS").document(userID).collection("ACTIVITIES").document("Wassup").setData(
+            ["completed": false,
+             
+             "current": 0,
+             
+             "history": [],
+             
+             "score": 0,
+             
+             "numberOfQuestions": numQuestions,
+             
+             "type": typeOfActivity, //MUST be "quiz", "connection", or "wordgame"
+            ])
+        completion(true)
+    }
 
     func createNewConnections(connection: Connections) {
         
