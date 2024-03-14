@@ -15,7 +15,7 @@ struct WordGuessingResultsView: View {
         ZStack {
             RoundedRectangle(cornerRadius: 14.0)
                 .foregroundColor(.white)
-                .frame(width: 304, height: 532)
+                .frame(width: 304, height: 550)
                 .overlay(
                     RoundedRectangle(cornerRadius: 14.0)
                         .stroke(Color.black, lineWidth: 1)
@@ -23,7 +23,7 @@ struct WordGuessingResultsView: View {
 
             
 
-            VStack(alignment: .leading, spacing: 25) {
+            VStack(alignment: .leading, spacing: 15) {
                 
                 
                 
@@ -50,7 +50,7 @@ struct WordGuessingResultsView: View {
                             .font(Font.custom("Quicksand-Medium", size: 20))
                     }
                 }
-                .padding(.top, 20)
+                .padding(.top, 5)
                 .padding(.leading, 25)
                 
 
@@ -82,7 +82,29 @@ struct WordGuessingResultsView: View {
                     Spacer()
                 }
                 
-                StatsView(vm: vm, localHasWon: localHasWon)
+                HStack(alignment: .bottom, spacing: 4) {
+                    Spacer()
+                            let adjustedStats = adjustStats(originalStats: vm.stats)
+                            ForEach(0..<9, id: \.self) { index in
+                                VStack() {
+                                    Text(String(vm.stats[index]))
+                                        .foregroundColor(Color.black.opacity(0.35))
+                                    if localHasWon && vm.current_word_guessing_game?.flipsDone == index {
+                                        Rectangle()
+                                            .frame(width: 25, height: 190 * CGFloat(adjustedStats[index]))
+                                            .foregroundColor(Color("WinningBar"))
+                                    } else {
+                                        Rectangle()
+                                            .frame(width: 25, height: 200 * CGFloat(adjustedStats[index]))
+                                            .foregroundColor(Color.black.opacity(0.15))
+                                    }
+                                    Text(String(index + 1))
+                                        .foregroundColor(Color.black.opacity(0.5))
+                                }
+                                
+                            }
+                    Spacer()
+                        }
                 
                 HStack(spacing: 35) {
                     Spacer()
@@ -101,6 +123,18 @@ struct WordGuessingResultsView: View {
             .frame(width: 304, height: 532, alignment: .topLeading)
         }
     }
+}
+
+func adjustStats(originalStats: [Int]) -> [Float] {
+    var maxNum: Int = 9
+    if let maxStat = originalStats.max() {
+        maxNum = max(maxStat, 9)
+    }
+    var scaledStats: [Float] = []
+    for stat in originalStats {
+        scaledStats.append(0.1 + (Float(stat) / Float(maxNum)))
+    }
+    return scaledStats
 }
 
 #Preview {
