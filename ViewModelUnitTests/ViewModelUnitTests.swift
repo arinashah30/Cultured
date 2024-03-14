@@ -64,30 +64,25 @@ final class ViewModelUnitTests: XCTestCase {
     func testCreateNewQuiz() {
         let expectation = self.expectation(description: "Update Quiz information in Firebase")
         
-        let quizQuestion1 = QuizQuestion(question: String,
-                                         answers: <#[String]#>,
-                                         correctAnswer: <#Int#>,
-                                         correctAnswerDescription: <#String#>)
+        let quizQuestion1 = QuizQuestion(question: "What color is the French Flag",
+                                         answers: ["Blue", "Orange", "Red", "Yellow"],
+                                         correctAnswer: 2,
+                                         correctAnswerDescription: "IDK this is a test highkey")
         
-        let wordGuessing = WordGuessing(title: "UAETraditionsWordGuessing",
-                                       options: ,
-                                       answer: "THE Olympic Pool",
-                                       totalPoints: 17,
-                                       flipPoints: 4,
-                                       flipsDone: 2,
-                                       numberOfGuesses: 3)
+        let quizQuestion2 = QuizQuestion(question: "What is a french food",
+                                         answers: ["Baguette", "Orange Chicken", "Cupcakes", "Bok-Choy"],
+                                         correctAnswer: 0,
+                                         correctAnswerDescription: "Obviously it's Baguette...duh")
+        let quizQuestionArray = [quizQuestion1, quizQuestion2]
         
-        vm.createNewWordGuessing(wordGuessing: wordGuessing)
+        let quiz = Quiz(title: "FrenchCultureQuiz", questions: quizQuestionArray)
         
-        // Wait for some time for Firestore operation to complete
-        // !!!THIS IS VITAL TO TEST FUNCTIONS THAT UPDATE TO THE FIRESTORE!!!
+        vm.createNewQuiz(quiz: quiz)
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
             expectation.fulfill()
         }
         
-        
-        
-            
         waitForExpectations(timeout: 5) { error in
             if let error = error {
                 XCTFail("waitForExpectations error: \(error)")
