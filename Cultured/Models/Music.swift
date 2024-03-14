@@ -51,13 +51,34 @@ struct SpotifyImageObject: Codable {
 
 struct SpotifyArtistObject: Codable {
     let name: String
+    let images: [SpotifyImageObject]?
+    let popularity: Int?
+    let uri: String?
 }
 
 struct Song {
     let name: String
-    let artists: [String]
+    let artists: [Artist]
     let albumName: String
     let albumImageURL: URL?
     let spotifyURL: URL?
     let previewURL: URL?
+}
+
+struct Artist: Hashable {
+    let name: String
+    var imageURL: URL? = nil
+    let popularity: Int?
+    var spotifyURL: URL? = nil
+    
+    init(artist: SpotifyArtistObject) {
+        self.name = artist.name
+        self.popularity = artist.popularity
+        if let url = artist.images?.last?.urlString {
+            self.imageURL = URL(string: url)
+        }
+        if let uri = artist.uri {
+            self.spotifyURL = URL(string: "http://open.spotify.com/artist/\(uri.split(separator: ":")[2])")
+        }
+    }
 }

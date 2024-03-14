@@ -928,11 +928,11 @@ class ViewModel: ObservableObject {
                 
                 for song in wrapper.items {
                     let track = song.track
-                    var artists = track.artists.map( {$0.name} )
+                    var artists = track.artists
                     let albumName = track.album.name
                     var albumImageURL: URL? = nil
-                    if let firstImage = track.album.images.first {
-                        albumImageURL = firstImage.url
+                    if let lastImage = track.album.images.last {
+                        albumImageURL = lastImage.url
                     }
                     let spotifyURL = URL(string: "http://open.spotify.com/track/\(track.uri.split(separator: ":")[2])")
                     var previewURL: URL? = nil
@@ -940,17 +940,62 @@ class ViewModel: ObservableObject {
                         previewURL = URL(string: urlString)
                     }
                     
-                    let songObject = Song(name: track.name, artists: artists, albumName: albumName, albumImageURL: albumImageURL, spotifyURL: spotifyURL, previewURL: previewURL)
+                    var i = 0
+                    for artist in artists {
+                        if (artist.popularity == nil || artist.images == nil) {
+                            let urlArtist = URL(string: "https://api.spotify.com/v1/artists/\(artist.uri?.split(separator: ":")[2] ?? "")")!
+                            var requestArtist = URLRequest(url: urlArtist)
+                            requestArtist.allHTTPHeaderFields = [
+                                "Authorization": "Bearer \(response.access_token)"
+                            ]
+                            do {
+                                let (dataArtist, _) = try await URLSession.shared.data(for: requestArtist)
+                                
+                                let artistObject = try JSONDecoder().decode(SpotifyArtistObject.self, from: dataArtist)
+                                artists[i] = artistObject
+                            } catch let err {
+                                print(err)
+                            }
+                        }
+                        i += 1
+                    }
+                    
+                    let artistsObjects = artists.map({Artist(artist: $0)})
+                    
+                    let songObject = Song(name: track.name, artists: artistsObjects, albumName: albumName, albumImageURL: albumImageURL, spotifyURL: spotifyURL, previewURL: previewURL)
                     result.append(songObject)
                 }
                 
                 return result
-            } catch {
+            } catch let error {
+                print(error)
                 return []
             }
         } catch {
             return []
         }
+    }
+
+    func getTopArtists(songs: [Song], amount: Int) -> [Artist] {
+        var artists = Set<Artist>()
+        
+        for song in songs {
+            artists.formUnion(song.artists)
+        }
+        
+        let result = Array(Array(artists).sorted(by: {$0.popularity ?? 0 > $1.popularity ?? 0}).prefix(amount))
+        return result
+    }
+
+    func getMusicData(for country: Country, songCount: Int, artistCount: Int) async -> ([Song], [Artist]) {
+        var quantity = songCount < 25 ? 25 : songCount
+        
+        let songs = await getTopSongs(for: country, amount: quantity)
+        let artists = getTopArtists(songs: songs, amount: artistCount)
+        
+        let firstNSongs = Array(songs.prefix(songCount))
+        
+        return (firstNSongs, artists)
     }
     
     //Helper Function to Ensure the Leaderboard is properly sorted
