@@ -306,8 +306,12 @@ final class ViewModelUnitTests: XCTestCase {
     func testOngoingActivityFields() {
         print("Hello world")
         let expectation = XCTestExpectation(description: "ongoing activity fields check")
-        vm.getfieldsofOnGoingActivity(userId: "ryanomeara", activity: "ChinaCultureConnections") { intact in
-            print("Is intact?: \(String(describing: intact))")
+        vm.getfieldsofOnGoingActivity(userId: "ryanomeara", activity: "EgyptFoodQuiz") { intact in
+            print("Completed: \(String(describing: intact!["completed"]))")
+            print("Current: \(String(describing: intact?["current"]))")
+            print("NumQ: \(String(describing: intact?["numberOfQuestions"]))")
+            print("Score: \(String(describing: intact?["score"]))")
+            print("Type: \(String(describing: intact?["type"]))")
             print("Hello world")
             expectation.fulfill()
         }
