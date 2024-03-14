@@ -9,8 +9,29 @@ import SwiftUI
 
 struct ActivityView: View {
     @ObservedObject var vm: ViewModel
-    //@State var badgePopUp: Bool = true
+    @State var badgePopUp: Bool = true
     var body: some View {
+            ZStack {
+                if badgePopUp {
+                    Color.gray.opacity(0.3)
+                        .edgesIgnoringSafeArea(.all)
+                        .onTapGesture {
+                            badgePopUp = false
+                        }
+                    BadgePopOp(badgePopUp: $badgePopUp)
+                }
+            }
+        }
+}
+
+
+
+struct BadgePopOp: View {
+    
+    @Binding var badgePopUp: Bool
+    
+    var body: some View {
+        
         ZStack {
             VStack (alignment: .leading) {
                 ZStack (alignment: .leading) {
@@ -42,7 +63,8 @@ struct ActivityView: View {
             
             GeometryReader { geometry in
                 Button(action: {
-                    //badgePopUp = false
+                    self.badgePopUp = false
+                    badgePopUp = false
                 }) {
                     Image(systemName: "xmark")
                         .foregroundColor(.cDarkGray)
@@ -50,6 +72,7 @@ struct ActivityView: View {
                 }.position(x: geometry.size.width - ((geometry.size.width - 303) / 2) - 12 - 12, y: ((geometry.size.height - 151) / 2) + 12 + 12)
             }
         }
+        
     }
 }
 
