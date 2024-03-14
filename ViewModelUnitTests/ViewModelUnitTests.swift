@@ -344,10 +344,24 @@ final class ViewModelUnitTests: XCTestCase {
         let expectation = XCTestExpectation(description: "Ongoing check")
         vm.addOnGoingActivity(userID: "ryanomeara", numQuestions: 9, titleOfActivity: "NigeriaMusicWordGame", typeOfActivity: "wordgame") { completed in
             print(completed)
+        }
+    }
+      
+
+    
+    func testOngoingActivityFields() {
+        print("Hello world")
+        let expectation = XCTestExpectation(description: "ongoing activity fields check")
+        vm.getfieldsofOnGoingActivity(userId: "ryanomeara", activity: "EgyptFoodQuiz") { intact in
+            print("Completed: \(String(describing: intact!["completed"]))")
+            print("Current: \(String(describing: intact?["current"]))")
+            print("NumQ: \(String(describing: intact?["numberOfQuestions"]))")
+            print("Score: \(String(describing: intact?["score"]))")
+            print("Type: \(String(describing: intact?["type"]))")
+            print("Hello world")
+
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 5)
-        print("Hello world")
+        wait(for: [expectation], timeout: 5) // Adjust timeout as needed
     }
-
 }
