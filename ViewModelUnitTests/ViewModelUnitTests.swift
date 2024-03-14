@@ -301,7 +301,6 @@ final class ViewModelUnitTests: XCTestCase {
         wait(for: [expectation], timeout: 5) // Adjust timeout as needed
         print("Hello world")
     }
-    
     func testGetWinCountDictionary() {
         
         let expectation = self.expectation(description: "Retrieving Win Count Dictionary")
@@ -340,6 +339,15 @@ final class ViewModelUnitTests: XCTestCase {
                 XCTFail("waitForExpectations error: \(error)")
             }
         }
+    }
+    func testAddOngoingActivity() {
+        let expectation = XCTestExpectation(description: "Ongoing check")
+        vm.addOnGoingActivity(userID: "ryanomeara", numQuestions: 9, titleOfActivity: "NigeriaMusicWordGame", typeOfActivity: "wordgame") { completed in
+            print(completed)
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 5)
+        print("Hello world")
     }
 
 }
