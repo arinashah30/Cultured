@@ -144,8 +144,3 @@ struct WordGuessingView: View {
 #Preview {
     WordGuessingView(vm: WordGuessingViewModel())
 }
-
-/*
- - show answer at the end
- - enter button gray once no more guesses left
- */
