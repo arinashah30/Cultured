@@ -46,7 +46,7 @@ struct WordGuessingResultsView: View {
                         Text(localHasWon ? "You guessed it!" : "Nice try...")
                             .font(Font.custom("Quicksand-Medium", size: 20))
                             .foregroundColor(localHasWon ? Color("WinningText") : .red)
-                        Text("Answer: word")
+                        Text("Answer: " + String(vm.current_word_guessing_game?.answer ?? ""))
                             .font(Font.custom("Quicksand-Medium", size: 20))
                     }
                 }
@@ -59,14 +59,14 @@ struct WordGuessingResultsView: View {
                 HStack(spacing: 35) {
                     Spacer()
                     VStack {
-                        Text("15")
+                        Text(String(vm.current_word_guessing_game?.totalPoints ?? 0))
                             .font(Font.custom("Quicksand-Bold", size: 24))
                             .foregroundColor(.black)
                         Text("points")
                             .foregroundColor(Color.black.opacity(0.5))
                     }
                     VStack {
-                        Text("90%")
+                        Text(String(vm.winPercent) + "%")
                             .font(Font.custom("Quicksand-Bold", size: 24))
                             .foregroundColor(.black)
                         Text("Win %")
