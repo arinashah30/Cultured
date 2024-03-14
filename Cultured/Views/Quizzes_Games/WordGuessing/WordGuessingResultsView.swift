@@ -27,8 +27,20 @@ struct WordGuessingResultsView: View {
                 
                 
                 VStack(alignment: .leading, spacing: 6) {
-                    Text("Results")
-                        .font(Font.custom("Quicksand-Medium", size: 24))
+                    HStack {
+                        Text("Results")
+                            .font(Font.custom("Quicksand-Medium", size: 24))
+                        HStack() {
+                            Spacer()
+                            Button(action: {
+                                // action to quit
+                            }) {
+                                Text("X")
+                                    .foregroundColor(.black.opacity(0.5))
+                            }
+                        }
+                        .padding(.trailing, 25)
+                    }
                     VStack(alignment: .leading, spacing: 2) {
                         Text(localHasWon ? "You guessed it!" : "Nice try...")
                             .font(Font.custom("Quicksand-Medium", size: 20))
@@ -40,6 +52,7 @@ struct WordGuessingResultsView: View {
                 .padding(.top, 20)
                 .padding(.leading, 25)
                 
+
                 
                 
                 HStack(spacing: 35) {
