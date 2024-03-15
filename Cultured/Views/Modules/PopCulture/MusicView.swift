@@ -15,7 +15,10 @@ import SwiftUI
 
 
 struct MusicView: View {
-
+    @ObservedObject var vm: ViewModel
+    @State var songs = [Song]()
+    @State var artists = [Artist]()
+    
     var body: some View {
 
         ZStack{
@@ -45,43 +48,60 @@ struct MusicView: View {
                 ScrollView(.vertical) {
 
                     VStack{
-
                         Spacer()
-
                             .frame(height: 20)
 
                         Text("Music")
-
                             .frame(maxWidth:350, alignment: .leading)
-
                             .font(Font.custom("Quicksand-Medium", size: 32))
-
                             .foregroundColor(Color(red:252/255, green:64/255, blue:64/255))
 
-                        
-
                         Text("Mexico")
-
                             .frame(maxWidth:325, alignment: .leading)
-
                             .font(Font.custom("Quicksand-Light", size: 15))
-
                         
-
-                        
-
                         Text("Artist Spotlight")
-
                             .font(Font.custom("Quicksand-Medium", size:20))
-
                             .frame(maxWidth:350, alignment: .leading)
-
                         
-
+                        ScrollView(.horizontal) {
+                            LazyHStack {
+                                ForEach(artists, id: \.name) { artist in
+                                    VStack{
+                                        Link(destination: artist.spotifyURL!) {
+                                            AsyncImage(url: artist.imageURL) { image in
+                                                image
+                                                    .resizable()
+                                                    .scaledToFill()
+                                            } placeholder: {
+                                                ProgressView()
+                                            }
+                                            .frame(width:80, height:80)
+                                            .aspectRatio(contentMode: .fit)
+                                            .foregroundStyle(.black)
+                                            .padding()
+                                            
+                                            .frame(width: 80, height: 80)
+                                            .background(Color.cGreen)
+                                            .clipShape(.circle)
+                                        }
+                                        
+                                        Text("\(artist.name)")
+                                            .minimumScaleFactor(0.8)
+                                    }
+                                    .frame(width: 90)
+                                }
+                                .scrollIndicators(.hidden)
+                            }
+                            .scrollIndicators(.hidden)
+                            
+                        }
+                        .scrollIndicators(.hidden)
+                        .padding(.horizontal, 30)
+                        .frame(height: 110)
+                        /*
                         HStack{
-
                             VStack{
-
                                 Button {
 
                                     
@@ -175,9 +195,8 @@ struct MusicView: View {
                             
 
                         }
-
+                         */
                         Spacer()
-
                             .frame(height: 25)
 
                         Text("Trending Songs")
@@ -186,6 +205,49 @@ struct MusicView: View {
 
                             .frame(maxWidth: 340, alignment: .leading)
 
+                        ScrollView {
+                            LazyVStack {
+                                ForEach(songs, id: \.name) { song in
+                                    Link(destination: song.spotifyURL!) {
+                                        HStack {
+                                            AsyncImage(url: song.albumImageURL) { image in
+                                                image
+                                                    .resizable()
+                                                    .scaledToFill()
+                                            } placeholder: {
+                                                ProgressView()
+                                            }
+                                            .frame(width:58, height:58, alignment: .leading)
+                                            .cornerRadius(5)
+                                            .aspectRatio(contentMode: .fit)
+                                            
+                                            Spacer()
+                                            
+                                            VStack{
+                                                Text("\(song.name)")
+                                                    .foregroundStyle(.black)
+                                                Text("\(song.artistNames)")
+                                                    .lineLimit(1)
+                                                    .minimumScaleFactor(0.8)
+                                            }
+                                            
+                                            
+                                            Spacer()
+                                            
+                                            Image("SpotifyIcon")
+                                                .resizable()
+                                                .frame(width:30, height:30)
+                                        }
+                                        .padding(.horizontal, 15)
+                                    }
+                                    .frame(width: 324, height:76)
+                                    .background(Color.cLightGray)
+                                    .clipShape(.rect(cornerRadius: 14))
+                                    
+                                }
+                            }
+                        }
+                        /*
                         VStack{
 
                             Button {
@@ -353,12 +415,10 @@ struct MusicView: View {
                             
 
                         }
-
-                        
-
+                         */
                     }
 
-                    .frame(width: 400.0, height: 500.0)
+                    .frame(width: 400.0, height: 600.0)
 
                     .background(Color.white)
 
@@ -367,9 +427,18 @@ struct MusicView: View {
                 }
 
             }
+            // TODO: add dark mode? (this fix works for both light & dark modes)
+            .foregroundStyle(.black)
 
         }
-
+        .task {
+            // TODO: dynamically assign country to view; use that information to retrieve Spotify API data.
+            let demoModule = Module(title: "", information: "", country: "MEXICO", completed: false)
+            let (songs, artists) = await vm.getMusicData(for: Country(name: "MEXICO", music: demoModule, food: demoModule, customs: demoModule), songCount: 20, artistCount: 5)
+            
+            self.songs = songs
+            self.artists = artists
+        }
         }
 
     }
@@ -382,6 +451,6 @@ struct MusicView: View {
 
 #Preview {
 
-    MusicView()
+    MusicView(vm: ViewModel())
 
 }
