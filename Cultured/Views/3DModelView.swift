@@ -126,6 +126,14 @@ class LandmarkARView: ARView {
         // addding the landmark to the view
         let anchor = AnchorEntity(.plane(.horizontal, classification: .floor, minimumBounds: [0.5, 0.5]))
         
+        for fact in model.facts {
+            let textbox = TextBoxEntity(text: fact, boxWidth: 0.3, boxHeight: 0.13)
+            textbox.scale = [5,5,5]
+            anchor.addChild(textbox)
+            textbox.position = [Float(model.xDistance), 0, Float(-2)]
+            informationTextBoxes.append(textbox)
+            textbox.isEnabled = false //hides textbox at first
+        }
         
         anchor.addChild(modelEntity)
         modelEntity.position = [Float(model.xDistance), 0, Float(model.zDistance)]
@@ -133,10 +141,15 @@ class LandmarkARView: ARView {
         modelEntity.name = model.modelName
         modelEntity.generateCollisionShapes(recursive: true)
         
+        let box = modelEntity.visualBounds(relativeTo: nil)
+        let size = box.extents
+        let bubbleRadius: Float = 15.0 / (40.0 * model.scale) // 40.0 is the constant to reduce the value depending on scale
+        print("Radius: " + String(bubbleRadius) + " Scale " + String(model.scale) + " Name: " + model.modelName)
+        var isEven: Float = 1.0
         // adding the information bubbles
         for i in 0..<model.facts.count {
-            let informationBubbleEntity = ModelEntity(mesh: MeshResource.generateSphere(radius: 5.0), materials: [SimpleMaterial(color: .red, isMetallic: true)])
-            let relativeTransform = Transform(translation: [Float(i) + 1, Float(i) + 1, Float(i) + 1])
+            let informationBubbleEntity = ModelEntity(mesh: MeshResource.generateSphere(radius: bubbleRadius), materials: [SimpleMaterial(color: .red, isMetallic: true)])
+            let relativeTransform = Transform(translation: [isEven * (bubbleRadius * 2.0 + Float(2.0 / (3.0 * model.scale)) * Float(size.x)), 2.0 * Float(i / 2) * (bubbleRadius + Float(1.0 / (9.0 * model.scale)) * Float(size.y)), bubbleRadius + Float(size.z)])
             informationBubbleEntity.transform = relativeTransform
             informationBubbleEntity.scale = [1,1,1]
             informationBubbleEntity.generateCollisionShapes(recursive: true) // adding collision boxes to each bubble
@@ -152,9 +165,10 @@ class LandmarkARView: ARView {
             textbox.isEnabled = false //hides textbox at first
             print(textbox.position)
             print(informationBubbleEntity.position)
+            print(informationBubbleEntity.position)
         }
         
-        self.scene.addAnchor(anchor)
+                
                 
         let handleTap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         self.addGestureRecognizer(handleTap) // calling the objc function
@@ -176,6 +190,7 @@ class LandmarkARView: ARView {
         // detect tap on main model
         if (modelEntity.name == model.modelName) {
             videoShown = true
+            print("Heyyy")
         } else if (modelEntity.name.prefix(4) == "Fact") {
             informationTextBoxes[Int(modelEntity.name.suffix(from: modelEntity.name.index(modelEntity.name.startIndex, offsetBy: 5)))!].isEnabled = !informationTextBoxes[Int(modelEntity.name.suffix(from: modelEntity.name.index(modelEntity.name.startIndex, offsetBy: 5)))!].isEnabled
         }
@@ -187,3 +202,6 @@ class LandmarkARView: ARView {
 #Preview {
     _DModelView()
 }
+
+
+
