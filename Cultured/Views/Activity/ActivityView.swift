@@ -13,7 +13,7 @@ struct ActivityView: View {
     var body: some View {
             ZStack {
                 if badgePopUp {
-                    Color.gray.opacity(0.3)
+                    Color.gray.opacity(0.7)
                         .edgesIgnoringSafeArea(.all)
                         .onTapGesture {
                             badgePopUp = false
@@ -64,7 +64,6 @@ struct BadgePopOp: View {
             GeometryReader { geometry in
                 Button(action: {
                     self.badgePopUp = false
-                    badgePopUp = false
                 }) {
                     Image(systemName: "xmark")
                         .foregroundColor(.cDarkGray)
