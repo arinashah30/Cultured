@@ -10,12 +10,13 @@ import RealityKit
 import ARKit
 
 let landmarks: [ARLandmark] = [
-    ARLandmark(modelName: "Eiffel_Tower", color: .gray, scale: 0.025, isMetallic: true, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Shaunak shaunak shaunak", "Wow i am cultured", "Micheal Jordan the goat"], video: "tower_bridge"),
-    ARLandmark(modelName: "Pisa_Tower", color: UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0), scale: 0.1, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Shaunak shaunak shaunak", "Wow i am cultured", "Micheal Jordan the goat"], video: "tower_bridge"),
-    ARLandmark(modelName: "Burj_Khalifa", color: nil, scale: 0.05, isMetallic: true, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Shaunak shaunak shaunak", "Wow i am cultured", "Micheal Jordan the goat"], video: "tower_bridge"),
-    ARLandmark(modelName: "Taj_Mahal", color: nil, scale: 0.005, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Shaunak shaunak shaunak", "Wow i am cultured", "Micheal Jordan the goat"], video: "tower_bridge"),
-    ARLandmark(modelName: "Chichen_Itza", color: nil, scale: 0.005, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Shaunak shaunak shaunak", "Wow i am cultured", "Micheal Jordan the goat"], video: "tower_bridge")
-]
+    ARLandmark(modelName: "Eiffel_Tower", color: .gray, scale: 0.025, isMetallic: true, facts: ["Symbol of Paris, Eiffel Tower stands tall, commemorating French Revolution, attracting global recognition","Designed by Gustave Eiffel, erected for 1889 World's Fair, showcasing France's engineering prowess.", "Originally 300 meters tall, now 330 meters including antennas; tallest man-made structure during inauguration", "Made of wrought iron, comprises 18,000 parts and 2.5 million rivets, surprisingly lightweight due to lattice design", "Initially criticized, intended for dismantling post-Exposition Universelle but preserved for its radiotelegraphy utility"], textBoxWidths: [0.3,0.3,0.3,0.3,0.3], textBoxHeights: [0.13,0.13,0.13,0.13,0.13], video: "tower_bridge"),
+        ARLandmark(modelName: "Pisa_Tower", color: UIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1.0), scale: 0.1, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Shaunak shaunak shaunak", "Wow i am cultured", "Micheal Jordan the goat"], textBoxWidths: [0.3,0.3,0.3,0.3], textBoxHeights: [0.13,0.13,0.13,0.13], video: "tower_bridge"),
+        ARLandmark(modelName: "Burj_Khalifa", color: nil, scale: 0.05, isMetallic: true, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Shaunak shaunak shaunak", "Wow i am cultured", "Micheal Jordan the goat"], textBoxWidths: [0.3,0.3,0.3,0.3], textBoxHeights: [0.13,0.13,0.13,0.13], video: "tower_bridge"),
+        ARLandmark(modelName: "Taj_Mahal", color: nil, scale: 0.005, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Shaunak shaunak shaunak", "Wow i am cultured", "Micheal Jordan the goat"], textBoxWidths: [0.3,0.3,0.3,0.3], textBoxHeights: [0.13,0.13,0.13,0.13], video: "tower_bridge"),
+        ARLandmark(modelName: "Chichen_Itza", color: nil, scale: 0.005, facts: ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Shaunak shaunak shaunak", "Wow i am cultured", "Micheal Jordan the goat"], textBoxWidths: [0.3,0.3,0.3,0.3], textBoxHeights: [0.13,0.13,0.13,0.13], video: "tower_bridge")
+    ]
+
 
 
 struct _DModelView : View {
@@ -27,7 +28,7 @@ struct _DModelView : View {
     @State var videoShown = false
     
     var body: some View {
-
+        
         if (!videoShown) {
             ZStack{
                 LandmarkViewContainer(model: landmarks[selection], videoShown: $videoShown).edgesIgnoringSafeArea(.all)
@@ -95,6 +96,8 @@ class LandmarkARView: ARView {
     
     func updateModel(_ newModel: ARLandmark) {
         self.scene.anchors.removeAll()
+        informationBubbles = []
+        informationTextBoxes = []
         self.model = newModel
     }
     
@@ -124,14 +127,6 @@ class LandmarkARView: ARView {
         // addding the landmark to the view
         let anchor = AnchorEntity(.plane(.horizontal, classification: .floor, minimumBounds: [0.5, 0.5]))
         
-        for fact in model.facts {
-            let textbox = TextBoxEntity(text: fact, boxWidth: 0.3, boxHeight: 0.13)
-            textbox.scale = [5,5,5]
-            anchor.addChild(textbox)
-            textbox.position = [Float(model.xDistance), 0, Float(-2)]
-            informationTextBoxes.append(textbox)
-            textbox.isEnabled = false //hides textbox at first
-        }
         
         anchor.addChild(modelEntity)
         modelEntity.position = [Float(model.xDistance), 0, Float(model.zDistance)]
@@ -154,11 +149,18 @@ class LandmarkARView: ARView {
             modelEntity.addChild(informationBubbleEntity)
             informationBubbles.append(informationBubbleEntity)
             isEven = -1.0 * isEven
+            
+            let textbox = TextBoxEntity(text: model.facts[i], boxWidth: CGFloat(model.textBoxWidths[i]), boxHeight: CGFloat(model.textBoxHeights[i]))
+            textbox.scale = [15 * bubbleRadius,15 * bubbleRadius,15 * bubbleRadius]
+            informationBubbleEntity.addChild(textbox)
+            textbox.position = [-1 * isEven * bubbleRadius * 3.5, 0, bubbleRadius * 1.5]
+            informationTextBoxes.append(textbox)
+            textbox.isEnabled = false //hides textbox at first
         }
         
         self.scene.addAnchor(anchor)
         
-//        self.installGestures([.rotation, .translation, .scale], for: modelEntity as HasCollision)
+        //        self.installGestures([.rotation, .translation, .scale], for: modelEntity as HasCollision)
         
         let handleTap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         self.addGestureRecognizer(handleTap) // calling the objc function
@@ -182,7 +184,7 @@ class LandmarkARView: ARView {
             videoShown = true
             print("Heyyy")
         } else if (modelEntity.name.prefix(4) == "Fact") {
-            print("found a bubble")
+            informationTextBoxes[Int(modelEntity.name.suffix(from: modelEntity.name.index(modelEntity.name.startIndex, offsetBy: 5)))!].isEnabled = !informationTextBoxes[Int(modelEntity.name.suffix(from: modelEntity.name.index(modelEntity.name.startIndex, offsetBy: 5)))!].isEnabled
         }
         
         
