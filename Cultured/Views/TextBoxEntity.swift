@@ -23,7 +23,7 @@ class TextBoxEntity: Entity {
             mesh: .generatePlane(width: Float(boardWidth), height: Float(boardHeight), cornerRadius: 0.01),
             materials: [SimpleMaterial(
                 color: .white,
-                isMetallic: false)
+                roughness: 0.0, isMetallic: false)
             ]
         )
         self.addChild(boardEntity)
@@ -36,7 +36,7 @@ class TextBoxEntity: Entity {
         // Create an entity for the text
         let textEntityMesh = MeshResource.generateText(
             text,
-            extrusionDepth: 0.004,
+            extrusionDepth: 0.001,
             font: .systemFont(ofSize: 0.017, weight: .bold),
             containerFrame: textContainerFrame,
             alignment: .center,
