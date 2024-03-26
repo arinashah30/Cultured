@@ -683,16 +683,16 @@ class ViewModel: ObservableObject {
     }
     
     func createNewWordGuessing(wordGuessing: WordGuessing) {
-        
         let optionsReference = db.collection("GAMES").document(wordGuessing.title)
-
+        let optionTileArray = wordGuessing.options //[OptionTile]
+        var options = [String]()
+        for optionTile in optionTileArray {
+            options.append(optionTile.option)
+        }
         optionsReference.setData(
             ["title": wordGuessing.title,
              "answer": wordGuessing.answer,
-             "totalPoints": wordGuessing.totalPoints,
-             "flipPoints": wordGuessing.flipPoints,
-             "flipsDone" : wordGuessing.flipsDone,
-             "numberOfGuesses" : wordGuessing.numberOfGuesses,
+             "hints": options
             ]) { error in
                 if let error = error {
                     print("Error writing game document: \(error.localizedDescription)")
@@ -700,21 +700,6 @@ class ViewModel: ObservableObject {
                     print("Game document successfully written")
                 }
             }
-        
-        let optionTileArray = wordGuessing.options //[OptionTile]
-        let optionsArrayReference = optionsReference.collection("OPTIONS")
-        for optionTile in optionTileArray {
-            optionsArrayReference.document(optionTile.option).setData(
-                ["option": optionTile.option,
-                 "isFlipped": optionTile.isFlipped,
-                ]) { error in
-                    if let error = error {
-                        print("Error writing option document: \(error.localizedDescription)")
-                    } else {
-                        print("Option document successfully written")
-                    }
-                }
-        }
     }
     
     /*-------------------------------------------------------------------------------------------------*/
