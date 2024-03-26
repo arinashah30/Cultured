@@ -16,6 +16,8 @@ struct ARLandmark: Hashable {
     var xDistance: Int = 0
     var scale: Float
     var isMetallic: Bool = false
+    
+    //max character count: 178 characters
     var facts: [String]
     var textBoxWidths: [Float]
     var textBoxHeights: [Float]
