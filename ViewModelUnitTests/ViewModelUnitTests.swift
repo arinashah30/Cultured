@@ -51,13 +51,14 @@ final class ViewModelUnitTests: XCTestCase {
             XCTAssertNotNil(topUsers, "Top users shouldn't be nil")
             XCTAssertEqual(true, self.vm.isSorted(topUsers ?? [("None", 0)]))
             expectation.fulfill()
-       }
+        }
         
         waitForExpectations(timeout: 5) { error in
             if let error = error {
                 XCTFail("waitForExpectations error: \(error)")
             }
         }
+    }
     
     
     func testGetQuizFromFirebase() {
@@ -268,7 +269,6 @@ final class ViewModelUnitTests: XCTestCase {
             XCTAssertTrue(wordGameArray.contains("IndiaTraditionWordGame"))
             expectation.fulfill()
         }
-    }
 
         waitForExpectations(timeout: 5) { error in
             if let error = error {
@@ -345,4 +345,19 @@ final class ViewModelUnitTests: XCTestCase {
             wait(for: [expectation], timeout: 10.0) // Adjust timeout to your needs
     }
 
+    
+    func testOngoingActivityFields() {
+        print("Hello world")
+        let expectation = XCTestExpectation(description: "ongoing activity fields check")
+        vm.getfieldsofOnGoingActivity(userId: "ryanomeara", activity: "EgyptFoodQuiz") { intact in
+            print("Completed: \(String(describing: intact!["completed"]))")
+            print("Current: \(String(describing: intact?["current"]))")
+            print("NumQ: \(String(describing: intact?["numberOfQuestions"]))")
+            print("Score: \(String(describing: intact?["score"]))")
+            print("Type: \(String(describing: intact?["type"]))")
+            print("Hello world")
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 5) // Adjust timeout as needed
+    }
 }
