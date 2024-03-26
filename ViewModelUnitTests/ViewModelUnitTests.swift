@@ -141,18 +141,18 @@ final class ViewModelUnitTests: XCTestCase {
         let expectation = self.expectation(description: "Update Information in Firebase")
         
         let options = [
-            OptionTile(option: "Edible", isFlipped: true),
-            OptionTile(option: "Italian", isFlipped: true),
-            OptionTile(option: "Sandwich", isFlipped: false),
-            OptionTile(option: "Semi-hard", isFlipped: false),
-            OptionTile(option: "White", isFlipped: false),
-            OptionTile(option: "Rounded", isFlipped: false),
-            OptionTile(option: "Deli Sub", isFlipped: false),
-            OptionTile(option: "Cheese", isFlipped: false)
+            OptionTile(option: "Dough", isFlipped: true),
+            OptionTile(option: "Filling", isFlipped: true),
+            OptionTile(option: "Steamed", isFlipped: false),
+            OptionTile(option: "Asian", isFlipped: false),
+            OptionTile(option: "Wrapper", isFlipped: false),
+            OptionTile(option: "Boiled", isFlipped: false),
+            OptionTile(option: "Delicious", isFlipped: false),
+            OptionTile(option: "Bite Size", isFlipped: false)
         ]
-        let wordGuessing = WordGuessing(title: "NewJerseyFoodWordGuessing",
+        let wordGuessing = WordGuessing(title: "ChinaFoodWordGuessing",
                                        options: options,
-                                       answer: "Provolone")
+                                       answer: "Dumpling")
         
         vm.createNewWordGuessing(wordGuessing: wordGuessing)
 
@@ -170,16 +170,12 @@ final class ViewModelUnitTests: XCTestCase {
     func testGetWordGameFromFirebase() {
         let expectation = self.expectation(description: "Retrieve information from WordGame")
         
-        vm.getWordGameFromFirebase(activityName: "MexicoFoodWordGuessing") {wordgame in
+        vm.getWordGameFromFirebase(activityName: "ChinaFoodWordGuessing") {wordgame in
             XCTAssertNotNil(wordgame, "Word Game should not be nil")
-            XCTAssertEqual(wordgame?.answer, "Cheese")
-            XCTAssertEqual(wordgame?.flipPoints, 18)
-            XCTAssertEqual(wordgame?.flipsDone, 0)
-            XCTAssertEqual(wordgame?.numberOfGuesses, 0)
-            XCTAssertEqual(wordgame?.title, "MexicoFoodWordGuessing")
-            XCTAssertEqual(wordgame?.totalPoints, 200)
+            XCTAssertEqual(wordgame?.answer, "Dumpling")
+            XCTAssertEqual(wordgame?.title, "ChinaFoodWordGuessing")
             XCTAssertFalse(wordgame?.options.isEmpty ?? true, "The Options array is Empty")
-            print("WordGame =====", wordgame!)
+            print("China Food WordGame =====", wordgame!)
             expectation.fulfill()
         }
             

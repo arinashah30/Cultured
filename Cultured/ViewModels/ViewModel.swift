@@ -52,8 +52,8 @@ class ViewModel: ObservableObject {
                 completion(true)
             }
             //doesn't handle the case where authResult is nil so write that in if needed
-            let db = Firestore.firestore()
-            let auth = Auth.auth()
+//            let db = Firestore.firestore()
+//            let auth = Auth.auth()
         }
     }
     
@@ -202,33 +202,19 @@ class ViewModel: ObservableObject {
             
             let title = data["title"] as? String ?? ""
             let answer = data["answer"] as? String ?? ""
-            let points = data["totalPoints"] as? Int ?? 0
-            let flipPoints = data["flipPoints"] as? Int ?? 0
+            let options = data["hints"] as? [String] ?? []
             
-            //Get the Options Reference
-            documentReference.collection("OPTIONS").getDocuments { (querySnapshot, error) in
-                if let error = error {
-                    print("Error getting the Quiz Questions \(error.localizedDescription)")
-                    completion(nil)
-                    return
-                }
-                
-                var optionTileArray = [OptionTile]()
-                for optionDocuments in querySnapshot!.documents {
-                    let optionData = optionDocuments.data()
-                    if let option = self.parseOptionTile(optionData) {
-                        optionTileArray.append(option)
-                    }
-                }
-                let wordGuessing = WordGuessing(title: title,
-                                                options: optionTileArray,
-                                                answer: answer,
-                                                totalPoints: points,
-                                                flipPoints: flipPoints,
-                                                flipsDone: 0,
-                                                numberOfGuesses: 0)
-                completion(wordGuessing)
+            var optionTileArray = [OptionTile]()
+            for option in options {
+                optionTileArray.append(OptionTile(option: option,
+                                  isFlipped: false))
             }
+            
+            let wordGuessing = WordGuessing(title: title,
+                                            options: optionTileArray,
+                                            answer: answer)
+            completion(wordGuessing)
+            
         }
     }
     
