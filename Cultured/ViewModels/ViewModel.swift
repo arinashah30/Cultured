@@ -57,6 +57,15 @@ class ViewModel: ObservableObject {
         }
     }
     
+    func firebase_sign_out() {
+        do {
+            try auth.signOut()
+            UserDefaults.standard.setValue(false, forKey: "log_Status")
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
+        }
+    }
+    
     func firebase_email_password_sign_up_(email: String, password: String, username: String) {
         auth.createUser(withEmail: email, password: password) { authResult, error in
             if let errorSignUp = error {
