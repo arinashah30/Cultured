@@ -733,6 +733,7 @@ class ViewModel: ObservableObject {
         }
     }
     
+
     func addOnGoingActivity(userID: String, numQuestions: Int, titleOfActivity: String, typeOfActivity: String, completion: @escaping (Bool) -> Void) {
         db.collection("USERS").document(userID).collection("ACTIVITIES").document("Wassup").setData(
             ["completed": false,
@@ -744,7 +745,7 @@ class ViewModel: ObservableObject {
              "score": 0,
              
              "numberOfQuestions": numQuestions,
-             
+          
              "type": typeOfActivity, //MUST be "quiz", "connection", or "wordgame"
             ])
         completion(true)
@@ -806,6 +807,7 @@ class ViewModel: ObservableObject {
         }
     }
     
+    
     func createNewWordGuessing(wordGuessing: WordGuessing) {
         
         let optionsReference = db.collection("GAMES").document(wordGuessing.title)
@@ -839,6 +841,7 @@ class ViewModel: ObservableObject {
                     }
                 }
         }
+
     }
     
     /*-------------------------------------------------------------------------------------------------*/
@@ -1026,7 +1029,6 @@ class ViewModel: ObservableObject {
         }
     }
     /*-------------------------------------------------------------------------------------------------*/
-    
     
 }
 
