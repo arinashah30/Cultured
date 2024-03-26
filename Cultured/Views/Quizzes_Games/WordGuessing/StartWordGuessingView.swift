@@ -26,7 +26,7 @@ struct StartWordGuessingView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 400, height: 470, alignment: .top)
-                
+                    
                     
                     Button {
                         self.presentationMode.wrappedValue.dismiss()
@@ -62,7 +62,7 @@ struct StartWordGuessingView: View {
                             .font(Font.custom("Quicksand-Medium", size: 20))
                             .foregroundColor(.cDarkGray)
                             .padding(.top, 20)
-                        HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 20) {
+                        HStack(alignment: .center, spacing: 20) {
                             Button {
                                 
                             } label: {
@@ -89,7 +89,7 @@ struct StartWordGuessingView: View {
                         }
                         .shadow(radius: 4, x: 0, y: 2)
                         
-                        HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 20) {
+                        HStack(alignment: .center, spacing: 20) {
                             Button {
                                 
                             } label: {
@@ -119,14 +119,14 @@ struct StartWordGuessingView: View {
                         .shadow(radius: 4, x: 0, y: 2)
                         
                         NavigationLink(destination: {
-                                        WordGuessingView(vm: WordGuessingViewModel())
-                                    }, label: {
-                                        Text("Start")
-                                            .font(.system(size: 20))
-                                            .foregroundColor(.cDarkGray)
-                                            .padding()
-                                    })
-                        .frame(maxWidth: 154, maxHeight: 57, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                            WordGuessingView(vm: WordGuessingViewModel())
+                        }, label: {
+                            Text("Start")
+                                .font(.system(size: 20))
+                                .foregroundColor(.cDarkGray)
+                                .padding()
+                        })
+                        .frame(maxWidth: 154, maxHeight: 57, alignment: .center)
                         .background(Color.black.opacity(0.1))
                         .clipShape(.rect(cornerRadius: 100.0))
                         .padding(.top, 15)
