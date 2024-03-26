@@ -63,21 +63,35 @@ final class ViewModelUnitTests: XCTestCase {
     
     func testCreateNewQuiz() {
         let expectation = self.expectation(description: "Update Quiz information in Firebase")
-        
         let quizQuestion1 = QuizQuestion(question: "What color is the French Flag",
                                          answers: ["Blue", "Orange", "Red", "Yellow"],
                                          correctAnswer: 2,
-                                         correctAnswerDescription: "IDK this is a test highkey")
+                                         correctAnswerDescription: "IDK this is a test highkey",
+                                         submitted: false)
         
         let quizQuestion2 = QuizQuestion(question: "What is a french food",
                                          answers: ["Baguette", "Orange Chicken", "Cupcakes", "Bok-Choy"],
                                          correctAnswer: 0,
-                                         correctAnswerDescription: "Obviously it's Baguette...duh")
+                                         correctAnswerDescription: "Obviously it's Baguette...duh",
+                                         submitted: false)
         let quizQuestionArray = [quizQuestion1, quizQuestion2]
+        let quiz1 = Quiz(title: "FrenchCultureQuiz", questions: quizQuestionArray)
+        vm.createNewQuiz(quiz: quiz1)
         
-        let quiz = Quiz(title: "FrenchCultureQuiz", questions: quizQuestionArray)
+        let quizQuestion3 = QuizQuestion(question: "How many cups of coffee are consumed everyday in the US",
+                                         answers: ["200 Million", "300 Million", "400 Million", "500 Million"],
+                                         correctAnswer: 1,
+                                         correctAnswerDescription: "The average coffee drinker drinks 3 cups or whatever",
+                                         submitted: false)
         
-        vm.createNewQuiz(quiz: quiz)
+        let quizQuestion4 = QuizQuestion(question: "Which is an American food?",
+                                         answers: ["Burger", "Pasta", "Tacos", "Gyros"],
+                                         correctAnswer: 0,
+                                         correctAnswerDescription: "Blah blah blah McDonald's started the burger hype in the US",
+                                         submitted: false)
+        let quizQuestionArray2 = [quizQuestion3, quizQuestion4]
+        let quiz2 = Quiz(title: "UnitedStatesFoodQuiz", questions: quizQuestionArray2)
+        vm.createNewQuiz(quiz: quiz2)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
             expectation.fulfill()
@@ -92,17 +106,30 @@ final class ViewModelUnitTests: XCTestCase {
     
     func testGetQuizFromFirebase() {
         let expectation = self.expectation(description: "Retrieve information from Quiz")
+    
         
         vm.getQuizFromFirebase(activityName: "FrenchCultureQuiz") {quiz in
             XCTAssertNotNil(quiz, "Quiz should not be nil")
-            XCTAssertEqual(quiz?.points, 999)
-            XCTAssertEqual(quiz?.pointsGoal, 800000000000)
             XCTAssertEqual(quiz?.title, "FrenchCultureQuiz")
             XCTAssertFalse(quiz?.questions.isEmpty ??  true)
-            //print("Quiz =====", quiz!)
+            XCTAssertEqual(quiz?.points, 0)
+            XCTAssertEqual(quiz?.pointsGoal, 0)
+            XCTAssertEqual(quiz?.currentQuestion, 0)
+            print("Quiz1 =====", quiz!)
+//            expectation.fulfill()
+        }
+        
+        vm.getQuizFromFirebase(activityName: "UnitedStatesFoodQuiz") {quiz in
+            XCTAssertNotNil(quiz, "Quiz should not be nil")
+            XCTAssertEqual(quiz?.title, "UnitedStatesFoodQuiz")
+            XCTAssertFalse(quiz?.questions.isEmpty ??  true)
+            XCTAssertEqual(quiz?.points, 0)
+            XCTAssertEqual(quiz?.pointsGoal, 0)
+            XCTAssertEqual(quiz?.currentQuestion, 0)
+            print("Quiz2 =====", quiz!)
             expectation.fulfill()
         }
-            
+        
         waitForExpectations(timeout: 5) { error in
             if let error = error {
                 XCTFail("waitForExpectations error: \(error)")

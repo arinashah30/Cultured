@@ -336,8 +336,6 @@ class ViewModel: ObservableObject {
                     return
                 }
                 let title = data["title"] as? String ?? ""
-                let points = data["points"] as? Int ?? 0
-                let pointsGoal = data["pointsGoal"] as? Int ?? 0
                 //Get the Quiz Questions subcollection
                 documentReference.collection("QUESTIONS").getDocuments { (querySnapshot, error) in
                     if let error = error {
@@ -354,8 +352,9 @@ class ViewModel: ObservableObject {
                     }
                     let quiz = Quiz(title: title,
                                     questions: questionsArray,
-                                    points: points,
-                                    pointsGoal: pointsGoal)
+                                    points: 0,
+                                    pointsGoal: 0,
+                                    currentQuestion: 0)
                     completion(quiz)
                 }
             }
@@ -559,18 +558,21 @@ class ViewModel: ObservableObject {
      -----------------------------------------------------------------------------------------------
      */
     
-    func addOnGoingActivity(userID: String, country: String, titleOfActivity: String, typeOfActivity: String) {
-        db.collection("USERS").document(userID).collection("ACTIVITIES").document("\(country)\(titleOfActivity)").setData(
+    func addOnGoingActivity(userID: String, numQuestions: Int, titleOfActivity: String, typeOfActivity: String, completion: @escaping (Bool) -> Void) {
+        db.collection("USERS").document(userID).collection("ACTIVITIES").document("Wassup").setData(
             ["completed": false,
              
-             "current": "",
+             "current": 0,
              
              "history": [],
              
              "score": 0,
              
+             "numberOfQuestions": numQuestions,
+             
              "type": typeOfActivity, //MUST be "quiz", "connection", or "wordgame"
             ])
+        completion(true)
     }
     
     func getOnGoingActivity(userId: String, type: String, completion: @escaping([String]) -> Void) {
@@ -722,30 +724,13 @@ class ViewModel: ObservableObject {
         let quizRef = db.collection("GAMES").document(quiz.title)
         for question in quizQuestions {
             quizRef.collection("QUESTIONS").document(question.question).setData(
-                ["question": question.question,
-                 "answerChoices": question.answers,
+                ["answerChoices": question.answers,
                  "correctAnswer": String(question.correctAnswer),
                  "correctAnswerDescription": question.correctAnswerDescription,
                 ])
         }
     }
-    
-    func addOnGoingActivity(userID: String, numQuestions: Int, titleOfActivity: String, typeOfActivity: String, completion: @escaping (Bool) -> Void) {
-        db.collection("USERS").document(userID).collection("ACTIVITIES").document("Wassup").setData(
-            ["completed": false,
-             
-             "current": 0,
-             
-             "history": [],
-             
-             "score": 0,
-             
-             "numberOfQuestions": numQuestions,
-             
-             "type": typeOfActivity, //MUST be "quiz", "connection", or "wordgame"
-            ])
-        completion(true)
-    }
+
 
     func createNewConnections(connection: Connections) {
         
@@ -859,15 +844,18 @@ class ViewModel: ObservableObject {
     
     //Helper Function to Turn the data from Firebase into a Quiz Question
     func parseQuestionData(_ questionData: [String: Any]) -> QuizQuestion? {
-        let question = questionData["question"] as? String ?? ""
+//        let question = questionData["question"] as? String ?? ""
+        let question = questionData["questionTitle"] as? String ?? ""
         let answers = questionData["answerChoices"] as? [String] ?? []
         let correctAnswerIndex = questionData["correctAnswer"] as? Int ?? 0
         let correctAnswerDescription = questionData["correctAnswerDescription"] as? String ?? ""
+        let submitted = questionData["submitted"] as? Bool ?? false
         
         return QuizQuestion(question: question,
                             answers: answers,
                             correctAnswer: correctAnswerIndex,
-                            correctAnswerDescription: correctAnswerDescription)
+                            correctAnswerDescription: correctAnswerDescription,
+                            submitted: submitted)
     }
     
     
