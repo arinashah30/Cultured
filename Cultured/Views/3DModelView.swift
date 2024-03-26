@@ -8,6 +8,8 @@
 import SwiftUI
 import RealityKit
 import ARKit
+import FirebaseCore
+import FirebaseStorage
 
 let landmarks: [ARLandmark] = [
 
@@ -80,7 +82,9 @@ class LandmarkARView: ARView {
     
     var model: ARLandmark {
         didSet {
-            renderModel()
+            Task {
+                await renderModel()
+            }
         }
     }
     var showPortalFunc: (() -> ())?
@@ -88,7 +92,10 @@ class LandmarkARView: ARView {
     var informationTextBoxes: [Entity] = []
     @Binding var videoShown: Bool
     
+    let modelURL: URL?
+    
     init(model: ARLandmark, videoShown: Binding<Bool>) {
+        self.modelURL = URL.documentsDirectory.appending(path: "models/\(model.modelName).usdz")
         self.model = model
         _videoShown = videoShown
         super.init(frame: . zero)
@@ -110,12 +117,42 @@ class LandmarkARView: ARView {
         fatalError("init(frame:) has not been implemented")
     }
     
-    func renderModel() {
-        guard let modelEntity = try? ModelEntity.loadModel(named: model.modelName) else {
-            fatalError("Could not load model with name \(model.modelName)")
-        }
+    func downloadModel(_ closure: @escaping (ModelEntity) -> ()) async {
+        let storage = Storage.storage()
+        let pathReference = storage.reference(withPath: "models/\(model.modelName).usdz")
+        let localURL = URL.documentsDirectory.appending(path: "models/\(model.modelName).usdz")
         
-        if let color = model.color {
+        // Download to the local filesystem
+        let downloadTask = pathReference.write(toFile: localURL) { url, error in
+            if let error = error {
+                // Uh-oh, an error occurred!
+                print(error)
+                fatalError("Could not load download model with name \(self.model.modelName)")
+            } else {
+                guard let modelEntityLocal = try? ModelEntity.loadModel(contentsOf: localURL) else {
+                    fatalError("Could not load download model with name \(self.model.modelName)")
+                }
+                closure(modelEntityLocal)
+            }
+        }
+    }
+    
+    func renderModel() async {
+        let localURL = URL.documentsDirectory.appending(path: "models/\(model.modelName).usdz")
+        
+        if let modelEntityLocal = try? ModelEntity.loadModel(contentsOf: localURL) {
+            // model already downloaded
+            renderModelSync(modelEntityLocal)
+        } else {
+            // download model
+            await downloadModel { downloadedModel in
+                self.renderModelSync(downloadedModel)
+            }
+        }
+    }
+    
+    func renderModelSync(_ modelEntity: ModelEntity) {
+        if let color = self.model.color {
             var material = SimpleMaterial()
             material.color = .init(tint: color)
             material.metallic = MaterialScalarParameter(floatLiteral: model.isMetallic ? 1.0 : 0.0)
