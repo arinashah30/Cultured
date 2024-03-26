@@ -9,73 +9,92 @@ import SwiftUI
 
 struct MajorCitiesView: View {
     var body : some View {
-        VStack {
-            ZStack (alignment: .topLeading){
-                Image("MajorCities")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 400, height: 200)
-                
-                Button {
+        NavigationView {
+            VStack {
+                ZStack (alignment: .topLeading){
+                    Image("MajorCities")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 400, height: 200)
                     
-                } label: {
-                    
-                    ZStack {
-                        Circle()
-                            .frame(width: 50, height: 50)
-                            .padding(.top, 20)
-                            .padding(.leading, 20)
-                            .foregroundColor(Color.white.opacity(0.8))
-                        Image("Arrow")
-                            .padding(.top, 20)
-                            .padding(.leading, 18)
+                    NavigationLink(destination: HomeView(vm: ViewModel(), points: 346, streak: 7, badges: 4)) {
+                        
+                        ZStack {
+                            Circle()
+                                .frame(width: 50, height: 50)
+                                .padding(.top, 20)
+                                .padding(.leading, 20)
+                                .foregroundColor(Color.white.opacity(0.8))
+                            Image("Arrow")
+                                .padding(.top, 20)
+                                .padding(.leading, 18)
+                        }
                     }
                     
                 }
-                
-            }
-            ScrollView {
-                ZStack (alignment: .topLeading){
-                    Rectangle()
-                        .frame(width: 395, height: 600)
-                        .clipShape(.rect(cornerRadius: 40))
-                        .foregroundColor(.white)
-                    VStack (alignment: .leading){
-                        Text("Major Cities")
-                            .foregroundColor(.cDarkGray)
-                            .font(Font.custom("Quicksand-SemiBold", size: 32))
-                            .padding(.top, 20)
-                        Text("Mexico")
-                            .foregroundColor(.cMedGray)
-                        //ForEach (array of regions) { region in Text(region) }
-                        Text("North Mexico")
-                            .font(Font.custom("Quicksand-Medium", size: 24))
-                            .foregroundColor(.cDarkGray)
-                            .padding(.top, 20)
-                            .padding(.bottom, 10)
-                        HStack (alignment: .top){
-                            VStack {
-                                Image("MapPointer")
+                ScrollView {
+                    ZStack (alignment: .topLeading){
+                        Rectangle()
+                            .frame(width: 395, height: 600)
+                            .clipShape(.rect(cornerRadius: 40))
+                            .foregroundColor(.white)
+                        VStack (alignment: .leading){
+                            Text("Major Cities")
+                                .foregroundColor(.cDarkGray)
+                                .font(Font.custom("Quicksand-SemiBold", size: 32))
+                                .padding(.top, 20)
+                            Text("Mexico")
+                                .foregroundColor(.cMedGray)
+                            Text("North Mexico")
+                                .font(Font.custom("Quicksand-Medium", size: 24))
+                                .foregroundColor(.cDarkGray)
+                                .padding(.top, 20)
+                                .padding(.bottom, 10)
+                            HStack (alignment: .top){
+                                VStack {
+                                    Image("MapPointer")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 26, height: 33)
+                                    Text("San Miguel De Allende")
+                                        .font(Font.custom("Quicksand-Medium", size: 20))
+                                        .foregroundColor(.cDarkGray)
+                                        .padding(.bottom, 5)
+                                    Text("In this vibrant city, do this and this activity.")
+                                        .foregroundColor(.cMedGray)
+                                }
+                                .padding(.top, 10)
+                                Image("SanMiguel")
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
-                                    .frame(width: 26, height: 33)
-                                Text("San Miguel De Allende")
-                                    .font(Font.custom("Quicksand-Medium", size: 20))
-                                    .foregroundColor(.cDarkGray)
-                                    .padding(.bottom, 5)
-                                Text("In this vibrant city, do this and this activity.")
-                                    .foregroundColor(.cMedGray)
+                                    .frame(width: 180, height: 180)
+                                    .padding(.leading, 10)
                             }
-                            .padding(.top, 20)
-                            Image("SanMiguel")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 180, height: 180)
-                                .padding(.leading, 10)
+                            .padding(.bottom, 20)
+                            HStack (alignment: .top){
+                                Image("SanMiguel")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 180, height: 180)
+                                    .padding(.leading, 10)
+                                VStack {
+                                    Image("MapPointer")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 26, height: 33)
+                                    Text("San Miguel De Allende")
+                                        .font(Font.custom("Quicksand-Medium", size: 20))
+                                        .foregroundColor(.cDarkGray)
+                                        .padding(.bottom, 5)
+                                    Text("In this vibrant city, do this and this activity.")
+                                        .foregroundColor(.cMedGray)
+                                }
+                                .padding(.top, 10)
+                            }
                         }
+                        .padding(.leading, 20)
+                        .padding(.trailing, 20)
                     }
-                    .padding(.leading, 20)
-                    .padding(.trailing, 20)
                 }
             }
         }
