@@ -14,9 +14,8 @@ struct WordGuessing {
     var totalPoints: Int = 100
     var flipPoints: Int = 10
     var flipsDone: Int = 0
-    var numberOfGuesses: Int = 2
-    
-    
+    var numberOfGuesses: Int = 1
+  
     init(title: String, options: [OptionTile], answer: String, totalPoints: Int, flipPoints: Int, flipsDone: Int, numberOfGuesses: Int) {
         self.title = title
         self.options = options

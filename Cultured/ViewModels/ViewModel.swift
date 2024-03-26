@@ -653,6 +653,22 @@ class ViewModel: ObservableObject {
         }
     }
 
+    func addOnGoingActivity(userID: String, numQuestions: Int, titleOfActivity: String, typeOfActivity: String, completion: @escaping (Bool) -> Void) {
+        db.collection("USERS").document(userID).collection("ACTIVITIES").document("Wassup").setData(
+            ["completed": false,
+             
+             "current": 0,
+             
+             "history": [],
+             
+             "score": 0,
+             
+             "numberOfQuestions": numQuestions,
+          
+             "type": typeOfActivity, //MUST be "quiz", "connection", or "wordgame"
+            ])
+        completion(true)
+    }
 
     func createNewConnections(connection: Connections) {
         let connectionsReference = db.collection("GAMES").document(connection.title)
@@ -667,6 +683,7 @@ class ViewModel: ObservableObject {
                 }
             }
     }
+    
     
     func createNewWordGuessing(wordGuessing: WordGuessing) {
         let optionsReference = db.collection("GAMES").document(wordGuessing.title)
@@ -761,7 +778,27 @@ class ViewModel: ObservableObject {
         }
         return true
     }
-    
+  
+    func getfieldsofOnGoingActivity(userId: String, activity: String, completion: @escaping([String: Any]?) -> Void) {
+        db.collection("USERS").document(userId).collection("ACTIVITIES").document(activity).getDocument{ doc, error in
+            if let err = error {
+                print(err.localizedDescription)
+                completion(nil)
+                return
+            } else {
+                if let document = doc {
+                    if let data = document.data() {
+                        var dictionary = [String: Any]()
+                        for (key, val) in data {
+                            dictionary[key] = val
+                        }
+                        completion(dictionary)
+                        return
+                    }
+                }
+            }
+        }
+    }
     
     /*-------------------------------------------------------------------------------------------------*/
     
@@ -792,9 +829,7 @@ class ViewModel: ObservableObject {
             }
         }
     }
-    
     /*-------------------------------------------------------------------------------------------------*/
-    
     
 }
 
