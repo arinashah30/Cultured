@@ -13,6 +13,8 @@ class WordGuessingViewModel: ObservableObject {
     @Published var guessesMade: [String] = []
     @Published var isOver = false
     @Published var hasWon = false
+    @Published var stats: [Int] = [0, 0, 2, 4, 9, 6, 3, 1, 1]
+    @Published var winPercent: Int = 90
     
     func create_mock_wg_game() {
         let options = [
