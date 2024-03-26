@@ -254,14 +254,25 @@ final class ViewModelUnitTests: XCTestCase {
         vm.getConnectionsFromFirebase(activityName: "ChinaFoodConnections") {connection in
             XCTAssertNotNil(connection, "Connection should not be nil")
             XCTAssertEqual(connection?.title, "ChinaFoodConnections")
-            XCTAssertEqual(connection?.points, 1500)
-            XCTAssertEqual(connection?.attempts, 2)
-            XCTAssertEqual(connection?.mistakes_remaining, 2)
-            XCTAssertEqual(connection?.correct_categories, 4)
-            XCTAssertFalse(connection?.options.isEmpty ?? true, "The Options array is Empty")
-            XCTAssertFalse(connection?.selection.isEmpty ?? true, "The Selection array is Empty")
-            XCTAssertFalse(connection?.history.isEmpty ?? true, "The History array is Empty")
-            print("Connections =====", connection!)
+            XCTAssertEqual(connection?.points, 0)
+            XCTAssertEqual(connection?.attempts, 0)
+            XCTAssertEqual(connection?.mistakes_remaining, 0)
+            XCTAssertEqual(connection?.correct_categories, 0)
+            XCTAssertTrue(connection?.options.isEmpty ?? false, "The Options array is NOT Empty")
+            XCTAssertTrue(connection?.selection.isEmpty ?? false, "The Selection array is NOT Empty")
+            print("ChinaFoodConnections =====", connection!)
+        }
+        
+        vm.getConnectionsFromFirebase(activityName: "USFoodConnections") {connection in
+            XCTAssertNotNil(connection, "Connection should not be nil")
+            XCTAssertEqual(connection?.title, "USFoodConnections")
+            XCTAssertEqual(connection?.points, 0)
+            XCTAssertEqual(connection?.attempts, 0)
+            XCTAssertEqual(connection?.mistakes_remaining, 0)
+            XCTAssertEqual(connection?.correct_categories, 0)
+            XCTAssertTrue(connection?.options.isEmpty ?? false, "The Options array is NOT Empty")
+            XCTAssertTrue(connection?.selection.isEmpty ?? false, "The Selection array is NOT Empty")
+            print("USFoodConnections =====", connection!)
             expectation.fulfill()
         }
             
