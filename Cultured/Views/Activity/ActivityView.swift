@@ -18,7 +18,7 @@ struct ActivityView: View {
                         .onTapGesture {
                             badgePopUp = false
                         }
-                    BadgePopOp(badgePopUp: $badgePopUp)
+                    BadgePopUp(badgePopUp: $badgePopUp)
                 }
             }
         }
@@ -26,7 +26,7 @@ struct ActivityView: View {
 
 
 
-struct BadgePopOp: View {
+struct BadgePopUp: View {
     
     @Binding var badgePopUp: Bool
     
