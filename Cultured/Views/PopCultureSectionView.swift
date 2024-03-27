@@ -9,6 +9,8 @@ import SwiftUI
 
 struct PopCultureSectionView: View {
     @ObservedObject var vm: ViewModel
+    @Environment(\.dismiss) private var dismiss
+
     var body: some View {
         VStack {
             ZStack (alignment: .topLeading){
@@ -18,7 +20,7 @@ struct PopCultureSectionView: View {
                     .frame(width: 400, height: 470)
                 
                 Button {
-                    
+                    dismiss()
                 } label: {
                     
                     ZStack {
