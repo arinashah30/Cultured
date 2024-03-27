@@ -317,4 +317,17 @@ final class ViewModelUnitTests: XCTestCase {
         }
         wait(for: [expectation], timeout: 5) // Adjust timeout as needed
     }
+    
+    func testSetCountrySuccess() {
+            let newID = "Ganden Fung"
+            let newCountry = "China"
+            let expectation = self.expectation(description: "set country success")
+
+            vm.setCurrentCountry(userID: newID, countryName: newCountry) { success in
+                XCTAssertTrue(success, "The currentCountry should be set successfully.")
+                expectation.fulfill()
+            }
+
+            waitForExpectations(timeout: 5, handler: nil)
+        }
 }
