@@ -353,7 +353,6 @@
 			isa = PBXGroup;
 			children = (
 				66FB6A1D2B72A2DF0066B826 /* MusicView.swift */,
-				7CFE0FC52BA11DF300D7283B /* MusicTraditionsView.swift */,
 			);
 			path = PopCulture;
 			sourceTree = "<group>";
@@ -530,7 +529,6 @@
 				480F22062B7C1F9000CB5632 /* QuizViewModel.swift in Sources */,
 				CADEEBF02BA3DBD5002FDF71 /* Music.swift in Sources */,
 				66FB69C92B72A06D0066B826 /* TourView.swift in Sources */,
-				7CFE0FC62BA11DF300D7283B /* MusicTraditionsView.swift in Sources */,
 				CA64398E2B857BF200181C5F /* PlacesSectionView.swift in Sources */,
 				CA64398A2B8579AF00181C5F /* FoodCategorySectionView.swift in Sources */,
 				48A11D742B9B63220061ED6A /* QuestionFailView.swift in Sources */,
