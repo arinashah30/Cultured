@@ -26,4 +26,5 @@ struct User: Identifiable, Hashable {
     var completedChallenges: [String] // array of IDs for completed challenges or name of challenge
     var badges: [String] // array of IDs for badges or name of badges
     var savedArtists: [String] //array of saved music artists
+    var country: String
 }

@@ -844,20 +844,17 @@ class ViewModel: ObservableObject {
                     
     }
     
-    func getOnGoingActivity(userId: String, type: String, completion: @escaping([String]) -> Void) {
+    func getOnGoingActivity(userId: String, type: String, completion: @escaping([String:Int]) -> Void) {
         db.collection("USERS").document(userId).collection("ACTIVITIES").whereField("type", isEqualTo: type).getDocuments { (querySnapshot, error) in
             if let error = error {
                 print("Error Getting Documents \(error)")
-                completion([])
+                completion([:])
             } else {
-                var activityArray = [String]()
+                var activityArray = [String:Int]()
                 for document in querySnapshot!.documents {
                     let data = document.data()
-                    let completed = data["completed"] as? Bool ?? false
-                    if !completed {
-                        let nameOfActivity = document.documentID
-                        activityArray.append(nameOfActivity)
-                    }
+                    let nameOfActivity = document.documentID
+                    activityArray[nameOfActivity] = data["current"] as? Int
                 }
                 
                 completion(activityArray)
