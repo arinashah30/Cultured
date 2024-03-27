@@ -33,17 +33,17 @@ class ViewModel: ObservableObject {
     func fireBaseSignIn(email: String, password: String, completion: @escaping (Bool) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) {  authResult, error in
             if let error = error{
-                    print(error.localizedDescription)
-                    let firebaseError = AuthErrorCode.Code(rawValue: error._code)
-                    switch firebaseError {
-                    case .wrongPassword:
-                        self.errorText = "Password incorrect"
-                    case .userNotFound:
-                        self.errorText = "User not found"
-                    case .userDisabled:
-                        self.errorText = "Your account has been disabled"
-                    default:
-                        self.errorText = "An error has occurred"
+                print(error.localizedDescription)
+                let firebaseError = AuthErrorCode.Code(rawValue: error._code)
+                switch firebaseError {
+                case .wrongPassword:
+                    self.errorText = "Password incorrect"
+                case .userNotFound:
+                    self.errorText = "User not found"
+                case .userDisabled:
+                    self.errorText = "Your account has been disabled"
+                default:
+                    self.errorText = "An error has occurred"
                 }
                 completion(false)
             }
@@ -103,7 +103,7 @@ class ViewModel: ObservableObject {
      Managing data of countries
      -----------------------------------------------------------------------------------------------
      */
-            
+    
     func getInfoFromModule(countryName: String, moduleName: String, completion: @escaping (String) -> Void) {
         self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document(moduleName).getDocument { document, error in
             if let err = error {
@@ -168,13 +168,13 @@ class ViewModel: ObservableObject {
                 self?.current_user = User(id: document.documentID,
                                           name: document["name"] as! String,
                                           profilePicture: document["profilePicture"] as! String,
-                                          email: document["email"] as! String, 
+                                          email: document["email"] as! String,
                                           points: document["points"] as? Int ?? 0,
                                           streak: document["streak"] as? Int ?? 0,
                                           completedChallenges: document["completedChallenges"] as? [String] ?? [],
                                           badges: document["badges"] as? [String] ?? [],
                                           savedArtists: document["savedArtists"] as? [String] ?? []
-                                          )
+                )
                 completion()
             }
         })
@@ -322,7 +322,7 @@ class ViewModel: ObservableObject {
             
         }
     }
-
+    
     
     func getPts(userID: String, completion: @escaping (Int) -> Void) {
         self.db.collection("USERS").document(userID).getDocument { document, error in
@@ -375,7 +375,7 @@ class ViewModel: ObservableObject {
                 completion(false)
                 return
             }
-
+            
             
             if var badges = data["badges"] as? [String] {
                 badges.append(newBadge)
@@ -652,7 +652,6 @@ class ViewModel: ObservableObject {
                 ])
         }
     }
-
     func addOnGoingActivity(userID: String, numQuestions: Int, titleOfActivity: String, typeOfActivity: String, completion: @escaping (Bool) -> Void) {
         db.collection("USERS").document(userID).collection("ACTIVITIES").document("Wassup").setData(
             ["completed": false,
@@ -664,12 +663,12 @@ class ViewModel: ObservableObject {
              "score": 0,
              
              "numberOfQuestions": numQuestions,
-          
+             
              "type": typeOfActivity, //MUST be "quiz", "connection", or "wordgame"
             ])
         completion(true)
     }
-
+    
     func createNewConnections(connection: Connections) {
         let connectionsReference = db.collection("GAMES").document(connection.title)
         connectionsReference.setData(
@@ -682,6 +681,41 @@ class ViewModel: ObservableObject {
                     print("Game document successfully written")
                 }
             }
+
+        //private(set) var options: [Option]
+        let optionArray = connection.options //[Option]
+        let optionArrayReference = connectionsReference.collection("OPTIONS")
+        for option in optionArray {
+            optionArrayReference.document(option.id).setData(
+                ["id": option.id,
+                 "isSelected": option.isSelected,
+                 "isSubmitted": option.isSubmitted,
+                 "content": option.content,
+                 "category": option.category
+                ])
+        }
+        
+        //var selection: [Option]
+        let optionSelectionArray = connection.selection //[Option]
+        let optionSelectionArrayReference = connectionsReference.collection("SELECTIONS")
+        for option in optionSelectionArray {
+            optionSelectionArrayReference.document(option.id).setData(
+                ["id": option.id,
+                 "isSelected": option.isSelected,
+                 "isSubmitted": option.isSubmitted,
+                 "content": option.content,
+                 "category": option.category
+                ])
+        }
+        
+        //var history: [[Option]]
+        let historyArrayOfArrays = connection.history //[[Option]]
+        let historyReference = connectionsReference.collection("HISTORY")
+        for (index, options) in historyArrayOfArrays.enumerated() {
+            let optionDictionaryArray = options.map {optionToDictionary(option: $0)}
+            let documentData: [String: Any] = ["options": optionDictionaryArray]
+            historyReference.document("History\(index)").setData(documentData)
+        }
     }
     
     
@@ -703,6 +737,22 @@ class ViewModel: ObservableObject {
                     print("Game document successfully written")
                 }
             }
+        
+        let optionTileArray = wordGuessing.options //[OptionTile]
+        let optionsArrayReference = optionsReference.collection("OPTIONS")
+        for optionTile in optionTileArray {
+            optionsArrayReference.document(optionTile.option).setData(
+                ["option": optionTile.option,
+                 "isFlipped": optionTile.isFlipped,
+                ]) { error in
+                    if let error = error {
+                        print("Error writing option document: \(error.localizedDescription)")
+                    } else {
+                        print("Option document successfully written")
+                    }
+                }
+        }
+       
     }
     
     /*-------------------------------------------------------------------------------------------------*/
@@ -747,7 +797,7 @@ class ViewModel: ObservableObject {
         let isFlipped = optionData["isFlipped"] as? Bool ?? false
         return OptionTile(option: option,
                           isFlipped: isFlipped)
-                    
+        
     }
     
     
@@ -762,7 +812,7 @@ class ViewModel: ObservableObject {
                                   isSubmitted: isSubmitted,
                                   content: content,
                                   category: category)
-                    
+        
     }
     
     //Helper Function to Ensure the Leaderboard is properly sorted
@@ -778,7 +828,7 @@ class ViewModel: ObservableObject {
         }
         return true
     }
-  
+    
     func getfieldsofOnGoingActivity(userId: String, activity: String, completion: @escaping([String: Any]?) -> Void) {
         db.collection("USERS").document(userId).collection("ACTIVITIES").document(activity).getDocument{ doc, error in
             if let err = error {
@@ -828,6 +878,122 @@ class ViewModel: ObservableObject {
                 completion(topUsers)
             }
         }
+    }
+    
+    
+    func getTopSongs(for country: Country, amount: Int) async -> [Song] {
+        var result = [Song]()
+        var playlist_uri: String
+        
+        switch (country.name) {
+            // NOTE: no data for China
+        case "FRANCE":
+            playlist_uri = "37i9dQZEVXbIPWwFssbupI"
+        case "INDIA":
+            playlist_uri = "37i9dQZEVXbLZ52XmnySJg"
+        case "MEXICO":
+            playlist_uri = "37i9dQZEVXbO3qyFxbkOE1"
+        case "NIGERIA":
+            playlist_uri = "37i9dQZEVXbKY7jLzlJ11V"
+        case "UAE":
+            playlist_uri = "37i9dQZEVXbM4UZuIrvHvA"
+        default:
+            return []
+        }
+        
+        let authURL = URL(string: "https://accounts.spotify.com/api/token")!
+        var requestAuth = URLRequest(url: authURL)
+        requestAuth.allHTTPHeaderFields = [
+            "Content-Type": "application/x-www-form-urlencoded"
+        ]
+        requestAuth.httpMethod = "POST"
+        let clientID = "a7704f381d02423d978245c28c31419f"
+        let clientSecret = "b5be23d3682d44668ff87ae55f6231e7"
+        requestAuth.httpBody = Data("grant_type=client_credentials&client_id=\(clientID)&client_secret=\(clientSecret)".utf8)
+        do {
+            let (authData, _) = try await URLSession.shared.data(for: requestAuth)
+            let response = try JSONDecoder().decode(SpotifyAccessTokenResponse.self, from: authData)
+            
+            let url = URL(string: "https://api.spotify.com/v1/playlists/\(playlist_uri)/tracks?market=US&limit=\(amount)")!
+            var request = URLRequest(url: url)
+            request.allHTTPHeaderFields = [
+                "Authorization": "Bearer \(response.access_token)"
+            ]
+            do {
+                let (data, _) = try await URLSession.shared.data(for: request)
+                
+                let wrapper = try JSONDecoder().decode(SpotifyPlaylistAPIResult.self, from: data)
+                
+                for song in wrapper.items {
+                    let track = song.track
+                    var artists = track.artists
+                    let albumName = track.album.name
+                    var albumImageURL: URL? = nil
+                    if let lastImage = track.album.images.last {
+                        albumImageURL = lastImage.url
+                    }
+                    let spotifyURL = URL(string: "http://open.spotify.com/track/\(track.uri.split(separator: ":")[2])")
+                    var previewURL: URL? = nil
+                    if let urlString = track.previewURL {
+                        previewURL = URL(string: urlString)
+                    }
+                    
+                    var i = 0
+                    for artist in artists {
+                        if (artist.popularity == nil || artist.images == nil) {
+                            let urlArtist = URL(string: "https://api.spotify.com/v1/artists/\(artist.uri?.split(separator: ":")[2] ?? "")")!
+                            var requestArtist = URLRequest(url: urlArtist)
+                            requestArtist.allHTTPHeaderFields = [
+                                "Authorization": "Bearer \(response.access_token)"
+                            ]
+                            do {
+                                let (dataArtist, _) = try await URLSession.shared.data(for: requestArtist)
+                                
+                                let artistObject = try JSONDecoder().decode(SpotifyArtistObject.self, from: dataArtist)
+                                artists[i] = artistObject
+                            } catch let err {
+                                print(err)
+                            }
+                        }
+                        i += 1
+                    }
+                    
+                    let artistsObjects = artists.map({Artist(artist: $0)})
+                    
+                    let songObject = Song(name: track.name, artists: artistsObjects, albumName: albumName, albumImageURL: albumImageURL, spotifyURL: spotifyURL, previewURL: previewURL)
+                    result.append(songObject)
+                }
+                
+                return result
+            } catch let error {
+                print(error)
+                return []
+            }
+        } catch {
+            return []
+        }
+    }
+    
+    func getTopArtists(songs: [Song], amount: Int) -> [Artist] {
+        var artists = Set<Artist>()
+        
+        for song in songs {
+            artists.formUnion(song.artists)
+        }
+        
+        let result = Array(Array(artists).sorted(by: {$0.popularity ?? 0 > $1.popularity ?? 0}).prefix(amount))
+        return result
+    }
+    
+    func getMusicData(for country: Country, songCount: Int, artistCount: Int) async -> ([Song], [Artist]) {
+        var quantity = songCount < 25 ? 25 : songCount
+        
+        let songs = await getTopSongs(for: country, amount: quantity)
+        let artists = getTopArtists(songs: songs, amount: artistCount)
+        
+        let firstNSongs = Array(songs.prefix(songCount))
+        
+        return (firstNSongs, artists)
     }
     /*-------------------------------------------------------------------------------------------------*/
     
