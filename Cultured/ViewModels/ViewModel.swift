@@ -52,8 +52,8 @@ class ViewModel: ObservableObject {
                 completion(true)
             }
             //doesn't handle the case where authResult is nil so write that in if needed
-            let db = Firestore.firestore()
-            let auth = Auth.auth()
+//            let db = Firestore.firestore()
+//            let auth = Auth.auth()
         }
     }
     
@@ -202,122 +202,45 @@ class ViewModel: ObservableObject {
             
             let title = data["title"] as? String ?? ""
             let answer = data["answer"] as? String ?? ""
-            let points = data["totalPoints"] as? Int ?? 0
-            let flipPoints = data["flipPoints"] as? Int ?? 0
+            let options = data["hints"] as? [String] ?? []
             
-            //Get the Options Reference
-            documentReference.collection("OPTIONS").getDocuments { (querySnapshot, error) in
-                if let error = error {
-                    print("Error getting the Quiz Questions \(error.localizedDescription)")
-                    completion(nil)
-                    return
-                }
-                
-                var optionTileArray = [OptionTile]()
-                for optionDocuments in querySnapshot!.documents {
-                    let optionData = optionDocuments.data()
-                    if let option = self.parseOptionTile(optionData) {
-                        optionTileArray.append(option)
-                    }
-                }
-                let wordGuessing = WordGuessing(title: title,
-                                                options: optionTileArray,
-                                                answer: answer,
-                                                totalPoints: points,
-                                                flipPoints: flipPoints,
-                                                flipsDone: 0,
-                                                numberOfGuesses: 0)
-                completion(wordGuessing)
+            var optionTileArray = [OptionTile]()
+            for option in options {
+                optionTileArray.append(OptionTile(option: option,
+                                  isFlipped: false))
             }
+            
+            let wordGuessing = WordGuessing(title: title,
+                                            options: optionTileArray,
+                                            answer: answer)
+            completion(wordGuessing)
+            
         }
     }
     
-//    func getConnectionsFromFirebase(activityName: String, completion: @escaping (Connections?) -> Void) {
-//        let documentReference = db.collection("GAMES").document(activityName)
-//        documentReference.getDocument { (activityDocument, error) in
-//            if let error = error {
-//                print("Error Getting Documents \(error)")
-//                completion(nil)
-//            }
-//            guard let actDoc = activityDocument, actDoc.exists else {
-//                print("Document Does Not Exist")
-//                completion(nil)
-//                return
-//            }
-//            guard let data = actDoc.data() else {
-//                completion(nil)
-//                return
-//            }
-//            let title = data["title"] as? String ?? ""
-//            let categories = data["categories"] as? [String] ?? []
-//            let answerKey = data["answerKey"] as? [String : [String]] ?? [:]
-//            let points = data["points"] as? Int ?? 0
-//            let attempts = data["attempts"] as? Int ?? 0
-//            let mistakesRemaining = data["mistakesRemaining"] as? Int ?? 0
-//            let correctCategories = data["correctCategories"] as? Int ?? 0
-//            
-//            //References for the three subcollections
-//            let optionsRef = documentReference.collection("OPTIONS")
-//            let selectionsRef = documentReference.collection("SELECTIONS")
-//            let historyRef = documentReference.collection("HISTORY")
-//            
-//            optionsRef.getDocuments { (optionsSnapshot, optionsError) in
-//                guard let optionsSnapshot = optionsSnapshot, optionsError == nil else {
-//                    print("Error fetching options: \(optionsError?.localizedDescription ?? "")")
-//                    completion(nil)
-//                    return
-//                }
-//                
-//                let options = optionsSnapshot.documents.compactMap { document -> Connections.Option? in
-//                    let data = document.data()
-//                    return self.parseOption(data)
-//                }
-//                
-//                selectionsRef.getDocuments { (selectionsSnapshot, selectionsError) in
-//                    guard let selectionsSnapshot = selectionsSnapshot, selectionsError == nil else {
-//                        print("Error fetching selections: \(selectionsError?.localizedDescription ?? "")")
-//                        completion(nil)
-//                        return
-//                    }
-//                    
-//                    let selections = selectionsSnapshot.documents.compactMap { document -> Connections.Option? in
-//                        let data = document.data()
-//                        return self.parseOption(data)
-//                    }
-//                    
-//                    // Retrieve history
-//                    historyRef.getDocuments { (historySnapshot, historyError) in
-//                        guard let historySnapshot = historySnapshot, historyError == nil else {
-//                            print("Error fetching history: \(historyError?.localizedDescription ?? "")")
-//                            completion(nil)
-//                            return
-//                        }
-//                        
-//                        let history = historySnapshot.documents.compactMap { document -> [Connections.Option]? in
-//                            let data = document.data()
-//                            let optionDataArray = data["options"] as? [[String: Any]] ?? []
-//                            return optionDataArray.compactMap { optionData in
-//                                return self.parseOption(optionData)
-//                            }
-//                        }
-//                        
-//                        let connections = Connections(title: title,
-//                                                      categories: categories,
-//                                                      answerKey: answerKey,
-//                                                      options: options,
-//                                                      selection: selections,
-//                                                      history: history,
-//                                                      points: points,
-//                                                      attempts: attempts,
-//                                                      mistakes_remaining: mistakesRemaining,
-//                                                      correct_categories: correctCategories)
-//                        
-//                        completion(connections)
-//                    }
-//                }
-//            }
-//        }
-//    }
+    func getConnectionsFromFirebase(activityName: String, completion: @escaping (Connections?) -> Void) {
+        let documentReference = db.collection("GAMES").document(activityName)
+        documentReference.getDocument { (activityDocument, error) in
+            if let error = error {
+                print("Error Getting Documents \(error)")
+                completion(nil)
+            }
+            guard let actDoc = activityDocument, actDoc.exists else {
+                print("Document Does Not Exist")
+                completion(nil)
+                return
+            }
+            guard let data = actDoc.data() else {
+                completion(nil)
+                return
+            }
+            let title = data["title"] as? String ?? ""
+            let answerKey = data["answerKey"] as? [String : [String]] ?? [:]
+            let connections = Connections(title: title, answerKey: answerKey)
+            completion(connections)
+        }
+    }
+
     
     func getQuizFromFirebase(activityName: String, completion: @escaping(Quiz?) -> Void) {
         let documentReference = db.collection("GAMES").document(activityName)
@@ -336,8 +259,6 @@ class ViewModel: ObservableObject {
                     return
                 }
                 let title = data["title"] as? String ?? ""
-                let points = data["points"] as? Int ?? 0
-                let pointsGoal = data["pointsGoal"] as? Int ?? 0
                 //Get the Quiz Questions subcollection
                 documentReference.collection("QUESTIONS").getDocuments { (querySnapshot, error) in
                     if let error = error {
@@ -354,8 +275,9 @@ class ViewModel: ObservableObject {
                     }
                     let quiz = Quiz(title: title,
                                     questions: questionsArray,
-                                    points: points,
-                                    pointsGoal: pointsGoal)
+                                    points: 0,
+                                    pointsGoal: 0,
+                                    currentQuestion: 0)
                     completion(quiz)
                 }
             }
@@ -559,18 +481,21 @@ class ViewModel: ObservableObject {
      -----------------------------------------------------------------------------------------------
      */
     
-    func addOnGoingActivity(userID: String, country: String, titleOfActivity: String, typeOfActivity: String) {
-        db.collection("USERS").document(userID).collection("ACTIVITIES").document("\(country)\(titleOfActivity)").setData(
+    func addOnGoingActivity(userID: String, numQuestions: Int, titleOfActivity: String, typeOfActivity: String, completion: @escaping (Bool) -> Void) {
+        db.collection("USERS").document(userID).collection("ACTIVITIES").document("Wassup").setData(
             ["completed": false,
              
-             "current": "",
+             "current": 0,
              
              "history": [],
              
              "score": 0,
              
+             "numberOfQuestions": numQuestions,
+             
              "type": typeOfActivity, //MUST be "quiz", "connection", or "wordgame"
             ])
+        completion(true)
     }
     
     func getOnGoingActivity(userId: String, type: String, completion: @escaping([String]) -> Void) {
@@ -717,23 +642,17 @@ class ViewModel: ObservableObject {
     
     func createNewQuiz(quiz: Quiz) {
         db.collection("GAMES").document(quiz.title).setData(
-            ["title": quiz.title,
-             "pointsGoal": quiz.pointsGoal,
-             "points": quiz.points
-            ])
+            ["title": quiz.title])
         let quizQuestions = quiz.questions
         let quizRef = db.collection("GAMES").document(quiz.title)
         for question in quizQuestions {
             quizRef.collection("QUESTIONS").document(question.question).setData(
-                ["question": question.question,
-                 "answerChoices": question.answers,
+                ["answerChoices": question.answers,
                  "correctAnswer": String(question.correctAnswer),
                  "correctAnswerDescription": question.correctAnswerDescription,
                 ])
         }
     }
-    
-    
     func addOnGoingActivity(userID: String, numQuestions: Int, titleOfActivity: String, typeOfActivity: String, completion: @escaping (Bool) -> Void) {
         db.collection("USERS").document(userID).collection("ACTIVITIES").document("Wassup").setData(
             ["completed": false,
@@ -751,74 +670,67 @@ class ViewModel: ObservableObject {
         completion(true)
     }
     
-//    func createNewConnections(connection: Connections) {
-//        
-//        let connectionsReference = db.collection("GAMES").document(connection.title)
-//        
-//        connectionsReference.setData(
-//            ["title": connection.title,
-//             "categories": connection.categories,
-//             "answerKey": connection.answerKey,
-//             "points": connection.points,
-//             "attempts": connection.attempts,
-//             "mistakesRemaining": connection.mistakes_remaining,
-//             "correctCategories": connection.correct_categories
-//            ]) { error in
-//                if let error = error {
-//                    print("Error writing game document: \(error.localizedDescription)")
-//                } else {
-//                    print("Game document successfully written")
-//                }
-//            }
-//        
-//        //private(set) var options: [Option]
-//        let optionArray = connection.options //[Option]
-//        let optionArrayReference = connectionsReference.collection("OPTIONS")
-//        for option in optionArray {
-//            optionArrayReference.document(option.id).setData(
-//                ["id": option.id,
-//                 "isSelected": option.isSelected,
-//                 "isSubmitted": option.isSubmitted,
-//                 "content": option.content,
-//                 "category": option.category
-//                ])
-//        }
-//        
-//        //var selection: [Option]
-//        let optionSelectionArray = connection.selection //[Option]
-//        let optionSelectionArrayReference = connectionsReference.collection("SELECTIONS")
-//        for option in optionSelectionArray {
-//            optionSelectionArrayReference.document(option.id).setData(
-//                ["id": option.id,
-//                 "isSelected": option.isSelected,
-//                 "isSubmitted": option.isSubmitted,
-//                 "content": option.content,
-//                 "category": option.category
-//                ])
-//        }
-//        
-//        //var history: [[Option]]
-//        let historyArrayOfArrays = connection.history //[[Option]]
-//        let historyReference = connectionsReference.collection("HISTORY")
-//        for (index, options) in historyArrayOfArrays.enumerated() {
-//            let optionDictionaryArray = options.map {optionToDictionary(option: $0)}
-//            let documentData: [String: Any] = ["options": optionDictionaryArray]
-//            historyReference.document("History\(index)").setData(documentData)
-//        }
-//    }
+    func createNewConnections(connection: Connections) {
+        let connectionsReference = db.collection("GAMES").document(connection.title)
+        connectionsReference.setData(
+            ["title": connection.title,
+             "answerKey": connection.answerKey
+            ]) { error in
+                if let error = error {
+                    print("Error writing game document: \(error.localizedDescription)")
+                } else {
+                    print("Game document successfully written")
+                }
+            }
+
+        //private(set) var options: [Option]
+        let optionArray = connection.options //[Option]
+        let optionArrayReference = connectionsReference.collection("OPTIONS")
+        for option in optionArray {
+            optionArrayReference.document(option.id).setData(
+                ["id": option.id,
+                 "isSelected": option.isSelected,
+                 "isSubmitted": option.isSubmitted,
+                 "content": option.content,
+                 "category": option.category
+                ])
+        }
+        
+        //var selection: [Option]
+        let optionSelectionArray = connection.selection //[Option]
+        let optionSelectionArrayReference = connectionsReference.collection("SELECTIONS")
+        for option in optionSelectionArray {
+            optionSelectionArrayReference.document(option.id).setData(
+                ["id": option.id,
+                 "isSelected": option.isSelected,
+                 "isSubmitted": option.isSubmitted,
+                 "content": option.content,
+                 "category": option.category
+                ])
+        }
+        
+        //var history: [[Option]]
+        let historyArrayOfArrays = connection.history //[[Option]]
+        let historyReference = connectionsReference.collection("HISTORY")
+        for (index, options) in historyArrayOfArrays.enumerated() {
+            let optionDictionaryArray = options.map {optionToDictionary(option: $0)}
+            let documentData: [String: Any] = ["options": optionDictionaryArray]
+            historyReference.document("History\(index)").setData(documentData)
+        }
+    }
     
     
     func createNewWordGuessing(wordGuessing: WordGuessing) {
-        
         let optionsReference = db.collection("GAMES").document(wordGuessing.title)
-        
+        let optionTileArray = wordGuessing.options //[OptionTile]
+        var options = [String]()
+        for optionTile in optionTileArray {
+            options.append(optionTile.option)
+        }
         optionsReference.setData(
             ["title": wordGuessing.title,
              "answer": wordGuessing.answer,
-             "totalPoints": wordGuessing.totalPoints,
-             "flipPoints": wordGuessing.flipPoints,
-             "flipsDone" : wordGuessing.flipsDone,
-             "numberOfGuesses" : wordGuessing.numberOfGuesses,
+             "hints": options
             ]) { error in
                 if let error = error {
                     print("Error writing game document: \(error.localizedDescription)")
@@ -841,7 +753,7 @@ class ViewModel: ObservableObject {
                     }
                 }
         }
-        
+       
     }
     
     /*-------------------------------------------------------------------------------------------------*/
@@ -865,15 +777,18 @@ class ViewModel: ObservableObject {
     
     //Helper Function to Turn the data from Firebase into a Quiz Question
     func parseQuestionData(_ questionData: [String: Any]) -> QuizQuestion? {
-        let question = questionData["question"] as? String ?? ""
+//        let question = questionData["question"] as? String ?? ""
+        let question = questionData["questionTitle"] as? String ?? ""
         let answers = questionData["answerChoices"] as? [String] ?? []
         let correctAnswerIndex = questionData["correctAnswer"] as? Int ?? 0
         let correctAnswerDescription = questionData["correctAnswerDescription"] as? String ?? ""
+        let submitted = questionData["submitted"] as? Bool ?? false
         
         return QuizQuestion(question: question,
                             answers: answers,
                             correctAnswer: correctAnswerIndex,
-                            correctAnswerDescription: correctAnswerDescription)
+                            correctAnswerDescription: correctAnswerDescription,
+                            submitted: submitted)
     }
     
     
