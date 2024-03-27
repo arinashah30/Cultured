@@ -240,6 +240,7 @@ class ViewModel: ObservableObject {
             completion(connections)
         }
     }
+
     
     func getQuizFromFirebase(activityName: String, completion: @escaping(Quiz?) -> Void) {
         let documentReference = db.collection("GAMES").document(activityName)
@@ -763,15 +764,15 @@ class ViewModel: ObservableObject {
      -----------------------------------------------------------------------------------------------
      */
     
-    func optionToDictionary(option: Connections.Option) -> [String: Any] {
-        return [
-            "id": option.id,
-            "isSelected": option.isSelected,
-            "isSubmitted": option.isSubmitted,
-            "content": option.content,
-            "category": option.category
-        ]
-    }
+//    func optionToDictionary(option: Connections.Option) -> [String: Any] {
+//        return [
+//            "id": option.id,
+//            "isSelected": option.isSelected,
+//            "isSubmitted": option.isSubmitted,
+//            "content": option.content,
+//            "category": option.category
+//        ]
+//    }
     
     
     //Helper Function to Turn the data from Firebase into a Quiz Question
@@ -801,19 +802,19 @@ class ViewModel: ObservableObject {
     }
     
     
-    func parseOption(_ optionData: [String: Any]) -> Connections.Option? {
-        let id = optionData["id"] as? String ?? ""
-        let isSelected = optionData["isSelected"] as? Bool ?? false
-        let isSubmitted = optionData["isSubmitted"] as? Bool ?? false
-        let content = optionData["content"] as? String ?? ""
-        let category = optionData["category"] as? String ?? ""
-        return Connections.Option(id: id,
-                                  isSelected: isSelected,
-                                  isSubmitted: isSubmitted,
-                                  content: content,
-                                  category: category)
-        
-    }
+//    func parseOption(_ optionData: [String: Any]) -> Connections.Option? {
+//        let id = optionData["id"] as? String ?? ""
+//        let isSelected = optionData["isSelected"] as? Bool ?? false
+//        let isSubmitted = optionData["isSubmitted"] as? Bool ?? false
+//        let content = optionData["content"] as? String ?? ""
+//        let category = optionData["category"] as? String ?? ""
+//        return Connections.Option(id: id,
+//                                  isSelected: isSelected,
+//                                  isSubmitted: isSubmitted,
+//                                  content: content,
+//                                  category: category)
+//        
+//    }
     
     //Helper Function to Ensure the Leaderboard is properly sorted
     func isSorted(_ array: [(String, Int)]) -> Bool {

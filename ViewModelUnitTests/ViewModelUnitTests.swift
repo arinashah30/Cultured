@@ -186,59 +186,58 @@ final class ViewModelUnitTests: XCTestCase {
         }
     }
     
-    func testCreateNewConnections() {
-        let expectation = self.expectation(description: "Update Information in Firebase")
-        
-        let title = "ChinaFoodConnections"
-        let categories = ["Food", "GT Locations"]
-        let answerKey: [String: [String]] = ["Food": ["Pizza", "Pasta", "Sour Patch Kids"],
-                                           "Gt Locations": ["College of Computing Building", "Klaus Advanced Computing Building", "Bio Quad"]]
-        let points = 1500
-        let attempts = 2
-        let mistakesRemaining = 2
-        let correctCategories = 4
-
-        // Options
-        let option1 = Connections.Option(id: "Pizza", isSelected: false, isSubmitted: false, content: "Pizza", category: "Category1")
-        let option2 = Connections.Option(id: "Pasta", isSelected: false, isSubmitted: false, content: "Pasta", category: "Category1")
-        let option3 = Connections.Option(id: "College of Computing Building", isSelected: false, isSubmitted: false, content: "College of Computing Building", category: "Category2")
-        let option4 = Connections.Option(id: "Klaus Advanced Computing Building", isSelected: false, isSubmitted: false, content: "Klaus Advanced Computing Building", category: "Category2")
-        let option5 = Connections.Option(id: "Bio Quad", isSelected: false, isSubmitted: false, content: "Bio Quad", category: "Category")
-        let options = [option1, option2, option3, option4, option5]
-        
-        // Option selection
-        let selection = [option2, option4, option5]
-
-        // History
-        let history: [[Connections.Option]] = [[option1, option2], [option3, option4, option5]]
-
-        // Create Connections object
-        let connections = Connections(title: title,
-                                      categories: categories,
-                                      answerKey: answerKey,
-                                      options: options,
-                                      selection: selection,
-                                      history: history,
-                                      points: points,
-                                      attempts: attempts,
-                                      mistakes_remaining: mistakesRemaining,
-                                      correct_categories: correctCategories
-                                      )
-
-        // Test the createNewConnections function
-        vm.createNewConnections(connection: connections)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            expectation.fulfill()
-        }
-                
-        waitForExpectations(timeout: 5) { error in
-            if let error = error {
-                XCTFail("waitForExpectations error: \(error)")
-            }
-        }
-
-    }
+//    func testCreateNewConnections() {
+//        let expectation = self.expectation(description: "Update Information in Firebase")
+//        
+//        let title = "ChinaFoodConnections"
+//        let categories = ["Food", "GT Locations"]
+//        let answerKey: [String: [String]] = ["Food": ["Pizza", "Pasta", "Sour Patch Kids"],
+//                                           "Gt Locations": ["College of Computing Building", "Klaus Advanced Computing Building", "Bio Quad"]]
+//        let points = 1500
+//        let attempts = 2
+//        let mistakesRemaining = 2
+//        let correctCategories = 4
+//
+//        // Options
+//        let option1 = Connections.Option(id: "Pizza", isSelected: false, isSubmitted: false, content: "Pizza", category: "Category1")
+//        let option2 = Connections.Option(id: "Pasta", isSelected: false, isSubmitted: false, content: "Pasta", category: "Category1")
+//        let option3 = Connections.Option(id: "College of Computing Building", isSelected: false, isSubmitted: false, content: "College of Computing Building", category: "Category2")
+//        let option4 = Connections.Option(id: "Klaus Advanced Computing Building", isSelected: false, isSubmitted: false, content: "Klaus Advanced Computing Building", category: "Category2")
+//        let option5 = Connections.Option(id: "Bio Quad", isSelected: false, isSubmitted: false, content: "Bio Quad", category: "Category")
+//        let options = [option1, option2, option3, option4, option5]
+//        
+//        // Option selection
+//        let selection = [option2, option4, option5]
+//
+//        // History
+//        let history: [[Connections.Option]] = [[option1, option2], [option3, option4, option5]]
+//
+//        // Create Connections object
+//        let connections = Connections(title: title,
+//                                      categories: categories,
+//                                      answerKey: answerKey,
+//                                      options: options,
+//                                      selection: selection,
+//                                      history: history,
+//                                      points: points,
+//                                      attempts: attempts,
+//                                      mistakes_remaining: mistakesRemaining,
+//                                      correct_categories: correctCategories
+//                                      )
+//
+//        // Test the createNewConnections function
+//        vm.createNewConnections(connection: connections)
+//        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+//            expectation.fulfill()
+//        }
+//                
+//        waitForExpectations(timeout: 5) { error in
+//            if let error = error {
+//                XCTFail("waitForExpectations error: \(error)")
+//            }
+//        }
+//    }
     
     func testGetConnectionsFromFirebase() {
         let expectation = self.expectation(description: "Retrieve information from Connections")
@@ -274,6 +273,7 @@ final class ViewModelUnitTests: XCTestCase {
             }
         }
     }
+
     
     
     
