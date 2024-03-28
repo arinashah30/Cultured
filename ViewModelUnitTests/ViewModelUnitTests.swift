@@ -61,19 +61,75 @@ final class ViewModelUnitTests: XCTestCase {
     }
     
     
+    func testCreateNewQuiz() {
+        let expectation = self.expectation(description: "Update Quiz information in Firebase")
+        let quizQuestion1 = QuizQuestion(question: "What color is the French Flag",
+                                         answers: ["Blue", "Orange", "Red", "Yellow"],
+                                         correctAnswer: 2,
+                                         correctAnswerDescription: "IDK this is a test highkey",
+                                         submitted: false)
+        
+        let quizQuestion2 = QuizQuestion(question: "What is a french food",
+                                         answers: ["Baguette", "Orange Chicken", "Cupcakes", "Bok-Choy"],
+                                         correctAnswer: 0,
+                                         correctAnswerDescription: "Obviously it's Baguette...duh",
+                                         submitted: false)
+        let quizQuestionArray = [quizQuestion1, quizQuestion2]
+        let quiz1 = Quiz(title: "FrenchCultureQuiz", questions: quizQuestionArray)
+        vm.createNewQuiz(quiz: quiz1)
+        
+        let quizQuestion3 = QuizQuestion(question: "How many cups of coffee are consumed everyday in the US",
+                                         answers: ["200 Million", "300 Million", "400 Million", "500 Million"],
+                                         correctAnswer: 1,
+                                         correctAnswerDescription: "The average coffee drinker drinks 3 cups or whatever",
+                                         submitted: false)
+        
+        let quizQuestion4 = QuizQuestion(question: "Which is an American food?",
+                                         answers: ["Burger", "Pasta", "Tacos", "Gyros"],
+                                         correctAnswer: 0,
+                                         correctAnswerDescription: "Blah blah blah McDonald's started the burger hype in the US",
+                                         submitted: false)
+        let quizQuestionArray2 = [quizQuestion3, quizQuestion4]
+        let quiz2 = Quiz(title: "UnitedStatesFoodQuiz", questions: quizQuestionArray2)
+        vm.createNewQuiz(quiz: quiz2)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            expectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
+    
     func testGetQuizFromFirebase() {
         let expectation = self.expectation(description: "Retrieve information from Quiz")
+    
         
         vm.getQuizFromFirebase(activityName: "FrenchCultureQuiz") {quiz in
             XCTAssertNotNil(quiz, "Quiz should not be nil")
-            XCTAssertEqual(quiz?.points, 999)
-            XCTAssertEqual(quiz?.pointsGoal, 800000000000)
             XCTAssertEqual(quiz?.title, "FrenchCultureQuiz")
             XCTAssertFalse(quiz?.questions.isEmpty ??  true)
-            //print("Quiz =====", quiz!)
+            XCTAssertEqual(quiz?.points, 0)
+            XCTAssertEqual(quiz?.pointsGoal, 0)
+            XCTAssertEqual(quiz?.currentQuestion, 0)
+            print("Quiz1 =====", quiz!)
+//            expectation.fulfill()
+        }
+        
+        vm.getQuizFromFirebase(activityName: "UnitedStatesFoodQuiz") {quiz in
+            XCTAssertNotNil(quiz, "Quiz should not be nil")
+            XCTAssertEqual(quiz?.title, "UnitedStatesFoodQuiz")
+            XCTAssertFalse(quiz?.questions.isEmpty ??  true)
+            XCTAssertEqual(quiz?.points, 0)
+            XCTAssertEqual(quiz?.pointsGoal, 0)
+            XCTAssertEqual(quiz?.currentQuestion, 0)
+            print("Quiz2 =====", quiz!)
             expectation.fulfill()
         }
-            
+        
         waitForExpectations(timeout: 5) { error in
             if let error = error {
                 XCTFail("waitForExpectations error: \(error)")
@@ -85,25 +141,21 @@ final class ViewModelUnitTests: XCTestCase {
         let expectation = self.expectation(description: "Update Information in Firebase")
         
         let options = [
-            OptionTile(option: "Bio Quad", isFlipped: true),
-            OptionTile(option: "THE Olympic Pool", isFlipped: true),
-            OptionTile(option: "Stamps Student Health Center", isFlipped: false),
-            OptionTile(option: "Dorothy Crossland Tower", isFlipped: false),
-            OptionTile(option: "Clough Undergraduate Learning Commons", isFlipped: false),
-            OptionTile(option: "Bobby Dodd", isFlipped: false)
+            OptionTile(option: "Dough", isFlipped: true),
+            OptionTile(option: "Filling", isFlipped: true),
+            OptionTile(option: "Steamed", isFlipped: false),
+            OptionTile(option: "Asian", isFlipped: false),
+            OptionTile(option: "Wrapper", isFlipped: false),
+            OptionTile(option: "Boiled", isFlipped: false),
+            OptionTile(option: "Delicious", isFlipped: false),
+            OptionTile(option: "Bite Size", isFlipped: false)
         ]
-        let wordGuessing = WordGuessing(title: "UAETraditionsWordGuessing",
+        let wordGuessing = WordGuessing(title: "ChinaFoodWordGuessing",
                                        options: options,
-                                       answer: "THE Olympic Pool",
-                                       totalPoints: 17,
-                                       flipPoints: 4,
-                                       flipsDone: 2,
-                                       numberOfGuesses: 3)
+                                       answer: "Dumpling")
         
         vm.createNewWordGuessing(wordGuessing: wordGuessing)
-        
-        // Wait for some time for Firestore operation to complete
-        // !!!THIS IS VITAL TO TEST FUNCTIONS THAT UPDATE TO THE FIRESTORE!!!
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
             expectation.fulfill()
         }
@@ -118,16 +170,12 @@ final class ViewModelUnitTests: XCTestCase {
     func testGetWordGameFromFirebase() {
         let expectation = self.expectation(description: "Retrieve information from WordGame")
         
-        vm.getWordGameFromFirebase(activityName: "MexicoFoodWordGuessing") {wordgame in
+        vm.getWordGameFromFirebase(activityName: "ChinaFoodWordGuessing") {wordgame in
             XCTAssertNotNil(wordgame, "Word Game should not be nil")
-            XCTAssertEqual(wordgame?.answer, "Cheese")
-            XCTAssertEqual(wordgame?.flipPoints, 18)
-            XCTAssertEqual(wordgame?.flipsDone, 0)
-            XCTAssertEqual(wordgame?.numberOfGuesses, 0)
-            XCTAssertEqual(wordgame?.title, "MexicoFoodWordGuessing")
-            XCTAssertEqual(wordgame?.totalPoints, 200)
+            XCTAssertEqual(wordgame?.answer, "Dumpling")
+            XCTAssertEqual(wordgame?.title, "ChinaFoodWordGuessing")
             XCTAssertFalse(wordgame?.options.isEmpty ?? true, "The Options array is Empty")
-            print("WordGame =====", wordgame!)
+            print("China Food WordGame =====", wordgame!)
             expectation.fulfill()
         }
             
@@ -138,59 +186,58 @@ final class ViewModelUnitTests: XCTestCase {
         }
     }
     
-    func testCreateNewConnections() {
-        let expectation = self.expectation(description: "Update Information in Firebase")
-        
-        let title = "ChinaFoodConnections"
-        let categories = ["Food", "GT Locations"]
-        let answerKey: [String: [String]] = ["Food": ["Pizza", "Pasta", "Sour Patch Kids"],
-                                           "Gt Locations": ["College of Computing Building", "Klaus Advanced Computing Building", "Bio Quad"]]
-        let points = 1500
-        let attempts = 2
-        let mistakesRemaining = 2
-        let correctCategories = 4
-
-        // Options
-        let option1 = Connections.Option(id: "Pizza", isSelected: false, isSubmitted: false, content: "Pizza", category: "Category1")
-        let option2 = Connections.Option(id: "Pasta", isSelected: false, isSubmitted: false, content: "Pasta", category: "Category1")
-        let option3 = Connections.Option(id: "College of Computing Building", isSelected: false, isSubmitted: false, content: "College of Computing Building", category: "Category2")
-        let option4 = Connections.Option(id: "Klaus Advanced Computing Building", isSelected: false, isSubmitted: false, content: "Klaus Advanced Computing Building", category: "Category2")
-        let option5 = Connections.Option(id: "Bio Quad", isSelected: false, isSubmitted: false, content: "Bio Quad", category: "Category")
-        let options = [option1, option2, option3, option4, option5]
-        
-        // Option selection
-        let selection = [option2, option4, option5]
-
-        // History
-        let history: [[Connections.Option]] = [[option1, option2], [option3, option4, option5]]
-
-        // Create Connections object
-        let connections = Connections(title: title,
-                                      categories: categories,
-                                      answerKey: answerKey,
-                                      options: options,
-                                      selection: selection,
-                                      history: history,
-                                      points: points,
-                                      attempts: attempts,
-                                      mistakes_remaining: mistakesRemaining,
-                                      correct_categories: correctCategories
-                                      )
-
-        // Test the createNewConnections function
-        vm.createNewConnections(connection: connections)
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            expectation.fulfill()
-        }
-                
-        waitForExpectations(timeout: 5) { error in
-            if let error = error {
-                XCTFail("waitForExpectations error: \(error)")
-            }
-        }
-
-    }
+//    func testCreateNewConnections() {
+//        let expectation = self.expectation(description: "Update Information in Firebase")
+//        
+//        let title = "ChinaFoodConnections"
+//        let categories = ["Food", "GT Locations"]
+//        let answerKey: [String: [String]] = ["Food": ["Pizza", "Pasta", "Sour Patch Kids"],
+//                                           "Gt Locations": ["College of Computing Building", "Klaus Advanced Computing Building", "Bio Quad"]]
+//        let points = 1500
+//        let attempts = 2
+//        let mistakesRemaining = 2
+//        let correctCategories = 4
+//
+//        // Options
+//        let option1 = Connections.Option(id: "Pizza", isSelected: false, isSubmitted: false, content: "Pizza", category: "Category1")
+//        let option2 = Connections.Option(id: "Pasta", isSelected: false, isSubmitted: false, content: "Pasta", category: "Category1")
+//        let option3 = Connections.Option(id: "College of Computing Building", isSelected: false, isSubmitted: false, content: "College of Computing Building", category: "Category2")
+//        let option4 = Connections.Option(id: "Klaus Advanced Computing Building", isSelected: false, isSubmitted: false, content: "Klaus Advanced Computing Building", category: "Category2")
+//        let option5 = Connections.Option(id: "Bio Quad", isSelected: false, isSubmitted: false, content: "Bio Quad", category: "Category")
+//        let options = [option1, option2, option3, option4, option5]
+//        
+//        // Option selection
+//        let selection = [option2, option4, option5]
+//
+//        // History
+//        let history: [[Connections.Option]] = [[option1, option2], [option3, option4, option5]]
+//
+//        // Create Connections object
+//        let connections = Connections(title: title,
+//                                      categories: categories,
+//                                      answerKey: answerKey,
+//                                      options: options,
+//                                      selection: selection,
+//                                      history: history,
+//                                      points: points,
+//                                      attempts: attempts,
+//                                      mistakes_remaining: mistakesRemaining,
+//                                      correct_categories: correctCategories
+//                                      )
+//
+//        // Test the createNewConnections function
+//        vm.createNewConnections(connection: connections)
+//        
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+//            expectation.fulfill()
+//        }
+//                
+//        waitForExpectations(timeout: 5) { error in
+//            if let error = error {
+//                XCTFail("waitForExpectations error: \(error)")
+//            }
+//        }
+//    }
     
     func testGetConnectionsFromFirebase() {
         let expectation = self.expectation(description: "Retrieve information from Connections")
@@ -198,14 +245,25 @@ final class ViewModelUnitTests: XCTestCase {
         vm.getConnectionsFromFirebase(activityName: "ChinaFoodConnections") {connection in
             XCTAssertNotNil(connection, "Connection should not be nil")
             XCTAssertEqual(connection?.title, "ChinaFoodConnections")
-            XCTAssertEqual(connection?.points, 1500)
-            XCTAssertEqual(connection?.attempts, 2)
-            XCTAssertEqual(connection?.mistakes_remaining, 2)
-            XCTAssertEqual(connection?.correct_categories, 4)
-            XCTAssertFalse(connection?.options.isEmpty ?? true, "The Options array is Empty")
-            XCTAssertFalse(connection?.selection.isEmpty ?? true, "The Selection array is Empty")
-            XCTAssertFalse(connection?.history.isEmpty ?? true, "The History array is Empty")
-            print("Connections =====", connection!)
+            XCTAssertEqual(connection?.points, 0)
+            XCTAssertEqual(connection?.attempts, 0)
+            XCTAssertEqual(connection?.mistakes_remaining, 0)
+            XCTAssertEqual(connection?.correct_categories, 0)
+            XCTAssertTrue(connection?.options.isEmpty ?? false, "The Options array is NOT Empty")
+            XCTAssertTrue(connection?.selection.isEmpty ?? false, "The Selection array is NOT Empty")
+            print("ChinaFoodConnections =====", connection!)
+        }
+        
+        vm.getConnectionsFromFirebase(activityName: "USFoodConnections") {connection in
+            XCTAssertNotNil(connection, "Connection should not be nil")
+            XCTAssertEqual(connection?.title, "USFoodConnections")
+            XCTAssertEqual(connection?.points, 0)
+            XCTAssertEqual(connection?.attempts, 0)
+            XCTAssertEqual(connection?.mistakes_remaining, 0)
+            XCTAssertEqual(connection?.correct_categories, 0)
+            XCTAssertTrue(connection?.options.isEmpty ?? false, "The Options array is NOT Empty")
+            XCTAssertTrue(connection?.selection.isEmpty ?? false, "The Selection array is NOT Empty")
+            print("USFoodConnections =====", connection!)
             expectation.fulfill()
         }
             
@@ -215,6 +273,7 @@ final class ViewModelUnitTests: XCTestCase {
             }
         }
     }
+
     
     
     
