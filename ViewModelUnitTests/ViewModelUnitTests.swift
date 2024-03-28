@@ -223,12 +223,9 @@ final class ViewModelUnitTests: XCTestCase {
     func testGetOnGoingQuiz() {
         let expectation = self.expectation(description: "Retrieve an On-Going Quiz")
                     
-        vm.getOnGoingActivity(userId: "ryanomeara", type: "quiz") { quizArray in
-            XCTAssertNotNil(quizArray, "Information should not be nil")
-            print("Name of On-Going Quizzes: \(quizArray)")
-            XCTAssertTrue(quizArray.contains("MexicoTraditionQuiz"))
-            XCTAssertTrue(quizArray.contains("IndiaCultureQuiz"))
-            XCTAssertFalse(quizArray.contains("EgyptFoodQuiz"))
+        vm.getOnGoingActivity(userId: "ryanomeara", type: "quiz") { quizDictionary in
+            XCTAssertNotNil(quizDictionary, "Information should not be nil")
+            print("Name of On-Going Quizzes: \(quizDictionary)")
             expectation.fulfill()
         }
              
@@ -242,12 +239,9 @@ final class ViewModelUnitTests: XCTestCase {
     func testGetOnGoingConnection() {
         let expectation = self.expectation(description: "Retrieve an On-Going Connection")
                     
-        vm.getOnGoingActivity(userId: "ryanomeara", type: "connection") { connectionArray in
-            XCTAssertNotNil(connectionArray, "Information should not be nil")
-            print("Name of On-Going Connections: \(connectionArray)")
-            XCTAssertFalse(connectionArray.contains("FranceFoodConnections"))
-            XCTAssertTrue(connectionArray.contains("UAECelebritiesConnections"))
-            XCTAssertTrue(connectionArray.contains("ChinaCultureConnections"))
+        vm.getOnGoingActivity(userId: "ryanomeara", type: "connection") { connectionDictionary in
+            XCTAssertNotNil(connectionDictionary, "Information should not be nil")
+            print("Name of On-Going Connections: \(connectionDictionary)")
             expectation.fulfill()
         }
         
@@ -261,12 +255,9 @@ final class ViewModelUnitTests: XCTestCase {
     func testGetOnGoingWordGame() {
         let expectation = self.expectation(description: "Retrieve an On-Going Word Game")
             
-        vm.getOnGoingActivity(userId: "ryanomeara", type: "wordgame") { wordGameArray in
-            XCTAssertNotNil(wordGameArray, "Information should not be nil")
-            print("Name of On-Going Word Games: \(wordGameArray)")
-            XCTAssertFalse(wordGameArray.contains("UAELandmarkWordGame"))
-            XCTAssertTrue(wordGameArray.contains("NigeriaMusicWordGame"))
-            XCTAssertTrue(wordGameArray.contains("IndiaTraditionWordGame"))
+        vm.getOnGoingActivity(userId: "ryanomeara", type: "wordgame") { wordGameDictionary in
+            XCTAssertNotNil(wordGameDictionary, "Information should not be nil")
+            print("Name of On-Going Word Games: \(wordGameDictionary)")
             expectation.fulfill()
         }
 

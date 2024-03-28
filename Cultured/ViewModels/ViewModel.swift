@@ -559,37 +559,54 @@ class ViewModel: ObservableObject {
      -----------------------------------------------------------------------------------------------
      */
     
-    func addOnGoingActivity(userID: String, country: String, titleOfActivity: String, typeOfActivity: String) {
+    func addOnGoingActivity(userID: String, country: String, numQuestions: Int, titleOfActivity: String, typeOfActivity: String, completion: @escaping (Bool) -> Void) {
         db.collection("USERS").document(userID).collection("ACTIVITIES").document("\(country)\(titleOfActivity)").setData(
             ["completed": false,
-             
-             "current": "",
-             
+
+             "current": 0,
+
              "history": [],
-             
+
              "score": 0,
-             
+
+             "numberOfQuestions": numQuestions,
+
              "type": typeOfActivity, //MUST be "quiz", "connection", or "wordgame"
             ])
-    }
+            completion(true)
+        }
     
-    func getOnGoingActivity(userId: String, type: String, completion: @escaping([String]) -> Void) {
+    func getOnGoingActivity(userId: String, type: String, completion: @escaping([String : [String : Any]]) -> Void) {
         db.collection("USERS").document(userId).collection("ACTIVITIES").whereField("type", isEqualTo: type).getDocuments { (querySnapshot, error) in
             if let error = error {
                 print("Error Getting Documents \(error)")
-                completion([])
+                completion([:])
             } else {
-                var activityArray = [String]()
+                var activityDictionary = [String : [String : Any]]()
                 for document in querySnapshot!.documents {
                     let data = document.data()
                     let completed = data["completed"] as? Bool ?? false
                     if !completed {
+                        
+                        let current = data["current"] as? Int ?? 0
+                        let history = data["history"] as? [String] ?? []
+                        let numberOfQuestions = data["numberOfQuestions"] as? Int ?? 0
+                        let score = data["score"] as? Int ?? 0
+                        let type = data["type"] as? String ?? ""
+                        
+                        var typeDictionary = [String : Any]()
+                        typeDictionary["completed"] = completed
+                        typeDictionary["current"] = current
+                        typeDictionary["history"] = history
+                        typeDictionary["numberOfQuestions"] = numberOfQuestions
+                        typeDictionary["score"] = score
+                        typeDictionary["type"] = type
+                        
                         let nameOfActivity = document.documentID
-                        activityArray.append(nameOfActivity)
+                        activityDictionary[nameOfActivity] = typeDictionary
                     }
                 }
-                
-                completion(activityArray)
+                completion(activityDictionary)
             }
         }
     }
