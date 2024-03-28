@@ -75,6 +75,7 @@
 		CA64398C2B857B0900181C5F /* CustomsSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA64398B2B857B0900181C5F /* CustomsSectionView.swift */; };
 		CA64398E2B857BF200181C5F /* PlacesSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA64398D2B857BF200181C5F /* PlacesSectionView.swift */; };
 		CA7570192B7C3B4000240F06 /* PopCultureSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7570182B7C3B4000240F06 /* PopCultureSectionView.swift */; };
+		CADEEBF02BA3DBD5002FDF71 /* Music.swift in Sources */ = {isa = PBXBuildFile; fileRef = CADEEBEF2BA3DBD5002FDF71 /* Music.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -144,6 +145,7 @@
 		CA64398B2B857B0900181C5F /* CustomsSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomsSectionView.swift; sourceTree = "<group>"; };
 		CA64398D2B857BF200181C5F /* PlacesSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesSectionView.swift; sourceTree = "<group>"; };
 		CA7570182B7C3B4000240F06 /* PopCultureSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopCultureSectionView.swift; sourceTree = "<group>"; };
+		CADEEBEF2BA3DBD5002FDF71 /* Music.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Music.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -234,6 +236,7 @@
 		66FB69D42B72A0750066B826 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				CADEEBEF2BA3DBD5002FDF71 /* Music.swift */,
 				7C1B20F82B7C00A0008E0244 /* Fonts */,
 				7C1B20F22B7BFF41008E0244 /* UIColors.swift */,
 				66FB69F22B72A0B30066B826 /* Module.swift */,
@@ -527,6 +530,7 @@
 				66FB69FC2B72A11D0066B826 /* LeaderboardView.swift in Sources */,
 				480F21F92B75A29500CB5632 /* Connections.swift in Sources */,
 				480F22062B7C1F9000CB5632 /* QuizViewModel.swift in Sources */,
+				CADEEBF02BA3DBD5002FDF71 /* Music.swift in Sources */,
 				66FB69C92B72A06D0066B826 /* TourView.swift in Sources */,
 				CA64398E2B857BF200181C5F /* PlacesSectionView.swift in Sources */,
 				CA64398A2B8579AF00181C5F /* FoodCategorySectionView.swift in Sources */,
