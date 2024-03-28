@@ -594,6 +594,40 @@ class ViewModel: ObservableObject {
         }
     }
     
+    func getAllCompletedActivities(userId: String, type: String, completion: @escaping([String : [String : Any]]) -> Void) {
+            db.collection("USERS").document(userId).collection("ACTIVITIES").whereField("type", isEqualTo: type).getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print("Error Getting Documents \(error)")
+                    completion([:])
+                } else {
+                    var activityDictionary = [String : [String : Any]]()
+                    for document in querySnapshot!.documents {
+                        let data = document.data()
+                        let completed = data["completed"] as? Bool ?? false
+                        if completed {
+                            let current = data["current"] as? Int ?? 0
+                            let history = data["history"] as? [String] ?? []
+                            let numberOfQuestions = data["numberOfQuestions"] as? Int ?? 0
+                            let score = data["score"] as? Int ?? 0
+                            let type = data["type"] as? String ?? ""
+
+                            var typeDictionary = [String : Any]()
+                            typeDictionary["completed"] = completed
+                            typeDictionary["current"] = current
+                            typeDictionary["history"] = history
+                            typeDictionary["numberOfQuestions"] = numberOfQuestions
+                            typeDictionary["score"] = score
+                            typeDictionary["type"] = type
+
+                            let nameOfActivity = document.documentID
+                            activityDictionary[nameOfActivity] = typeDictionary
+                        }
+                    }
+
+                    completion(activityDictionary)
+                }
+            }
+        }
     
     func updateScore(userID: String, activity: String, newScore: Int, completion: @escaping (Bool) -> Void) {
         self.db.collection("USERS").document(userID).getDocument { document, error in
