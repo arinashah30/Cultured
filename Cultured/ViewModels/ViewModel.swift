@@ -128,9 +128,9 @@ class ViewModel: ObservableObject {
         }
     }
     
-    func createNewCountry(countryName: String) {
+    func createNewCountry(countryName: String, lattitude: Double, longitude: Double) {
         let countryRef = db.collection("COUNTRIES").document(countryName)
-        countryRef.setData(["population": 5000])
+        countryRef.setData(["population": 5000, "lattitude": lattitude, "longitude": longitude])
         
         let modules = [
             "MUSIC",
@@ -992,7 +992,68 @@ class ViewModel: ObservableObject {
             }
         }
     }
+    //Helper Function to Ensure the Leaderboard is properly sorted
+    func isSorted(_ array: [(String, Int)]) -> Bool {
+        for i in 0..<(array.count - 1) {
+            if array[i].1 < array[i + 1].1 {
+                return false
+            }
+        }
+        return true
+    }
+
+
+    func getImage(imageName: String, completion: @escaping (UIImage?) -> Void) {
+        let storage = Storage.storage()
+        let imageRef = storage.reference().child("images/\(imageName)")
+        
+        imageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+            if let error = error {
+                print("An error occured when getting the image data")
+                completion(nil)
+            } else if let data = data, let image = UIImage(data: data) {
+                completion(image)
+                print("Should have successfully returned image")
+            } else {
+                completion(nil)
+            }
+        }
+    }
     
+    
+    func getLatitudeLongitude(countryName: String, completion: @escaping ([String: Double]?) -> Void) {
+        let countryRef = db.collection("COUNTRIES").document(countryName)
+        countryRef.getDocument { (document, error) in
+            if let error = error {
+                // Handle the error case
+
+                print("Error getting countries document: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+
+            if let document = document, document.exists {
+                // Get the data from the document
+                let data = document.data()
+                let latitude = data?["latitude"] as? Double
+                let longitude = data?["longitude"] as? Double
+                
+                // Check if both latitude and longitude exist
+                if let lat = latitude, let long = longitude {
+                    // If both values are found, return them in the completion handler
+                    completion(["latitude": lat, "longitude": long])
+                } else {
+                    // Handle the case where one or both values are missing
+                    print("Error: Document data is not valid")
+                    completion(nil)
+                }
+            } else {
+                // Handle the case where the document does not exist
+                print("We are in this area")
+                print("Document does not exist")
+                completion(nil)
+            }
+        }
     
     func getTopSongs(for country: Country, amount: Int) async -> [Song] {
         var result = [Song]()

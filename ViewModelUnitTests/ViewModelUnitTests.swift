@@ -301,6 +301,49 @@ final class ViewModelUnitTests: XCTestCase {
         wait(for: [expectation], timeout: 5) // Adjust timeout as needed
         print("Hello world")
     }
+    
+    func testRetrieveImage() {
+            // Create an expectation for a background download task.
+            let expectation = XCTestExpectation(description: "Download meme1.jpeg from Firebase Storage")
+
+            // Instantiate the class that contains your image retrieval function.
+            //let yourClassInstance = YourClass()
+
+            // Call the image retrieval function.
+            vm.getImage(imageName: "meme1.jpeg") { image in
+                // If the image is non-nil, we consider the retrieval a success.
+                if let image = image {
+                    XCTAssertNotNil(image, "Image should not be nil")
+                    expectation.fulfill() // This will end the wait.
+                } else {
+                    XCTFail("Image was nil. Expected to retrieve the image successfully.")
+                }
+            }
+
+            // Wait until the expectation is fulfilled, with a timeout of 10 seconds.
+            wait(for: [expectation], timeout: 10.0)
+    }
+    
+    func testGetLongitudeLatitude() {
+            let expectation = XCTestExpectation(description: "Retrieve longitude and latitude from Firebase")
+
+            vm.getLatitudeLongitude(countryName: "CHINA") { coordinatesDict in
+                // Assert that the coordinates are not nil
+                XCTAssertNotNil(coordinatesDict, "Coordinates dictionary should not be nil")
+
+                if let coordinatesDict = coordinatesDict {
+                    //print("Lat: \(coordinatesDict["latitude"])")
+                    //print("Long: \(coordinatesDict["longitude"])")
+                    XCTAssertNotNil(coordinatesDict["latitude"], "Latitude should be present in the dictionary")
+                    XCTAssertNotNil(coordinatesDict["longitude"], "Longitude should be present in the dictionary")
+                    
+
+                }
+                expectation.fulfill()
+
+            }
+            wait(for: [expectation], timeout: 10.0) // Adjust timeout to your needs
+    }
 
     
     func testOngoingActivityFields() {
