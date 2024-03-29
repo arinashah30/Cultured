@@ -75,9 +75,10 @@ class ViewModel: ObservableObject {
                      "name" : username,
                      "profilePicture" : "https://static-00.iconduck.com/assets.00/person-crop-circle-icon-256x256-02mzjh1k.png", // default icon
                      "email" : email,
-                     "points" : 0, //points is a string and we can cast it to an int when we use it
+                     "points" : 0,
                      "badges" : [],
                      "streak" : 0,
+                     "streakRecord" : 0,
                      "completedCountries": [],
                      "currentCountry": "",
                      "savedArtists": []
@@ -171,6 +172,7 @@ class ViewModel: ObservableObject {
                                           email: document["email"] as! String,
                                           points: document["points"] as? Int ?? 0,
                                           streak: document["streak"] as? Int ?? 0,
+                                          streakRecord: document["streakRecord"] as? Int ?? 0,
                                           completedChallenges: document["completedChallenges"] as? [String] ?? [],
                                           badges: document["badges"] as? [String] ?? [],
                                           savedArtists: document["savedArtists"] as? [String] ?? []
@@ -704,6 +706,42 @@ class ViewModel: ObservableObject {
                     completion(true)
                 }
             }
+        }
+    }
+    
+    //Returns "false" if current streak is less than or equal to the streakRecord
+    //Returns "true" if current streak is greater than the streakRecord
+    func updateStreakRecord(userID: String, completion: @escaping(Bool) -> Void) {
+        let documentReference = db.collection("USERS").document(userID)
+
+        documentReference.getDocument { (document, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(false)
+                return
+            }
+            
+            guard let document = document, document.exists else {
+                print("Document Doesn't Exist")
+                completion(false)
+                return
+            }
+            
+            guard let data = document.data() else {
+                print("Data Doesn't Exist")
+                completion(false)
+                return
+            }
+            
+            let currentStreak = data["streak"] as? Int ?? 0
+            let recordStreak = data["streakRecord"] as? Int ?? 0
+            
+            if currentStreak > recordStreak {
+                documentReference.updateData(["streakRecord": currentStreak])
+                completion(true)
+                return
+            }
+            completion(false)
         }
     }
     

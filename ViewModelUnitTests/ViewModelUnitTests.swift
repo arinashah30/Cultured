@@ -317,4 +317,31 @@ final class ViewModelUnitTests: XCTestCase {
         }
         wait(for: [expectation], timeout: 5) // Adjust timeout as needed
     }
+    
+    //Before Running this, make sure Sameer's streakRecord is less than
+    //the streak, to ensure we return "true" when we update streakRecord
+    func testUpdateStreakRecord() {
+        let expectation = self.expectation(description: "Updating Streak Record in Firebase")
+                    
+        vm.updateStreakRecord(userID: "ryanomeara") { result in
+            XCTAssertNotNil(result, "Information should not be nil")
+            XCTAssertFalse(result)
+        }
+        
+        vm.updateStreakRecord(userID: "Sameer") { result in
+            XCTAssertNotNil(result, "Information should not be nil")
+            print("Result:", result)
+            XCTAssertTrue(result)
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            expectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
 }
