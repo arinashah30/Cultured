@@ -18,38 +18,68 @@ struct Location: Identifiable {
 
 
 struct MapView: View {
-    let locations = [
-        Location(name: "Mexico", coordinate: CLLocationCoordinate2D(latitude: 19.432608, longitude: -99.133209), flag: UIImage(imageLiteralResourceName: "MXFlag")),
-        Location(name: "India", coordinate: CLLocationCoordinate2D(latitude: 48.8566, longitude: 2.3522), flag: UIImage(imageLiteralResourceName: "USFlag"))
-    ]
-    @State private var centerLongitutde: Double = 0
     
-    @State private var position = MapCameraPosition.region(
-        MKCoordinateRegion(
-            center: CLLocationCoordinate2D(latitude: 51.507222, longitude: -0.1275),
-            span: MKCoordinateSpan(latitudeDelta: 1, longitudeDelta: 1)
-        )
-    )
+    var locations: [Location]
+    @State private var position: MapCameraPosition
+    @Binding var showFullMap: Bool
     
+    init(locations: [Location], showFullMap: Binding<Bool>) {
+        self.locations = locations
+        self._position = State<MapCameraPosition>(initialValue: MapCameraPosition.region(
+            MKCoordinateRegion(
+                center: locations[0].coordinate,
+                span: MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5)
+            )
+        ))
+        self._showFullMap = showFullMap
+    }
     
-//    @State private var position: MapCameraPosition = .automatic
-
     
     var body: some View {
-        
-        Map(position: $position) {
-            ForEach(locations) { location in
-//                Marker(location.name, coordinate: location.coordinate)
-                Annotation(location.name, coordinate: location.coordinate) {
-                    Image(uiImage: location.flag)
-                        .clipShape(Circle())
-                }
-                .annotationTitles(.hidden)
+        ZStack {
+//            HStack {
+
+//                Spacer()
+//            }.padding(.horizontal, 20)
+            Map(position: $position) {
+                    ForEach(locations) { location in
+                        Annotation(location.name, coordinate: location.coordinate) {
+                            Image(uiImage: location.flag)
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 65, height: 65)
+                                .clipShape(Circle())
+                                
+                        }
+                        .annotationTitles(.hidden)
+                    }
+            }
+            VStack {
+                HStack {
+                    Button(action: {
+                        self.showFullMap.toggle()
+                    }, label: {
+                        Image(systemName: "chevron.backward.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 50)
+                            .padding()
+                    })
+                    Spacer()
+                }.padding(.horizontal, 5)
+                Spacer()
             }
         }
     }
 }
 
+
+
+
+
 #Preview {
-    MapView()
+    MapView(locations: [
+        Location(name: "Mexico", coordinate: CLLocationCoordinate2D(latitude: 19.432608, longitude: -99.133209), flag: UIImage(imageLiteralResourceName: "MXFlag")),
+        Location(name: "France", coordinate: CLLocationCoordinate2D(latitude: 48.8566, longitude: 2.3522), flag: UIImage(imageLiteralResourceName: "USFlag"))
+    ], showFullMap: Binding.constant(false))
 }

@@ -6,9 +6,12 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct SelfProfileView: View {
     @ObservedObject var vm: ViewModel
+    @State var showFullMap = false
+    
     var body: some View {
         VStack {
             //Settings bar
@@ -62,10 +65,23 @@ struct SelfProfileView: View {
                 .multilineTextAlignment(.leading)
                 .padding([.top, .leading], 15)
             
-            Image("PlaceHolderMap")
-                .resizable()
-                .frame(width: 354, height: 175)
-                .clipShape(RoundedRectangle(cornerRadius: 20))
+            Button(action: {
+                self.showFullMap.toggle()
+            }, label: {
+                MapView(locations: [
+                    Location(name: "Mexico", coordinate: CLLocationCoordinate2D(latitude: 19.432608, longitude: -99.133209), flag: UIImage(imageLiteralResourceName: "MXFlag")),
+                    Location(name: "France", coordinate: CLLocationCoordinate2D(latitude: 48.8566, longitude: 2.3522), flag: UIImage(imageLiteralResourceName: "USFlag"))
+                ], showFullMap: $showFullMap)
+                .frame(width:354 ,height: 175)
+                    .cornerRadius(20)
+                    .padding(.bottom, 10)
+            })
+            .fullScreenCover(isPresented: $showFullMap, content: {
+                MapView(locations: [
+                    Location(name: "Mexico", coordinate: CLLocationCoordinate2D(latitude: 19.432608, longitude: -99.133209), flag: UIImage(imageLiteralResourceName: "MXFlag")),
+                    Location(name: "France", coordinate: CLLocationCoordinate2D(latitude: 48.8566, longitude: 2.3522), flag: UIImage(imageLiteralResourceName: "USFlag"))
+                ], showFullMap: $showFullMap)
+            })
             Spacer()
             //My Challenges
             ZStack {
