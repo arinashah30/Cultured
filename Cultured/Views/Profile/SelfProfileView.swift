@@ -68,7 +68,7 @@ struct SelfProfileView: View {
             Button(action: {
                 self.showFullMap.toggle()
             }, label: {
-                MapView(locations: [
+                MapView(vm: vm, locations: [
                     Location(name: "Mexico", coordinate: CLLocationCoordinate2D(latitude: 19.432608, longitude: -99.133209), flag: UIImage(imageLiteralResourceName: "MXFlag")),
                     Location(name: "France", coordinate: CLLocationCoordinate2D(latitude: 48.8566, longitude: 2.3522), flag: UIImage(imageLiteralResourceName: "USFlag"))
                 ], showFullMap: $showFullMap)
@@ -77,7 +77,7 @@ struct SelfProfileView: View {
                     .padding(.bottom, 10)
             })
             .fullScreenCover(isPresented: $showFullMap, content: {
-                MapView(locations: [
+                MapView(vm: vm, locations: [
                     Location(name: "Mexico", coordinate: CLLocationCoordinate2D(latitude: 19.432608, longitude: -99.133209), flag: UIImage(imageLiteralResourceName: "MXFlag")),
                     Location(name: "France", coordinate: CLLocationCoordinate2D(latitude: 48.8566, longitude: 2.3522), flag: UIImage(imageLiteralResourceName: "USFlag"))
                 ], showFullMap: $showFullMap)

@@ -18,6 +18,7 @@
 		480F22082B7C1F9C00CB5632 /* WordGuessingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F22072B7C1F9C00CB5632 /* WordGuessingViewModel.swift */; };
 		480F220A2B7C1FA900CB5632 /* ConnectionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F22092B7C1FA900CB5632 /* ConnectionsViewModel.swift */; };
 		482153622BA11A4E000C02FB /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482153612BA11A4E000C02FB /* MapView.swift */; };
+		482153642BB739FA000C02FB /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482153632BB739FA000C02FB /* Location.swift */; };
 		48A11D722B9B63220061ED6A /* QuestionSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A11D6F2B9B63220061ED6A /* QuestionSuccessView.swift */; };
 		48A11D732B9B63220061ED6A /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A11D702B9B63220061ED6A /* ProgressBar.swift */; };
 		48A11D742B9B63220061ED6A /* QuestionFailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A11D712B9B63220061ED6A /* QuestionFailView.swift */; };
@@ -98,6 +99,7 @@
 		480F22072B7C1F9C00CB5632 /* WordGuessingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGuessingViewModel.swift; sourceTree = "<group>"; };
 		480F22092B7C1FA900CB5632 /* ConnectionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsViewModel.swift; sourceTree = "<group>"; };
 		482153612BA11A4E000C02FB /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		482153632BB739FA000C02FB /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		48A11D6F2B9B63220061ED6A /* QuestionSuccessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionSuccessView.swift; sourceTree = "<group>"; };
 		48A11D702B9B63220061ED6A /* ProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		48A11D712B9B63220061ED6A /* QuestionFailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionFailView.swift; sourceTree = "<group>"; };
@@ -242,6 +244,7 @@
 				480F21F62B7596BA00CB5632 /* QuizQuestion.swift */,
 				480F21F82B75A29500CB5632 /* Connections.swift */,
 				480F21FA2B75A54700CB5632 /* WordGuessing.swift */,
+				482153632BB739FA000C02FB /* Location.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -538,6 +541,7 @@
 				480F22022B7C19F900CB5632 /* WordGuessingResultsView.swift in Sources */,
 				48A11D722B9B63220061ED6A /* QuestionSuccessView.swift in Sources */,
 				66FB69D82B72A08F0066B826 /* ViewModel.swift in Sources */,
+				482153642BB739FA000C02FB /* Location.swift in Sources */,
 				CA64398C2B857B0900181C5F /* CustomsSectionView.swift in Sources */,
 				480F21F52B75969500CB5632 /* Quiz.swift in Sources */,
 				66FB6A132B72A2150066B826 /* StartConnectionsView.swift in Sources */,
