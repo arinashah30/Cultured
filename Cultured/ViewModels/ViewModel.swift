@@ -992,15 +992,7 @@ class ViewModel: ObservableObject {
             }
         }
     }
-    //Helper Function to Ensure the Leaderboard is properly sorted
-    func isSorted(_ array: [(String, Int)]) -> Bool {
-        for i in 0..<(array.count - 1) {
-            if array[i].1 < array[i + 1].1 {
-                return false
-            }
-        }
-        return true
-    }
+
 
 
     func getImage(imageName: String, completion: @escaping (UIImage?) -> Void) {
@@ -1026,12 +1018,12 @@ class ViewModel: ObservableObject {
         countryRef.getDocument { (document, error) in
             if let error = error {
                 // Handle the error case
-
+                
                 print("Error getting countries document: \(error.localizedDescription)")
                 completion(nil)
                 return
             }
-
+            
             if let document = document, document.exists {
                 // Get the data from the document
                 let data = document.data()
@@ -1054,6 +1046,7 @@ class ViewModel: ObservableObject {
                 completion(nil)
             }
         }
+    }
     
     func getTopSongs(for country: Country, amount: Int) async -> [Song] {
         var result = [Song]()
@@ -1172,4 +1165,3 @@ class ViewModel: ObservableObject {
     /*-------------------------------------------------------------------------------------------------*/
     
 }
-
