@@ -78,7 +78,7 @@ struct HomeView: View {
                             .bold()
                             .offset(y:-15)
                         NavigationLink {
-                            StartQuizView(vm: QuizViewModel())
+                            StartQuizView(vm: QuizViewModel(viewModel: vm))
                         } label: {
                             Text("start")
                                 .font(.system(size: 16))

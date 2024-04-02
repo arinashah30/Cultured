@@ -121,7 +121,7 @@ struct StartQuizView: View {
                     }
                     
                     NavigationLink {
-                        QuestionView(vm: QuizViewModel())
+                        QuestionView(vm: QuizViewModel(viewModel: vm.viewModel))
                     } label: {
                         Text("Start")
                             .padding()
@@ -164,6 +164,6 @@ struct StartQuizView: View {
 }
 struct StartQuizViewPreviews: PreviewProvider {
     static var previews: some View {
-        StartQuizView(vm: QuizViewModel())
+        StartQuizView(vm: QuizViewModel(viewModel: ViewModel()))
     }
 }
