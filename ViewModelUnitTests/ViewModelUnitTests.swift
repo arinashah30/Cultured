@@ -487,7 +487,6 @@ final class ViewModelUnitTests: XCTestCase {
         }
         wait(for: [expectation], timeout: 5) // Adjust timeout as needed
     }
-    
     //Before Running this, make sure Sameer's streakRecord is less than
     //the streak, to ensure we return "true" when we update streakRecord
     func testUpdateStreakRecord() {
@@ -531,6 +530,27 @@ final class ViewModelUnitTests: XCTestCase {
         waitForExpectations(timeout: 5) { error in
             if let error = error {
                 XCTFail("waitForExpectations error: \(error)")
+    func testCurrentUser() {
+        print("hello")
+        let expectation = XCTestExpectation(description: "sign up check")
+//        vm.firebase_email_password_sign_up_(email: "aroy351@gatech.edu", password: "test123testing", username: "Rik Roy")
+//        wait(for: [expectation], timeout: 5)
+//        print(vm.current_user)
+//        expectation.fulfill()
+        vm.fireBaseSignIn(email: "aroy351@gatech.edu", password: "test123testing") { completed in
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 5)
+        print(vm.current_user)
+    }
+    func testSetCountrySuccess() {
+            let newID = "Ganden Fung"
+            let newCountry = "China"
+            let expectation = self.expectation(description: "set country success")
+
+            vm.setCurrentCountry(userID: newID, countryName: newCountry) { success in
+                XCTAssertTrue(success, "The currentCountry should be set successfully.")
+                expectation.fulfill()
             }
         }
     }

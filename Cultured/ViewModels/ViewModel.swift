@@ -21,7 +21,20 @@ class ViewModel: ObservableObject {
     init(current_user: User? = nil, errorText: String? = nil) {
         self.current_user = current_user
         self.errorText = errorText
-        UserDefaults.standard.setValue(false, forKey: "log_Status")
+        
+        _ = Auth.auth().addStateDidChangeListener { [weak self] auth, user in
+            if let user = user {
+                print("User Found")
+                if let username = user.displayName {
+                    print("Setting User: \(username)")
+                    self?.setCurrentUser(userId: username) {
+                        UserDefaults.standard.setValue(true, forKey: "log_Status")
+                    }
+                }
+            } else {
+                UserDefaults.standard.setValue(false, forKey: "log_Status")
+            }
+        }
     }
     
     /*
@@ -62,7 +75,6 @@ class ViewModel: ObservableObject {
                 }
                 completion(true)
             }
-            //doesn't handle the case where authResult is nil so write that in if needed
         }
     }
     
@@ -83,7 +95,14 @@ class ViewModel: ObservableObject {
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "MM-dd-yyyy HH:mm"
                 let currentDateString = dateFormatter.string(from: currentDate)
-                
+            } else if let user = authResult?.user {
+                let changeRequest = user.createProfileChangeRequest()
+                changeRequest.displayName = username
+                changeRequest.commitChanges { error in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    }
+                }
                 self.db.collection("USERS").document(username).setData(
                     ["id" : username,
                      "name" : username,
@@ -107,6 +126,14 @@ class ViewModel: ObservableObject {
                         }
                     }
             }
+        }
+    }
+    
+    func firebase_sign_out() {
+        do {
+            try auth.signOut()
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
         }
     }
     
