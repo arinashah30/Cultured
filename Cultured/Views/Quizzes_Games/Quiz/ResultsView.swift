@@ -70,7 +70,7 @@ struct ResultsView: View {
                         .font(.system(size: 20))
                         .foregroundColor(Color(red: 64/255, green: 64/255, blue: 64/255))
                     
-                    Text("Total Points: \(vm.current_quiz!.pointsGoal)")
+                    Text("Total Points: \(vm.viewModel.current_user!.points)")
                         .font(.system(size: 20))
                         .foregroundColor(Color(red: 64/255, green: 64/255, blue: 64/255))
                         .padding(.top, 20)
@@ -117,6 +117,6 @@ struct ResultsView: View {
 
 struct ResultsViewPreviews: PreviewProvider {
     static var previews: some View {
-        ResultsView(vm: QuizViewModel())
+        ResultsView(vm: QuizViewModel(viewModel: ViewModel()))
     }
 }

@@ -194,7 +194,8 @@ class ViewModel: ObservableObject {
                                           streak: document["streak"] as? Int ?? 0,
                                           completedChallenges: document["completedChallenges"] as? [String] ?? [],
                                           badges: document["badges"] as? [String] ?? [],
-                                          savedArtists: document["savedArtists"] as? [String] ?? []
+                                          savedArtists: document["savedArtists"] as? [String] ?? [],
+                                          country: document["country"] as? String ?? ""
                 )
                 completion()
             }
@@ -375,8 +376,7 @@ class ViewModel: ObservableObject {
                     }
                     let quiz = Quiz(title: title,
                                     questions: questionsArray,
-                                    points: points,
-                                    pointsGoal: pointsGoal)
+                                    points: points)
                     completion(quiz)
                 }
             }
@@ -660,7 +660,7 @@ class ViewModel: ObservableObject {
             completion(true)
         }
     
-    func getOnGoingActivity(userId: String, type: String, completion: @escaping([String : [String : Any]]) -> Void) {
+    func getOnGoingActivity(userId: String, type: String, completion: @escaping([String : [String : Any]]?) -> Void) {
         db.collection("USERS").document(userId).collection("ACTIVITIES").whereField("type", isEqualTo: type).getDocuments { (querySnapshot, error) in
             if let error = error {
                 print("Error Getting Documents \(error)")
@@ -867,33 +867,7 @@ class ViewModel: ObservableObject {
             }
         }
     }
-    
-    func setCurrentCountry(userID: String, countryName: String, completion: @escaping (Bool) -> Void) {
-        let countryNameUppercased = countryName.uppercased()
-        self.db.collection("USERS").document(userID).getDocument { document, error in
-            if let err = error {
-                print(err.localizedDescription)
-                completion(false)
-                return
-            }
-            guard let document = document, document.exists else {
-                print("no doc")
-                completion(false)
-                return
-            }
-            self.db.collection("USERS").document(userID).updateData([
-                    "currentCountry": countryNameUppercased
-                ]) { err in
-                    if let err = error {
-                        print(err.localizedDescription)
-                        completion(false)
-                    } else {
-                        completion(true)
-                    }
-                }
-            
-        }
-    }
+
     
     /*-------------------------------------------------------------------------------------------------*/
     
@@ -906,7 +880,6 @@ class ViewModel: ObservableObject {
     func createNewQuiz(quiz: Quiz) {
         db.collection("GAMES").document(quiz.title).setData(
             ["title": quiz.title,
-             "pointsGoal": quiz.pointsGoal,
              "points": quiz.points
             ])
         let quizQuestions = quiz.questions

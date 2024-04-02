@@ -154,7 +154,7 @@ struct QuestionView: View {
 
 
 #Preview {
-    QuestionView(vm: QuizViewModel())
+    QuestionView(vm: QuizViewModel(viewModel: ViewModel()))
 }
 
 

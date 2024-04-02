@@ -67,7 +67,6 @@ final class ViewModelUnitTests: XCTestCase {
         vm.getQuizFromFirebase(activityName: "FrenchCultureQuiz") {quiz in
             XCTAssertNotNil(quiz, "Quiz should not be nil")
             XCTAssertEqual(quiz?.points, 999)
-            XCTAssertEqual(quiz?.pointsGoal, 800000000000)
             XCTAssertEqual(quiz?.title, "FrenchCultureQuiz")
             XCTAssertFalse(quiz?.questions.isEmpty ??  true)
             //print("Quiz =====", quiz!)

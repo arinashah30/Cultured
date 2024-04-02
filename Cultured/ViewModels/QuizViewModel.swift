@@ -13,35 +13,33 @@
 import Foundation
 
 class QuizViewModel: ObservableObject {
-    @Published var current_user: User? = nil
     @Published var viewModel: ViewModel
     @Published var current_quiz: Quiz? = Quiz(title: "Test Quiz",
     questions: [QuizQuestion(question: "What is the answer?", answers: ["Answer1", "Answer2", "Answer3", "Answer4"], correctAnswer: 1, correctAnswerDescription: "This is correct", submitted: false), QuizQuestion(question: "What is the answer?", answers: ["Answer1", "Answer2", "Answer3", "Answer4"], correctAnswer: 1, correctAnswerDescription: "This is correct", submitted: false),QuizQuestion(question: "What is the answer?", answers: ["Answer1", "Answer2", "Answer3", "Answer4"], correctAnswer: 1, correctAnswerDescription: "This is correct", submitted: false),QuizQuestion(question: "What is the answer?", answers: ["Answer1", "Answer2", "Answer3", "Answer4"], correctAnswer: 1, correctAnswerDescription: "This is correct", submitted: false),QuizQuestion(question: "What is the answer?", answers: ["Answer1", "Answer2", "Answer3", "Answer4"], correctAnswer: 1, correctAnswerDescription: "This is correct", submitted: false)],
     points: 20, currentQuestion: 1, history: ["Answer1"])
     
     init(current_user: User? = nil, viewModel: ViewModel, current_quiz: Quiz? = nil) {
-        self.current_user = current_user
         self.viewModel = viewModel
         self.current_quiz = current_quiz
     }
     
     func start_quiz(category: String) {
-        viewModel.getOnGoingActivity(userId: current_user!.id, type: "quiz", completion: { currentActivities in
-            self.viewModel.getQuizFromFirebase(activityName: "\(self.current_user!.country)\(category)Quiz", completion: { quizInfo in
+        viewModel.getOnGoingActivity(userId: viewModel.current_user!.id, type: "quiz", completion: { currentActivities in
+            self.viewModel.getQuizFromFirebase(activityName: "\(self.viewModel.current_user!.country)\(category)Quiz", completion: { quizInfo in
                 if let quizInfo = quizInfo {
                     if let currentActivities = currentActivities {
                         // history will be currentActivities["\(self.current_user!.country)\(category)Quiz"]["history"]
                         
                         var i = 0
                         var points = 0
-                        for historyItem in currentActivities["\(self.current_user!.country)\(category)Quiz"]["history"] {
+                        for historyItem in currentActivities["\(self.viewModel.current_user!.country)\(category)Quiz"]!["history"] as! [String] {
                             if historyItem == quizInfo.questions[i].answers[quizInfo.questions[i].correctAnswer] {
                                 points += 10
                             }
                             i += 1
                         }
                         
-                        Quiz(title: quizInfo.title, questions: quizInfo.questions, points: points, history: [], currentQuestion: currentActivities["\(self.current_user!.country)\(category)Quiz"]!)
+                        self.current_quiz = Quiz(title: quizInfo.title, questions: quizInfo.questions, points: points, currentQuestion: currentActivities["\(self.viewModel.current_user!.country)\(category)Quiz"]!["current"] as! Int, history: currentActivities["\(self.viewModel.current_user!.country)\(category)Quiz"]!["history"] as! [String])
                     }
                 }
             })
@@ -86,7 +84,7 @@ class QuizViewModel: ObservableObject {
             }
 
             // Update user's points in Firebase
-            guard let currentUserID = current_user?.id else {
+        guard let currentUserID = viewModel.current_user?.id else {
                 return
             }
 

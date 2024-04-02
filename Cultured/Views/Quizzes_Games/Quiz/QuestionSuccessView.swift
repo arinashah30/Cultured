@@ -163,7 +163,7 @@ struct QuestionSuccessView: View {
 
 
 #Preview {
-    QuestionSuccessView(vm: QuizViewModel())
+    QuestionSuccessView(vm: QuizViewModel(viewModel: ViewModel()))
 }
 
 

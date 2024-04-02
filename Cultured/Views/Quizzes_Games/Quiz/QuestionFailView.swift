@@ -169,7 +169,7 @@ struct QuestionFailView: View {
 
 
 #Preview {
-    QuestionFailView(vm: QuizViewModel())
+    QuestionFailView(vm: QuizViewModel(viewModel: ViewModel()))
 }
 
 
