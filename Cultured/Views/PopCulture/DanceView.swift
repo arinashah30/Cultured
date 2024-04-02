@@ -49,35 +49,42 @@ struct DanceView: View {
                         .padding(.vertical, 10)
                         .font(Font.custom("Quicksand-medium",size: 24))
                     
-                    
-                    VStack(spacing: 20) {
-                        HStack (alignment: .top) {
-                            Image("Dance").resizable().clipShape(RoundedRectangle(cornerRadius: 14)).frame(width: 145)
-                            Spacer()
-                            VStack (alignment: .leading, spacing: 0) {
-                                Text("Mexican Hat Dance").font(Font.custom("Quicksand-medium",size: 24)).padding(.vertical, 10)
-                                Text("Insert dance for appropriate seasonal celebration.").font(Font.custom("Quicksand-regular",size: 20))
-                            }.padding(.trailing, 10)
-                        }.frame(width: 321, height: 185).background(Color.cLightGray).clipShape(RoundedRectangle(cornerRadius: 14)).shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 3)
-                        
-                        HStack (alignment: .top) {
-                            Image("OtherDance").resizable().clipShape(RoundedRectangle(cornerRadius: 14)).frame(width: 145)
-                            Spacer()
-                            VStack (alignment: .leading, spacing: 0) {
-                                Text("Other Dance").font(Font.custom("Quicksand-medium",size: 24)).padding(.vertical, 10)
-                                Text("Insert dance information here.").font(Font.custom("Quicksand-regular",size: 20))
-                            }.padding(.trailing, 10)
-                        }.frame(width: 321, height: 185).background(Color.cLightGray).clipShape(RoundedRectangle(cornerRadius: 14)).shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 3)
-                    }
-                    
-                    
+                        ScrollView {
+                            VStack (spacing: 20) {
+                                SingleDance(DanceName: "Mexican Hat Dance", DanceDescription: "Insert dance for appropriate seasonal celebration.", DanceImage: "DanceImage1");
+                                
+                                SingleDance(DanceName: "Other Dance", DanceDescription: "Insert dance information here.", DanceImage: "OtherDance");
+                                
+                                SingleDance(DanceName: "Other Dance", DanceDescription: "Insert dance information here.", DanceImage: "OtherDance");
+                                
+                                SingleDance(DanceName: "Other Dance", DanceDescription: "Insert dance information here.", DanceImage: "OtherDance");
+                            }
+                        }.padding(.bottom, 70)
                 }
-            }.offset(y:UIScreen.main.bounds.height/7).padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 40))
+            }.offset(y:UIScreen.main.bounds.height/4.5).padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 40))
             
         }
         .navigationBarBackButtonHidden()
         .padding(.bottom, 100)
         
+    }
+}
+
+
+struct SingleDance: View {
+    var DanceName: String;
+    var DanceDescription: String;
+    var DanceImage: String;
+    
+    var body: some View {
+        HStack (alignment: .top) {
+            Image(DanceImage).resizable().clipShape(RoundedRectangle(cornerRadius: 14)).frame(width: 145)
+            Spacer()
+            VStack (alignment: .leading, spacing: 0) {
+                Text(DanceName).font(Font.custom("Quicksand-medium",size: 24)).padding(.vertical, 10)
+                Text(DanceDescription).font(Font.custom("Quicksand-regular",size: 20))
+            }.padding(.trailing, 10)
+        }.frame(width: 321, height: 185).background(Color.cLightGray).clipShape(RoundedRectangle(cornerRadius: 14)).shadow(color: Color.black.opacity(0.2), radius: 1, x: 0, y: 3)
     }
 }
 
