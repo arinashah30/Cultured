@@ -25,9 +25,29 @@ final class ViewModelUnitTests: XCTestCase {
     }
     
     func testSignUp() {
-        let expectation = self.expectation(description: "Updating Streak Record in Firebase")
+        let expectation = self.expectation(description: "Signing up in Firebase")
                     
         vm.firebase_email_password_sign_up_(email: "Dylan.whatever@gmail.com", password: "adkdk1", username: "Dylan Evans")
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            expectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
+    
+    func testSignIn() {
+        let expectation = self.expectation(description: "Logging into Firebase")
+        
+                    
+        vm.fireBaseSignIn(email: "Dylan.whatever@gmail.com", password: "adkdk1") { result in
+            XCTAssertNotNil(result)
+            XCTAssertTrue(result)
+        }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
             expectation.fulfill()

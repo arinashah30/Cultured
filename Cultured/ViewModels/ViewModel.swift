@@ -38,22 +38,31 @@ class ViewModel: ObservableObject {
                 switch firebaseError {
                 case .wrongPassword:
                     self.errorText = "Password incorrect"
+                    print("Password Incorrect")
                 case .userNotFound:
                     self.errorText = "User not found"
+                    print("User not found")
                 case .userDisabled:
                     self.errorText = "Your account has been disabled"
+                    print("Your account has been disabled")
                 default:
                     self.errorText = "An error has occurred"
+                    print("An error has occurred")
                 }
                 completion(false)
             }
             else {
                 UserDefaults.standard.setValue(true, forKey: "log_Status")
+                self.updateLastLoggedOn(email: email) { success in
+                    if success {
+                        print("lastLoggedOn field updated successfully")
+                    } else {
+                        print("Failed to update lastLoggedOn field")
+                    }
+                }
                 completion(true)
             }
             //doesn't handle the case where authResult is nil so write that in if needed
-//            let db = Firestore.firestore()
-//            let auth = Auth.auth()
         }
     }
     
@@ -499,7 +508,38 @@ class ViewModel: ObservableObject {
                 completion(true)
             }
         }
-        
+    }
+    
+    func updateLastLoggedOn(email: String, completion: @escaping(Bool) -> Void) {
+        self.db.collection("USERS").whereField("email", isEqualTo: email).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error getting document: \(error.localizedDescription)")
+                completion(false)
+            } else if let documents = querySnapshot?.documents, !documents.isEmpty {
+                // Assuming email is unique, get the first document
+                let userID = documents[0].documentID
+                
+                let date = Date()
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "MM-dd-yyyy HH:mm"
+                let dateInFormat = dateFormatter.string(from: date)
+                
+                // Update the lastLoggedOn field for the user
+                self.db.collection("USERS").document(userID).updateData(["lastLoggedOn": dateInFormat]) { err in
+                    if let err = err {
+                        print("Error updating document: \(err.localizedDescription)")
+                        completion(false)
+                    } else {
+                        // Document updated successfully
+                        completion(true)
+                    }
+                }
+            } else {
+                // No document found with the given email
+                print("No document found with the email: \(email)")
+                completion(false)
+            }
+        }
     }
     
     //Return "true" if streak is incremented or stays same
