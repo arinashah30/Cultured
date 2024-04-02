@@ -46,17 +46,17 @@ class ViewModel: ObservableObject {
     func fireBaseSignIn(email: String, password: String, completion: @escaping (Bool) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) {  authResult, error in
             if let error = error{
-                    print(error.localizedDescription)
-                    let firebaseError = AuthErrorCode.Code(rawValue: error._code)
-                    switch firebaseError {
-                    case .wrongPassword:
-                        self.errorText = "Password incorrect"
-                    case .userNotFound:
-                        self.errorText = "User not found"
-                    case .userDisabled:
-                        self.errorText = "Your account has been disabled"
-                    default:
-                        self.errorText = "An error has occurred"
+                print(error.localizedDescription)
+                let firebaseError = AuthErrorCode.Code(rawValue: error._code)
+                switch firebaseError {
+                case .wrongPassword:
+                    self.errorText = "Password incorrect"
+                case .userNotFound:
+                    self.errorText = "User not found"
+                case .userDisabled:
+                    self.errorText = "Your account has been disabled"
+                default:
+                    self.errorText = "An error has occurred"
                 }
                 completion(false)
             }
@@ -124,7 +124,7 @@ class ViewModel: ObservableObject {
      Managing data of countries
      -----------------------------------------------------------------------------------------------
      */
-            
+    
     func getInfoFromModule(countryName: String, moduleName: String, completion: @escaping (String) -> Void) {
         self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document(moduleName).getDocument { document, error in
             if let err = error {
@@ -149,9 +149,9 @@ class ViewModel: ObservableObject {
         }
     }
     
-    func createNewCountry(countryName: String) {
+    func createNewCountry(countryName: String, lattitude: Double, longitude: Double) {
         let countryRef = db.collection("COUNTRIES").document(countryName)
-        countryRef.setData(["population": 5000])
+        countryRef.setData(["population": 5000, "lattitude": lattitude, "longitude": longitude])
         
         let modules = [
             "MUSIC",
@@ -195,7 +195,7 @@ class ViewModel: ObservableObject {
                                           completedChallenges: document["completedChallenges"] as? [String] ?? [],
                                           badges: document["badges"] as? [String] ?? [],
                                           savedArtists: document["savedArtists"] as? [String] ?? []
-                                          )
+                )
                 completion()
             }
         })
@@ -422,7 +422,7 @@ class ViewModel: ObservableObject {
             
         }
     }
-
+    
     
     func getPts(userID: String, completion: @escaping (Int) -> Void) {
         self.db.collection("USERS").document(userID).getDocument { document, error in
@@ -475,7 +475,7 @@ class ViewModel: ObservableObject {
                 completion(false)
                 return
             }
-
+            
             
             if var badges = data["badges"] as? [String] {
                 badges.append(newBadge)
@@ -580,41 +580,92 @@ class ViewModel: ObservableObject {
      -----------------------------------------------------------------------------------------------
      */
     
-    func addOnGoingActivity(userID: String, country: String, titleOfActivity: String, typeOfActivity: String) {
+    func addOnGoingActivity(userID: String, country: String, numQuestions: Int, titleOfActivity: String, typeOfActivity: String, completion: @escaping (Bool) -> Void) {
         db.collection("USERS").document(userID).collection("ACTIVITIES").document("\(country)\(titleOfActivity)").setData(
             ["completed": false,
-             
-             "current": "",
-             
+
+             "current": 0,
+
              "history": [],
-             
+
              "score": 0,
-             
+
+             "numberOfQuestions": numQuestions,
+
              "type": typeOfActivity, //MUST be "quiz", "connection", or "wordgame"
             ])
-    }
+            completion(true)
+        }
     
-    func getOnGoingActivity(userId: String, type: String, completion: @escaping([String]) -> Void) {
+    func getOnGoingActivity(userId: String, type: String, completion: @escaping([String : [String : Any]]) -> Void) {
         db.collection("USERS").document(userId).collection("ACTIVITIES").whereField("type", isEqualTo: type).getDocuments { (querySnapshot, error) in
             if let error = error {
                 print("Error Getting Documents \(error)")
-                completion([])
+                completion([:])
             } else {
-                var activityArray = [String]()
+                var activityDictionary = [String : [String : Any]]()
                 for document in querySnapshot!.documents {
                     let data = document.data()
                     let completed = data["completed"] as? Bool ?? false
                     if !completed {
+                        
+                        let current = data["current"] as? Int ?? 0
+                        let history = data["history"] as? [String] ?? []
+                        let numberOfQuestions = data["numberOfQuestions"] as? Int ?? 0
+                        let score = data["score"] as? Int ?? 0
+                        let type = data["type"] as? String ?? ""
+                        
+                        var typeDictionary = [String : Any]()
+                        typeDictionary["completed"] = completed
+                        typeDictionary["current"] = current
+                        typeDictionary["history"] = history
+                        typeDictionary["numberOfQuestions"] = numberOfQuestions
+                        typeDictionary["score"] = score
+                        typeDictionary["type"] = type
+                        
                         let nameOfActivity = document.documentID
-                        activityArray.append(nameOfActivity)
+                        activityDictionary[nameOfActivity] = typeDictionary
                     }
                 }
-                
-                completion(activityArray)
+                completion(activityDictionary)
             }
         }
     }
     
+    func getAllCompletedActivities(userId: String, type: String, completion: @escaping([String : [String : Any]]) -> Void) {
+            db.collection("USERS").document(userId).collection("ACTIVITIES").whereField("type", isEqualTo: type).getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print("Error Getting Documents \(error)")
+                    completion([:])
+                } else {
+                    var activityDictionary = [String : [String : Any]]()
+                    for document in querySnapshot!.documents {
+                        let data = document.data()
+                        let completed = data["completed"] as? Bool ?? false
+                        if completed {
+                            let current = data["current"] as? Int ?? 0
+                            let history = data["history"] as? [String] ?? []
+                            let numberOfQuestions = data["numberOfQuestions"] as? Int ?? 0
+                            let score = data["score"] as? Int ?? 0
+                            let type = data["type"] as? String ?? ""
+
+                            var typeDictionary = [String : Any]()
+                            typeDictionary["completed"] = completed
+                            typeDictionary["current"] = current
+                            typeDictionary["history"] = history
+                            typeDictionary["numberOfQuestions"] = numberOfQuestions
+                            typeDictionary["score"] = score
+                            typeDictionary["type"] = type
+
+                            let nameOfActivity = document.documentID
+                            activityDictionary[nameOfActivity] = typeDictionary
+                        }
+                    }
+
+                    completion(activityDictionary)
+                }
+            }
+        }
     
     func updateScore(userID: String, activity: String, newScore: Int, completion: @escaping (Bool) -> Void) {
         self.db.collection("USERS").document(userID).getDocument { document, error in
@@ -728,6 +779,33 @@ class ViewModel: ObservableObject {
         }
     }
     
+    func setCurrentCountry(userID: String, countryName: String, completion: @escaping (Bool) -> Void) {
+        let countryNameUppercased = countryName.uppercased()
+        self.db.collection("USERS").document(userID).getDocument { document, error in
+            if let err = error {
+                print(err.localizedDescription)
+                completion(false)
+                return
+            }
+            guard let document = document, document.exists else {
+                print("no doc")
+                completion(false)
+                return
+            }
+            self.db.collection("USERS").document(userID).updateData([
+                    "currentCountry": countryNameUppercased
+                ]) { err in
+                    if let err = error {
+                        print(err.localizedDescription)
+                        completion(false)
+                    } else {
+                        completion(true)
+                    }
+                }
+            
+        }
+    }
+    
     /*-------------------------------------------------------------------------------------------------*/
     
     /*
@@ -754,7 +832,7 @@ class ViewModel: ObservableObject {
         }
     }
     
-
+    
     func addOnGoingActivity(userID: String, numQuestions: Int, titleOfActivity: String, typeOfActivity: String, completion: @escaping (Bool) -> Void) {
         db.collection("USERS").document(userID).collection("ACTIVITIES").document("Wassup").setData(
             ["completed": false,
@@ -766,12 +844,12 @@ class ViewModel: ObservableObject {
              "score": 0,
              
              "numberOfQuestions": numQuestions,
-          
+             
              "type": typeOfActivity, //MUST be "quiz", "connection", or "wordgame"
             ])
         completion(true)
     }
-
+    
     func createNewConnections(connection: Connections) {
         
         let connectionsReference = db.collection("GAMES").document(connection.title)
@@ -804,7 +882,7 @@ class ViewModel: ObservableObject {
                  "category": option.category
                 ])
         }
-            
+        
         //var selection: [Option]
         let optionSelectionArray = connection.selection //[Option]
         let optionSelectionArrayReference = connectionsReference.collection("SELECTIONS")
@@ -817,7 +895,7 @@ class ViewModel: ObservableObject {
                  "category": option.category
                 ])
         }
-            
+        
         //var history: [[Option]]
         let historyArrayOfArrays = connection.history //[[Option]]
         let historyReference = connectionsReference.collection("HISTORY")
@@ -832,7 +910,11 @@ class ViewModel: ObservableObject {
     func createNewWordGuessing(wordGuessing: WordGuessing) {
         
         let optionsReference = db.collection("GAMES").document(wordGuessing.title)
-
+       
+        var winCount = [String : Int]()
+        for i in 1..<10 {
+            winCount["\(i)"] = 0 //initialize every win count to 0 for every hint number
+        }
         optionsReference.setData(
             ["title": wordGuessing.title,
              "answer": wordGuessing.answer,
@@ -840,6 +922,7 @@ class ViewModel: ObservableObject {
              "flipPoints": wordGuessing.flipPoints,
              "flipsDone" : wordGuessing.flipsDone,
              "numberOfGuesses" : wordGuessing.numberOfGuesses,
+             "winCount" : winCount
             ]) { error in
                 if let error = error {
                     print("Error writing game document: \(error.localizedDescription)")
@@ -862,7 +945,7 @@ class ViewModel: ObservableObject {
                     }
                 }
         }
-
+        
     }
     
     /*-------------------------------------------------------------------------------------------------*/
@@ -904,7 +987,7 @@ class ViewModel: ObservableObject {
         let isFlipped = optionData["isFlipped"] as? Bool ?? false
         return OptionTile(option: option,
                           isFlipped: isFlipped)
-                    
+        
     }
     
     
@@ -919,7 +1002,7 @@ class ViewModel: ObservableObject {
                                   isSubmitted: isSubmitted,
                                   content: content,
                                   category: category)
-                    
+        
     }
     
     //Helper Function to Ensure the Leaderboard is properly sorted
@@ -935,7 +1018,7 @@ class ViewModel: ObservableObject {
         }
         return true
     }
-  
+    
     func getfieldsofOnGoingActivity(userId: String, activity: String, completion: @escaping([String: Any]?) -> Void) {
         db.collection("USERS").document(userId).collection("ACTIVITIES").document(activity).getDocument{ doc, error in
             if let err = error {
@@ -986,7 +1069,217 @@ class ViewModel: ObservableObject {
             }
         }
     }
+
+
+
+    func getImage(imageName: String, completion: @escaping (UIImage?) -> Void) {
+        let storage = Storage.storage()
+        let imageRef = storage.reference().child("images/\(imageName)")
+        
+        imageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+            if let error = error {
+                print("An error occured when getting the image data")
+                completion(nil)
+            } else if let data = data, let image = UIImage(data: data) {
+                completion(image)
+                print("Should have successfully returned image")
+            } else {
+                completion(nil)
+            }
+        }
+    }
+    
+    
+    func getLatitudeLongitude(countryName: String, completion: @escaping ([String: Double]?) -> Void) {
+        let countryRef = db.collection("COUNTRIES").document(countryName)
+        countryRef.getDocument { (document, error) in
+            if let error = error {
+                // Handle the error case
+                
+                print("Error getting countries document: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+            
+            if let document = document, document.exists {
+                // Get the data from the document
+                let data = document.data()
+                let latitude = data?["latitude"] as? Double
+                let longitude = data?["longitude"] as? Double
+                
+                // Check if both latitude and longitude exist
+                if let lat = latitude, let long = longitude {
+                    // If both values are found, return them in the completion handler
+                    completion(["latitude": lat, "longitude": long])
+                } else {
+                    // Handle the case where one or both values are missing
+                    print("Error: Document data is not valid")
+                    completion(nil)
+                }
+            } else {
+                // Handle the case where the document does not exist
+                print("We are in this area")
+                print("Document does not exist")
+                completion(nil)
+            }
+        }
+    }
+    
+    func getTopSongs(for country: Country, amount: Int) async -> [Song] {
+        var result = [Song]()
+        var playlist_uri: String
+        
+        switch (country.name) {
+            // NOTE: no data for China
+        case "FRANCE":
+            playlist_uri = "37i9dQZEVXbIPWwFssbupI"
+        case "INDIA":
+            playlist_uri = "37i9dQZEVXbLZ52XmnySJg"
+        case "MEXICO":
+            playlist_uri = "37i9dQZEVXbO3qyFxbkOE1"
+        case "NIGERIA":
+            playlist_uri = "37i9dQZEVXbKY7jLzlJ11V"
+        case "UAE":
+            playlist_uri = "37i9dQZEVXbM4UZuIrvHvA"
+        default:
+            return []
+        }
+        
+        let authURL = URL(string: "https://accounts.spotify.com/api/token")!
+        var requestAuth = URLRequest(url: authURL)
+        requestAuth.allHTTPHeaderFields = [
+            "Content-Type": "application/x-www-form-urlencoded"
+        ]
+        requestAuth.httpMethod = "POST"
+        let clientID = "a7704f381d02423d978245c28c31419f"
+        let clientSecret = "b5be23d3682d44668ff87ae55f6231e7"
+        requestAuth.httpBody = Data("grant_type=client_credentials&client_id=\(clientID)&client_secret=\(clientSecret)".utf8)
+        do {
+            let (authData, _) = try await URLSession.shared.data(for: requestAuth)
+            let response = try JSONDecoder().decode(SpotifyAccessTokenResponse.self, from: authData)
+            
+            let url = URL(string: "https://api.spotify.com/v1/playlists/\(playlist_uri)/tracks?market=US&limit=\(amount)")!
+            var request = URLRequest(url: url)
+            request.allHTTPHeaderFields = [
+                "Authorization": "Bearer \(response.access_token)"
+            ]
+            do {
+                let (data, _) = try await URLSession.shared.data(for: request)
+                
+                let wrapper = try JSONDecoder().decode(SpotifyPlaylistAPIResult.self, from: data)
+                
+                for song in wrapper.items {
+                    let track = song.track
+                    var artists = track.artists
+                    let albumName = track.album.name
+                    var albumImageURL: URL? = nil
+                    if let lastImage = track.album.images.last {
+                        albumImageURL = lastImage.url
+                    }
+                    let spotifyURL = URL(string: "http://open.spotify.com/track/\(track.uri.split(separator: ":")[2])")
+                    var previewURL: URL? = nil
+                    if let urlString = track.previewURL {
+                        previewURL = URL(string: urlString)
+                    }
+                    
+                    var i = 0
+                    for artist in artists {
+                        if (artist.popularity == nil || artist.images == nil) {
+                            let urlArtist = URL(string: "https://api.spotify.com/v1/artists/\(artist.uri?.split(separator: ":")[2] ?? "")")!
+                            var requestArtist = URLRequest(url: urlArtist)
+                            requestArtist.allHTTPHeaderFields = [
+                                "Authorization": "Bearer \(response.access_token)"
+                            ]
+                            do {
+                                let (dataArtist, _) = try await URLSession.shared.data(for: requestArtist)
+                                
+                                let artistObject = try JSONDecoder().decode(SpotifyArtistObject.self, from: dataArtist)
+                                artists[i] = artistObject
+                            } catch let err {
+                                print(err)
+                            }
+                        }
+                        i += 1
+                    }
+                    
+                    let artistsObjects = artists.map({Artist(artist: $0)})
+                    
+                    let songObject = Song(name: track.name, artists: artistsObjects, albumName: albumName, albumImageURL: albumImageURL, spotifyURL: spotifyURL, previewURL: previewURL)
+                    result.append(songObject)
+                }
+                
+                return result
+            } catch let error {
+                print(error)
+                return []
+            }
+        } catch {
+            return []
+        }
+    }
+    
+    func getTopArtists(songs: [Song], amount: Int) -> [Artist] {
+        var artists = Set<Artist>()
+        
+        for song in songs {
+            artists.formUnion(song.artists)
+        }
+        
+        let result = Array(Array(artists).sorted(by: {$0.popularity ?? 0 > $1.popularity ?? 0}).prefix(amount))
+        return result
+    }
+    
+    func getMusicData(for country: Country, songCount: Int, artistCount: Int) async -> ([Song], [Artist]) {
+        var quantity = songCount < 25 ? 25 : songCount
+        
+        let songs = await getTopSongs(for: country, amount: quantity)
+        let artists = getTopArtists(songs: songs, amount: artistCount)
+        
+        let firstNSongs = Array(songs.prefix(songCount))
+        
+        return (firstNSongs, artists)
+    }
     /*-------------------------------------------------------------------------------------------------*/
     
-}
+    func getWinCountDictionary(nameOfWordgame: String, completion: @escaping([String : Int]) -> Void) {
+        
+        let wordgameReference = db.collection("GAMES").document(nameOfWordgame)
+//        var winCount = [String : Int]()
 
+        wordgameReference.getDocument() { (activityDocument, error) in
+            if let error = error {
+                print("Error Getting Documents \(error)")
+                completion([:])
+                return
+            }
+            
+            guard let actDoc = activityDocument, actDoc.exists else {
+                print("Document Does Not Exist")
+                completion([:])
+                return
+            }
+            
+            guard let data = actDoc.data() else {
+                return
+            }
+            
+            let winCount = data["winCount"] as? [String : Int] ?? [:]
+            completion(winCount)
+        }
+    }
+    
+    func updateWinCountDictionary(nameOfWordgame: String, hintCount: Int, completion: @escaping(Bool) -> Void) {
+        let wordgameReference = db.collection("GAMES").document(nameOfWordgame)
+
+        // Update the specific key in the map
+        wordgameReference.updateData(["winCount.\(hintCount)": FieldValue.increment(Int64(1))]) { error in
+            if let error = error {
+                print("Error updating document: \(error)")
+                completion(false)
+            } else {
+                print("Document successfully updated")
+                completion(true)
+            }
+        }
+    }
+}
