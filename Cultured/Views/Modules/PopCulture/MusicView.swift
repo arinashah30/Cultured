@@ -24,9 +24,14 @@ struct MusicView: View {
         ZStack{
             
             VStack{
-                Image("MusicImage")
-                    .resizable()
-                    .frame(width:575, height:323)
+                ZStack(alignment: .topLeading){
+                    Image("MusicImage")
+                        .resizable()
+                        .frame(width:575, height:323)
+                    BackButton()
+                        .offset(x:80, y:20)
+                }
+                
                 
                 Spacer()
                     .frame(height:555)
