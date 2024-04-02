@@ -868,32 +868,7 @@ class ViewModel: ObservableObject {
         }
     }
     
-    func setCurrentCountry(userID: String, countryName: String, completion: @escaping (Bool) -> Void) {
-        let countryNameUppercased = countryName.uppercased()
-        self.db.collection("USERS").document(userID).getDocument { document, error in
-            if let err = error {
-                print(err.localizedDescription)
-                completion(false)
-                return
-            }
-            guard let document = document, document.exists else {
-                print("no doc")
-                completion(false)
-                return
-            }
-            self.db.collection("USERS").document(userID).updateData([
-                    "currentCountry": countryNameUppercased
-                ]) { err in
-                    if let err = error {
-                        print(err.localizedDescription)
-                        completion(false)
-                    } else {
-                        completion(true)
-                    }
-                }
-            
-        }
-    }
+
     
     /*-------------------------------------------------------------------------------------------------*/
     
