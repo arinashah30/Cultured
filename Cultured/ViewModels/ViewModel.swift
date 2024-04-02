@@ -742,6 +742,32 @@ class ViewModel: ObservableObject {
         }
     }
     
+    //Function to incrementCurrent
+    func incrementCurrent(userID: String, activityName: String, completion: @escaping (Bool) -> Void) {
+        self.db.collection("USERS").document(userID).collection("ACTIVITIES").document(activityName).getDocument { document, error in
+            if let err = error {
+                print(err.localizedDescription)
+                completion(false)
+                return
+            }
+            guard let document = document, document.exists, var currentCounter = document.data()?["counter"] as? Int else {
+                print("Document does not exist")
+                completion(false)
+                return
+            }
+            currentCounter = currentCounter + 1
+            self.db.collection("USERS").document(userID).collection("ACTIVITIES").document(activityName).updateData(["counter": currentCounter]) { err in
+                if let err = err {
+                    print("Error updating document: \(err.localizedDescription)")
+                    completion(false)
+                } else {
+                    // Document updated successfully
+                    completion(true)
+                }
+            }
+        }
+    }
+    
     func updateCurrent(userID: String, activity: String, current: String, completion: @escaping (Bool) -> Void) {
         self.db.collection("USERS").document(userID).getDocument { document, error in
             if let err = error {
@@ -759,32 +785,6 @@ class ViewModel: ObservableObject {
             let actCollection = document.reference.collection("ACTIVITIES")
             
             actCollection.document(activity).updateData(["current": current]){ err in
-                if let err = err {
-                    print("Error updating document: \(err.localizedDescription)")
-                    completion(false)
-                } else {
-                    // Document updated successfully
-                    completion(true)
-                }
-            }
-        }
-    }
-    
-    //Function to incrementCurrent
-    func incrementCurrent(userID: String, activityName: String, completion: @escaping (Bool) -> Void) {
-        self.db.collection("USERS").document(userID).collection("ACTIVITIES").document(activityName).getDocument { document, error in
-            if let err = error {
-                print(err.localizedDescription)
-                completion(false)
-                return
-            }
-            guard let document = document, document.exists, var currentCounter = document.data()?["counter"] as? Int else {
-                print("Document does not exist")
-                completion(false)
-                return
-            }
-            currentCounter = currentCounter + 1
-            self.db.collection("USERS").document(userID).collection("ACTIVITIES").document(activityName).updateData(["counter": currentCounter]) { err in
                 if let err = err {
                     print("Error updating document: \(err.localizedDescription)")
                     completion(false)
