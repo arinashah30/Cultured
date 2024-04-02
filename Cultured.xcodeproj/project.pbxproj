@@ -192,7 +192,6 @@
 		592F9AA72BB392E30046DFB8 /* PopCulture */ = {
 			isa = PBXGroup;
 			children = (
-				CA7570182B7C3B4000240F06 /* PopCultureSectionView.swift */,
 				59167BFC2BB7E1D7006C02C1 /* DanceView.swift */,
 			);
 			path = PopCulture;
@@ -272,6 +271,7 @@
 			isa = PBXGroup;
 			children = (
 				7CFE0FC32B979F3100D7283B /* ContentView.swift */,
+				CA7570182B7C3B4000240F06 /* PopCultureSectionView.swift */,
 				66FB6A1C2B72A2C40066B826 /* Modules */,
 				66FB69C82B72A06D0066B826 /* TourView.swift */,
 				66FB69F82B72A1060066B826 /* Activity */,
