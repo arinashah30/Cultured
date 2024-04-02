@@ -14,5 +14,5 @@ struct WordGuessing {
     var totalPoints: Int = 100
     var flipPoints: Int = 10
     var flipsDone: Int = 0
-    var numberOfGuesses: Int = 2
+    var numberOfGuesses: Int = 1
 }
