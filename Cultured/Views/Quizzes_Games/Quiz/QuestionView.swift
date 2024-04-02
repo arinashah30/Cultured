@@ -58,11 +58,11 @@ struct QuestionView: View {
                         }
                        
                         
-                        ProgressView(value: progress, total: 1.0)
-                                    .progressViewStyle(LinearProgressViewStyle(tint: Color.red))
+                        //ProgressView(value: progress, total: 1.0)
+                        //            .progressViewStyle(LinearProgressViewStyle(tint: Color.red))
                                     .frame(height: 20)
-                        //ProgressView(progress: progress, height:5)
-                        //    .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
+                        ProgressBar(progress: progress, height:5)
+                            .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
                         
                         Text("This bow and string instrument is usually made by the player itself. It is an important folk music instrument of Rajasthan made up of bamboo and coconut shell. It’s strings are made up of horsehair.")
                             .padding(.vertical, 20).font(.system(size: 20))
@@ -126,6 +126,8 @@ struct QuestionView: View {
                 }.offset(y:UIScreen.main.bounds.height/7).padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 40))
             
         }
+        .navigationBarBackButtonHidden()
+        .padding(.bottom, 100)
 
         }
     

@@ -9,6 +9,8 @@ import SwiftUI
 
 struct PopCultureSectionView: View {
     @ObservedObject var vm: ViewModel
+    @Environment(\.dismiss) private var dismiss
+
     var body: some View {
         VStack {
             ZStack (alignment: .topLeading){
@@ -18,7 +20,7 @@ struct PopCultureSectionView: View {
                     .frame(width: 400, height: 470)
                 
                 Button {
-                    
+                    dismiss()
                 } label: {
                     
                     ZStack {
@@ -52,17 +54,16 @@ struct PopCultureSectionView: View {
                         .foregroundColor(.cDarkGray)
                         .padding(.top, 20)
                     HStack {
-                        Button {
-                            
-                        } label: {
+                        NavigationLink(destination: MusicView(vm: vm), label: {
                             Text("Music")
                                 .font(.system(size: 20))
                                 .foregroundColor(.cDarkGray)
                                 .padding()
-                        }
-                        .frame(maxWidth: 159, maxHeight: 57)
-                        .background(Color.cRed)
-                        .clipShape(.rect(cornerRadius: 14.0))
+                        }).frame(maxWidth: 159, maxHeight: 57)
+                            .background(Color.cRed)
+                            .clipShape(.rect(cornerRadius: 14.0))
+                        
+                        
                         
                         Button {
                             

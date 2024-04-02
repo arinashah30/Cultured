@@ -12,5 +12,6 @@ struct Quiz {
     var questions: [QuizQuestion]
     var points: Int = 0
     //var coverImage: Image
-    var pointsGoal: Int = 0
+    var currentQuestion: Int = 0
+    var history: [String]
 }

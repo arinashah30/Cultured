@@ -10,7 +10,19 @@ import SwiftUI
 struct StartConnectionsView: View {
     @ObservedObject var vm: ConnectionsViewModel
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
+        VStack {
+            Text("Connections")
+                .font(.title)
+            Text("Group words together that culturally align")
+                .font(.subheadline)
+            Button("Play", action: vm.playConnections)
+                .buttonStyle(.borderedProminent)
+                .fontWeight(.bold)
+                .controlSize(.large)
+                .clipShape(Capsule())
+        }
+        
     }
 }
 
