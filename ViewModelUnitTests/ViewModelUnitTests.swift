@@ -223,12 +223,9 @@ final class ViewModelUnitTests: XCTestCase {
     func testGetOnGoingQuiz() {
         let expectation = self.expectation(description: "Retrieve an On-Going Quiz")
                     
-        vm.getOnGoingActivity(userId: "ryanomeara", type: "quiz") { quizArray in
-            XCTAssertNotNil(quizArray, "Information should not be nil")
-            print("Name of On-Going Quizzes: \(quizArray)")
-            XCTAssertTrue(quizArray.contains("MexicoTraditionQuiz"))
-            XCTAssertTrue(quizArray.contains("IndiaCultureQuiz"))
-            XCTAssertFalse(quizArray.contains("EgyptFoodQuiz"))
+        vm.getOnGoingActivity(userId: "ryanomeara", type: "quiz") { quizDictionary in
+            XCTAssertNotNil(quizDictionary, "Information should not be nil")
+            print("Name of On-Going Quizzes: \(quizDictionary)")
             expectation.fulfill()
         }
              
@@ -242,12 +239,9 @@ final class ViewModelUnitTests: XCTestCase {
     func testGetOnGoingConnection() {
         let expectation = self.expectation(description: "Retrieve an On-Going Connection")
                     
-        vm.getOnGoingActivity(userId: "ryanomeara", type: "connection") { connectionArray in
-            XCTAssertNotNil(connectionArray, "Information should not be nil")
-            print("Name of On-Going Connections: \(connectionArray)")
-            XCTAssertFalse(connectionArray.contains("FranceFoodConnections"))
-            XCTAssertTrue(connectionArray.contains("UAECelebritiesConnections"))
-            XCTAssertTrue(connectionArray.contains("ChinaCultureConnections"))
+        vm.getOnGoingActivity(userId: "ryanomeara", type: "connection") { connectionDictionary in
+            XCTAssertNotNil(connectionDictionary, "Information should not be nil")
+            print("Name of On-Going Connections: \(connectionDictionary)")
             expectation.fulfill()
         }
         
@@ -261,12 +255,9 @@ final class ViewModelUnitTests: XCTestCase {
     func testGetOnGoingWordGame() {
         let expectation = self.expectation(description: "Retrieve an On-Going Word Game")
             
-        vm.getOnGoingActivity(userId: "ryanomeara", type: "wordgame") { wordGameArray in
-            XCTAssertNotNil(wordGameArray, "Information should not be nil")
-            print("Name of On-Going Word Games: \(wordGameArray)")
-            XCTAssertFalse(wordGameArray.contains("UAELandmarkWordGame"))
-            XCTAssertTrue(wordGameArray.contains("NigeriaMusicWordGame"))
-            XCTAssertTrue(wordGameArray.contains("IndiaTraditionWordGame"))
+        vm.getOnGoingActivity(userId: "ryanomeara", type: "wordgame") { wordGameDictionary in
+            XCTAssertNotNil(wordGameDictionary, "Information should not be nil")
+            print("Name of On-Going Word Games: \(wordGameDictionary)")
             expectation.fulfill()
         }
 
@@ -276,6 +267,59 @@ final class ViewModelUnitTests: XCTestCase {
             }
         }
     }
+    
+    //Unit Tests for basic functionality of 'getAllCompletedActivities(userId, type, completion)'
+    //Next Three unit tests assess the functinoality for each activity: quiz, connection, wordgame
+    func testGetCompletedQuizzes() {
+        let expectation = self.expectation(description: "Retrieve an On-Going Quiz")
+                    
+        vm.getAllCompletedActivities(userId: "ryanomeara", type: "quiz") { quizDictionary in
+            XCTAssertNotNil(quizDictionary, "Information should not be nil")
+            print("Completed Quizzes: \(quizDictionary)")
+            expectation.fulfill()
+        }
+             
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
+    
+    func testGetCompletedConnections() {
+        let expectation = self.expectation(description: "Retrieve an On-Going Connection")
+                    
+        vm.getAllCompletedActivities(userId: "ryanomeara", type: "connection") { connectionDictionary in
+            XCTAssertNotNil(connectionDictionary, "Information should not be nil")
+            print("Completed Connections: \(connectionDictionary)")
+            expectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
+    
+    func testGetCompletedWordGames() {
+        let expectation = self.expectation(description: "Retrieve an On-Going Word Game")
+            
+        vm.getAllCompletedActivities(userId: "ryanomeara", type: "wordgame") { wordGameDictionary in
+            XCTAssertNotNil(wordGameDictionary, "Information should not be nil")
+            print("Completed Word Games: \(wordGameDictionary)")
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
+    
+    
+    
 
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
@@ -302,6 +346,95 @@ final class ViewModelUnitTests: XCTestCase {
         print("Hello world")
     }
 
+    func testGetWinCountDictionary() {
+        
+        let expectation = self.expectation(description: "Retrieving Win Count Dictionary")
+        var winCount = [String : Int]()
+        for i in 1..<10 {
+            winCount["\(i)"] = 0 //initialize every win count to 0 for every hint number
+        }
+        
+        vm.getWinCountDictionary(nameOfWordgame: "UAETraditionsWordGuessing") { result in
+            XCTAssertNotNil(result)
+            XCTAssertEqual(winCount, result)
+            print("Result: ", result)
+            expectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
+    
+    func testUpdateWinCountDictionary() {
+        let expectation = self.expectation(description: "Updating Win Count Dictionary")
+        
+        vm.updateWinCountDictionary(nameOfWordgame: "UAETraditionsWordGuessing", hintCount: 7) { result in
+            XCTAssertNotNil(result)
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            expectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
+    func testAddOngoingActivity() {
+        let expectation = XCTestExpectation(description: "Ongoing check")
+        vm.addOnGoingActivity(userID: "ryanomeara", numQuestions: 9, titleOfActivity: "NigeriaMusicWordGame", typeOfActivity: "wordgame") { completed in
+            print(completed)
+        }
+    }
+      
+    func testRetrieveImage() {
+            // Create an expectation for a background download task.
+            let expectation = XCTestExpectation(description: "Download meme1.jpeg from Firebase Storage")
+
+            // Instantiate the class that contains your image retrieval function.
+            //let yourClassInstance = YourClass()
+
+            // Call the image retrieval function.
+            vm.getImage(imageName: "meme1.jpeg") { image in
+                // If the image is non-nil, we consider the retrieval a success.
+                if let image = image {
+                    XCTAssertNotNil(image, "Image should not be nil")
+                    expectation.fulfill() // This will end the wait.
+                } else {
+                    XCTFail("Image was nil. Expected to retrieve the image successfully.")
+                }
+            }
+
+            // Wait until the expectation is fulfilled, with a timeout of 10 seconds.
+            wait(for: [expectation], timeout: 10.0)
+    }
+    
+    func testGetLongitudeLatitude() {
+            let expectation = XCTestExpectation(description: "Retrieve longitude and latitude from Firebase")
+
+            vm.getLatitudeLongitude(countryName: "CHINA") { coordinatesDict in
+                // Assert that the coordinates are not nil
+                XCTAssertNotNil(coordinatesDict, "Coordinates dictionary should not be nil")
+
+                if let coordinatesDict = coordinatesDict {
+                    //print("Lat: \(coordinatesDict["latitude"])")
+                    //print("Long: \(coordinatesDict["longitude"])")
+                    XCTAssertNotNil(coordinatesDict["latitude"], "Latitude should be present in the dictionary")
+                    XCTAssertNotNil(coordinatesDict["longitude"], "Longitude should be present in the dictionary")
+                    
+
+                }
+                expectation.fulfill()
+
+            }
+            wait(for: [expectation], timeout: 10.0) // Adjust timeout to your needs
+    }
+
     
     func testOngoingActivityFields() {
         print("Hello world")
@@ -313,12 +446,12 @@ final class ViewModelUnitTests: XCTestCase {
             print("Score: \(String(describing: intact?["score"]))")
             print("Type: \(String(describing: intact?["type"]))")
             print("Hello world")
+
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 5) // Adjust timeout as needed
     }
-    
-    
+
     func testAddCompletedCountry() {
         let newID = "Ganden Fung"
         let newCountry = "China"
@@ -339,6 +472,32 @@ final class ViewModelUnitTests: XCTestCase {
 
         vm.incrementCurrent(userID: newID, activityName: activityName) { success in
             XCTAssertTrue(success, "The currentCountry should be added successfully.")
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 5, handler: nil)
+    }
+  
+    func testCurrentUser() {
+        print("hello")
+        let expectation = XCTestExpectation(description: "sign up check")
+//        vm.firebase_email_password_sign_up_(email: "aroy351@gatech.edu", password: "test123testing", username: "Rik Roy")
+//        wait(for: [expectation], timeout: 5)
+//        print(vm.current_user)
+//        expectation.fulfill()
+        vm.fireBaseSignIn(email: "aroy351@gatech.edu", password: "test123testing") { completed in
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 5)
+        print(vm.current_user)
+    }
+    func testSetCountrySuccess() {
+        let newID = "Ganden Fung"
+        let newCountry = "China"
+        let expectation = self.expectation(description: "set country success")
+
+        vm.setCurrentCountry(userID: newID, countryName: newCountry) { success in
+            XCTAssertTrue(success, "The currentCountry should be set successfully.")
             expectation.fulfill()
         }
 
