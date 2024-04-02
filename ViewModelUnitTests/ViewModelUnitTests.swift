@@ -301,7 +301,53 @@ final class ViewModelUnitTests: XCTestCase {
         wait(for: [expectation], timeout: 5) // Adjust timeout as needed
         print("Hello world")
     }
+
+    func testGetWinCountDictionary() {
+        
+        let expectation = self.expectation(description: "Retrieving Win Count Dictionary")
+        var winCount = [String : Int]()
+        for i in 1..<10 {
+            winCount["\(i)"] = 0 //initialize every win count to 0 for every hint number
+        }
+        
+        vm.getWinCountDictionary(nameOfWordgame: "UAETraditionsWordGuessing") { result in
+            XCTAssertNotNil(result)
+            XCTAssertEqual(winCount, result)
+            print("Result: ", result)
+            expectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
     
+    func testUpdateWinCountDictionary() {
+        let expectation = self.expectation(description: "Updating Win Count Dictionary")
+        
+        vm.updateWinCountDictionary(nameOfWordgame: "UAETraditionsWordGuessing", hintCount: 7) { result in
+            XCTAssertNotNil(result)
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            expectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
+    func testAddOngoingActivity() {
+        let expectation = XCTestExpectation(description: "Ongoing check")
+        vm.addOnGoingActivity(userID: "ryanomeara", numQuestions: 9, titleOfActivity: "NigeriaMusicWordGame", typeOfActivity: "wordgame") { completed in
+            print(completed)
+        }
+    }
+      
     func testRetrieveImage() {
             // Create an expectation for a background download task.
             let expectation = XCTestExpectation(description: "Download meme1.jpeg from Firebase Storage")
@@ -356,6 +402,7 @@ final class ViewModelUnitTests: XCTestCase {
             print("Score: \(String(describing: intact?["score"]))")
             print("Type: \(String(describing: intact?["type"]))")
             print("Hello world")
+
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 5) // Adjust timeout as needed
