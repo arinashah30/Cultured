@@ -74,7 +74,7 @@ struct EditSelfProfileView: View {
                 .offset(y: -5)
             }
             Button {
-//                vm.firebase_sign_out()
+                vm.firebase_sign_out()
             } label: {
                 Text("Log Out")
                     .padding()
