@@ -386,9 +386,10 @@ final class ViewModelUnitTests: XCTestCase {
     }
     func testAddOngoingActivity() {
         let expectation = XCTestExpectation(description: "Ongoing check")
-        vm.addOnGoingActivity(userID: "ryanomeara", numQuestions: 9, titleOfActivity: "NigeriaMusicWordGame", typeOfActivity: "wordgame") { completed in
+        vm.addOnGoingActivity(userID: "ryanomeara", country: "US", numQuestions: 5, titleOfActivity: "FoodQuiz", typeOfActivity: "quiz" ) { completed in
             print(completed)
         }
+        expectation.fulfill()
     }
       
     func testRetrieveImage() {

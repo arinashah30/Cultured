@@ -98,6 +98,9 @@ struct StartQuizView: View {
                                 ForEach(categories.suffix(2), id: \.self) { category in
                                     Button(action: {
                                         toggleCategorySelection(category)
+                                        vm.viewModel.addOnGoingActivity(userID: "Austin Huguenard", country: "US", numQuestions: 5, titleOfActivity: "FoodQuiz", typeOfActivity: "quiz", completion: {rest in
+                                                print(rest)
+                                        })
                                     }) {
                                         HStack {
                                             Text(category)
