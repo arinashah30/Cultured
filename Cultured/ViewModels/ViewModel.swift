@@ -90,12 +90,12 @@ class ViewModel: ObservableObject {
                 default:
                     self.errorText = "An error has occurred"
                 }
-            } else if (authResult?.user) != nil {
+            } else if let user = authResult?.user {
                 let currentDate = Date()
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "MM-dd-yyyy HH:mm"
                 let currentDateString = dateFormatter.string(from: currentDate)
-            } else if let user = authResult?.user {
+                
                 let changeRequest = user.createProfileChangeRequest()
                 changeRequest.displayName = username
                 changeRequest.commitChanges { error in
@@ -617,7 +617,7 @@ class ViewModel: ObservableObject {
                                             if success {
                                                 print("Streak Record updated sucessfully")
                                             } else {
-                                                print("Failed to update Streak Recrod")
+                                                print("Failed to update Streak Record")
                                             }
                                         }
                                     }
@@ -632,6 +632,68 @@ class ViewModel: ObservableObject {
                     }
                 }
             }
+        }
+    }
+    
+    //Returns "false" if current streak is less than or equal to the streakRecord
+    //Returns "true" if current streak is greater than the streakRecord
+    func updateStreakRecord(userID: String, completion: @escaping(Bool) -> Void) {
+        let documentReference = db.collection("USERS").document(userID)
+
+        documentReference.getDocument { (document, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(false)
+                return
+            }
+            
+            guard let document = document, document.exists else {
+                print("Document Doesn't Exist")
+                completion(false)
+                return
+            }
+            
+            guard let data = document.data() else {
+                print("Data Doesn't Exist")
+                completion(false)
+                return
+            }
+            
+            let currentStreak = data["streak"] as? Int ?? 0
+            let recordStreak = data["streakRecord"] as? Int ?? 0
+            
+            if currentStreak > recordStreak {
+                documentReference.updateData(["streakRecord": currentStreak])
+                completion(true)
+                return
+            }
+            completion(false)
+        }
+    }
+
+    func setCurrentCountry(userID: String, countryName: String, completion: @escaping (Bool) -> Void) {
+        let countryNameUppercased = countryName.uppercased()
+        self.db.collection("USERS").document(userID).getDocument { document, error in
+            if let err = error {
+                print(err.localizedDescription)
+                completion(false)
+                return
+            }
+            guard let document = document, document.exists else {
+                print("no doc")
+                completion(false)
+                return
+            }
+            self.db.collection("USERS").document(userID).updateData([
+                    "currentCountry": countryNameUppercased
+                ]) { err in
+                    if let err = error {
+                        print(err.localizedDescription)
+                        completion(false)
+                    } else {
+                        completion(true)
+                    }
+                }
         }
     }
     
@@ -663,7 +725,7 @@ class ViewModel: ObservableObject {
             completion(true)
         }
     
-    func getOnGoingActivity(userId: String, type: String, completion: @escaping([String : [String : Any]]) -> Void) {
+    func getOnGoingActivities(userId: String, type: String, completion: @escaping([String : [String : Any]]) -> Void) {
         db.collection("USERS").document(userId).collection("ACTIVITIES").whereField("type", isEqualTo: type).getDocuments { (querySnapshot, error) in
             if let error = error {
                 print("Error Getting Documents \(error)")
@@ -844,68 +906,7 @@ class ViewModel: ObservableObject {
             }
         }
     }
-    
-    //Returns "false" if current streak is less than or equal to the streakRecord
-    //Returns "true" if current streak is greater than the streakRecord
-    func updateStreakRecord(userID: String, completion: @escaping(Bool) -> Void) {
-        let documentReference = db.collection("USERS").document(userID)
 
-        documentReference.getDocument { (document, error) in
-            if let error = error {
-                print(error.localizedDescription)
-                completion(false)
-                return
-            }
-            
-            guard let document = document, document.exists else {
-                print("Document Doesn't Exist")
-                completion(false)
-                return
-            }
-            
-            guard let data = document.data() else {
-                print("Data Doesn't Exist")
-                completion(false)
-                return
-            }
-            
-            let currentStreak = data["streak"] as? Int ?? 0
-            let recordStreak = data["streakRecord"] as? Int ?? 0
-            
-            if currentStreak > recordStreak {
-                documentReference.updateData(["streakRecord": currentStreak])
-                completion(true)
-                return
-            }
-            completion(false)
-        }
-    }
-
-    func setCurrentCountry(userID: String, countryName: String, completion: @escaping (Bool) -> Void) {
-        let countryNameUppercased = countryName.uppercased()
-        self.db.collection("USERS").document(userID).getDocument { document, error in
-            if let err = error {
-                print(err.localizedDescription)
-                completion(false)
-                return
-            }
-            guard let document = document, document.exists else {
-                print("no doc")
-                completion(false)
-                return
-            }
-            self.db.collection("USERS").document(userID).updateData([
-                    "currentCountry": countryNameUppercased
-                ]) { err in
-                    if let err = error {
-                        print(err.localizedDescription)
-                        completion(false)
-                    } else {
-                        completion(true)
-                    }
-                }
-        }
-    }
     
     /*-------------------------------------------------------------------------------------------------*/
     

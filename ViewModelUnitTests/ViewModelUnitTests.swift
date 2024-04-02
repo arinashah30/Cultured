@@ -259,7 +259,7 @@ final class ViewModelUnitTests: XCTestCase {
     func testGetOnGoingQuiz() {
         let expectation = self.expectation(description: "Retrieve an On-Going Quiz")
                     
-        vm.getOnGoingActivity(userId: "ryanomeara", type: "quiz") { quizDictionary in
+        vm.getOnGoingActivities(userId: "ryanomeara", type: "quiz") { quizDictionary in
             XCTAssertNotNil(quizDictionary, "Information should not be nil")
             print("Name of On-Going Quizzes: \(quizDictionary)")
             expectation.fulfill()
@@ -275,7 +275,7 @@ final class ViewModelUnitTests: XCTestCase {
     func testGetOnGoingConnection() {
         let expectation = self.expectation(description: "Retrieve an On-Going Connection")
                     
-        vm.getOnGoingActivity(userId: "ryanomeara", type: "connection") { connectionDictionary in
+        vm.getOnGoingActivities(userId: "ryanomeara", type: "connection") { connectionDictionary in
             XCTAssertNotNil(connectionDictionary, "Information should not be nil")
             print("Name of On-Going Connections: \(connectionDictionary)")
             expectation.fulfill()
@@ -291,7 +291,7 @@ final class ViewModelUnitTests: XCTestCase {
     func testGetOnGoingWordGame() {
         let expectation = self.expectation(description: "Retrieve an On-Going Word Game")
             
-        vm.getOnGoingActivity(userId: "ryanomeara", type: "wordgame") { wordGameDictionary in
+        vm.getOnGoingActivities(userId: "ryanomeara", type: "wordgame") { wordGameDictionary in
             XCTAssertNotNil(wordGameDictionary, "Information should not be nil")
             print("Name of On-Going Word Games: \(wordGameDictionary)")
             expectation.fulfill()
@@ -516,10 +516,10 @@ final class ViewModelUnitTests: XCTestCase {
     
     func testCheckIfStreakIsIntactWithStreakRecord() {
         let expectation = self.expectation(description: "Updating Streak Record in Firebase")
-                    
+        
         vm.checkIfStreakIsIntact(userID: "ryanomeara") { result in
             XCTAssertNotNil(result, "Information should not be nil")
-//            XCTAssertTrue(result)
+            //            XCTAssertTrue(result)
             XCTAssertFalse(result)
         }
         
@@ -530,6 +530,9 @@ final class ViewModelUnitTests: XCTestCase {
         waitForExpectations(timeout: 5) { error in
             if let error = error {
                 XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
     func testCurrentUser() {
         print("hello")
         let expectation = XCTestExpectation(description: "sign up check")
@@ -537,24 +540,12 @@ final class ViewModelUnitTests: XCTestCase {
 //        wait(for: [expectation], timeout: 5)
 //        print(vm.current_user)
 //        expectation.fulfill()
-        vm.fireBaseSignIn(email: "aroy351@gatech.edu", password: "test123testing") { completed in
+        self.vm.fireBaseSignIn(email: "aroy351@gatech.edu", password: "test123testing") { completed in
             expectation.fulfill()
         }
         wait(for: [expectation], timeout: 5)
-        print(vm.current_user)
+        print(self.vm.current_user)
     }
-    func testSetCountrySuccess() {
-            let newID = "Ganden Fung"
-            let newCountry = "China"
-            let expectation = self.expectation(description: "set country success")
-
-            vm.setCurrentCountry(userID: newID, countryName: newCountry) { success in
-                XCTAssertTrue(success, "The currentCountry should be set successfully.")
-                expectation.fulfill()
-            }
-        }
-    }
-  
     func testSetCountrySuccess() {
         let newID = "Ganden Fung"
         let newCountry = "China"
@@ -564,7 +555,6 @@ final class ViewModelUnitTests: XCTestCase {
             XCTAssertTrue(success, "The currentCountry should be set successfully.")
             expectation.fulfill()
         }
-
-        waitForExpectations(timeout: 5, handler: nil)
     }
+
 }
