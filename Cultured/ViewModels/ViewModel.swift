@@ -52,8 +52,8 @@ class ViewModel: ObservableObject {
                 completion(true)
             }
             //doesn't handle the case where authResult is nil so write that in if needed
-            let db = Firestore.firestore()
-            let auth = Auth.auth()
+//            let db = Firestore.firestore()
+//            let auth = Auth.auth()
         }
     }
     
@@ -69,7 +69,12 @@ class ViewModel: ObservableObject {
                 default:
                     self.errorText = "An error has occurred"
                 }
-            } else if let user = authResult?.user {
+            } else if (authResult?.user) != nil {
+                let currentDate = Date()
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "MM-dd-yyyy HH:mm"
+                let currentDateString = dateFormatter.string(from: currentDate)
+                
                 self.db.collection("USERS").document(username).setData(
                     ["id" : username,
                      "name" : username,
@@ -79,6 +84,7 @@ class ViewModel: ObservableObject {
                      "badges" : [],
                      "streak" : 0,
                      "streakRecord" : 0,
+                     "lastLoggedOn" : currentDateString,
                      "completedCountries": [],
                      "currentCountry": "",
                      "savedArtists": []
@@ -496,6 +502,8 @@ class ViewModel: ObservableObject {
         
     }
     
+    //Return "true" if streak is incremented or stays same
+    //Return "false" if streak is reset to 0
     func checkIfStreakIsIntact(userID: String, completion: @escaping (Bool) -> Void) {
         self.db.collection("USERS").document(userID).getDocument { document, error in
             if let err = error {
@@ -519,6 +527,7 @@ class ViewModel: ObservableObject {
                         let components = calendar.dateComponents([.day], from: last_date, to: curr_date)
                         
                         if let daysSinceLastLoggedOn = components.day {
+                            //Update Streak to 0 if more than 1 day passed since last login
                             if daysSinceLastLoggedOn > 1 {
                                 self.db.collection("USERS").document(userID).updateData(["streak": 0]) { error in
                                     if let error = error {
@@ -529,6 +538,7 @@ class ViewModel: ObservableObject {
                                     }
                                 }
                                 return
+                            // Increment Streak by 1 if last login was yesterday
                             } else if daysSinceLastLoggedOn == 1 {
                                 self.db.collection("USERS").document(userID).updateData(["streak": FieldValue.increment(Int64(1))]) { error in
                                     if let error = error {
@@ -536,9 +546,17 @@ class ViewModel: ObservableObject {
                                     } else {
                                         print("Document updated successfully")
                                         completion(true)
+                                        self.updateStreakRecord(userID: userID) { success in
+                                            if success {
+                                                print("Streak Record updated sucessfully")
+                                            } else {
+                                                print("Failed to update Streak Recrod")
+                                            }
+                                        }
                                     }
                                 }
                                 return
+                            //Do nothing since last login was today
                             } else {
                                 completion(true)
                                 return

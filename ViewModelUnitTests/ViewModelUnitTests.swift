@@ -23,6 +23,22 @@ final class ViewModelUnitTests: XCTestCase {
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
+    
+    func testSignUp() {
+        let expectation = self.expectation(description: "Updating Streak Record in Firebase")
+                    
+        vm.firebase_email_password_sign_up_(email: "Dylan.whatever@gmail.com", password: "adkdk1", username: "Dylan Evans")
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            expectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
 
 
     //Unit Test for basic functionality of 'getInfoFromModule(countryName, moduleName, completion)'
@@ -332,6 +348,26 @@ final class ViewModelUnitTests: XCTestCase {
             XCTAssertNotNil(result, "Information should not be nil")
             print("Result:", result)
             XCTAssertTrue(result)
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            expectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
+    
+    func testCheckIfStreakIsIntactWithStreakRecord() {
+        let expectation = self.expectation(description: "Updating Streak Record in Firebase")
+                    
+        vm.checkIfStreakIsIntact(userID: "ryanomeara") { result in
+            XCTAssertNotNil(result, "Information should not be nil")
+//            XCTAssertTrue(result)
+            XCTAssertFalse(result)
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
