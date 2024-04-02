@@ -267,6 +267,59 @@ final class ViewModelUnitTests: XCTestCase {
             }
         }
     }
+    
+    //Unit Tests for basic functionality of 'getAllCompletedActivities(userId, type, completion)'
+    //Next Three unit tests assess the functinoality for each activity: quiz, connection, wordgame
+    func testGetCompletedQuizzes() {
+        let expectation = self.expectation(description: "Retrieve an On-Going Quiz")
+                    
+        vm.getAllCompletedActivities(userId: "ryanomeara", type: "quiz") { quizDictionary in
+            XCTAssertNotNil(quizDictionary, "Information should not be nil")
+            print("Completed Quizzes: \(quizDictionary)")
+            expectation.fulfill()
+        }
+             
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
+    
+    func testGetCompletedConnections() {
+        let expectation = self.expectation(description: "Retrieve an On-Going Connection")
+                    
+        vm.getAllCompletedActivities(userId: "ryanomeara", type: "connection") { connectionDictionary in
+            XCTAssertNotNil(connectionDictionary, "Information should not be nil")
+            print("Completed Connections: \(connectionDictionary)")
+            expectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
+    
+    func testGetCompletedWordGames() {
+        let expectation = self.expectation(description: "Retrieve an On-Going Word Game")
+            
+        vm.getAllCompletedActivities(userId: "ryanomeara", type: "wordgame") { wordGameDictionary in
+            XCTAssertNotNil(wordGameDictionary, "Information should not be nil")
+            print("Completed Word Games: \(wordGameDictionary)")
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
+    
+    
+    
 
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
