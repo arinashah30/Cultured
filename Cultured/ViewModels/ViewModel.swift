@@ -236,7 +236,7 @@ class ViewModel: ObservableObject {
             }
             let title = data["title"] as? String ?? ""
             let answerKey = data["answerKey"] as? [String : [String]] ?? [:]
-            let connections = Connections(title: title, answerKey: answerKey)
+            let connections = Connections(title: title, answer_key: answerKey)
             completion(connections)
         }
     }
@@ -481,23 +481,6 @@ class ViewModel: ObservableObject {
      -----------------------------------------------------------------------------------------------
      */
     
-    func addOnGoingActivity(userID: String, numQuestions: Int, titleOfActivity: String, typeOfActivity: String, completion: @escaping (Bool) -> Void) {
-        db.collection("USERS").document(userID).collection("ACTIVITIES").document("Wassup").setData(
-            ["completed": false,
-             
-             "current": 0,
-             
-             "history": [],
-             
-             "score": 0,
-             
-             "numberOfQuestions": numQuestions,
-             
-             "type": typeOfActivity, //MUST be "quiz", "connection", or "wordgame"
-            ])
-        completion(true)
-    }
-    
     func getOnGoingActivity(userId: String, type: String, completion: @escaping([String]) -> Void) {
         db.collection("USERS").document(userId).collection("ACTIVITIES").whereField("type", isEqualTo: type).getDocuments { (querySnapshot, error) in
             if let error = error {
@@ -653,28 +636,12 @@ class ViewModel: ObservableObject {
                 ])
         }
     }
-    func addOnGoingActivity(userID: String, numQuestions: Int, titleOfActivity: String, typeOfActivity: String, completion: @escaping (Bool) -> Void) {
-        db.collection("USERS").document(userID).collection("ACTIVITIES").document("Wassup").setData(
-            ["completed": false,
-             
-             "current": 0,
-             
-             "history": [],
-             
-             "score": 0,
-             
-             "numberOfQuestions": numQuestions,
-             
-             "type": typeOfActivity, //MUST be "quiz", "connection", or "wordgame"
-            ])
-        completion(true)
-    }
     
     func createNewConnections(connection: Connections) {
         let connectionsReference = db.collection("GAMES").document(connection.title)
         connectionsReference.setData(
             ["title": connection.title,
-             "answerKey": connection.answerKey
+             "answerKey": connection.answer_key
             ]) { error in
                 if let error = error {
                     print("Error writing game document: \(error.localizedDescription)")
@@ -682,41 +649,6 @@ class ViewModel: ObservableObject {
                     print("Game document successfully written")
                 }
             }
-
-        //private(set) var options: [Option]
-        let optionArray = connection.options //[Option]
-        let optionArrayReference = connectionsReference.collection("OPTIONS")
-        for option in optionArray {
-            optionArrayReference.document(option.id).setData(
-                ["id": option.id,
-                 "isSelected": option.isSelected,
-                 "isSubmitted": option.isSubmitted,
-                 "content": option.content,
-                 "category": option.category
-                ])
-        }
-        
-        //var selection: [Option]
-        let optionSelectionArray = connection.selection //[Option]
-        let optionSelectionArrayReference = connectionsReference.collection("SELECTIONS")
-        for option in optionSelectionArray {
-            optionSelectionArrayReference.document(option.id).setData(
-                ["id": option.id,
-                 "isSelected": option.isSelected,
-                 "isSubmitted": option.isSubmitted,
-                 "content": option.content,
-                 "category": option.category
-                ])
-        }
-        
-        //var history: [[Option]]
-        let historyArrayOfArrays = connection.history //[[Option]]
-        let historyReference = connectionsReference.collection("HISTORY")
-        for (index, options) in historyArrayOfArrays.enumerated() {
-            let optionDictionaryArray = options.map {optionToDictionary(option: $0)}
-            let documentData: [String: Any] = ["options": optionDictionaryArray]
-            historyReference.document("History\(index)").setData(documentData)
-        }
     }
     
     
@@ -738,21 +670,6 @@ class ViewModel: ObservableObject {
                     print("Game document successfully written")
                 }
             }
-        
-        let optionTileArray = wordGuessing.options //[OptionTile]
-        let optionsArrayReference = optionsReference.collection("OPTIONS")
-        for optionTile in optionTileArray {
-            optionsArrayReference.document(optionTile.option).setData(
-                ["option": optionTile.option,
-                 "isFlipped": optionTile.isFlipped,
-                ]) { error in
-                    if let error = error {
-                        print("Error writing option document: \(error.localizedDescription)")
-                    } else {
-                        print("Option document successfully written")
-                    }
-                }
-        }
        
     }
     

@@ -15,7 +15,7 @@ class ConnectionsViewModel: ObservableObject {
         let answer_key: [String: [String]] = ["Pop megastars": ["Swift", "Mars", "Grande", "Styles"], "Method": ["Vehicle", "Means", "Medium", "Channel"], "Living ___": ["Large", "Legend", "Room", "Proof"], "Unlikely, as chances": ["Small", "Outside", "Slim", "Remote"]]
         let title = "TestConnectionsOne"
         
-        return Connections(title: title, answer_key: answer_key, history: [])
+        return Connections(title: title, answer_key: answer_key)
     }
     
     @Published var current_connections_game: Connections? = start_connections()

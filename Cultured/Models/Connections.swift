@@ -22,11 +22,11 @@ struct Connections {
     var already_guessed: Bool
     var points: Int
     
-    init(title: String, answer_key: [String: [String]], history: [[String]]) {
+    init(title: String, answer_key: [String: [String]]) {
         self.title = title
         self.answer_key = [:]
         selection = []
-        self.history = history
+        history = [[]]
         mistake_history = [:]
         correct_history = [:]
         mistakes_remaining = 4
