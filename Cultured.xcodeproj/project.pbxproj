@@ -21,6 +21,7 @@
 		48A11D722B9B63220061ED6A /* QuestionSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A11D6F2B9B63220061ED6A /* QuestionSuccessView.swift */; };
 		48A11D732B9B63220061ED6A /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A11D702B9B63220061ED6A /* ProgressBar.swift */; };
 		48A11D742B9B63220061ED6A /* QuestionFailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A11D712B9B63220061ED6A /* QuestionFailView.swift */; };
+		59167BFD2BB7E1D7006C02C1 /* DanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59167BFC2BB7E1D7006C02C1 /* DanceView.swift */; };
 		6666C7452B88093300A64A3D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6666C7442B88093300A64A3D /* GoogleService-Info.plist */; };
 		66FB69C72B72A06D0066B826 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB69C62B72A06D0066B826 /* AppDelegate.swift */; };
 		66FB69C92B72A06D0066B826 /* TourView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB69C82B72A06D0066B826 /* TourView.swift */; };
@@ -68,6 +69,7 @@
 		7C1B21002B7C00A0008E0244 /* Quicksand-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B20FB2B7C00A0008E0244 /* Quicksand-Regular.ttf */; };
 		7C1B21012B7C00A0008E0244 /* Quicksand-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B20FC2B7C00A0008E0244 /* Quicksand-SemiBold.ttf */; };
 		7C1B21022B7C00A0008E0244 /* Quicksand-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B20FD2B7C00A0008E0244 /* Quicksand-Light.ttf */; };
+		7CE5D3EF2BB5D2ED00EE0E14 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE5D3EE2BB5D2ED00EE0E14 /* BackButton.swift */; };
 		7CFE0FC42B979F3100D7283B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFE0FC32B979F3100D7283B /* ContentView.swift */; };
 		B31D2BFA2B8EB3EF00FAF095 /* ViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31D2BF92B8EB3EF00FAF095 /* ViewModelUnitTests.swift */; };
 		CA64398A2B8579AF00181C5F /* FoodCategorySectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6439892B8579AF00181C5F /* FoodCategorySectionView.swift */; };
@@ -101,6 +103,7 @@
 		48A11D6F2B9B63220061ED6A /* QuestionSuccessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionSuccessView.swift; sourceTree = "<group>"; };
 		48A11D702B9B63220061ED6A /* ProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		48A11D712B9B63220061ED6A /* QuestionFailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionFailView.swift; sourceTree = "<group>"; };
+		59167BFC2BB7E1D7006C02C1 /* DanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DanceView.swift; sourceTree = "<group>"; };
 		6666C7442B88093300A64A3D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		66FB69C32B72A06D0066B826 /* Cultured.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cultured.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66FB69C62B72A06D0066B826 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -136,6 +139,7 @@
 		7C1B20FB2B7C00A0008E0244 /* Quicksand-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Regular.ttf"; sourceTree = "<group>"; };
 		7C1B20FC2B7C00A0008E0244 /* Quicksand-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-SemiBold.ttf"; sourceTree = "<group>"; };
 		7C1B20FD2B7C00A0008E0244 /* Quicksand-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Light.ttf"; sourceTree = "<group>"; };
+		7CE5D3EE2BB5D2ED00EE0E14 /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
 		7CFE0FC32B979F3100D7283B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B31D2BF72B8EB3EF00FAF095 /* ViewModelUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ViewModelUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B31D2BF92B8EB3EF00FAF095 /* ViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelUnitTests.swift; sourceTree = "<group>"; };
@@ -187,6 +191,14 @@
 				480F22012B7C19F900CB5632 /* WordGuessingResultsView.swift */,
 			);
 			path = WordGuessing;
+			sourceTree = "<group>";
+		};
+		592F9AA72BB392E30046DFB8 /* PopCulture */ = {
+			isa = PBXGroup;
+			children = (
+				59167BFC2BB7E1D7006C02C1 /* DanceView.swift */,
+			);
+			path = PopCulture;
 			sourceTree = "<group>";
 		};
 		66FB69BA2B72A06D0066B826 = {
@@ -264,6 +276,7 @@
 			isa = PBXGroup;
 			children = (
 				7CFE0FC32B979F3100D7283B /* ContentView.swift */,
+				CA7570182B7C3B4000240F06 /* PopCultureSectionView.swift */,
 				66FB6A1C2B72A2C40066B826 /* Modules */,
 				66FB69C82B72A06D0066B826 /* TourView.swift */,
 				66FB69F82B72A1060066B826 /* Activity */,
@@ -272,10 +285,11 @@
 				66FB6A052B72A14B0066B826 /* Onboarding */,
 				66FB6A0A2B72A1650066B826 /* Profile */,
 				66FB6A0F2B72A1860066B826 /* Quizzes_Games */,
-				CA7570182B7C3B4000240F06 /* PopCultureSectionView.swift */,
+				592F9AA72BB392E30046DFB8 /* PopCulture */,
 				CA6439892B8579AF00181C5F /* FoodCategorySectionView.swift */,
 				CA64398B2B857B0900181C5F /* CustomsSectionView.swift */,
 				CA64398D2B857BF200181C5F /* PlacesSectionView.swift */,
+				7CE5D3EE2BB5D2ED00EE0E14 /* BackButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -545,10 +559,12 @@
 				66FB69D82B72A08F0066B826 /* ViewModel.swift in Sources */,
 				CA64398C2B857B0900181C5F /* CustomsSectionView.swift in Sources */,
 				480F21F52B75969500CB5632 /* Quiz.swift in Sources */,
+				7CE5D3EF2BB5D2ED00EE0E14 /* BackButton.swift in Sources */,
 				66FB6A132B72A2150066B826 /* StartConnectionsView.swift in Sources */,
 				66FB6A0E2B72A1830066B826 /* ResultsView.swift in Sources */,
 				66FB6A152B72A21D0066B826 /* ConnectionsGameView.swift in Sources */,
 				7CFE0FC42B979F3100D7283B /* ContentView.swift in Sources */,
+				59167BFD2BB7E1D7006C02C1 /* DanceView.swift in Sources */,
 				7C1B20F32B7BFF41008E0244 /* UIColors.swift in Sources */,
 				66FB69FA2B72A1140066B826 /* ActivityView.swift in Sources */,
 				66FB6A1E2B72A2DF0066B826 /* MusicView.swift in Sources */,
@@ -713,7 +729,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Cultured/Preview Content\"";
-				DEVELOPMENT_TEAM = W25VYB4Y9F;
+				DEVELOPMENT_TEAM = 422P875XS4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Cultured/Info.plist;
@@ -729,7 +745,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Arina-Shah.Cultured";
+				PRODUCT_BUNDLE_IDENTIFIER = "Rudra-Amin.Cultured";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -745,7 +761,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Cultured/Preview Content\"";
-				DEVELOPMENT_TEAM = W25VYB4Y9F;
+				DEVELOPMENT_TEAM = 422P875XS4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Cultured/Info.plist;
@@ -761,7 +777,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "Arina-Shah.Cultured";
+				PRODUCT_BUNDLE_IDENTIFIER = "Rudra-Amin.Cultured";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

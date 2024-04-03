@@ -533,6 +533,33 @@ final class ViewModelUnitTests: XCTestCase {
             }
         }
     }
+
+    func testAddCompletedCountry() {
+        let newID = "Ganden Fung"
+        let newCountry = "China"
+        let expectation = self.expectation(description: "set country success")
+
+        vm.addCompletedCountry(userID: newID, countryName: newCountry) { success in
+            XCTAssertTrue(success, "The currentCountry should be added successfully.")
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 5, handler: nil)
+    }
+    
+    func testIncrementCurrent() {
+        let newID = "ryanomeara"
+        let activityName = "ChinaCultureConnections"
+        let expectation = self.expectation(description: "set country success")
+
+        vm.incrementCurrent(userID: newID, activityName: activityName) { success in
+            XCTAssertTrue(success, "The currentCountry should be added successfully.")
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 5, handler: nil)
+    }
+  
     func testCurrentUser() {
         print("hello")
         let expectation = XCTestExpectation(description: "sign up check")
@@ -556,5 +583,4 @@ final class ViewModelUnitTests: XCTestCase {
             expectation.fulfill()
         }
     }
-
 }
