@@ -51,14 +51,29 @@ class ViewModel: ObservableObject {
                 switch firebaseError {
                 case .wrongPassword:
                     self.errorText = "Password incorrect"
+                    print("Password Incorrect")
                 case .userNotFound:
                     self.errorText = "User not found"
+                    print("User not found")
                 case .userDisabled:
                     self.errorText = "Your account has been disabled"
+                    print("Your account has been disabled")
                 default:
                     self.errorText = "An error has occurred"
+                    print("An error has occurred")
                 }
                 completion(false)
+            }
+            else {
+                UserDefaults.standard.setValue(true, forKey: "log_Status")
+                self.updateLastLoggedOn(email: email) { success in
+                    if success {
+                        print("lastLoggedOn field updated successfully")
+                    } else {
+                        print("Failed to update lastLoggedOn field")
+                    }
+                }
+                completion(true)
             }
         }
     }
@@ -76,6 +91,11 @@ class ViewModel: ObservableObject {
                     self.errorText = "An error has occurred"
                 }
             } else if let user = authResult?.user {
+                let currentDate = Date()
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "MM-dd-yyyy HH:mm"
+                let currentDateString = dateFormatter.string(from: currentDate)
+                
                 let changeRequest = user.createProfileChangeRequest()
                 changeRequest.displayName = username
                 changeRequest.commitChanges { error in
@@ -88,9 +108,11 @@ class ViewModel: ObservableObject {
                      "name" : username,
                      "profilePicture" : "https://static-00.iconduck.com/assets.00/person-crop-circle-icon-256x256-02mzjh1k.png", // default icon
                      "email" : email,
-                     "points" : 0, //points is a string and we can cast it to an int when we use it
+                     "points" : 0,
                      "badges" : [],
                      "streak" : 0,
+                     "streakRecord" : 0,
+                     "lastLoggedOn" : currentDateString,
                      "completedCountries": [],
                      "currentCountry": "",
                      "savedArtists": []
@@ -192,6 +214,7 @@ class ViewModel: ObservableObject {
                                           email: document["email"] as! String,
                                           points: document["points"] as? Int ?? 0,
                                           streak: document["streak"] as? Int ?? 0,
+                                          streakRecord: document["streakRecord"] as? Int ?? 0,
                                           completedChallenges: document["completedChallenges"] as? [String] ?? [],
                                           badges: document["badges"] as? [String] ?? [],
                                           savedArtists: document["savedArtists"] as? [String] ?? []
@@ -512,9 +535,42 @@ class ViewModel: ObservableObject {
                 completion(true)
             }
         }
-        
     }
     
+    func updateLastLoggedOn(email: String, completion: @escaping(Bool) -> Void) {
+        self.db.collection("USERS").whereField("email", isEqualTo: email).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error getting document: \(error.localizedDescription)")
+                completion(false)
+            } else if let documents = querySnapshot?.documents, !documents.isEmpty {
+                // Assuming email is unique, get the first document
+                let userID = documents[0].documentID
+                
+                let date = Date()
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "MM-dd-yyyy HH:mm"
+                let dateInFormat = dateFormatter.string(from: date)
+                
+                // Update the lastLoggedOn field for the user
+                self.db.collection("USERS").document(userID).updateData(["lastLoggedOn": dateInFormat]) { err in
+                    if let err = err {
+                        print("Error updating document: \(err.localizedDescription)")
+                        completion(false)
+                    } else {
+                        // Document updated successfully
+                        completion(true)
+                    }
+                }
+            } else {
+                // No document found with the given email
+                print("No document found with the email: \(email)")
+                completion(false)
+            }
+        }
+    }
+    
+    //Return "true" if streak is incremented or stays same
+    //Return "false" if streak is reset to 0
     func checkIfStreakIsIntact(userID: String, completion: @escaping (Bool) -> Void) {
         self.db.collection("USERS").document(userID).getDocument { document, error in
             if let err = error {
@@ -538,6 +594,7 @@ class ViewModel: ObservableObject {
                         let components = calendar.dateComponents([.day], from: last_date, to: curr_date)
                         
                         if let daysSinceLastLoggedOn = components.day {
+                            //Update Streak to 0 if more than 1 day passed since last login
                             if daysSinceLastLoggedOn > 1 {
                                 self.db.collection("USERS").document(userID).updateData(["streak": 0]) { error in
                                     if let error = error {
@@ -548,6 +605,7 @@ class ViewModel: ObservableObject {
                                     }
                                 }
                                 return
+                            // Increment Streak by 1 if last login was yesterday
                             } else if daysSinceLastLoggedOn == 1 {
                                 self.db.collection("USERS").document(userID).updateData(["streak": FieldValue.increment(Int64(1))]) { error in
                                     if let error = error {
@@ -555,9 +613,17 @@ class ViewModel: ObservableObject {
                                     } else {
                                         print("Document updated successfully")
                                         completion(true)
+                                        self.updateStreakRecord(userID: userID) { success in
+                                            if success {
+                                                print("Streak Record updated sucessfully")
+                                            } else {
+                                                print("Failed to update Streak Record")
+                                            }
+                                        }
                                     }
                                 }
                                 return
+                            //Do nothing since last login was today
                             } else {
                                 completion(true)
                                 return
@@ -569,6 +635,42 @@ class ViewModel: ObservableObject {
         }
     }
     
+    //Returns "false" if current streak is less than or equal to the streakRecord
+    //Returns "true" if current streak is greater than the streakRecord
+    func updateStreakRecord(userID: String, completion: @escaping(Bool) -> Void) {
+        let documentReference = db.collection("USERS").document(userID)
+
+        documentReference.getDocument { (document, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(false)
+                return
+            }
+            
+            guard let document = document, document.exists else {
+                print("Document Doesn't Exist")
+                completion(false)
+                return
+            }
+            
+            guard let data = document.data() else {
+                print("Data Doesn't Exist")
+                completion(false)
+                return
+            }
+            
+            let currentStreak = data["streak"] as? Int ?? 0
+            let recordStreak = data["streakRecord"] as? Int ?? 0
+            
+            if currentStreak > recordStreak {
+                documentReference.updateData(["streakRecord": currentStreak])
+                completion(true)
+                return
+            }
+            completion(false)
+        }
+    }
+
     func addCompletedCountry(userID: String, countryName: String, completion: @escaping (Bool) -> Void) {
         let countryName = countryName.uppercased()
         self.db.collection("USERS").document(userID).getDocument { document, error in
@@ -604,7 +706,7 @@ class ViewModel: ObservableObject {
     }
     
     
-    
+   
     func setCurrentCountry(userID: String, countryName: String, completion: @escaping (Bool) -> Void) {
         let countryNameUppercased = countryName.uppercased()
         self.db.collection("USERS").document(userID).getDocument { document, error in
@@ -628,7 +730,6 @@ class ViewModel: ObservableObject {
                         completion(true)
                     }
                 }
-            
         }
     }
     
@@ -660,7 +761,7 @@ class ViewModel: ObservableObject {
             completion(true)
         }
     
-    func getOnGoingActivity(userId: String, type: String, completion: @escaping([String : [String : Any]]) -> Void) {
+    func getOnGoingActivities(userId: String, type: String, completion: @escaping([String : [String : Any]]) -> Void) {
         db.collection("USERS").document(userId).collection("ACTIVITIES").whereField("type", isEqualTo: type).getDocuments { (querySnapshot, error) in
             if let error = error {
                 print("Error Getting Documents \(error)")
@@ -839,7 +940,6 @@ class ViewModel: ObservableObject {
             }
         }
     }
-    
     func updateCurrent(userID: String, activity: String, current: String, completion: @escaping (Bool) -> Void) {
         self.db.collection("USERS").document(userID).getDocument { document, error in
             if let err = error {
