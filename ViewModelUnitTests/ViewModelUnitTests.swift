@@ -149,14 +149,19 @@ final class ViewModelUnitTests: XCTestCase {
     func testCreateNewConnections() {
         let expectation = self.expectation(description: "Update Information in Firebase")
         
-        let title = "ChinaFoodConnections"
+        let title = "ChinaCultureConnections"
+        let answerKey: [String: [String]] = ["Ways to Prepare Eggs": ["Boil", "Fry", "Poach", "Scramble"],
+                                             "Thrown in Target Games": ["Axe", "Dart", "Horseshoe", "Ring"],
+                                             "____ Wrap": ["Body", "Bubble", "Gift", "Shrink"],
+                                             "Exhilaration": ["Buzz", "Kick", "Rush", "Thrill"]
+                                            ]
+        
+        //This doesn't matter, we're just making sure that these aren't populated into firebase even if the values exist
         let categories = ["Food", "GT Locations"]
-        let answerKey: [String: [String]] = ["Food": ["Pizza", "Pasta", "Sour Patch Kids"],
-                                           "Gt Locations": ["College of Computing Building", "Klaus Advanced Computing Building", "Bio Quad"]]
-        let points = 1500
-        let attempts = 2
-        let mistakesRemaining = 2
-        let correctCategories = 4
+        let points = 2000
+        let attempts = 123
+        let mistakesRemaining = 32
+        let correctCategories = 41
 
         // Options
         let option1 = Connections.Option(id: "Pizza", isSelected: false, isSubmitted: false, content: "Pizza", category: "Category1")
@@ -182,8 +187,7 @@ final class ViewModelUnitTests: XCTestCase {
                                       points: points,
                                       attempts: attempts,
                                       mistakes_remaining: mistakesRemaining,
-                                      correct_categories: correctCategories
-                                      )
+                                      correct_categories: correctCategories)
 
         // Test the createNewConnections function
         vm.createNewConnections(connection: connections)
@@ -203,17 +207,28 @@ final class ViewModelUnitTests: XCTestCase {
     func testGetConnectionsFromFirebase() {
         let expectation = self.expectation(description: "Retrieve information from Connections")
         
-        vm.getConnectionsFromFirebase(activityName: "ChinaFoodConnections") {connection in
+        vm.getConnectionsFromFirebase(activityName: "ChinaCultureConnections") {connection in
             XCTAssertNotNil(connection, "Connection should not be nil")
-            XCTAssertEqual(connection?.title, "ChinaFoodConnections")
-            XCTAssertEqual(connection?.points, 1500)
-            XCTAssertEqual(connection?.attempts, 2)
-            XCTAssertEqual(connection?.mistakes_remaining, 2)
-            XCTAssertEqual(connection?.correct_categories, 4)
-            XCTAssertFalse(connection?.options.isEmpty ?? true, "The Options array is Empty")
-            XCTAssertFalse(connection?.selection.isEmpty ?? true, "The Selection array is Empty")
-            XCTAssertFalse(connection?.history.isEmpty ?? true, "The History array is Empty")
-            print("Connections =====", connection!)
+            XCTAssertEqual(connection?.title, "ChinaCultureConnections")
+            XCTAssertEqual(connection?.points, 0)
+            XCTAssertEqual(connection?.attempts, 0)
+            XCTAssertEqual(connection?.mistakes_remaining, 0)
+            XCTAssertEqual(connection?.correct_categories, 0)
+            XCTAssertTrue(connection?.options.isEmpty ?? true, "The Options array is Empty")
+            XCTAssertTrue(connection?.selection.isEmpty ?? true, "The Selection array is Empty")
+            print("ChinaFoodConnections =====", connection!)
+        }
+        
+        vm.getConnectionsFromFirebase(activityName: "USFoodConnections") {connection in
+            XCTAssertNotNil(connection, "Connection should not be nil")
+            XCTAssertEqual(connection?.title, "USFoodConnections")
+            XCTAssertEqual(connection?.points, 0)
+            XCTAssertEqual(connection?.attempts, 0)
+            XCTAssertEqual(connection?.mistakes_remaining, 0)
+            XCTAssertEqual(connection?.correct_categories, 0)
+            XCTAssertTrue(connection?.options.isEmpty ?? false, "The Options array is NOT Empty")
+            XCTAssertTrue(connection?.selection.isEmpty ?? false, "The Selection array is NOT Empty")
+            print("USFoodConnections =====", connection!)
             expectation.fulfill()
         }
             
