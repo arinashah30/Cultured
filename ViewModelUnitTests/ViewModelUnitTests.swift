@@ -689,7 +689,7 @@ final class ViewModelUnitTests: XCTestCase {
     }
     
     func testGetInfoCelebrities() {
-        let expectation = self.expectation(description: "Retrieve whether an activity is completed")
+        let expectation = self.expectation(description: "Retrieve Celebrities Data From Firebase")
 
         let nilObject = Celebrities()
 
