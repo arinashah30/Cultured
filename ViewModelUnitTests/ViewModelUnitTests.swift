@@ -688,6 +688,23 @@ final class ViewModelUnitTests: XCTestCase {
         }
     }
     
-    
+    func testImage() {
+        let expectation = self.expectation(description: "image stuff")
+//        vm.load_image_from_url(urlString: "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg") {
+//            image in
+//            self.vm.updateProfilePic(userID: "Rik Roy", image: image!) { completion in
+//                print(completion)
+//                expectation.fulfill()
+//            }
+//        }
+//        wait(for: [expectation], timeout: 5)
+        vm.getProfilePic(userID: "Rik Roy") { image in
+            self.vm.storeImageAndReturnURL(image: image!) { url in
+                print(url)
+                expectation.fulfill()
+            }
+        }
+        wait(for: [expectation], timeout: 5)
+    }
     
 }
