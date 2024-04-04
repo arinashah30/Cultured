@@ -44,7 +44,7 @@ struct ConnectionsGameView: View {
                 Image(systemName: "lessthan.circle")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .foregroundStyle(.black, Color.secondary)
+                    .foregroundStyle(.cDarkGray, Color.secondary)
                     .frame(width: 50)
             }
             
@@ -133,7 +133,7 @@ struct OptionView: View {
     var body: some View {
             ZStack {
                 RoundedRectangle(cornerRadius: 10.0)
-                    .foregroundColor(option.isSubmitted ? .green : option.isSelected ? .black : .gray)
+                    .foregroundColor(option.isSubmitted ? .green : option.isSelected ? .cDarkGray : .cMedGray)
                     .opacity(option.isSelected || option.isSubmitted ? 0.6 : 0.2)
                     .frame(width: 85, height: 75)
 
@@ -141,7 +141,7 @@ struct OptionView: View {
                     .font(.system(size: 25))
                     .minimumScaleFactor(0.01)
                     .aspectRatio(contentMode: .fit)
-                    .foregroundStyle(option.isSelected ? .white : .black)
+                    .foregroundStyle(option.isSelected ? .cLightGray : .cDarkGray)
                     .padding(7)
             }
     }

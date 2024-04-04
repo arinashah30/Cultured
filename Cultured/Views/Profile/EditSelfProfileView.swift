@@ -69,7 +69,7 @@ struct EditSelfProfileView: View {
                         .frame(width: 63, height: 30)
                         .padding(.trailing, 22)
                 .frame(maxWidth: 80, maxHeight: 30)
-                .background(.white)
+                .background(.background)
                 .clipShape(.rect(cornerRadius: 14.0))
                 .offset(y: -5)
             }

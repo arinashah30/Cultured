@@ -25,7 +25,7 @@ struct FoodCategorySectionView: View {
                     Rectangle()
                         .frame(width: UIScreen.main.bounds.width, height: 350)
                         .clipShape(.rect(cornerRadius: 40))
-                        .foregroundColor(.white)
+                        .foregroundColor(.cPopover)
                     VStack (alignment: .leading){
                         Text("Food")
                             .foregroundColor(.cDarkGray)

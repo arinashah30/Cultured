@@ -37,7 +37,7 @@ struct StartWordGuessingView: View {
                                 .frame(width: 50, height: 50)
                                 .padding(.top, 150)
                                 .padding(.leading, 20)
-                                .foregroundColor(Color.white.opacity(0.8))
+                                .foregroundColor(Color.cPopover.opacity(0.8))
                             Image("Arrow")
                                 .padding(.top, 150)
                                 .padding(.leading, 18)
@@ -51,7 +51,7 @@ struct StartWordGuessingView: View {
                     Rectangle()
                         .frame(width: 400, height: 460)
                         .clipShape(.rect(cornerRadius: 40))
-                        .foregroundColor(.white)
+                        .foregroundColor(.cPopover)
                     VStack (alignment: .leading){
                         Text("Word Guessing")
                             .foregroundColor(.cDarkGray)

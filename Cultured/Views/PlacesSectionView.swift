@@ -26,7 +26,7 @@ struct PlacesSectionView: View {
                     Rectangle()
                         .frame(width: 395, height: 310)
                         .clipShape(.rect(cornerRadius: 40))
-                        .foregroundColor(.white)
+                        .foregroundColor(.cPopover)
                     VStack (alignment: .leading){
                         Text("Places")
                             .foregroundColor(.cDarkGray)

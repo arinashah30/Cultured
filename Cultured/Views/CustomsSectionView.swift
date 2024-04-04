@@ -27,7 +27,7 @@ struct CustomsSectionView: View {
                     Rectangle()
                         .frame(width: 395, height: 405)
                         .clipShape(.rect(cornerRadius: 40))
-                        .foregroundColor(.white)
+                        .foregroundColor(.cPopover)
                     VStack (alignment: .leading){
                         Text("Customs")
                             .foregroundColor(.cDarkGray)

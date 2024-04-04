@@ -54,7 +54,7 @@ struct StartQuizView: View {
                 VStack{
                     
                     RoundedRectangle(cornerRadius: 40)
-                        .fill(Color.white)
+                        .fill(Color.cPopover)
                         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height / 2)
                         .offset(y:UIScreen.main.bounds.height / 2 )
                 

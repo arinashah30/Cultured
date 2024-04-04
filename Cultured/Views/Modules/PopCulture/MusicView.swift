@@ -123,15 +123,16 @@ struct MusicView: View {
                                             .cornerRadius(5)
                                             .aspectRatio(contentMode: .fit)
                                             
-                                            Spacer()
                                             
-                                            VStack{
+                                            
+                                            VStack (alignment: .leading){
                                                 Text("\(song.name)")
                                                     .foregroundStyle(.black)
                                                 Text("\(song.artistNames)")
                                                     .lineLimit(1)
                                                     .minimumScaleFactor(0.8)
                                             }
+                                            .foregroundStyle(.black)
                                             
                                             
                                             Spacer()
@@ -154,7 +155,7 @@ struct MusicView: View {
                     
                     .frame(width: 400.0, height: 600.0)
                     
-                    .background(Color.white)
+                    .background(Color.cPopover)
                     
                     .clipShape(.rect(cornerRadius: 50))
                     
@@ -162,7 +163,7 @@ struct MusicView: View {
                 
             }
             // TODO: add dark mode? (this fix works for both light & dark modes)
-            .foregroundStyle(.black)
+            //.foregroundStyle(.black)
             
         }
         .task {
