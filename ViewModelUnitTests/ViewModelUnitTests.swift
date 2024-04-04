@@ -451,17 +451,56 @@ final class ViewModelUnitTests: XCTestCase {
         }
         wait(for: [expectation], timeout: 5) // Adjust timeout as needed
     }
-    
-    func testSetCountrySuccess() {
-            let newID = "Ganden Fung"
-            let newCountry = "China"
-            let expectation = self.expectation(description: "set country success")
 
-            vm.setCurrentCountry(userID: newID, countryName: newCountry) { success in
-                XCTAssertTrue(success, "The currentCountry should be set successfully.")
-                expectation.fulfill()
-            }
+    func testAddCompletedCountry() {
+        let newID = "Ganden Fung"
+        let newCountry = "China"
+        let expectation = self.expectation(description: "set country success")
 
-            waitForExpectations(timeout: 5, handler: nil)
+        vm.addCompletedCountry(userID: newID, countryName: newCountry) { success in
+            XCTAssertTrue(success, "The currentCountry should be added successfully.")
+            expectation.fulfill()
         }
+
+        waitForExpectations(timeout: 5, handler: nil)
+    }
+    
+    func testIncrementCurrent() {
+        let newID = "ryanomeara"
+        let activityName = "ChinaCultureConnections"
+        let expectation = self.expectation(description: "set country success")
+
+        vm.incrementCurrent(userID: newID, activityName: activityName) { success in
+            XCTAssertTrue(success, "The currentCountry should be added successfully.")
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 5, handler: nil)
+    }
+  
+    func testCurrentUser() {
+        print("hello")
+        let expectation = XCTestExpectation(description: "sign up check")
+//        vm.firebase_email_password_sign_up_(email: "aroy351@gatech.edu", password: "test123testing", username: "Rik Roy")
+//        wait(for: [expectation], timeout: 5)
+//        print(vm.current_user)
+//        expectation.fulfill()
+        vm.fireBaseSignIn(email: "aroy351@gatech.edu", password: "test123testing") { completed in
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 5)
+        print(vm.current_user)
+    }
+    func testSetCountrySuccess() {
+        let newID = "Ganden Fung"
+        let newCountry = "China"
+        let expectation = self.expectation(description: "set country success")
+
+        vm.setCurrentCountry(userID: newID, countryName: newCountry) { success in
+            XCTAssertTrue(success, "The currentCountry should be set successfully.")
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 5, handler: nil)
+    }
 }

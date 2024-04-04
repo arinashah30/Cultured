@@ -21,7 +21,20 @@ class ViewModel: ObservableObject {
     init(current_user: User? = nil, errorText: String? = nil) {
         self.current_user = current_user
         self.errorText = errorText
-        UserDefaults.standard.setValue(false, forKey: "log_Status")
+        
+        _ = Auth.auth().addStateDidChangeListener { [weak self] auth, user in
+            if let user = user {
+                print("User Found")
+                if let username = user.displayName {
+                    print("Setting User: \(username)")
+                    self?.setCurrentUser(userId: username) {
+                        UserDefaults.standard.setValue(true, forKey: "log_Status")
+                    }
+                }
+            } else {
+                UserDefaults.standard.setValue(false, forKey: "log_Status")
+            }
+        }
     }
     
     /*
@@ -47,13 +60,6 @@ class ViewModel: ObservableObject {
                 }
                 completion(false)
             }
-            else {
-                UserDefaults.standard.setValue(true, forKey: "log_Status")
-                completion(true)
-            }
-            //doesn't handle the case where authResult is nil so write that in if needed
-            let db = Firestore.firestore()
-            let auth = Auth.auth()
         }
     }
     
@@ -70,6 +76,13 @@ class ViewModel: ObservableObject {
                     self.errorText = "An error has occurred"
                 }
             } else if let user = authResult?.user {
+                let changeRequest = user.createProfileChangeRequest()
+                changeRequest.displayName = username
+                changeRequest.commitChanges { error in
+                    if let error = error {
+                        print(error.localizedDescription)
+                    }
+                }
                 self.db.collection("USERS").document(username).setData(
                     ["id" : username,
                      "name" : username,
@@ -91,6 +104,14 @@ class ViewModel: ObservableObject {
                         }
                     }
             }
+        }
+    }
+    
+    func firebase_sign_out() {
+        do {
+            try auth.signOut()
+        } catch let signOutError as NSError {
+            print("Error signing out: %@", signOutError)
         }
     }
     
@@ -548,6 +569,69 @@ class ViewModel: ObservableObject {
         }
     }
     
+    func addCompletedCountry(userID: String, countryName: String, completion: @escaping (Bool) -> Void) {
+        let countryName = countryName.uppercased()
+        self.db.collection("USERS").document(userID).getDocument { document, error in
+            if let err = error {
+                print(err.localizedDescription)
+                completion(false)
+                return
+            }
+            guard let document = document, document.exists, var completedCountries = document.data()?["completedCountries"] as? [String] else {
+                print("Document does not exist or 'completedCountries' is not an array.")
+                completion(false)
+                return
+            }
+            // Check if countryName is already in the array to avoid duplicates
+            if !completedCountries.contains(countryName) {
+                // Append the new countryName to the array
+                completedCountries.append(countryName)
+                // Update the document with the new array
+                self.db.collection("USERS").document(userID).updateData(["completedCountries": completedCountries]) { err in
+                    if let err = err {
+                        print("Error updating document: \(err.localizedDescription)")
+                        completion(false)
+                    } else {
+                        // Document updated successfully
+                        completion(true)
+                    }
+                }
+            } else {
+                print("Country already completed.")
+                completion(true)
+            }
+        }
+    }
+    
+    
+    
+    func setCurrentCountry(userID: String, countryName: String, completion: @escaping (Bool) -> Void) {
+        let countryNameUppercased = countryName.uppercased()
+        self.db.collection("USERS").document(userID).getDocument { document, error in
+            if let err = error {
+                print(err.localizedDescription)
+                completion(false)
+                return
+            }
+            guard let document = document, document.exists else {
+                print("no doc")
+                completion(false)
+                return
+            }
+            self.db.collection("USERS").document(userID).updateData([
+                    "currentCountry": countryNameUppercased
+                ]) { err in
+                    if let err = error {
+                        print(err.localizedDescription)
+                        completion(false)
+                    } else {
+                        completion(true)
+                    }
+                }
+            
+        }
+    }
+    
     
     
     /*-------------------------------------------------------------------------------------------------*/
@@ -730,6 +814,32 @@ class ViewModel: ObservableObject {
         }
     }
     
+    //Function to incrementCurrent
+    func incrementCurrent(userID: String, activityName: String, completion: @escaping (Bool) -> Void) {
+        self.db.collection("USERS").document(userID).collection("ACTIVITIES").document(activityName).getDocument { document, error in
+            if let err = error {
+                print(err.localizedDescription)
+                completion(false)
+                return
+            }
+            guard let document = document, document.exists, var currentCounter = document.data()?["counter"] as? Int else {
+                print("Document does not exist")
+                completion(false)
+                return
+            }
+            currentCounter = currentCounter + 1
+            self.db.collection("USERS").document(userID).collection("ACTIVITIES").document(activityName).updateData(["counter": currentCounter]) { err in
+                if let err = err {
+                    print("Error updating document: \(err.localizedDescription)")
+                    completion(false)
+                } else {
+                    // Document updated successfully
+                    completion(true)
+                }
+            }
+        }
+    }
+    
     func updateCurrent(userID: String, activity: String, current: String, completion: @escaping (Bool) -> Void) {
         self.db.collection("USERS").document(userID).getDocument { document, error in
             if let err = error {
@@ -758,32 +868,7 @@ class ViewModel: ObservableObject {
         }
     }
     
-    func setCurrentCountry(userID: String, countryName: String, completion: @escaping (Bool) -> Void) {
-        let countryNameUppercased = countryName.uppercased()
-        self.db.collection("USERS").document(userID).getDocument { document, error in
-            if let err = error {
-                print(err.localizedDescription)
-                completion(false)
-                return
-            }
-            guard let document = document, document.exists else {
-                print("no doc")
-                completion(false)
-                return
-            }
-            self.db.collection("USERS").document(userID).updateData([
-                    "currentCountry": countryNameUppercased
-                ]) { err in
-                    if let err = error {
-                        print(err.localizedDescription)
-                        completion(false)
-                    } else {
-                        completion(true)
-                    }
-                }
-            
-        }
-    }
+
     
     /*-------------------------------------------------------------------------------------------------*/
     
