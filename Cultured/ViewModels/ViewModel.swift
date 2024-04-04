@@ -217,7 +217,9 @@ class ViewModel: ObservableObject {
                                           streakRecord: document["streakRecord"] as? Int ?? 0,
                                           completedChallenges: document["completedChallenges"] as? [String] ?? [],
                                           badges: document["badges"] as? [String] ?? [],
-                                          savedArtists: document["savedArtists"] as? [String] ?? []
+                                          savedArtists: document["savedArtists"] as? [String] ?? [],
+                                          currentCountry: document["currentCountry"] as? String ?? "nil",
+                                          completedCountries: document["completedCountries"] as? [String] ?? []
                 )
                 completion()
             }

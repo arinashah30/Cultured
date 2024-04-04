@@ -14,19 +14,49 @@ struct MapView: View {
     @ObservedObject var vm: ViewModel
     @State private var position: MapCameraPosition
     @Binding var showFullMap: Bool
+    var countries: [String]
     var locations: [Location]
+
     
-    init(vm: ViewModel, locations: [Location], showFullMap: Binding<Bool>) {
+    init(vm: ViewModel, showFullMap: Binding<Bool>) {
         self.vm = vm
-        self.locations = locations
+//        self.locations = [
+//            Location(name: "Mexico", coordinate: CLLocationCoordinate2D(latitude: 19.432608, longitude: -99.133209), flag: UIImage(imageLiteralResourceName: "MXFlag")),
+//            Location(name: "France", coordinate: CLLocationCoordinate2D(latitude: 48.8566, longitude: 2.3522), flag: UIImage(imageLiteralResourceName: "USFlag"))
+//        ]
+        self.countries = []
+        if let completedCountries = vm.current_user?.completedCountries {
+            self.countries.append(vm.current_user?.currentCountry ?? "null")
+            for country in completedCountries {
+                countries.append(country)
+            }
+        }
+        
+        self.locations = []
+        if !countries.isEmpty {
+            for country in countries {
+                vm.getLatitudeLongitude(countryName: country) { coords in
+                    self.locations.append(Location(name: country, coordinate: CLLocationCoordinate2D(latitude: coords?["latitude"] ?? 0, longitude: coords?["longitude"] ?? 0)))
+                }
+            }
+        }
         
         // Camera position defaults to first location
-        self._position = State<MapCameraPosition>(initialValue: MapCameraPosition.region(
-            MKCoordinateRegion(
-                center: locations[0].coordinate,
-                span: MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5)
-            )
-        ))
+        if !locations.isEmpty {
+            self._position = State<MapCameraPosition>(initialValue: MapCameraPosition.region(
+                MKCoordinateRegion(
+                    center: locations[0].coordinate,
+                    span: MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5)
+                )
+            ))
+        } else {
+            self._position = State<MapCameraPosition>(initialValue: MapCameraPosition.region(
+                MKCoordinateRegion(
+                    center: CLLocationCoordinate2D(latitude: 0, longitude: 0),
+                    span: MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5)
+                )
+            ))
+        }
         self._showFullMap = showFullMap
     }
     
@@ -74,8 +104,5 @@ struct MapView: View {
 
 
 #Preview {
-    MapView(vm: ViewModel(), locations: [
-        Location(name: "Mexico", coordinate: CLLocationCoordinate2D(latitude: 19.432608, longitude: -99.133209), flag: UIImage(imageLiteralResourceName: "MXFlag")),
-        Location(name: "France", coordinate: CLLocationCoordinate2D(latitude: 48.8566, longitude: 2.3522), flag: UIImage(imageLiteralResourceName: "USFlag"))
-    ], showFullMap: Binding.constant(false))
+    MapView(vm: ViewModel(), showFullMap: Binding.constant(false))
 }

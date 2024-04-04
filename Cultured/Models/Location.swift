@@ -12,5 +12,5 @@ struct Location: Identifiable {
     let id = UUID()
     var name: String
     var coordinate: CLLocationCoordinate2D
-    let flag: UIImage
+    let flag: UIImage = UIImage(imageLiteralResourceName: "USFlag")
 }
