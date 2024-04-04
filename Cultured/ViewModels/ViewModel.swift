@@ -195,6 +195,32 @@ class ViewModel: ObservableObject {
         
     }
     
+    func getInfoCelebrities(countryName: String, completion: @escaping (Celebrities) -> Void) {
+        self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("CELEBRITIES").getDocument { document, error in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(Celebrities())
+                return
+            }
+            guard let document = document, document.exists else {
+                print("Document Doesn't Exist")
+                completion(Celebrities())
+                return
+            }
+
+            guard let data = document.data(), !data.isEmpty else {
+                print("Data is Nil or Data is Empty")
+                completion(Celebrities())
+                return
+            }
+
+            var celebritiesMap = [String : String]()
+            celebritiesMap = data["celebrities"] as? [String : String] ?? [:]
+            let celebritiesObject = Celebrities(celebritiesMap: celebritiesMap)
+            completion(celebritiesObject)
+        }
+    }
+    
     /*-------------------------------------------------------------------------------------------------*/
     
     /*
