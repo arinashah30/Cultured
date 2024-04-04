@@ -385,10 +385,22 @@ final class ViewModelUnitTests: XCTestCase {
             }
         }
     }
+    
     func testAddOngoingActivity() {
-        let expectation = XCTestExpectation(description: "Ongoing check")
-        vm.addOnGoingActivity(userID: "ryanomeara", numQuestions: 9, titleOfActivity: "NigeriaMusicWordGame", typeOfActivity: "wordgame") { completed in
+        let expectation = self.expectation(description: "Ongoing check")
+        
+        vm.addOnGoingActivity(userID: "Dylan Evans", numQuestions: 1, titleOfActivity: "ChinaFoodWordGuessing", typeOfActivity: "wordgame") { completed in
             print(completed)
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            expectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
         }
     }
       
@@ -503,4 +515,33 @@ final class ViewModelUnitTests: XCTestCase {
 
         waitForExpectations(timeout: 5, handler: nil)
     }
+    
+    func testCheckIfOnGoingActivityIsCompleted() {
+        let expectation = self.expectation(description: "Retrieve whether an activity is completed")
+            
+        vm.checkIfOnGoingActivityIsCompleted(userID: "Dylan Evans", activity: "ChinaFoodWordGuessing") { completed in
+            XCTAssertNotNil(completed, "Information should not be nil")
+            XCTAssertFalse(completed)
+        }
+        
+        vm.checkIfOnGoingActivityIsCompleted(userID: "Dylan Evans", activity: "MexcioCultureQuiz") { completed in
+            XCTAssertNotNil(completed, "Information should not be nil")
+            XCTAssertFalse(completed)
+        }
+        
+        vm.checkIfOnGoingActivityIsCompleted(userID: "Dylan Evans", activity: "USFoodConnections") { completed in
+            XCTAssertNotNil(completed, "Information should not be nil")
+            XCTAssertTrue(completed)
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
+    
+    
+    
 }
