@@ -688,6 +688,23 @@ final class ViewModelUnitTests: XCTestCase {
         }
     }
     
-    
+    func testGetInfoLandmarks() {
+         let expectation = self.expectation(description: "Retrieve Landmark Data From Firebase")
+
+         let nilObject = Landmarks()
+
+         vm.getInfoLandmarks(countryName: "MEXICO") { landmarkObject in
+             XCTAssertNotNil(landmarkObject, "Information should not be nil")
+             XCTAssertNotEqual(nilObject, landmarkObject)
+             print("Etiquette ====", landmarkObject)
+             expectation.fulfill()
+         }
+
+         waitForExpectations(timeout: 5) { error in
+             if let error = error {
+                 XCTFail("waitForExpectations error: \(error)")
+             }
+         }
+     }
     
 }
