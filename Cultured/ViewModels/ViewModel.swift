@@ -195,7 +195,34 @@ class ViewModel: ObservableObject {
         
     }
     
-    func getInfoCelebrities(countryName: String, completion: @escaping (Celebrities) -> Void) {
+
+    func getInfoEtiquettes(countryName: String, completion: @escaping (Etiquette) -> Void) {
+        self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("ETIQUETTE").getDocument { document, error in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(Etiquette())
+                return
+            }
+            guard let document = document, document.exists else {
+                print("Document Doesn't Exist")
+                completion(Etiquette())
+                return
+            }
+            
+            guard let data = document.data(), !data.isEmpty else {
+                print("Data is Nil or Data is Empty")
+                completion(Etiquette())
+                return
+            }
+            
+            var etiquetteMap = [String : String]()
+            etiquetteMap = data["etiquettes"] as? [String : String] ?? [:]
+            let etiquetteObject = Etiquette(etiquetteMap: etiquetteMap)
+            completion(etiquetteObject)
+        }
+    }
+  
+   func getInfoCelebrities(countryName: String, completion: @escaping (Celebrities) -> Void) {
         self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("CELEBRITIES").getDocument { document, error in
             if let error = error {
                 print(error.localizedDescription)

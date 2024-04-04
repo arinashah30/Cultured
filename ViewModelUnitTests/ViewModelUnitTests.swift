@@ -706,5 +706,24 @@ final class ViewModelUnitTests: XCTestCase {
             }
         }
     }
+  
+    func testGetInfoEtiquettes() {
+        let expectation = self.expectation(description: "Retrieve whether an activity is completed")
+        
+        let nilEtiquette = Etiquette()
+        
+        vm.getInfoEtiquettes(countryName: "MEXICO") { etiquetteObject in
+            XCTAssertNotNil(etiquetteObject, "Information should not be nil")
+            XCTAssertNotEqual(nilEtiquette, etiquetteObject)
+            print("Etiquette ====", etiquetteObject)
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
     
 }
