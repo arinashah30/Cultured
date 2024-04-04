@@ -51,14 +51,29 @@ class ViewModel: ObservableObject {
                 switch firebaseError {
                 case .wrongPassword:
                     self.errorText = "Password incorrect"
+                    print("Password Incorrect")
                 case .userNotFound:
                     self.errorText = "User not found"
+                    print("User not found")
                 case .userDisabled:
                     self.errorText = "Your account has been disabled"
+                    print("Your account has been disabled")
                 default:
                     self.errorText = "An error has occurred"
+                    print("An error has occurred")
                 }
                 completion(false)
+            }
+            else {
+                UserDefaults.standard.setValue(true, forKey: "log_Status")
+                self.updateLastLoggedOn(email: email) { success in
+                    if success {
+                        print("lastLoggedOn field updated successfully")
+                    } else {
+                        print("Failed to update lastLoggedOn field")
+                    }
+                }
+                completion(true)
             }
         }
     }
@@ -76,6 +91,11 @@ class ViewModel: ObservableObject {
                     self.errorText = "An error has occurred"
                 }
             } else if let user = authResult?.user {
+                let currentDate = Date()
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "MM-dd-yyyy HH:mm"
+                let currentDateString = dateFormatter.string(from: currentDate)
+                
                 let changeRequest = user.createProfileChangeRequest()
                 changeRequest.displayName = username
                 changeRequest.commitChanges { error in
@@ -88,9 +108,11 @@ class ViewModel: ObservableObject {
                      "name" : username,
                      "profilePicture" : "https://static-00.iconduck.com/assets.00/person-crop-circle-icon-256x256-02mzjh1k.png", // default icon
                      "email" : email,
-                     "points" : 0, //points is a string and we can cast it to an int when we use it
+                     "points" : 0,
                      "badges" : [],
                      "streak" : 0,
+                     "streakRecord" : 0,
+                     "lastLoggedOn" : currentDateString,
                      "completedCountries": [],
                      "currentCountry": "",
                      "savedArtists": []
@@ -192,6 +214,7 @@ class ViewModel: ObservableObject {
                                           email: document["email"] as! String,
                                           points: document["points"] as? Int ?? 0,
                                           streak: document["streak"] as? Int ?? 0,
+                                          streakRecord: document["streakRecord"] as? Int ?? 0,
                                           completedChallenges: document["completedChallenges"] as? [String] ?? [],
                                           badges: document["badges"] as? [String] ?? [],
                                           savedArtists: document["savedArtists"] as? [String] ?? []
@@ -223,33 +246,18 @@ class ViewModel: ObservableObject {
             
             let title = data["title"] as? String ?? ""
             let answer = data["answer"] as? String ?? ""
-            let points = data["totalPoints"] as? Int ?? 0
-            let flipPoints = data["flipPoints"] as? Int ?? 0
+            let options = data["hints"] as? [String] ?? []
             
-            //Get the Options Reference
-            documentReference.collection("OPTIONS").getDocuments { (querySnapshot, error) in
-                if let error = error {
-                    print("Error getting the Quiz Questions \(error.localizedDescription)")
-                    completion(nil)
-                    return
-                }
-                
-                var optionTileArray = [OptionTile]()
-                for optionDocuments in querySnapshot!.documents {
-                    let optionData = optionDocuments.data()
-                    if let option = self.parseOptionTile(optionData) {
-                        optionTileArray.append(option)
-                    }
-                }
-                let wordGuessing = WordGuessing(title: title,
-                                                options: optionTileArray,
-                                                answer: answer,
-                                                totalPoints: points,
-                                                flipPoints: flipPoints,
-                                                flipsDone: 0,
-                                                numberOfGuesses: 0)
-                completion(wordGuessing)
+            var optionTileArray = [OptionTile]()
+            for option in options {
+                optionTileArray.append(OptionTile(option: option,
+                                                  isFlipped: false))
             }
+
+            let wordGuessing = WordGuessing(title: title,
+                                            options: optionTileArray,
+                                            answer: answer)
+            completion(wordGuessing)
         }
     }
     
@@ -270,73 +278,9 @@ class ViewModel: ObservableObject {
                 return
             }
             let title = data["title"] as? String ?? ""
-            let categories = data["categories"] as? [String] ?? []
             let answerKey = data["answerKey"] as? [String : [String]] ?? [:]
-            let points = data["points"] as? Int ?? 0
-            let attempts = data["attempts"] as? Int ?? 0
-            let mistakesRemaining = data["mistakesRemaining"] as? Int ?? 0
-            let correctCategories = data["correctCategories"] as? Int ?? 0
-            
-            //References for the three subcollections
-            let optionsRef = documentReference.collection("OPTIONS")
-            let selectionsRef = documentReference.collection("SELECTIONS")
-            let historyRef = documentReference.collection("HISTORY")
-            
-            optionsRef.getDocuments { (optionsSnapshot, optionsError) in
-                guard let optionsSnapshot = optionsSnapshot, optionsError == nil else {
-                    print("Error fetching options: \(optionsError?.localizedDescription ?? "")")
-                    completion(nil)
-                    return
-                }
-                
-                let options = optionsSnapshot.documents.compactMap { document -> Connections.Option? in
-                    let data = document.data()
-                    return self.parseOption(data)
-                }
-                
-                selectionsRef.getDocuments { (selectionsSnapshot, selectionsError) in
-                    guard let selectionsSnapshot = selectionsSnapshot, selectionsError == nil else {
-                        print("Error fetching selections: \(selectionsError?.localizedDescription ?? "")")
-                        completion(nil)
-                        return
-                    }
-                    
-                    let selections = selectionsSnapshot.documents.compactMap { document -> Connections.Option? in
-                        let data = document.data()
-                        return self.parseOption(data)
-                    }
-                    
-                    // Retrieve history
-                    historyRef.getDocuments { (historySnapshot, historyError) in
-                        guard let historySnapshot = historySnapshot, historyError == nil else {
-                            print("Error fetching history: \(historyError?.localizedDescription ?? "")")
-                            completion(nil)
-                            return
-                        }
-                        
-                        let history = historySnapshot.documents.compactMap { document -> [Connections.Option]? in
-                            let data = document.data()
-                            let optionDataArray = data["options"] as? [[String: Any]] ?? []
-                            return optionDataArray.compactMap { optionData in
-                                return self.parseOption(optionData)
-                            }
-                        }
-                        
-                        let connections = Connections(title: title,
-                                                      categories: categories,
-                                                      answerKey: answerKey,
-                                                      options: options,
-                                                      selection: selections,
-                                                      history: history,
-                                                      points: points,
-                                                      attempts: attempts,
-                                                      mistakes_remaining: mistakesRemaining,
-                                                      correct_categories: correctCategories)
-                        
-                        completion(connections)
-                    }
-                }
-            }
+            let connections = Connections(title: title, answerKey: answerKey)
+            completion(connections)
         }
     }
     
@@ -357,8 +301,6 @@ class ViewModel: ObservableObject {
                     return
                 }
                 let title = data["title"] as? String ?? ""
-                let points = data["points"] as? Int ?? 0
-                let pointsGoal = data["pointsGoal"] as? Int ?? 0
                 //Get the Quiz Questions subcollection
                 documentReference.collection("QUESTIONS").getDocuments { (querySnapshot, error) in
                     if let error = error {
@@ -369,14 +311,16 @@ class ViewModel: ObservableObject {
                     var questionsArray = [QuizQuestion]()
                     for questionsDocuments in querySnapshot!.documents {
                         let questionData = questionsDocuments.data()
-                        if let question = self.parseQuestionData(questionData) {
-                            questionsArray.append(question)
+                        let question = questionsDocuments.documentID
+                        if let quizQuestion = self.parseQuestionData(questionData, question) {
+                            questionsArray.append(quizQuestion)
                         }
                     }
                     let quiz = Quiz(title: title,
                                     questions: questionsArray,
-                                    points: points,
-                                    pointsGoal: pointsGoal)
+                                    points: 0,
+                                    pointsGoal: 0,
+                                    currentQuestion: 0)
                     completion(quiz)
                 }
             }
@@ -512,9 +456,42 @@ class ViewModel: ObservableObject {
                 completion(true)
             }
         }
-        
     }
     
+    func updateLastLoggedOn(email: String, completion: @escaping(Bool) -> Void) {
+        self.db.collection("USERS").whereField("email", isEqualTo: email).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error getting document: \(error.localizedDescription)")
+                completion(false)
+            } else if let documents = querySnapshot?.documents, !documents.isEmpty {
+                // Assuming email is unique, get the first document
+                let userID = documents[0].documentID
+                
+                let date = Date()
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "MM-dd-yyyy HH:mm"
+                let dateInFormat = dateFormatter.string(from: date)
+                
+                // Update the lastLoggedOn field for the user
+                self.db.collection("USERS").document(userID).updateData(["lastLoggedOn": dateInFormat]) { err in
+                    if let err = err {
+                        print("Error updating document: \(err.localizedDescription)")
+                        completion(false)
+                    } else {
+                        // Document updated successfully
+                        completion(true)
+                    }
+                }
+            } else {
+                // No document found with the given email
+                print("No document found with the email: \(email)")
+                completion(false)
+            }
+        }
+    }
+    
+    //Return "true" if streak is incremented or stays same
+    //Return "false" if streak is reset to 0
     func checkIfStreakIsIntact(userID: String, completion: @escaping (Bool) -> Void) {
         self.db.collection("USERS").document(userID).getDocument { document, error in
             if let err = error {
@@ -538,6 +515,7 @@ class ViewModel: ObservableObject {
                         let components = calendar.dateComponents([.day], from: last_date, to: curr_date)
                         
                         if let daysSinceLastLoggedOn = components.day {
+                            //Update Streak to 0 if more than 1 day passed since last login
                             if daysSinceLastLoggedOn > 1 {
                                 self.db.collection("USERS").document(userID).updateData(["streak": 0]) { error in
                                     if let error = error {
@@ -548,6 +526,7 @@ class ViewModel: ObservableObject {
                                     }
                                 }
                                 return
+                            // Increment Streak by 1 if last login was yesterday
                             } else if daysSinceLastLoggedOn == 1 {
                                 self.db.collection("USERS").document(userID).updateData(["streak": FieldValue.increment(Int64(1))]) { error in
                                     if let error = error {
@@ -555,9 +534,17 @@ class ViewModel: ObservableObject {
                                     } else {
                                         print("Document updated successfully")
                                         completion(true)
+                                        self.updateStreakRecord(userID: userID) { success in
+                                            if success {
+                                                print("Streak Record updated sucessfully")
+                                            } else {
+                                                print("Failed to update Streak Record")
+                                            }
+                                        }
                                     }
                                 }
                                 return
+                            //Do nothing since last login was today
                             } else {
                                 completion(true)
                                 return
@@ -569,6 +556,42 @@ class ViewModel: ObservableObject {
         }
     }
     
+    //Returns "false" if current streak is less than or equal to the streakRecord
+    //Returns "true" if current streak is greater than the streakRecord
+    func updateStreakRecord(userID: String, completion: @escaping(Bool) -> Void) {
+        let documentReference = db.collection("USERS").document(userID)
+
+        documentReference.getDocument { (document, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(false)
+                return
+            }
+            
+            guard let document = document, document.exists else {
+                print("Document Doesn't Exist")
+                completion(false)
+                return
+            }
+            
+            guard let data = document.data() else {
+                print("Data Doesn't Exist")
+                completion(false)
+                return
+            }
+            
+            let currentStreak = data["streak"] as? Int ?? 0
+            let recordStreak = data["streakRecord"] as? Int ?? 0
+            
+            if currentStreak > recordStreak {
+                documentReference.updateData(["streakRecord": currentStreak])
+                completion(true)
+                return
+            }
+            completion(false)
+        }
+    }
+
     func addCompletedCountry(userID: String, countryName: String, completion: @escaping (Bool) -> Void) {
         let countryName = countryName.uppercased()
         self.db.collection("USERS").document(userID).getDocument { document, error in
@@ -604,7 +627,7 @@ class ViewModel: ObservableObject {
     }
     
     
-    
+   
     func setCurrentCountry(userID: String, countryName: String, completion: @escaping (Bool) -> Void) {
         let countryNameUppercased = countryName.uppercased()
         self.db.collection("USERS").document(userID).getDocument { document, error in
@@ -628,7 +651,6 @@ class ViewModel: ObservableObject {
                         completion(true)
                     }
                 }
-            
         }
     }
     
@@ -660,7 +682,7 @@ class ViewModel: ObservableObject {
             completion(true)
         }
     
-    func getOnGoingActivity(userId: String, type: String, completion: @escaping([String : [String : Any]]) -> Void) {
+    func getOnGoingActivities(userId: String, type: String, completion: @escaping([String : [String : Any]]) -> Void) {
         db.collection("USERS").document(userId).collection("ACTIVITIES").whereField("type", isEqualTo: type).getDocuments { (querySnapshot, error) in
             if let error = error {
                 print("Error Getting Documents \(error)")
@@ -839,7 +861,6 @@ class ViewModel: ObservableObject {
             }
         }
     }
-    
     func updateCurrent(userID: String, activity: String, current: String, completion: @escaping (Bool) -> Void) {
         self.db.collection("USERS").document(userID).getDocument { document, error in
             if let err = error {
@@ -868,6 +889,31 @@ class ViewModel: ObservableObject {
         }
     }
     
+    func checkIfOnGoingActivityIsCompleted(userID: String, activity: String, completion: @escaping (Bool) -> Void) {
+        db.collection("USERS").document(userID).collection("ACTIVITIES").document(activity).getDocument { (document, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(false)
+                return
+            }
+            guard let document = document, document.exists else {
+                print("Document Doesn't Exist")
+                completion(false)
+                return
+            }
+            
+            guard let data = document.data(), !data.isEmpty else {
+                print("Data is Nil or Data is Empty")
+                completion(false)
+                return
+            }
+            
+            let completed = data["completed"] as? Bool ?? false
+            completion(completed)
+        }
+
+    }
+    
 
     
     /*-------------------------------------------------------------------------------------------------*/
@@ -879,26 +925,22 @@ class ViewModel: ObservableObject {
      */
     
     func createNewQuiz(quiz: Quiz) {
-        db.collection("GAMES").document(quiz.title).setData(
-            ["title": quiz.title,
-             "pointsGoal": quiz.pointsGoal,
-             "points": quiz.points
-            ])
+        db.collection("GAMES").document(quiz.title).setData(["title": quiz.title])
         let quizQuestions = quiz.questions
         let quizRef = db.collection("GAMES").document(quiz.title)
         for question in quizQuestions {
             quizRef.collection("QUESTIONS").document(question.question).setData(
-                ["question": question.question,
-                 "answerChoices": question.answers,
-                 "correctAnswer": String(question.correctAnswer),
+                ["answerChoices": question.answers,
+                 "correctAnswer": question.correctAnswer,
                  "correctAnswerDescription": question.correctAnswerDescription,
+//                 "image", question.image,
                 ])
         }
     }
     
     
     func addOnGoingActivity(userID: String, numQuestions: Int, titleOfActivity: String, typeOfActivity: String, completion: @escaping (Bool) -> Void) {
-        db.collection("USERS").document(userID).collection("ACTIVITIES").document("Wassup").setData(
+        db.collection("USERS").document(userID).collection("ACTIVITIES").document(titleOfActivity).setData(
             ["completed": false,
              
              "current": 0,
@@ -915,17 +957,10 @@ class ViewModel: ObservableObject {
     }
     
     func createNewConnections(connection: Connections) {
-        
         let connectionsReference = db.collection("GAMES").document(connection.title)
-        
         connectionsReference.setData(
             ["title": connection.title,
-             "categories": connection.categories,
-             "answerKey": connection.answerKey,
-             "points": connection.points,
-             "attempts": connection.attempts,
-             "mistakesRemaining": connection.mistakes_remaining,
-             "correctCategories": connection.correct_categories
+             "answerKey": connection.answerKey
             ]) { error in
                 if let error = error {
                     print("Error writing game document: \(error.localizedDescription)")
@@ -933,41 +968,6 @@ class ViewModel: ObservableObject {
                     print("Game document successfully written")
                 }
             }
-        
-        //private(set) var options: [Option]
-        let optionArray = connection.options //[Option]
-        let optionArrayReference = connectionsReference.collection("OPTIONS")
-        for option in optionArray {
-            optionArrayReference.document(option.id).setData(
-                ["id": option.id,
-                 "isSelected": option.isSelected,
-                 "isSubmitted": option.isSubmitted,
-                 "content": option.content,
-                 "category": option.category
-                ])
-        }
-        
-        //var selection: [Option]
-        let optionSelectionArray = connection.selection //[Option]
-        let optionSelectionArrayReference = connectionsReference.collection("SELECTIONS")
-        for option in optionSelectionArray {
-            optionSelectionArrayReference.document(option.id).setData(
-                ["id": option.id,
-                 "isSelected": option.isSelected,
-                 "isSubmitted": option.isSubmitted,
-                 "content": option.content,
-                 "category": option.category
-                ])
-        }
-        
-        //var history: [[Option]]
-        let historyArrayOfArrays = connection.history //[[Option]]
-        let historyReference = connectionsReference.collection("HISTORY")
-        for (index, options) in historyArrayOfArrays.enumerated() {
-            let optionDictionaryArray = options.map {optionToDictionary(option: $0)}
-            let documentData: [String: Any] = ["options": optionDictionaryArray]
-            historyReference.document("History\(index)").setData(documentData)
-        }
     }
     
     
@@ -979,14 +979,17 @@ class ViewModel: ObservableObject {
         for i in 1..<10 {
             winCount["\(i)"] = 0 //initialize every win count to 0 for every hint number
         }
+        let optionTileArray = wordGuessing.options //[OptionTile]
+                var options = [String]()
+                for optionTile in optionTileArray {
+                    options.append(optionTile.option)
+        }
+        
         optionsReference.setData(
             ["title": wordGuessing.title,
              "answer": wordGuessing.answer,
-             "totalPoints": wordGuessing.totalPoints,
-             "flipPoints": wordGuessing.flipPoints,
-             "flipsDone" : wordGuessing.flipsDone,
-             "numberOfGuesses" : wordGuessing.numberOfGuesses,
-             "winCount" : winCount
+             "winCount" : winCount,
+             "hints" : options
             ]) { error in
                 if let error = error {
                     print("Error writing game document: \(error.localizedDescription)")
@@ -994,22 +997,6 @@ class ViewModel: ObservableObject {
                     print("Game document successfully written")
                 }
             }
-        
-        let optionTileArray = wordGuessing.options //[OptionTile]
-        let optionsArrayReference = optionsReference.collection("OPTIONS")
-        for optionTile in optionTileArray {
-            optionsArrayReference.document(optionTile.option).setData(
-                ["option": optionTile.option,
-                 "isFlipped": optionTile.isFlipped,
-                ]) { error in
-                    if let error = error {
-                        print("Error writing option document: \(error.localizedDescription)")
-                    } else {
-                        print("Option document successfully written")
-                    }
-                }
-        }
-        
     }
     
     /*-------------------------------------------------------------------------------------------------*/
@@ -1032,16 +1019,17 @@ class ViewModel: ObservableObject {
     
     
     //Helper Function to Turn the data from Firebase into a Quiz Question
-    func parseQuestionData(_ questionData: [String: Any]) -> QuizQuestion? {
-        let question = questionData["question"] as? String ?? ""
+    func parseQuestionData(_ questionData: [String: Any], _ question: String) -> QuizQuestion? {
         let answers = questionData["answerChoices"] as? [String] ?? []
         let correctAnswerIndex = questionData["correctAnswer"] as? Int ?? 0
         let correctAnswerDescription = questionData["correctAnswerDescription"] as? String ?? ""
+//        let image = questionData["image"] as? String ?? ""
         
         return QuizQuestion(question: question,
                             answers: answers,
                             correctAnswer: correctAnswerIndex,
                             correctAnswerDescription: correctAnswerDescription)
+//                            ,image: image)
     }
     
     
