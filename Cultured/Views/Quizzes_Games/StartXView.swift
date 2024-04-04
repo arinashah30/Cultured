@@ -10,11 +10,14 @@ import SwiftUI
 struct StartXView: View {
     @ObservedObject var vm: ViewModel
     @Environment(\.presentationMode) var presentationMode
+    
+    @State var gameName: String
+    @State var countryName: String
     @State private var selectedCategory: String = ""
     let categories = ["Pop Culture", "Food", "Customs", "Places"]
-//    let categoryColors = [Color.cRed, c.cOrange, Color("Category3"), Color("Category4")]
     let categoryProgress: [Float] = [0.4, 0.7, 0.2, 1.0]
     
+    let categoryColors = [Color("Category1"), Color("Category2"), Color("Category3"), Color("Category4")]
     let buttonColors: [Color] = [Color(red: 252/255, green: 179/255, blue: 179/255), Color(red: 255/255, green: 219/255, blue: 165/255), Color(red: 171/255, green: 232/255, blue: 186/255), Color(red: 153/255, green: 194/255, blue: 223/255)]
     
     let buttonWidth: CGFloat = 156
@@ -60,25 +63,24 @@ struct StartXView: View {
                         .clipShape(.rect(cornerRadius: 40))
                         .foregroundColor(.white)
                     VStack (alignment: .leading){
-                        Text("Word Guessing")
+                        Text(gameName)
                             .foregroundColor(.cDarkGray)
                             .font(Font.custom("Quicksand-SemiBold", size: 32))
-                        Text("India")
+                        Text(countryName)
                             .foregroundColor(.cMedGray)
                         Text("Select Category")
                             .font(Font.custom("Quicksand-Medium", size: 20))
                             .foregroundColor(.cDarkGray)
                             .padding(.top, 20)
                         HStack(alignment: .center, spacing: 20) {
-                            ProgressButtonView(buttonText: categories[0], buttonColor: Color.cRed, progress: categoryProgress[0]) {
+                            ProgressButtonView(buttonText: categories[0], buttonColor: categoryColors[0], progress: categoryProgress[0]) {
                                 selectCategory(category: categories[0])
                             }
                             
-                            ProgressButtonView(buttonText: categories[1], buttonColor: Color.cOrange, progress: categoryProgress[1]) {
+                            ProgressButtonView(buttonText: categories[1], buttonColor: categoryColors[1], progress: categoryProgress[1]) {
                                 selectCategory(category: categories[1])
                             }
                         }
-//                        .shadow(radius: 4, x: 0, y: 2)
                         
                         HStack(alignment: .center, spacing: 20) {
                             ProgressButtonView(buttonText: categories[2], buttonColor: Color("Category3"), progress: categoryProgress[2]) {
@@ -89,10 +91,16 @@ struct StartXView: View {
                                 selectCategory(category: categories[3])
                             }
                         }
-//                        .shadow(radius: 4, x: 0, y: 2)
                         
                         NavigationLink(destination: {
-                            WordGuessingView(vm: WordGuessingViewModel())
+                            if (gameName == "Word Guessing") {
+                                WordGuessingView(vm: WordGuessingViewModel())
+                            } else if (gameName == "Quiz") {
+                                QuestionView(vm: QuizViewModel())
+                            } else if (gameName == "Connections") {
+                                ConnectionsGameView(vm: ConnectionsViewModel())
+                            }
+                            
                         }, label: {
                             Text("Start")
                                 .font(.system(size: 20))
@@ -118,5 +126,5 @@ struct StartXView: View {
 }
 
 #Preview {
-    StartXView(vm: ViewModel())
+    StartXView(vm: ViewModel(), gameName: "Game Name", countryName: "Country")
 }
