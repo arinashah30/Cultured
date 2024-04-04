@@ -78,7 +78,7 @@ struct HomeView: View {
                             .bold()
                             .offset(y:-15)
                         NavigationLink {
-                            StartQuizView(vm: QuizViewModel())
+                            StartQuizView(vm: vm, countryName: "Country Name", backgroundImage: Image("StartQuizImage"))
                         } label: {
                             Text("start")
                                 .font(.system(size: 16))

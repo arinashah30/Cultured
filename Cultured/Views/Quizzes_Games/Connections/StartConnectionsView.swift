@@ -8,24 +8,20 @@
 import SwiftUI
 
 struct StartConnectionsView: View {
-    @ObservedObject var vm: ConnectionsViewModel
+    @ObservedObject var vm: ViewModel
+    @Environment(\.presentationMode) var presentationMode
+    
+    @State var countryName: String
+    @State var backgroundImage: Image
+    
+    let categories: [String] = ["Pop Culture", "Food", "Customs", "Places"]
+    let categoryProgress: [Float] = [0.25, 0.75, 0, 0.9]
+    
     var body: some View {
-        
-        VStack {
-            Text("Connections")
-                .font(.title)
-            Text("Group words together that culturally align")
-                .font(.subheadline)
-            Button("Play", action: vm.playConnections)
-                .buttonStyle(.borderedProminent)
-                .fontWeight(.bold)
-                .controlSize(.large)
-                .clipShape(Capsule())
-        }
-        
+        StartXView(vm: ViewModel(), gameName: "Connections", countryName: countryName, backgroundImage: backgroundImage, categories: categories, categoryProgress: categoryProgress)
     }
 }
 
 #Preview {
-    StartConnectionsView(vm: ConnectionsViewModel())
+    StartConnectionsView(vm: ViewModel(), countryName: "Country", backgroundImage: Image("WordGuessing"))
 }
