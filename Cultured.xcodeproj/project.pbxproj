@@ -23,6 +23,15 @@
 		48A11D742B9B63220061ED6A /* QuestionFailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A11D712B9B63220061ED6A /* QuestionFailView.swift */; };
 		59167BFD2BB7E1D7006C02C1 /* DanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59167BFC2BB7E1D7006C02C1 /* DanceView.swift */; };
 		6666C7452B88093300A64A3D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6666C7442B88093300A64A3D /* GoogleService-Info.plist */; };
+		666A717B2BBF2D1E005A849A /* Celebrities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666A71712BBF2D1E005A849A /* Celebrities.swift */; };
+		666A717C2BBF2D1E005A849A /* ClassicTvMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666A71722BBF2D1E005A849A /* ClassicTvMovie.swift */; };
+		666A717D2BBF2D1E005A849A /* Dance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666A71732BBF2D1E005A849A /* Dance.swift */; };
+		666A717E2BBF2D1E005A849A /* Etiquette.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666A71742BBF2D1E005A849A /* Etiquette.swift */; };
+		666A717F2BBF2D1E005A849A /* Food.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666A71752BBF2D1E005A849A /* Food.swift */; };
+		666A71802BBF2D1E005A849A /* Landmarks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666A71762BBF2D1E005A849A /* Landmarks.swift */; };
+		666A71812BBF2D1E005A849A /* Sports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666A71772BBF2D1E005A849A /* Sports.swift */; };
+		666A71822BBF2D1E005A849A /* TraditionalMusic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666A71782BBF2D1E005A849A /* TraditionalMusic.swift */; };
+		666A71832BBF2D1E005A849A /* Traditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666A71792BBF2D1E005A849A /* Traditions.swift */; };
 		66FB69C72B72A06D0066B826 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB69C62B72A06D0066B826 /* AppDelegate.swift */; };
 		66FB69C92B72A06D0066B826 /* TourView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB69C82B72A06D0066B826 /* TourView.swift */; };
 		66FB69CB2B72A06E0066B826 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66FB69CA2B72A06E0066B826 /* Assets.xcassets */; };
@@ -106,6 +115,15 @@
 		48A11D712B9B63220061ED6A /* QuestionFailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionFailView.swift; sourceTree = "<group>"; };
 		59167BFC2BB7E1D7006C02C1 /* DanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DanceView.swift; sourceTree = "<group>"; };
 		6666C7442B88093300A64A3D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		666A71712BBF2D1E005A849A /* Celebrities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Celebrities.swift; sourceTree = "<group>"; };
+		666A71722BBF2D1E005A849A /* ClassicTvMovie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassicTvMovie.swift; sourceTree = "<group>"; };
+		666A71732BBF2D1E005A849A /* Dance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dance.swift; sourceTree = "<group>"; };
+		666A71742BBF2D1E005A849A /* Etiquette.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Etiquette.swift; sourceTree = "<group>"; };
+		666A71752BBF2D1E005A849A /* Food.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Food.swift; sourceTree = "<group>"; };
+		666A71762BBF2D1E005A849A /* Landmarks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Landmarks.swift; sourceTree = "<group>"; };
+		666A71772BBF2D1E005A849A /* Sports.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sports.swift; sourceTree = "<group>"; };
+		666A71782BBF2D1E005A849A /* TraditionalMusic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TraditionalMusic.swift; sourceTree = "<group>"; };
+		666A71792BBF2D1E005A849A /* Traditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Traditions.swift; sourceTree = "<group>"; };
 		66FB69C32B72A06D0066B826 /* Cultured.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cultured.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66FB69C62B72A06D0066B826 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		66FB69C82B72A06D0066B826 /* TourView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourView.swift; sourceTree = "<group>"; };
@@ -203,6 +221,22 @@
 			path = PopCulture;
 			sourceTree = "<group>";
 		};
+		666A717A2BBF2D1E005A849A /* InfoModels */ = {
+			isa = PBXGroup;
+			children = (
+				666A71712BBF2D1E005A849A /* Celebrities.swift */,
+				666A71722BBF2D1E005A849A /* ClassicTvMovie.swift */,
+				666A71732BBF2D1E005A849A /* Dance.swift */,
+				666A71742BBF2D1E005A849A /* Etiquette.swift */,
+				666A71752BBF2D1E005A849A /* Food.swift */,
+				666A71762BBF2D1E005A849A /* Landmarks.swift */,
+				666A71772BBF2D1E005A849A /* Sports.swift */,
+				666A71782BBF2D1E005A849A /* TraditionalMusic.swift */,
+				666A71792BBF2D1E005A849A /* Traditions.swift */,
+			);
+			path = InfoModels;
+			sourceTree = "<group>";
+		};
 		66FB69BA2B72A06D0066B826 = {
 			isa = PBXGroup;
 			children = (
@@ -248,6 +282,7 @@
 		66FB69D42B72A0750066B826 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				666A717A2BBF2D1E005A849A /* InfoModels */,
 				CADEEBEF2BA3DBD5002FDF71 /* Music.swift */,
 				7C1B20F82B7C00A0008E0244 /* Fonts */,
 				7C1B20F22B7BFF41008E0244 /* UIColors.swift */,
@@ -549,30 +584,37 @@
 				66FB69FE2B72A1280066B826 /* HomeView.swift in Sources */,
 				66FB6A072B72A15B0066B826 /* SelfProfileView.swift in Sources */,
 				66FB6A202B72A2F00066B826 /* TraditionsView.swift in Sources */,
+				666A71832BBF2D1E005A849A /* Traditions.swift in Sources */,
 				480F21FE2B7C19D800CB5632 /* StartWordGuessingView.swift in Sources */,
 				66FB69FC2B72A11D0066B826 /* LeaderboardView.swift in Sources */,
 				480F21F92B75A29500CB5632 /* Connections.swift in Sources */,
 				480F22062B7C1F9000CB5632 /* QuizViewModel.swift in Sources */,
 				CADEEBF02BA3DBD5002FDF71 /* Music.swift in Sources */,
+				666A717F2BBF2D1E005A849A /* Food.swift in Sources */,
 				66FB69C92B72A06D0066B826 /* TourView.swift in Sources */,
 				CA64398E2B857BF200181C5F /* PlacesSectionView.swift in Sources */,
 				CA64398A2B8579AF00181C5F /* FoodCategorySectionView.swift in Sources */,
 				48A11D742B9B63220061ED6A /* QuestionFailView.swift in Sources */,
+				666A71822BBF2D1E005A849A /* TraditionalMusic.swift in Sources */,
 				66FB6A002B72A1310066B826 /* MainView.swift in Sources */,
 				66FB6A042B72A1480066B826 /* SignUpView.swift in Sources */,
+				666A71812BBF2D1E005A849A /* Sports.swift in Sources */,
 				66FB69F32B72A0B30066B826 /* Module.swift in Sources */,
 				CA7570192B7C3B4000240F06 /* PopCultureSectionView.swift in Sources */,
 				66FB6A1B2B72A26E0066B826 /* Badge.swift in Sources */,
 				480F22082B7C1F9C00CB5632 /* WordGuessingViewModel.swift in Sources */,
 				66FB69F72B72A0BF0066B826 /* User.swift in Sources */,
 				480F21F72B7596BA00CB5632 /* QuizQuestion.swift in Sources */,
+				666A717C2BBF2D1E005A849A /* ClassicTvMovie.swift in Sources */,
 				480F22022B7C19F900CB5632 /* WordGuessingResultsView.swift in Sources */,
+				666A71802BBF2D1E005A849A /* Landmarks.swift in Sources */,
 				48A11D722B9B63220061ED6A /* QuestionSuccessView.swift in Sources */,
 				66FB69D82B72A08F0066B826 /* ViewModel.swift in Sources */,
 				CA64398C2B857B0900181C5F /* CustomsSectionView.swift in Sources */,
 				480F21F52B75969500CB5632 /* Quiz.swift in Sources */,
 				7CE5D3EF2BB5D2ED00EE0E14 /* BackButton.swift in Sources */,
 				66FB6A132B72A2150066B826 /* StartConnectionsView.swift in Sources */,
+				666A717D2BBF2D1E005A849A /* Dance.swift in Sources */,
 				66FB6A0E2B72A1830066B826 /* ResultsView.swift in Sources */,
 				66FB6A152B72A21D0066B826 /* ConnectionsGameView.swift in Sources */,
 				7CFE0FC42B979F3100D7283B /* ContentView.swift in Sources */,
@@ -582,8 +624,10 @@
 				66FB6A1E2B72A2DF0066B826 /* MusicView.swift in Sources */,
 				66FB6A0C2B72A17C0066B826 /* QuestionView.swift in Sources */,
 				480F220A2B7C1FA900CB5632 /* ConnectionsViewModel.swift in Sources */,
+				666A717E2BBF2D1E005A849A /* Etiquette.swift in Sources */,
 				66FB6A112B72A1EF0066B826 /* StartQuizView.swift in Sources */,
 				66FB6A172B72A2270066B826 /* ConnectionsResultsView.swift in Sources */,
+				666A717B2BBF2D1E005A849A /* Celebrities.swift in Sources */,
 				48A11D732B9B63220061ED6A /* ProgressBar.swift in Sources */,
 				66FB6A022B72A1400066B826 /* LogInView.swift in Sources */,
 				66FB69F52B72A0B90066B826 /* Country.swift in Sources */,
