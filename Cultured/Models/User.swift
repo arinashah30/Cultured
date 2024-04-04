@@ -23,6 +23,7 @@ struct User: Identifiable, Hashable {
     //var friends: [String] // array of userIDs (usernames)
     var points: Int
     var streak: Int
+    var streakRecord: Int
     var completedChallenges: [String] // array of IDs for completed challenges or name of challenge
     var badges: [String] // array of IDs for badges or name of badges
     var savedArtists: [String] //array of saved music artists

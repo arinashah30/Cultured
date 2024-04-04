@@ -52,6 +52,10 @@ struct Connections {
             self.correct_categories = correct_categories
     }
     
+    init(title: String, answerKey: [String: [String]]) {
+        self.init(title: title, categories: [], answerKey: answerKey, options: [], selection: [], history: [[]], points: 0, attempts: 0, mistakes_remaining: 0, correct_categories: 0)
+    }
+    
     mutating func select(_ option: Option) {
         let chosenIndex = index(of: option)
         if chosenIndex >= 0 {
