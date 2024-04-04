@@ -696,7 +696,7 @@ final class ViewModelUnitTests: XCTestCase {
          vm.getInfoLandmarks(countryName: "MEXICO") { landmarkObject in
              XCTAssertNotNil(landmarkObject, "Information should not be nil")
              XCTAssertNotEqual(nilObject, landmarkObject)
-             print("Etiquette ====", landmarkObject)
+             print("Landmarks ====", landmarkObject)
              expectation.fulfill()
          }
 
