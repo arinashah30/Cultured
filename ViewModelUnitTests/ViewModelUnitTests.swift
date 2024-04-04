@@ -60,17 +60,60 @@ final class ViewModelUnitTests: XCTestCase {
         }
     }
     
+    func testCreateNewQuiz() {
+        let expectation = self.expectation(description: "Update Quiz information in Firebase")
+        let quizQuestion1 = QuizQuestion(question: "What color is the Mexican Flag?",
+                                         answers: ["Blue", "Orange", "Red", "Yellow"],
+                                         correctAnswer: 2,
+                                         correctAnswerDescription: "Mexico's flag has three vertical stripes. Green on the left, White in the Middle, and Red on the right.",
+                                         submitted: false)
+
+        let quizQuestion2 = QuizQuestion(question: "Which traditional Mexican dish is made from masa dough?",
+                                         answers: ["Tacos", "Enchiladas", "Quesadillas", "Tamales"],
+                                         correctAnswer: 3,
+                                         correctAnswerDescription: "Tamales are a traditional Mexican dish made from masa dough.",
+                                         submitted: false)
+        let quizQuestionArray = [quizQuestion1, quizQuestion2]
+        let quiz1 = Quiz(title: "MexcioCultureQuiz", questions: quizQuestionArray)
+        vm.createNewQuiz(quiz: quiz1)
+
+//        let quizQuestion3 = QuizQuestion(question: "How many cups of coffee are consumed everyday in the US",
+//                                         answers: ["200 Million", "300 Million", "400 Million", "500 Million"],
+//                                         correctAnswer: 1,
+//                                         correctAnswerDescription: "The average coffee drinker drinks 3 cups or whatever",
+//                                         submitted: false)
+//
+//        let quizQuestion4 = QuizQuestion(question: "Which is an American food?",
+//                                         answers: ["Burger", "Pasta", "Tacos", "Gyros"],
+//                                         correctAnswer: 0,
+//                                         correctAnswerDescription: "Blah blah blah McDonald's started the burger hype in the US",
+//                                         submitted: false)
+//        let quizQuestionArray2 = [quizQuestion3, quizQuestion4]
+//        let quiz2 = Quiz(title: "UnitedStatesFoodQuiz", questions: quizQuestionArray2)
+//        vm.createNewQuiz(quiz: quiz2)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            expectation.fulfill()
+        }
+        
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
+    
     
     func testGetQuizFromFirebase() {
         let expectation = self.expectation(description: "Retrieve information from Quiz")
         
-        vm.getQuizFromFirebase(activityName: "FrenchCultureQuiz") {quiz in
+        vm.getQuizFromFirebase(activityName: "MexcioCultureQuiz") {quiz in
             XCTAssertNotNil(quiz, "Quiz should not be nil")
-            XCTAssertEqual(quiz?.points, 999)
-            XCTAssertEqual(quiz?.pointsGoal, 800000000000)
-            XCTAssertEqual(quiz?.title, "FrenchCultureQuiz")
+            XCTAssertEqual(quiz?.points, 0)
+            XCTAssertEqual(quiz?.pointsGoal, 0)
+            XCTAssertEqual(quiz?.title, "MexcioCultureQuiz")
             XCTAssertFalse(quiz?.questions.isEmpty ??  true)
-            //print("Quiz =====", quiz!)
+            print("Quiz =====", quiz!)
             expectation.fulfill()
         }
             

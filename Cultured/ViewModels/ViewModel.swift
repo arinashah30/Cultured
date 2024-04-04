@@ -288,8 +288,9 @@ class ViewModel: ObservableObject {
                     var questionsArray = [QuizQuestion]()
                     for questionsDocuments in querySnapshot!.documents {
                         let questionData = questionsDocuments.data()
-                        if let question = self.parseQuestionData(questionData) {
-                            questionsArray.append(question)
+                        let question = questionsDocuments.documentID
+                        if let quizQuestion = self.parseQuestionData(questionData, question) {
+                            questionsArray.append(quizQuestion)
                         }
                     }
                     let quiz = Quiz(title: title,
@@ -805,7 +806,7 @@ class ViewModel: ObservableObject {
         for question in quizQuestions {
             quizRef.collection("QUESTIONS").document(question.question).setData(
                 ["answerChoices": question.answers,
-                 "correctAnswer": String(question.correctAnswer),
+                 "correctAnswer": question.correctAnswer,
                  "correctAnswerDescription": question.correctAnswerDescription,
 //                 "image", question.image,
                 ])
@@ -893,12 +894,11 @@ class ViewModel: ObservableObject {
     
     
     //Helper Function to Turn the data from Firebase into a Quiz Question
-    func parseQuestionData(_ questionData: [String: Any]) -> QuizQuestion? {
-        let question = questionData["question"] as? String ?? ""
+    func parseQuestionData(_ questionData: [String: Any], _ question: String) -> QuizQuestion? {
         let answers = questionData["answerChoices"] as? [String] ?? []
         let correctAnswerIndex = questionData["correctAnswer"] as? Int ?? 0
         let correctAnswerDescription = questionData["correctAnswerDescription"] as? String ?? ""
-        let image = questionData["image"] as? String ?? ""
+//        let image = questionData["image"] as? String ?? ""
         
         return QuizQuestion(question: question,
                             answers: answers,
