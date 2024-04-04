@@ -11,6 +11,7 @@ struct ProgressButtonView: View {
     @State var buttonText: String
     @State var buttonColor: Color
     @State var progress: Float
+    let action: () -> Void
     
     private func clampProgress(progress: Float) -> Float {
         if progress < 0.0 {
@@ -28,9 +29,9 @@ struct ProgressButtonView: View {
             .foregroundColor(buttonColor)
             .padding(.top, 15)
             
-            Button {
-                
-            } label: {
+            Button(action: {
+                action() // Call the action closure when the button is tapped
+            }) {
                 Text(buttonText)
                     .font(.system(size: 20))
                     .foregroundColor(.cDarkGray)
@@ -45,5 +46,7 @@ struct ProgressButtonView: View {
 }
 
 #Preview {
-    ProgressButtonView(buttonText: "Button", buttonColor: Color("Category3"), progress: 0.4)
+    ProgressButtonView(buttonText: "Button", buttonColor: Color("Category3"), progress: 0.4) {
+        print("Clicked")
+    }
 }

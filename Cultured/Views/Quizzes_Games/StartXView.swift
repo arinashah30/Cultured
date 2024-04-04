@@ -10,13 +10,20 @@ import SwiftUI
 struct StartXView: View {
     @ObservedObject var vm: ViewModel
     @Environment(\.presentationMode) var presentationMode
-    @State private var selectedCategories: Set<String> = []
+    @State private var selectedCategory: String = ""
     let categories = ["Pop Culture", "Food", "Customs", "Places"]
+//    let categoryColors = [Color.cRed, c.cOrange, Color("Category3"), Color("Category4")]
+    let categoryProgress: [Float] = [0.4, 0.7, 0.2, 1.0]
     
     let buttonColors: [Color] = [Color(red: 252/255, green: 179/255, blue: 179/255), Color(red: 255/255, green: 219/255, blue: 165/255), Color(red: 171/255, green: 232/255, blue: 186/255), Color(red: 153/255, green: 194/255, blue: 223/255)]
     
     let buttonWidth: CGFloat = 156
     let buttonHeight: CGFloat = 57
+    
+    private func selectCategory(category: String) {
+        selectedCategory = category
+        print("Selected Category " + selectedCategory)
+    }
     
     var body: some View {
         NavigationStack {
@@ -63,60 +70,26 @@ struct StartXView: View {
                             .foregroundColor(.cDarkGray)
                             .padding(.top, 20)
                         HStack(alignment: .center, spacing: 20) {
-                            Button {
-                                
-                            } label: {
-                                Text("Pop Culture")
-                                    .font(.system(size: 20))
-                                    .foregroundColor(.cDarkGray)
-                                    .padding()
+                            ProgressButtonView(buttonText: categories[0], buttonColor: Color.cRed, progress: categoryProgress[0]) {
+                                selectCategory(category: categories[0])
                             }
-                            .frame(maxWidth: 154, maxHeight: 57)
-                            .background(Color.cRed)
-                            .clipShape(.rect(cornerRadius: 14.0))
                             
-                            Button {
-                                
-                            } label: {
-                                Text("Food")
-                                    .font(.system(size: 20))
-                                    .foregroundColor(.cDarkGray)
-                                    .padding()
+                            ProgressButtonView(buttonText: categories[1], buttonColor: Color.cOrange, progress: categoryProgress[1]) {
+                                selectCategory(category: categories[1])
                             }
-                            .frame(maxWidth: 154, maxHeight: 57)
-                            .background(Color.cOrange)
-                            .clipShape(.rect(cornerRadius: 14.0))
                         }
-                        .shadow(radius: 4, x: 0, y: 2)
+//                        .shadow(radius: 4, x: 0, y: 2)
                         
                         HStack(alignment: .center, spacing: 20) {
-                            Button {
-                                
-                            } label: {
-                                Text("Customs")
-                                    .font(.system(size: 20))
-                                    .foregroundColor(.cDarkGray)
-                                    .padding()
+                            ProgressButtonView(buttonText: categories[2], buttonColor: Color("Category3"), progress: categoryProgress[2]) {
+                                selectCategory(category: categories[2])
                             }
-                            .frame(maxWidth: 154, maxHeight: 57)
-                            .background(Color("Category3"))
-                            .clipShape(.rect(cornerRadius: 14.0))
-                            .padding(.top, 15)
                             
-                            Button {
-                                
-                            } label: {
-                                Text("Drink")
-                                    .font(.system(size: 20))
-                                    .foregroundColor(.cDarkGray)
-                                    .padding()
+                            ProgressButtonView(buttonText: categories[3], buttonColor: Color("Category4"), progress: categoryProgress[3]) {
+                                selectCategory(category: categories[3])
                             }
-                            .frame(maxWidth: 154, maxHeight: 57)
-                            .background(Color("Category4"))
-                            .clipShape(.rect(cornerRadius: 14.0))
-                            .padding(.top, 15)
                         }
-                        .shadow(radius: 4, x: 0, y: 2)
+//                        .shadow(radius: 4, x: 0, y: 2)
                         
                         NavigationLink(destination: {
                             WordGuessingView(vm: WordGuessingViewModel())
