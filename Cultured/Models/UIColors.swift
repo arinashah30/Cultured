@@ -20,6 +20,9 @@ extension Color {
     public static var cOrange: Color {
         Color(red:255/255, green:219/255, blue:165/255)
     }
+    public static var cDarkOrange: Color {
+        Color(red:255/255, green:122/255, blue:0/255)
+    }
     public static var cRed: Color {
         Color(red:252/255, green:179/255, blue:179/255)
     }
