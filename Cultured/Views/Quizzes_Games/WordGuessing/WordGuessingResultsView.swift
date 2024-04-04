@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WordGuessingResultsView: View {
     @ObservedObject var vm: WordGuessingViewModel
-    @State private var localHasWon: Bool = true
+//    @State private var localHasWon: Bool = true
 
     var body: some View {
         ZStack {
@@ -39,9 +39,9 @@ struct WordGuessingResultsView: View {
                         .padding(.trailing, 25)
                     }
                     VStack(alignment: .leading, spacing: 2) {
-                        Text(localHasWon ? "You guessed it!" : "Nice try...")
+                        Text(vm.hasWon ? "You guessed it!" : "Nice try...")
                             .font(Font.custom("Quicksand-Medium", size: 18))
-                            .foregroundColor(localHasWon ? Color("WinningText") : .red)
+                            .foregroundColor(vm.hasWon ? Color("WinningText") : .red)
                         Text("Answer: " + String(vm.current_word_guessing_game?.answer ?? ""))
                             .font(Font.custom("Quicksand-Medium", size: 18))
                     }
@@ -85,7 +85,7 @@ struct WordGuessingResultsView: View {
                                 VStack() {
                                     Text(String(vm.stats[index]))
                                         .foregroundColor(Color.black.opacity(0.35))
-                                    if localHasWon && vm.current_word_guessing_game?.flipsDone == index {
+                                    if vm.hasWon && vm.current_word_guessing_game?.flipsDone == index {
                                         Rectangle()
                                             .frame(width: 25, height: 190 * CGFloat(adjustedStats[index]))
                                             .foregroundColor(Color("WinningBar"))

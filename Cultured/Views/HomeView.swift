@@ -78,7 +78,7 @@ struct HomeView: View {
                             .bold()
                             .offset(y:-15)
                         NavigationLink {
-                            StartQuizView(vm: QuizViewModel())
+                            StartQuizView(vm: vm, countryName: "Country Name", backgroundImage: Image("StartQuizImage"))
                         } label: {
                             Text("start")
                                 .font(.system(size: 16))
@@ -104,7 +104,7 @@ struct HomeView: View {
                             .bold()
                             .offset(y:-15)
                         NavigationLink {
-                            ConnectionsGameView(vm:ConnectionsViewModel())
+                            StartConnectionsView(vm: ViewModel(), countryName: "Country", backgroundImage: Image("WordGuessing"))
                         } label: {
                             Text("start")
                                 .font(.system(size: 16))
@@ -129,7 +129,7 @@ struct HomeView: View {
                             .bold()
                             .offset(y:-15)
                         NavigationLink {
-                            StartWordGuessingView(vm: vm)
+                            StartWordGuessingView(vm: vm, countryName: "Country Name", backgroundImage: Image("WordGuessing"))
                         } label: {
                             Text("start")
                                 .font(.system(size: 16))
