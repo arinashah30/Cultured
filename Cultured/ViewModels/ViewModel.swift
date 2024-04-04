@@ -889,6 +889,31 @@ class ViewModel: ObservableObject {
         }
     }
     
+    func checkIfOnGoingActivityIsCompleted(userID: String, activity: String, completion: @escaping (Bool) -> Void) {
+        db.collection("USERS").document(userID).collection("ACTIVITIES").document(activity).getDocument { (document, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(false)
+                return
+            }
+            guard let document = document, document.exists else {
+                print("Document Doesn't Exist")
+                completion(false)
+                return
+            }
+            
+            guard let data = document.data(), !data.isEmpty else {
+                print("Data is Nil or Data is Empty")
+                completion(false)
+                return
+            }
+            
+            let completed = data["completed"] as? Bool ?? false
+            completion(completed)
+        }
+
+    }
+    
 
     
     /*-------------------------------------------------------------------------------------------------*/
@@ -915,7 +940,7 @@ class ViewModel: ObservableObject {
     
     
     func addOnGoingActivity(userID: String, numQuestions: Int, titleOfActivity: String, typeOfActivity: String, completion: @escaping (Bool) -> Void) {
-        db.collection("USERS").document(userID).collection("ACTIVITIES").document("Wassup").setData(
+        db.collection("USERS").document(userID).collection("ACTIVITIES").document(titleOfActivity).setData(
             ["completed": false,
              
              "current": 0,
