@@ -13,10 +13,11 @@ struct StartXView: View {
     
     @State var gameName: String
     @State var countryName: String
-    @State private var selectedCategory: String = ""
-    let categories = ["Pop Culture", "Food", "Customs", "Places"]
-    let categoryProgress: [Float] = [0.4, 0.7, 0.2, 1.0]
+    @State var backgroundImage: Image
+    @State var categories: [String]
+    @State var categoryProgress: [Float]
     
+    @State private var selectedCategory: String = ""
     let categoryColors = [Color("Category1"), Color("Category2"), Color("Category3"), Color("Category4")]
     let buttonColors: [Color] = [Color(red: 252/255, green: 179/255, blue: 179/255), Color(red: 255/255, green: 219/255, blue: 165/255), Color(red: 171/255, green: 232/255, blue: 186/255), Color(red: 153/255, green: 194/255, blue: 223/255)]
     
@@ -32,7 +33,7 @@ struct StartXView: View {
         NavigationStack {
             VStack {
                 ZStack (alignment: .topLeading){
-                    Image("WordGuessing")
+                    backgroundImage
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 400, height: 470, alignment: .top)
@@ -126,5 +127,5 @@ struct StartXView: View {
 }
 
 #Preview {
-    StartXView(vm: ViewModel(), gameName: "Game Name", countryName: "Country")
+    StartXView(vm: ViewModel(), gameName: "Game Name", countryName: "Country", backgroundImage: Image("WordGuessing"), categories: ["Pop Culture", "Food", "Customs", "Places"], categoryProgress: [0.4, 0.7, 0.2, 1.0])
 }

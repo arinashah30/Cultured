@@ -129,7 +129,7 @@ struct HomeView: View {
                             .bold()
                             .offset(y:-15)
                         NavigationLink {
-                            StartWordGuessingView(vm: vm)
+                            StartWordGuessingView(vm: vm, countryName: "Country Name", backgroundImage: Image("WordGuessing"))
                         } label: {
                             Text("start")
                                 .font(.system(size: 16))
