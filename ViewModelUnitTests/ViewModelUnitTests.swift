@@ -687,7 +687,7 @@ final class ViewModelUnitTests: XCTestCase {
             }
         }
     }
-    
+
     func testImage() {
         let expectation = self.expectation(description: "image stuff")
 //        vm.load_image_from_url(urlString: "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg") {
@@ -705,6 +705,25 @@ final class ViewModelUnitTests: XCTestCase {
             }
         }
         wait(for: [expectation], timeout: 5)
+    }
+    func testGetInfoEtiquettes() {
+        let expectation = self.expectation(description: "Retrieve whether an activity is completed")
+        
+        let nilEtiquette = Etiquette()
+        
+        vm.getInfoEtiquettes(countryName: "MEXICO") { etiquetteObject in
+            XCTAssertNotNil(etiquetteObject, "Information should not be nil")
+            XCTAssertNotEqual(nilEtiquette, etiquetteObject)
+            print("Etiquette ====", etiquetteObject)
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+
     }
     
 }
