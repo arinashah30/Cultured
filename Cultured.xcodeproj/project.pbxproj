@@ -17,7 +17,6 @@
 		480F22062B7C1F9000CB5632 /* QuizViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F22052B7C1F9000CB5632 /* QuizViewModel.swift */; };
 		480F22082B7C1F9C00CB5632 /* WordGuessingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F22072B7C1F9C00CB5632 /* WordGuessingViewModel.swift */; };
 		480F220A2B7C1FA900CB5632 /* ConnectionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F22092B7C1FA900CB5632 /* ConnectionsViewModel.swift */; };
-		59DA49282BBF6F2000CDA0B8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 59DA49272BBF6F2000CDA0B8 /* GoogleService-Info.plist */; };
 		663062F52B7BFD3500702E04 /* ARLandmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663062F42B7BFD3500702E04 /* ARLandmark.swift */; };
 		665997482B90EDCD00247314 /* TextBoxEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665997472B90EDCD00247314 /* TextBoxEntity.swift */; };
 		6690A2C62B8D74E7002C33C5 /* ARVideoPortalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6690A2C52B8D74E7002C33C5 /* ARVideoPortalView.swift */; };
@@ -88,7 +87,6 @@
 		480F22052B7C1F9000CB5632 /* QuizViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizViewModel.swift; sourceTree = "<group>"; };
 		480F22072B7C1F9C00CB5632 /* WordGuessingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGuessingViewModel.swift; sourceTree = "<group>"; };
 		480F22092B7C1FA900CB5632 /* ConnectionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsViewModel.swift; sourceTree = "<group>"; };
-		59DA49272BBF6F2000CDA0B8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../.Trash/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		663062F42B7BFD3500702E04 /* ARLandmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARLandmark.swift; sourceTree = "<group>"; };
 		665997472B90EDCD00247314 /* TextBoxEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBoxEntity.swift; sourceTree = "<group>"; };
 		6690A2C52B8D74E7002C33C5 /* ARVideoPortalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ARVideoPortalView.swift; sourceTree = "<group>"; };
@@ -199,7 +197,6 @@
 				6690A2CD2B8D7AC7002C33C5 /* Taj_Mahal.usdz */,
 				6690A2CA2B8D7A2A002C33C5 /* tower_bridge.mp4 */,
 				7C1B20F62B7C002C008E0244 /* Info.plist */,
-				59DA49272BBF6F2000CDA0B8 /* GoogleService-Info.plist */,
 				66FB69C62B72A06D0066B826 /* AppDelegate.swift */,
 				66FB69D62B72A0800066B826 /* Views */,
 				66FB69D52B72A07B0066B826 /* ViewModels */,
@@ -452,7 +449,6 @@
 				7C1B21022B7C00A0008E0244 /* Quicksand-Light.ttf in Resources */,
 				7C1B21012B7C00A0008E0244 /* Quicksand-SemiBold.ttf in Resources */,
 				6690A2D12B8D7AC7002C33C5 /* Taj_Mahal.usdz in Resources */,
-				59DA49282BBF6F2000CDA0B8 /* GoogleService-Info.plist in Resources */,
 				6690A2CC2B8D7A2A002C33C5 /* tower_bridge.mp4 in Resources */,
 				6690A2D22B8D7AC7002C33C5 /* Chichen_Itza.usdz in Resources */,
 				6690A2D42B8D7AC7002C33C5 /* Burj_Khalifa.usdz in Resources */,
