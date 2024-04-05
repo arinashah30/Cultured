@@ -14,8 +14,8 @@ struct MapView: View {
     @ObservedObject var vm: ViewModel
     @State private var position: MapCameraPosition
     @Binding var showFullMap: Bool
-    var countries: [String]
     var locations: [Location]
+//    var countries: [String]
 
     
     init(vm: ViewModel, showFullMap: Binding<Bool>) {
@@ -24,40 +24,68 @@ struct MapView: View {
 //            Location(name: "Mexico", coordinate: CLLocationCoordinate2D(latitude: 19.432608, longitude: -99.133209), flag: UIImage(imageLiteralResourceName: "MXFlag")),
 //            Location(name: "France", coordinate: CLLocationCoordinate2D(latitude: 48.8566, longitude: 2.3522), flag: UIImage(imageLiteralResourceName: "USFlag"))
 //        ]
-        self.countries = []
-        if let completedCountries = vm.current_user?.completedCountries {
-            self.countries.append(vm.current_user?.currentCountry ?? "null")
-            for country in completedCountries {
-                countries.append(country)
-            }
-        }
+        
+
+        self._showFullMap = showFullMap
+        
+        self._position = State<MapCameraPosition>(initialValue: MapCameraPosition.region(
+            MKCoordinateRegion(
+                center: CLLocationCoordinate2D(latitude: 0, longitude: 0),
+                span: MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5)
+            )
+        ))
         
         self.locations = []
-        if !countries.isEmpty {
-            for country in countries {
-                vm.getLatitudeLongitude(countryName: country) { coords in
-                    self.locations.append(Location(name: country, coordinate: CLLocationCoordinate2D(latitude: coords?["latitude"] ?? 0, longitude: coords?["longitude"] ?? 0)))
-                }
-            }
-        }
         
-        // Camera position defaults to first location
+        self.locations = populateLocations()
+        
         if !locations.isEmpty {
-            self._position = State<MapCameraPosition>(initialValue: MapCameraPosition.region(
+            // Camera position defaults to first location
+            position = MapCameraPosition.region(
                 MKCoordinateRegion(
                     center: locations[0].coordinate,
                     span: MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5)
                 )
-            ))
-        } else {
-            self._position = State<MapCameraPosition>(initialValue: MapCameraPosition.region(
-                MKCoordinateRegion(
-                    center: CLLocationCoordinate2D(latitude: 0, longitude: 0),
-                    span: MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5)
-                )
-            ))
+            )
         }
-        self._showFullMap = showFullMap
+
+    }
+    
+    // Returns an array of Locations from current_user's completed and current countries
+    func populateLocations() -> [Location] {
+        var countries: [String] = []
+        countries.append(vm.current_user?.currentCountry ?? "null")
+        if let completedCountries = vm.current_user?.completedCountries {
+            countries += completedCountries
+        }
+        
+        
+        
+        var locations: [Location] = []
+        if !countries.isEmpty && countries[0] != "null" {
+            for country in countries {
+//                print(country)
+                vm.getLatitudeLongitude(countryName: country) { coords in
+                    if let coords = coords {
+                        // for testing
+                        print(coords["latitude"])
+                        print(coords["longitude"])
+                        
+                        locations.append(Location(name: country, coordinate: CLLocationCoordinate2D(latitude: coords["latitude"] ?? 0, longitude: coords["latitude"] ?? 0)))
+                        //for testing
+                        print("locations: \(locations)")
+                    } else {
+                        print("Error in populating locations")
+                    }
+                }
+            }
+            print("locations is empty: " + String(locations.isEmpty))
+            return locations
+        }
+        //for testing
+        print("locations is still empty: " + String(locations.isEmpty))
+
+        return []
     }
     
     
@@ -95,7 +123,7 @@ struct MapView: View {
                 }.padding(.horizontal, 7)
                 Spacer()
             }
-        }
+        }.onAppear()
     }
 }
 
