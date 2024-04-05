@@ -706,8 +706,28 @@ final class ViewModelUnitTests: XCTestCase {
         }
         wait(for: [expectation], timeout: 5)
     }
+    
+    func testGetInfoLandmarks() {
+         let expectation = self.expectation(description: "Retrieve Landmark Data From Firebase")
+
+         let nilObject = Landmarks()
+
+         vm.getInfoLandmarks(countryName: "MEXICO") { landmarkObject in
+             XCTAssertNotNil(landmarkObject, "Information should not be nil")
+             XCTAssertNotEqual(nilObject, landmarkObject)
+             print("Landmarks ====", landmarkObject)
+             expectation.fulfill()
+         }
+
+         waitForExpectations(timeout: 5) { error in
+             if let error = error {
+                 XCTFail("waitForExpectations error: \(error)")
+             }
+         }
+     }
+  
     func testGetInfoEtiquettes() {
-        let expectation = self.expectation(description: "Retrieve whether an activity is completed")
+        let expectation = self.expectation(description: "Retrieve Etiquette Data From Firebase")
         
         let nilEtiquette = Etiquette()
         
@@ -724,6 +744,25 @@ final class ViewModelUnitTests: XCTestCase {
             }
         }
 
+    }
+    
+    func testGetInfoSports() {
+        let expectation = self.expectation(description: "Retrieve Sports Data From Firebase")
+        
+        let nilObject = Sports()
+        
+        vm.getInfoSports(countryName: "MEXICO") { sportsObject in
+            XCTAssertNotNil(sportsObject, "Information should not be nil")
+            XCTAssertNotEqual(nilObject, sportsObject)
+            print("Sports ====", sportsObject)
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
     }
     
 }
