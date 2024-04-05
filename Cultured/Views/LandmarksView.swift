@@ -62,38 +62,51 @@ struct LandmarksView: View {
                         Button {
                             selection = .Historical
                         } label: {
-                            Text("Historical")
-                                .font(Font.custom("Quicksand-Semibold", size: 16))
-                                .foregroundColor(.cMedGray)
-                                .padding(.leading, 30)
+                            if selection == .Historical {
+                                Text("Historical")
+                                    .font(Font.custom("Quicksand-Semibold", size: 16))
+                                    .foregroundColor(landmarkRed)
+                                    .underline()
+                                    .padding(.leading, 23)
+                            } else {
+                                Text("Historical")
+                                    .font(Font.custom("Quicksand-Semibold", size: 16))
+                                    .foregroundColor(.cMedGray)
+                                    .padding(.leading, 23)
+                            }
                         }
                         Button {
                             selection = .Scenic
                         } label: {
+                            if selection == .Scenic {
+                                Text("Scenic")
+                                    .font(Font.custom("Quicksand-Semibold", size: 16))
+                                    .foregroundColor(landmarkRed)
+                                    .underline()
+                                    .padding(.leading, 23)
+                            } else {
                                 Text("Scenic")
                                     .font(Font.custom("Quicksand-Semibold", size: 16))
                                     .foregroundColor(.cMedGray)
-                                    .padding(.leading, 30)
+                                    .padding(.leading, 23)
+                            }
                         }
                                 
-                            
-                            
-                         
-                        //}
                     }
                     switch selection {
                     case .Historical:
-                        LandmarksRegionalView()
+                        LandmarksHistoricalView()
                     case .Regional:
                         LandmarksRegionalView()
                     case .Scenic:
-                        LandmarksRegionalView()
+                        LandmarksScenicView()
                     }
                 }
                 .padding(.top, 30)
                 .padding(.leading, 40)
             }
         }
+        .padding(.top, -50)
     }
 }
 
@@ -105,7 +118,28 @@ private enum Tabs: Hashable {
 
 struct LandmarksRegionalView: View {
     var body: some View {
-        VStack{
+            ScrollView{
+                Text("Top Attractions")
+                    .font(Font.custom("Quicksand-Medium", size: 24))
+                    .padding(.top, 10)
+                Image("LandmarksViewImage2")
+                Text("Palacio De Bellas Artes")
+                    .font(Font.custom("Quicksand-Medium", size: 20))
+                Image("LandmarksViewImage3")
+                    .resizable()
+                    .frame(width: 312, height: 181)
+                    .cornerRadius(25)
+                    .padding(.top, 20)
+                Text("Monumento a la Independencia")
+                    .font(Font.custom("Quicksand-Medium", size: 20))
+            }
+            .scrollIndicators(.hidden)
+    }
+}
+
+struct LandmarksHistoricalView: View {
+    var body: some View {
+        ScrollView{
             Text("Top Attractions")
                 .font(Font.custom("Quicksand-Medium", size: 24))
                 .padding(.top, 10)
@@ -113,8 +147,35 @@ struct LandmarksRegionalView: View {
             Text("Palacio De Bellas Artes")
                 .font(Font.custom("Quicksand-Medium", size: 20))
             Image("LandmarksViewImage3")
+                .resizable()
+                .frame(width: 312, height: 181)
+                .cornerRadius(25)
                 .padding(.top, 20)
+            Text("Monumento a la Independencia")
+                .font(Font.custom("Quicksand-Medium", size: 20))
         }
+        .scrollIndicators(.hidden)
+    }
+}
+
+struct LandmarksScenicView: View {
+    var body: some View {
+        ScrollView{
+            Text("Top Attractions")
+                .font(Font.custom("Quicksand-Medium", size: 24))
+                .padding(.top, 10)
+            Image("LandmarksViewImage2")
+            Text("Palacio De Bellas Artes")
+                .font(Font.custom("Quicksand-Medium", size: 20))
+            Image("LandmarksViewImage3")
+                .resizable()
+                .frame(width: 312, height: 181)
+                .cornerRadius(25)
+                .padding(.top, 20)
+            Text("Monumento a la Independencia")
+                .font(Font.custom("Quicksand-Medium", size: 20))
+        }
+        .scrollIndicators(.hidden)
     }
 }
 
