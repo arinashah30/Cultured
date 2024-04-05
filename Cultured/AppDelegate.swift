@@ -8,6 +8,8 @@
 import UIKit
 import SwiftUI
 import Firebase
+import FirebaseCore
+import FirebaseAppCheck
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,12 +18,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-
+        let providerFactory = AppCheckDebugProviderFactory()
+        AppCheck.setAppCheckProviderFactory(providerFactory)
+        
+        FirebaseApp.configure()
         // Create the SwiftUI view that provides the window contents.
         //let contentView = ContentView()
-        //var contentView = MainView(vm: ViewModel())
-        FirebaseApp.configure()
-        var contentView = _DModelView()
+//        var contentView = MainView(vm: ViewModel())
+        var contentView = ContentView(vm: ViewModel())
 
         // Use a UIHostingController as window root view controller.
         let window = UIWindow(frame: UIScreen.main.bounds)
