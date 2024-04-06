@@ -221,6 +221,31 @@ class ViewModel: ObservableObject {
         }
     }
     
+    func getInfoTraditions(countryName: String, completion: @escaping (Traditions) -> Void) {
+        self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("TRADITIONS").getDocument { document, error in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(Traditions())
+                return
+            }
+            guard let document = document, document.exists else {
+                print("Document Doesn't Exist")
+                completion(Traditions())
+                return
+            }
+            
+            guard let data = document.data(), !data.isEmpty else {
+                print("Data is Nil or Data is Empty")
+                completion(Traditions())
+                return
+            }
+            
+            var traditionsDictionary = data["traditions"] as? [String : String] ?? [:]
+            let traditionsObject = Traditions(traditionsDictionary: traditionsDictionary)
+            completion(traditionsObject)
+        }
+    }
+    
     /*-------------------------------------------------------------------------------------------------*/
     
     /*
