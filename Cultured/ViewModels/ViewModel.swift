@@ -195,7 +195,33 @@ class ViewModel: ObservableObject {
         
     }
     
-    func getInfoEtiquettes(countryName: String, completion: @escaping (Etiquette) -> Void) {
+    func getInfoLandmarks(countryName: String, completion: @escaping (Landmarks) -> Void) {
+            self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("LANDMARKS").getDocument { document, error in
+                if let error = error {
+                    print(error.localizedDescription)
+                    completion(Landmarks())
+                    return
+                }
+                guard let document = document, document.exists else {
+                    print("Document Doesn't Exist")
+                    completion(Landmarks())
+                    return
+                }
+
+                guard let data = document.data(), !data.isEmpty else {
+                    print("Data is Nil or Data is Empty")
+                    completion(Landmarks())
+                    return
+                }
+
+                var landmarkMap = [String : String]()
+                landmarkMap = data["landmarks"] as? [String : String] ?? [:]
+                let landmarkObject = Landmarks(landmarkMap: landmarkMap)
+                completion(landmarkObject)
+            }
+        }
+
+  func getInfoEtiquettes(countryName: String, completion: @escaping (Etiquette) -> Void) {
         self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("ETIQUETTE").getDocument { document, error in
             if let error = error {
                 print(error.localizedDescription)
@@ -221,6 +247,33 @@ class ViewModel: ObservableObject {
         }
     }
     
+    func getInfoSports(countryName: String, completion: @escaping (Sports) -> Void) {
+        self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("SPORTS").getDocument { document, error in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(Sports())
+                return
+            }
+            guard let document = document, document.exists else {
+                print("Document Doesn't Exist")
+                completion(Sports())
+                return
+            }
+            
+            guard let data = document.data(), !data.isEmpty else {
+                print("Data is Nil or Data is Empty")
+                completion(Sports())
+                return
+            }
+            
+            let athletes = data["athletes"] as? [String] ?? []
+//            var sportsDictionary = [String : String]()
+            let sportsDictionary = data["sports"] as? [String : String] ?? [:]
+            let sportsObject = Sports(athletes: athletes, sports: sportsDictionary)
+            completion(sportsObject)
+        }
+    }
+  
     func getInfoTraditions(countryName: String, completion: @escaping (Traditions) -> Void) {
         self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("TRADITIONS").getDocument { document, error in
             if let error = error {
@@ -245,6 +298,7 @@ class ViewModel: ObservableObject {
             completion(traditionsObject)
         }
     }
+  
     
     /*-------------------------------------------------------------------------------------------------*/
     
