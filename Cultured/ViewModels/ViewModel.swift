@@ -240,7 +240,7 @@ class ViewModel: ObservableObject {
                 return
             }
             
-            var traditionsDictionary = data["traditions"] as? [String : String] ?? [:]
+            let traditionsDictionary = data["traditions"] as? [String : String] ?? [:]
             let traditionsObject = Traditions(traditionsDictionary: traditionsDictionary)
             completion(traditionsObject)
         }
