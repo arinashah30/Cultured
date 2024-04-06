@@ -707,4 +707,23 @@ final class ViewModelUnitTests: XCTestCase {
         }
     }
     
+    func testGetInfoTraditions() {
+        let expectation = self.expectation(description: "Retrieve Traditions Data From Firebase")
+
+        let nilObject = Traditions()
+        
+        vm.getInfoTraditions(countryName: "MEXICO") { traditionsObject in
+            XCTAssertNotNil(traditionsObject, "Information should not be nil")
+            XCTAssertNotEqual(nilObject, traditionsObject)
+            print("Traditions ====", traditionsObject)
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
+    
 }
