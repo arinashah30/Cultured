@@ -217,14 +217,6 @@
 			path = WordGuessing;
 			sourceTree = "<group>";
 		};
-		592F9AA72BB392E30046DFB8 /* PopCulture */ = {
-			isa = PBXGroup;
-			children = (
-				59167BFC2BB7E1D7006C02C1 /* DanceView.swift */,
-			);
-			path = PopCulture;
-			sourceTree = "<group>";
-		};
 		666A717A2BBF2D1E005A849A /* InfoModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -326,7 +318,6 @@
 				66FB6A052B72A14B0066B826 /* Onboarding */,
 				66FB6A0A2B72A1650066B826 /* Profile */,
 				66FB6A0F2B72A1860066B826 /* Quizzes_Games */,
-				592F9AA72BB392E30046DFB8 /* PopCulture */,
 				CA6439892B8579AF00181C5F /* FoodCategorySectionView.swift */,
 				CA64398B2B857B0900181C5F /* CustomsSectionView.swift */,
 				7C9E14682BBF6353003BC7B4 /* LandmarksView.swift */,
@@ -410,6 +401,7 @@
 			isa = PBXGroup;
 			children = (
 				66FB6A1D2B72A2DF0066B826 /* MusicView.swift */,
+				59167BFC2BB7E1D7006C02C1 /* DanceView.swift */,
 			);
 			path = PopCulture;
 			sourceTree = "<group>";
