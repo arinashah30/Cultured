@@ -7,12 +7,8 @@
 
 import SwiftUI
 
-/*
- I created a separate struct for each LeaderBoard entry, and tried including some variables for future implementation and syncing with the backend.
- The view certainly won't look good or correct as of now, but once I get my environment running
- it will take another hour or so of work.
- */
 struct LeaderboardEntry: View {
+    @ObservedObject var vm: ViewModel
     var rank: Int
     var username: String
     var avatar: Image
@@ -25,19 +21,19 @@ struct LeaderboardEntry: View {
                 .background(Color.cOrange)
                 .cornerRadius(20)
             HStack {
-                Text("\rank")
+                Text("\(rank)")
                     .font(Font.custom("Quicksand-Semibold", size: 20))
                     .foregroundColor(.cDarkGray)
                     .bold()
-                Image("PlaceHolderAvatar")
+                avatar
                     .resizable()
                     .scaledToFill()
                     .frame(width: 61, height: 61)
                     .clipShape(Circle())
                     .overlay(Circle().stroke(Color.white, lineWidth: 2))
 
-                VStack {
-                    Text("Username")
+                VStack(alignment: .leading) {
+                    Text(username)
                         .font(.system(size: 20))
                         .foregroundColor(.cDarkGray)
                     HStack {
@@ -58,49 +54,83 @@ struct LeaderboardEntry: View {
 }
 
 struct LeaderboardView: View {
-    
-    var sizeUserList: Int
+    @ObservedObject var vm: ViewModel
+    let users: [(username: String, points: Int)] = [
+            ("User1", 120),
+            ("User2", 150),
+            ("User3", 110),
+            ("User4", 130)
+        ].sorted(by: { $0.points > $1.points })
     
     var body: some View {
-        ZStack {
-            Image("Earth")
-                .resizable()
-                .frame(width: 390, height: 618)
-            Rectangle()
-                .foregroundColor(.clear)
-                .frame(width: 390, height: 618)
-                .background(.white)
-                .cornerRadius(40)
-            VStack {
-                Text("Leaderboard")
-                    .font(Font.custom("Quicksand-Semibold", size: 32))
-                    .foregroundColor(.white)
-                HStack {
-                    VStack {
-                        //Find a way to put the prof pic and info of the second place user
-                    }
-                    VStack {
-                        // First Place user
-                    }
-                    VStack {
-                        //Third place user
-                    }
-                }
-                ScrollView {
-                    VStack {
-                        ForEach(0..<sizeUserList) { index in
-                            // Need to make the relevant leaderboard entry given the user
-                            //LeaderboardEntry{}
-                        }
-                    }
-                }
+
+        VStack {
                 
+            HStack (alignment: .bottom) {
+                VStack {
+                    //Find a way to put the prof pic and info of the second place user
+                    ZStack {
+                        Rectangle()
+                            .foregroundColor(.clear)
+                            .frame(width: 80, height: 124)
+                            .background(Color(red: 0.99, green: 0.7, blue: 0.7))
+                            .cornerRadius(10)
+                        Text("2")
+                            .font(Font.custom("Quicksand", size:40)
+                                .weight(.bold))
+                            .foregroundColor(.cDarkGray)
+                    }
+                    
+                }
+                VStack {
+                    // First Place user
+                    
+                    ZStack {
+                        Rectangle()
+                            .foregroundColor(.clear)
+                            .frame(width: 90, height: 158)
+                            .background(Color(red: 1, green: 0.86, blue: 0.65))
+
+                            .cornerRadius(10)
+                        Text("1")
+                            .font(Font.custom("Quicksand", size:64)
+                                .weight(.medium))
+                            .foregroundColor(.cDarkGray)
+                    }
+                    
+                }
+                VStack {
+                    //Third place user
+                    ZStack {
+                        Rectangle()
+                            .foregroundColor(.clear)
+                            .frame(width: 80, height: 97)
+                            .background(Color(red: 0.6, green: 0.76, blue: 0.87))
+
+                            .cornerRadius(10)
+                        Text("3")
+                            .font(Font.custom("Quicksand", size:40)
+                                .weight(.bold))
+                            .foregroundColor(.cDarkGray)
+                        
+                    }
+            
+                }
             }
+            ScrollView {
+                VStack {
+                    ForEach(Array(users.enumerated()), id: \.element.username) { index, user in
+                        LeaderboardEntry(vm: ViewModel(), rank: index + 1, username: user.username, avatar: Image(systemName: "person.fill"))
+                            .padding(.vertical, 4)
+                    }
+                }
+            }
+            
         }
     }
 }
 
 
 #Preview {
-    LeaderboardView()
+    LeaderboardView(vm: ViewModel())
 }
