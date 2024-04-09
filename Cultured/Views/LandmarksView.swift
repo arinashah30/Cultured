@@ -40,8 +40,6 @@ struct LandmarksView: View {
                     Text("Mexico")
                         .foregroundColor(.cMedGray)
                     HStack {
-                        //use tab view instead of buttons
-                       // TabView(selection: $selection) {
                         Button {
                             selection = .Regional
                         } label: {
