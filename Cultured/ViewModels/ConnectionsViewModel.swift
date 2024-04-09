@@ -8,9 +8,10 @@
 import Foundation
 
 class ConnectionsViewModel: ObservableObject {
-    @Published var current_user: User? = nil
+    var connections: [String : Connections] = [:]
+    @Published var current_connections_game: Connections? = nil
     
-    static func start_connections() -> Connections {
+    static func start_connections(category: String) {
         let optionsDict: [String: String] = ["Swift": "Pop megastars",
                                        "Vehicle": "Method",
                                        "Large": "Living ___",
@@ -30,15 +31,13 @@ class ConnectionsViewModel: ObservableObject {
         let optionsContent: [String] = Array(optionsDict.keys)
         let optionsCategories: [String] = Array(optionsDict.values)
         
-        return Connections() { index in
-            return optionsContent[index]
-        } optionCategory: { index in
-            return optionsCategories[index]
-        }
+//        return Connections() { index in
+//            return optionsContent[index]
+//        } optionCategory: { index in
+//            return optionsCategories[index]
+//        }
     }
-    
-    @Published var current_connections_game: Connections? = start_connections()
-    
+        
     var options: [Connections.Option] {
         return current_connections_game!.options
     }
@@ -98,21 +97,4 @@ class ConnectionsViewModel: ObservableObject {
     func playConnections() {
         
     }
-
-    
-    //METHOD IN PROGRESS
-//    func getCategoryInfo(index: Int) -> [String] {
-//        var infoArray : [String] = []
-//        var category : String = Connections.categories[index]
-//        
-//        infoArray.append(category)
-//        
-//        var wordsOfCategory = Connections.answerKey[category]
-//        
-//        for word in wordsOfCategory {
-//            infoArray.append(word)
-//        }
-//        
-//        return infoArray
-//    }
 }

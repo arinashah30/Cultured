@@ -39,9 +39,9 @@ struct WordGuessingResultsView: View {
                         .padding(.trailing, 25)
                     }
                     VStack(alignment: .leading, spacing: 2) {
-                        Text(vm.hasWon ? "You guessed it!" : "Nice try...")
+                        Text(vm.current_word_guessing_game!.hasWon ? "You guessed it!" : "Nice try...")
                             .font(Font.custom("Quicksand-Medium", size: 18))
-                            .foregroundColor(vm.hasWon ? Color("WinningText") : .red)
+                            .foregroundColor(vm.current_word_guessing_game!.hasWon ? Color("WinningText") : .red)
                         Text("Answer: " + String(vm.current_word_guessing_game?.answer ?? ""))
                             .font(Font.custom("Quicksand-Medium", size: 18))
                     }
@@ -62,7 +62,8 @@ struct WordGuessingResultsView: View {
                             .foregroundColor(Color.black.opacity(0.5))
                     }
                     VStack {
-                        Text(String(vm.winPercent) + "%")
+                        
+                        Text(String(vm.getWinPercent()) + "%")
                             .font(Font.custom("Quicksand-Bold", size: 22))
                             .foregroundColor(.black)
                         Text("Win %")
@@ -80,27 +81,27 @@ struct WordGuessingResultsView: View {
                 
                 HStack(alignment: .bottom, spacing: 4) {
                     Spacer()
-                            let adjustedStats = adjustStats(originalStats: vm.stats)
-                            ForEach(0..<9, id: \.self) { index in
-                                VStack() {
-                                    Text(String(vm.stats[index]))
-                                        .foregroundColor(Color.black.opacity(0.35))
-                                    if vm.hasWon && vm.current_word_guessing_game?.flipsDone == index {
-                                        Rectangle()
-                                            .frame(width: 25, height: 190 * CGFloat(adjustedStats[index]))
-                                            .foregroundColor(Color("WinningBar"))
-                                    } else {
-                                        Rectangle()
-                                            .frame(width: 25, height: 200 * CGFloat(adjustedStats[index]))
-                                            .foregroundColor(Color.black.opacity(0.15))
-                                    }
-                                    Text(String(index + 1))
-                                        .foregroundColor(Color.black.opacity(0.5))
-                                }
-                                
+                    let adjustedStats = adjustStats(originalStats: vm.current_word_guessing_game!.stats)
+                    ForEach(0..<9, id: \.self) { (index: Int) in
+                        VStack() {
+                            Text(String(vm.current_word_guessing_game!.stats[index]))
+                                .foregroundColor(Color.black.opacity(0.35))
+                            if vm.current_word_guessing_game!.hasWon && vm.current_word_guessing_game!.history.count == 9 {
+                                Rectangle()
+                                    .frame(width: 25, height: 190 * CGFloat(adjustedStats[index]))
+                                    .foregroundColor(Color("WinningBar"))
+                            } else {
+                                Rectangle()
+                                    .frame(width: 25, height: 200 * CGFloat(adjustedStats[index]))
+                                    .foregroundColor(Color.black.opacity(0.15))
                             }
-                    Spacer()
+                            Text(String(index + 1))
+                                .foregroundColor(Color.black.opacity(0.5))
                         }
+                        
+                    }
+                    Spacer()
+                }
                 
                 HStack(spacing: 35) {
                     Spacer()
@@ -134,6 +135,6 @@ func adjustStats(originalStats: [Int]) -> [Float] {
 }
 
 #Preview {
-    WordGuessingResultsView(vm: WordGuessingViewModel())
+    WordGuessingResultsView(vm: WordGuessingViewModel(viewModel: ViewModel()))
 }
 

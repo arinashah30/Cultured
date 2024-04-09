@@ -8,69 +8,92 @@
 import Foundation
 
 class WordGuessingViewModel: ObservableObject {
-    @Published var current_user: User? = nil
+    @Published var word_guessings: [String : WordGuessing] = [:]
     @Published var current_word_guessing_game: WordGuessing? = nil
-    @Published var guessesMade: [String] = []
-    @Published var isOver = false
-    @Published var hasWon = false
-    @Published var stats: [Int] = [0, 0, 2, 4, 9, 6, 3, 1, 1]
-    @Published var winPercent: Int = 90
+    @Published var viewModel: ViewModel
     
-    func create_mock_wg_game() {
-        let options = [
-            OptionTile(option: "Edible"),
-            OptionTile(option: "Italian"),
-            OptionTile(option: "Sandwich"),
-            OptionTile(option: "Semi-hard"),
-            OptionTile(option: "White"),
-            OptionTile(option: "Sliced"),
-            OptionTile(option: "Rounded"),
-            OptionTile(option: "Deli Sub"),
-            OptionTile(option: "Cheese")
-        ]
-        let answer = "Provolone"
-        startNewGame(options: options, answer: answer)
+    init(viewModel: ViewModel) {
+        self.viewModel = viewModel
     }
     
-    func startNewGame(options: [OptionTile], answer: String, title: String = "Guess the Word") {
-        current_word_guessing_game = WordGuessing(
-            title: title,
-            options: options,
-            answer: answer
-        )
-        current_word_guessing_game?.options[0].isFlipped = true
-        isOver = false
+    func load_word_guessing_games(completion: @escaping (Bool) -> Void) {
+        var categories = ["Culture", "Food", "Customs", "Places"]
+        print("word guessing load")
+        if viewModel.current_user != nil && !viewModel.current_user!.country.isEmpty {
+            print("insid e condtiion")
+            viewModel.getOnGoingActivities(userId: viewModel.current_user!.id, type: "wordgame", completion: { activities in
+                for activity in activities.keys {
+                    print("WOOOOOT")
+                    print(activity)
+                    if activity.starts(with: self.viewModel.current_user!.country) {
+                        self.viewModel.getWordGameFromFirebase(activityName: activity, completion: { wordInfo in
+                            if var wordInfo = wordInfo {
+                                var i = 0
+                                var points = 100
+                                var won = false
+                                for historyItem in activities[activity]!["history"] as! [String] {
+                                    if historyItem != wordInfo.answer {
+                                        points -= 10
+                                        wordInfo.options[i].isFlipped = true
+                                    } else {
+                                        won = true
+                                    }
+                                    i += 1
+                                }
+                                self.word_guessings[activity] = WordGuessing(title: wordInfo.title, options: wordInfo.options, answer: wordInfo.answer, history: wordInfo.history, stats: wordInfo.stats, won: won, totalPoints: points, current: activities[activity]!["current"] as! Int)
+                            }
+                        })
+                    }
+                }
+                for category in categories {
+                    var wordLoaded = false
+                    for word in self.word_guessings.keys {
+                        if word.contains(category) {
+                            wordLoaded = true
+                        }
+                    }
+                    if !wordLoaded {
+                        print(category)
+                        self.viewModel.getWordGameFromFirebase(activityName: "\(self.viewModel.current_user!.country)\(category)WordGuessing", completion: { wordInfo in
+                            if let wordInfo = wordInfo {
+                                print(wordInfo)
+                                self.word_guessings[wordInfo.title] = WordGuessing(title: wordInfo.title, options: wordInfo.options, answer: wordInfo.answer, stats: wordInfo.stats)
+                                self.word_guessings[wordInfo.title]!.options[0].isFlipped = true
+                                //completion(true)
+                            }
+                        })
+                    }
+                }
+                //completion(true)
+            })
+        }
+    }
+    
+    func startNewGame(category: String) {
+        current_word_guessing_game = word_guessings["\(viewModel.current_user!.country)\(category)WordGuessing"]
     }
     
     func flipTile() {
         guard var game = current_word_guessing_game else { return }
-        if game.flipsDone < game.options.count - 1 {
-            game.totalPoints -= game.flipPoints
-            game.flipsDone += 1
-            let optionIndex = game.flipsDone
+        if game.history.count < game.options.count - 1 {
+            game.totalPoints -= 10
+            let optionIndex = game.history.count
             game.options[optionIndex].isFlipped = true
-            //        if (game.totalPoints == 0) {
-            //            print("Lose because of points reaching 0")
-            //            loseGame()
-            //        }
-            game.numberOfGuesses = 1
-            current_word_guessing_game = game
         }
     }
     
     func submitGuess(_ currentGuess: String) {
         guard var game = current_word_guessing_game else { return }
-        if game.numberOfGuesses == 0 && game.flipsDone < game.options.count - 1 {
+        if game.current < game.options.count - 1 {
             return promptUser()
         }
         
         if currentGuess.lowercased() == game.answer.lowercased() {
             winGame()
         } else {
-            game.numberOfGuesses -= 1
-            guessesMade.insert(currentGuess, at: 0)
-            if game.numberOfGuesses == 0 {
-                if (game.flipsDone >= game.options.count - 1) {
+            game.history.append(currentGuess)
+            if game.history.count == game.current {
+                if (game.current >= game.options.count - 1) {
                     loseGame()
                 } else {
                     promptUser()
@@ -82,20 +105,33 @@ class WordGuessingViewModel: ObservableObject {
     
     func winGame() {
         guard var game = current_word_guessing_game else { return }
-        isOver = true
-        hasWon = true
+        game.isOver = true
+        game.hasWon = true
         print(game.answer + " was the correct word. You Win!!")
     }
         
     func loseGame() {
         guard var game = current_word_guessing_game else { return }
-        isOver = true
-        hasWon = false
+        game.isOver = true
+        game.hasWon = false
         print("Game Over. The word was " + game.answer)
     }
     
     func promptUser() {
         print("Flip a tile!")
+    }
+    
+    func getWinPercent() -> Int {
+        var i = 0
+        var total = 0
+        for count in current_word_guessing_game!.stats {
+            total += count
+            if i == 8 {
+                return Int(Float(count) / Float(total) * 100)
+            }
+            i += 1
+        }
+        return 0
     }
     
 }

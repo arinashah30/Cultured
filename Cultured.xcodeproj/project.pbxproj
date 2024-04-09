@@ -21,6 +21,8 @@
 		48A11D722B9B63220061ED6A /* QuestionSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A11D6F2B9B63220061ED6A /* QuestionSuccessView.swift */; };
 		48A11D732B9B63220061ED6A /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A11D702B9B63220061ED6A /* ProgressBar.swift */; };
 		48A11D742B9B63220061ED6A /* QuestionFailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A11D712B9B63220061ED6A /* QuestionFailView.swift */; };
+		48ACC9802BBF6AF800AEC832 /* StartXView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48ACC97F2BBF6AF800AEC832 /* StartXView.swift */; };
+		48ACC9822BBF6B0B00AEC832 /* ProgressButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48ACC9812BBF6B0B00AEC832 /* ProgressButtonView.swift */; };
 		59167BFD2BB7E1D7006C02C1 /* DanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59167BFC2BB7E1D7006C02C1 /* DanceView.swift */; };
 		6666C7452B88093300A64A3D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6666C7442B88093300A64A3D /* GoogleService-Info.plist */; };
 		666A717B2BBF2D1E005A849A /* Celebrities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666A71712BBF2D1E005A849A /* Celebrities.swift */; };
@@ -113,6 +115,8 @@
 		48A11D6F2B9B63220061ED6A /* QuestionSuccessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionSuccessView.swift; sourceTree = "<group>"; };
 		48A11D702B9B63220061ED6A /* ProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		48A11D712B9B63220061ED6A /* QuestionFailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionFailView.swift; sourceTree = "<group>"; };
+		48ACC97F2BBF6AF800AEC832 /* StartXView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartXView.swift; sourceTree = "<group>"; };
+		48ACC9812BBF6B0B00AEC832 /* ProgressButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressButtonView.swift; sourceTree = "<group>"; };
 		59167BFC2BB7E1D7006C02C1 /* DanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DanceView.swift; sourceTree = "<group>"; };
 		6666C7442B88093300A64A3D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		666A71712BBF2D1E005A849A /* Celebrities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Celebrities.swift; sourceTree = "<group>"; };
@@ -361,6 +365,8 @@
 		66FB6A0F2B72A1860066B826 /* Quizzes_Games */ = {
 			isa = PBXGroup;
 			children = (
+				48ACC9812BBF6B0B00AEC832 /* ProgressButtonView.swift */,
+				48ACC97F2BBF6AF800AEC832 /* StartXView.swift */,
 				480F21FC2B75A91100CB5632 /* WordGuessing */,
 				66FB6A192B72A23B0066B826 /* Quiz */,
 				66FB6A182B72A22C0066B826 /* Connections */,
@@ -613,6 +619,7 @@
 				CA64398C2B857B0900181C5F /* CustomsSectionView.swift in Sources */,
 				480F21F52B75969500CB5632 /* Quiz.swift in Sources */,
 				7CE5D3EF2BB5D2ED00EE0E14 /* BackButton.swift in Sources */,
+				48ACC9822BBF6B0B00AEC832 /* ProgressButtonView.swift in Sources */,
 				66FB6A132B72A2150066B826 /* StartConnectionsView.swift in Sources */,
 				666A717D2BBF2D1E005A849A /* Dance.swift in Sources */,
 				66FB6A0E2B72A1830066B826 /* ResultsView.swift in Sources */,
@@ -622,6 +629,7 @@
 				7C1B20F32B7BFF41008E0244 /* UIColors.swift in Sources */,
 				66FB69FA2B72A1140066B826 /* ActivityView.swift in Sources */,
 				66FB6A1E2B72A2DF0066B826 /* MusicView.swift in Sources */,
+				48ACC9802BBF6AF800AEC832 /* StartXView.swift in Sources */,
 				66FB6A0C2B72A17C0066B826 /* QuestionView.swift in Sources */,
 				480F220A2B7C1FA900CB5632 /* ConnectionsViewModel.swift in Sources */,
 				666A717E2BBF2D1E005A849A /* Etiquette.swift in Sources */,

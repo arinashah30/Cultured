@@ -10,8 +10,7 @@ import Foundation
 struct Quiz {
     var title: String
     var questions: [QuizQuestion]
+    var history: [String] = []
     var points: Int = 0
-    //var coverImage: Image
-    var pointsGoal: Int = 0
     var currentQuestion: Int = 0
 }

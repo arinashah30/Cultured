@@ -146,7 +146,6 @@ final class ViewModelUnitTests: XCTestCase {
         vm.getQuizFromFirebase(activityName: "MexcioCultureQuiz") {quiz in
             XCTAssertNotNil(quiz, "Quiz should not be nil")
             XCTAssertEqual(quiz?.points, 0)
-            XCTAssertEqual(quiz?.pointsGoal, 0)
             XCTAssertEqual(quiz?.title, "MexcioCultureQuiz")
             XCTAssertFalse(quiz?.questions.isEmpty ??  true)
             print("Quiz =====", quiz!)
@@ -174,7 +173,8 @@ final class ViewModelUnitTests: XCTestCase {
         
         let wordGuessing = WordGuessing(title: "USFoodWordGuessing",
                                        options: options,
-                                       answer: "Provolone")
+                                       answer: "Provolone",
+                                        stats: [1, 2, 3, 5, 8, 8, 6, 5, 3, 10])
         
         let option2 = [OptionTile(option: "Dough", isFlipped: true),
                        OptionTile(option: "Filling", isFlipped: true),
@@ -187,7 +187,8 @@ final class ViewModelUnitTests: XCTestCase {
 
         let wordGuessing2 = WordGuessing(title: "ChinaFoodWordGuessing",
                                          options: options,
-                                         answer: "Dumpling")
+                                         answer: "Dumpling",
+                                         stats: [1, 2, 3, 5, 8, 8, 6, 5, 3, 10])
         
         vm.createNewWordGuessing(wordGuessing: wordGuessing)
         vm.createNewWordGuessing(wordGuessing: wordGuessing2)

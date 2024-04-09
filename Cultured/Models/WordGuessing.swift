@@ -11,23 +11,30 @@ struct WordGuessing {
     var title: String
     var options: [OptionTile]
     var answer: String
-    var totalPoints: Int = 100
-    var flipPoints: Int = 10
-    var flipsDone: Int = 0
-    var numberOfGuesses: Int = 1
+    var history: [String] = []
+    var stats: [Int] = []
+    var isOver: Bool = false
+    var hasWon: Bool = false
+    var totalPoints: Int
+    var current: Int
     
-    init(title: String, options: [OptionTile], answer: String, totalPoints: Int, flipPoints: Int, flipsDone: Int, numberOfGuesses: Int) {
+    init(title: String, options: [OptionTile], answer: String, history: [String], stats: [Int], won: Bool, totalPoints: Int, current: Int) {
         self.title = title
         self.options = options
         self.answer = answer
+        self.history = history
+        self.stats = stats
+        if (history.count == 9) {
+            isOver = true
+        } else {
+            isOver = false
+        }
+        self.hasWon = won
         self.totalPoints = totalPoints
-        self.flipPoints = flipPoints
-        self.flipsDone = flipsDone
-        self.numberOfGuesses = numberOfGuesses
+        self.current = current
     }
 
-    init(title: String, options: [OptionTile], answer: String) {
-        //set values to 0 as default
-        self.init(title: title, options: options, answer: answer, totalPoints: 0, flipPoints: 0, flipsDone: 0, numberOfGuesses: 0)
+    init(title: String, options: [OptionTile], answer: String, stats: [Int]) {
+        self.init(title: title, options: options, answer: answer, history: [], stats: stats, won: false, totalPoints: 100, current: 0)
     }
 }

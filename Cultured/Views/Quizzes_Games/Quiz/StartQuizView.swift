@@ -15,13 +15,12 @@ struct StartQuizView: View {
     @State var backgroundImage: Image
     
     let categories: [String] = ["Pop Culture", "Food", "Customs", "Places"]
-    let categoryProgress: [Float] = [0.2, 0.8, 0.5, 0.7]
     
     var body: some View {
-        StartXView(vm: ViewModel(), gameName: "Quiz", countryName: countryName, backgroundImage: backgroundImage, categories: categories, categoryProgress: categoryProgress)
+        StartXView(vm: vm, gameName: "Quiz", countryName: vm.get_current_country(), backgroundImage: backgroundImage, categories: categories, categoryProgress: vm.quizViewModel!.getProgress())
     }
 }
 
-#Preview {
-    StartQuizView(vm: ViewModel(), countryName: "Country", backgroundImage: Image("StartQuizImage"))
-}
+//#Preview {
+//    StartQuizView(vm: ViewModel(), countryName: "Country", backgroundImage: Image("StartQuizImage"))
+//}

@@ -12,6 +12,7 @@ struct ContentView: View {
     @AppStorage("log_Status") var logStatus = false
     
     var body: some View {
+        
         if logStatus == true && vm.auth.currentUser != nil {
             MainView(selectedView: .home, vm: vm)
         } else {

@@ -13,22 +13,29 @@ import FirebaseStorage
 
 class ViewModel: ObservableObject {
     @Published var current_user: User? = nil
+    @Published var quizViewModel: QuizViewModel? = nil
+    @Published var connectionsViewModel: ConnectionsViewModel? = nil
+    @Published var wordGuessingViewModel: WordGuessingViewModel? = nil
     let db = Firestore.firestore();
     let auth = Auth.auth();
     @Published var errorText: String? = nil
     //@Published var points: Int = 100
     
     init(current_user: User? = nil, errorText: String? = nil) {
-        self.current_user = current_user
-        self.errorText = errorText
+        if self.current_user != nil {
+            self.current_user = current_user
+            self.errorText = errorText
+        }
         
         _ = Auth.auth().addStateDidChangeListener { [weak self] auth, user in
             if let user = user {
                 print("User Found")
                 if let username = user.displayName {
-                    print("Setting User: \(username)")
-                    self?.setCurrentUser(userId: username) {
-                        UserDefaults.standard.setValue(true, forKey: "log_Status")
+                    if !(current_user != nil && current_user!.id == username) {
+                        print("Setting User: \(username)")
+                        self?.setCurrentUser(userId: username) { user in
+                            UserDefaults.standard.setValue(true, forKey: "log_Status")
+                        }
                     }
                 }
             } else {
@@ -65,6 +72,20 @@ class ViewModel: ObservableObject {
                 completion(false)
             }
             else {
+                
+                self.db.collection("USERS").whereField("email", isEqualTo: email).getDocuments { documents, error in
+                    if let err = error {
+                        print(err.localizedDescription)
+                        return
+                    } else {
+                        if let docs = documents {
+                            for doc in docs.documents {
+                                let id = doc.data()["id"] as! String
+                                self.setCurrentUser(userId: id, completion: { user in })
+                            }
+                        }
+                    }
+                }
                 UserDefaults.standard.setValue(true, forKey: "log_Status")
                 self.updateLastLoggedOn(email: email) { success in
                     if success {
@@ -120,7 +141,7 @@ class ViewModel: ObservableObject {
                         if let error = error {
                             self.errorText = error.localizedDescription
                         } else {
-                            self.setCurrentUser(userId: username) {
+                            self.setCurrentUser(userId: username) { user in
                                 UserDefaults.standard.setValue(true, forKey: "log_Status")
                             }
                         }
@@ -203,25 +224,45 @@ class ViewModel: ObservableObject {
      -----------------------------------------------------------------------------------------------
      */
     
-    func setCurrentUser(userId: String, completion: @escaping (() -> Void)) {
-        db.collection("USERS").document(userId).getDocument (completion: { [weak self] document, error in
-            if let error = error {
-                print("SetCurrentUserError: \(error.localizedDescription)")
-            } else if let document = document {
-                self?.current_user = User(id: document.documentID,
-                                          name: document["name"] as! String,
-                                          profilePicture: document["profilePicture"] as! String,
-                                          email: document["email"] as! String,
-                                          points: document["points"] as? Int ?? 0,
-                                          streak: document["streak"] as? Int ?? 0,
-                                          streakRecord: document["streakRecord"] as? Int ?? 0,
-                                          completedChallenges: document["completedChallenges"] as? [String] ?? [],
-                                          badges: document["badges"] as? [String] ?? [],
-                                          savedArtists: document["savedArtists"] as? [String] ?? []
-                )
-                completion()
-            }
-        })
+    func setCurrentUser(userId: String, completion: @escaping ((User?) -> Void)) {
+        if current_user == nil {
+            db.collection("USERS").document(userId).getDocument (completion: { document, error in
+                if let error = error {
+                    print("SetCurrentUserError: \(error.localizedDescription)")
+                } else if let document = document {
+                    print("BEFORESET")
+                    self.current_user = User(id: document.documentID,
+                                             name: document["name"] as! String,
+                                             profilePicture: document["profilePicture"] as! String,
+                                             email: document["email"] as! String,
+                                             points: document["points"] as? Int ?? 0,
+                                             streak: document["streak"] as? Int ?? 0,
+                                             streakRecord: document["streakRecord"] as? Int ?? 0,
+                                             completedChallenges: document["completedChallenges"] as? [String] ?? [],
+                                             badges: document["badges"] as? [String] ?? [],
+                                             savedArtists: document["savedArtists"] as? [String] ?? [],
+                                             country: document["currentCountry"] as? String ?? ""
+                    )
+                    print("BEFOREFUNCTIONS")
+                    self.connectionsViewModel = ConnectionsViewModel()
+                    self.wordGuessingViewModel = WordGuessingViewModel(viewModel: self)
+                    self.quizViewModel = QuizViewModel(viewModel: self)
+                    self.quizViewModel!.load_quizzes() { result in
+                        print("RESULT FROM QUIZ " + String(result))
+                        print(self.quizViewModel!.quizzes)
+                    }
+                    self.wordGuessingViewModel!.load_word_guessing_games() { result in
+                        print("RESULT FROM WORD " + String(result))
+                        print(self.wordGuessingViewModel!.word_guessings)
+                        print(self.wordGuessingViewModel!.word_guessings["USFoodWordGuessing"]!)
+                    }
+                    print("MADE IT")
+                    completion(self.current_user)
+                }
+            })
+        } else {
+            completion(self.current_user)
+        }
     }
     
     func getWordGameFromFirebase(activityName: String, completion: @escaping (WordGuessing?) -> Void) {
@@ -247,6 +288,7 @@ class ViewModel: ObservableObject {
             let title = data["title"] as? String ?? ""
             let answer = data["answer"] as? String ?? ""
             let options = data["hints"] as? [String] ?? []
+            let winCount = data["winCount"] as? [String : Int] ?? [:]
             
             var optionTileArray = [OptionTile]()
             for option in options {
@@ -256,7 +298,8 @@ class ViewModel: ObservableObject {
 
             let wordGuessing = WordGuessing(title: title,
                                             options: optionTileArray,
-                                            answer: answer)
+                                            answer: answer,
+                                            stats: Array(winCount.values))
             completion(wordGuessing)
         }
     }
@@ -311,15 +354,14 @@ class ViewModel: ObservableObject {
                     var questionsArray = [QuizQuestion]()
                     for questionsDocuments in querySnapshot!.documents {
                         let questionData = questionsDocuments.data()
+                        //print("DataQ: \(questionData)")
                         let question = questionsDocuments.documentID
-                        if let quizQuestion = self.parseQuestionData(questionData, question) {
-                            questionsArray.append(quizQuestion)
-                        }
+                        questionsArray.append(QuizQuestion(question: question, answers: questionData["answerChoices"] as! [String], correctAnswer: questionData["correctAnswer"] as! Int, correctAnswerDescription: questionData["correctAnswerDescription"] as! String))
                     }
+                    //print("QArray: \(questionsArray)")
                     let quiz = Quiz(title: title,
                                     questions: questionsArray,
                                     points: 0,
-                                    pointsGoal: 0,
                                     currentQuestion: 0)
                     completion(quiz)
                 }
@@ -654,6 +696,17 @@ class ViewModel: ObservableObject {
         }
     }
     
+    func get_current_country() -> String {
+        var result = ""
+        for char in current_user?.country ?? "" {
+            if char.isUppercase {
+                result.append(" ")
+            }
+            result.append(char)
+        }
+        return result.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    
     
     
     /*-------------------------------------------------------------------------------------------------*/
@@ -677,7 +730,7 @@ class ViewModel: ObservableObject {
 
              "numberOfQuestions": numQuestions,
 
-             "type": typeOfActivity, //MUST be "quiz", "connection", or "wordgame"
+             "type": typeOfActivity.lowercased(), //MUST be "quiz", "connection", or "wordgame"
             ])
             completion(true)
         }
@@ -844,13 +897,13 @@ class ViewModel: ObservableObject {
                 completion(false)
                 return
             }
-            guard let document = document, document.exists, var currentCounter = document.data()?["counter"] as? Int else {
+            guard let document = document, document.exists, var currentCounter = document.data()?["current"] as? Int else {
                 print("Document does not exist")
                 completion(false)
                 return
             }
             currentCounter = currentCounter + 1
-            self.db.collection("USERS").document(userID).collection("ACTIVITIES").document(activityName).updateData(["counter": currentCounter]) { err in
+            self.db.collection("USERS").document(userID).collection("ACTIVITIES").document(activityName).updateData(["current": currentCounter]) { err in
                 if let err = err {
                     print("Error updating document: \(err.localizedDescription)")
                     completion(false)

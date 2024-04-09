@@ -84,7 +84,7 @@ struct WordGuessingView: View {
                     
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
-                            ForEach(vm.guessesMade, id: \.self) { guess in
+                            ForEach(self.vm.current_word_guessing_game!.history.reversed(), id: \.self) { guess in
                                 Text(guess)
                                     .foregroundColor(.red.opacity(0.5))
                                     .padding()
@@ -105,16 +105,16 @@ struct WordGuessingView: View {
                                     .stroke(Color.gray, lineWidth: 2)
                             )
                         Button("Enter") {
-                            if currentGuess != "" && vm.current_word_guessing_game?.numberOfGuesses != 0 {
+                            if currentGuess != "" && vm.current_word_guessing_game!.history.count * 10 != vm.current_word_guessing_game?.totalPoints {
                                 vm.submitGuess(currentGuess)
                             }
                             currentGuess = ""
                         }
-                        .disabled(vm.current_word_guessing_game?.numberOfGuesses ?? 0 <= 0)
+                        .disabled(vm.current_word_guessing_game!.history.count * 10 == vm.current_word_guessing_game?.totalPoints)
                         .font(Font.custom("SF-Pro-Display-Light", size: 19))
                         .foregroundColor(.black)
                         .frame(minWidth: 0, maxWidth: 71, minHeight: 45)
-                        .background(vm.current_word_guessing_game?.numberOfGuesses ?? 0 > 0 ? Color("EnterButtonColor") : Color.black.opacity(0.1))
+                        .background(vm.current_word_guessing_game!.history.count * 10 - vm.current_word_guessing_game!.totalPoints > 0 ? Color("EnterButtonColor") : Color.black.opacity(0.1))
                         .cornerRadius(10)
                         Spacer(minLength: 20)
                     }
@@ -123,22 +123,19 @@ struct WordGuessingView: View {
                         .padding()
                 }
             }
-            .onAppear {
-                vm.create_mock_wg_game()
-            }
-            .onReceive(vm.$hasWon) { newHasWon in
-                        self.localHasWon = newHasWon
-                    }
-            .popup(isPresented: $vm.isOver) {
-                ZStack {
-                    WordGuessingResultsView(vm: vm)
-                }
-            }
+//            .onReceive(vm.current_word_guessing_game!.hasWon) { newHasWon in
+//                        self.localHasWon = newHasWon
+//                    }
+//            .popup(isPresented: vm.current_word_guessing_game!.isOver) {
+//                ZStack {
+//                    WordGuessingResultsView(vm: vm)
+//                }
+//            }
             .navigationBarBackButtonHidden()
         }
     }
 }
 
 #Preview {
-    WordGuessingView(vm: WordGuessingViewModel())
+    WordGuessingView(vm: WordGuessingViewModel(viewModel: ViewModel()))
 }

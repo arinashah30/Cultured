@@ -18,7 +18,7 @@ struct StartConnectionsView: View {
     let categoryProgress: [Float] = [0.25, 0.75, 0, 0.9]
     
     var body: some View {
-        StartXView(vm: ViewModel(), gameName: "Connections", countryName: countryName, backgroundImage: backgroundImage, categories: categories, categoryProgress: categoryProgress)
+        StartXView(vm: vm, gameName: "Connections", countryName: countryName, backgroundImage: backgroundImage, categories: categories, categoryProgress: categoryProgress)
     }
 }
 

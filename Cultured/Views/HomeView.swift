@@ -9,9 +9,9 @@ import SwiftUI
 
 struct HomeView: View {
     @ObservedObject var vm: ViewModel
-    @State var points: Int = 346
-    @State var streak: Int = 7
-    @State var badges: Int = 4
+    @State var points: Int = 0
+    @State var streak: Int = 0
+    @State var badges: Int = 0
 
     
     var body: some View {
@@ -78,7 +78,8 @@ struct HomeView: View {
                             .bold()
                             .offset(y:-15)
                         NavigationLink {
-                            StartQuizView(vm: vm, countryName: "Country Name", backgroundImage: Image("StartQuizImage"))
+                            //print(vm.current_user!)
+                            StartQuizView(vm: vm, countryName: vm.current_user!.country, backgroundImage: Image("StartQuizImage"))
                         } label: {
                             Text("start")
                                 .font(.system(size: 16))
@@ -104,7 +105,7 @@ struct HomeView: View {
                             .bold()
                             .offset(y:-15)
                         NavigationLink {
-                            StartConnectionsView(vm: ViewModel(), countryName: "Country", backgroundImage: Image("WordGuessing"))
+                            StartConnectionsView(vm: ViewModel(), countryName: vm.current_user?.country ?? "", backgroundImage: Image("WordGuessing"))
                         } label: {
                             Text("start")
                                 .font(.system(size: 16))
@@ -129,7 +130,7 @@ struct HomeView: View {
                             .bold()
                             .offset(y:-15)
                         NavigationLink {
-                            StartWordGuessingView(vm: vm, countryName: "Country Name", backgroundImage: Image("WordGuessing"))
+                            StartWordGuessingView(vm: vm, countryName: vm.current_user?.country ?? "", backgroundImage: Image("WordGuessing"))
                         } label: {
                             Text("start")
                                 .font(.system(size: 16))
@@ -279,6 +280,11 @@ struct HomeView: View {
             
         }
     }
+        .onAppear() {
+            points = vm.current_user?.points ?? 0
+            streak = vm.current_user?.streak ?? 0
+            badges = vm.current_user?.badges.count ?? 0
+        }
         
     }
     
