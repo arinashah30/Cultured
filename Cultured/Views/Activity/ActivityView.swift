@@ -57,7 +57,7 @@ struct BadgePopUp: View {
             .frame(maxWidth: 303, maxHeight: 151, alignment: .leading)
             .background(Color.cOrange)
             .clipShape(RoundedRectangle(cornerRadius: 18))
-            .foregroundColor(.cDarkGray)
+            .foregroundColor(Color("cDarkGrayConstant"))
             
             
             
@@ -66,7 +66,7 @@ struct BadgePopUp: View {
                     self.badgePopUp = false
                 }) {
                     Image(systemName: "xmark")
-                        .foregroundColor(.cDarkGray)
+                        .foregroundColor(Color("cDarkGrayConstant"))
                         .frame(width: 12, height: 12)
                 }.position(x: geometry.size.width - ((geometry.size.width - 303) / 2) - 12 - 12, y: ((geometry.size.height - 151) / 2) + 12 + 12)
             }

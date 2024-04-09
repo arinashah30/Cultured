@@ -127,12 +127,14 @@ struct MusicView: View {
                                             
                                             VStack (alignment: .leading){
                                                 Text("\(song.name)")
-                                                    .foregroundStyle(.black)
+                                                    .lineLimit(1)
+                                                    .minimumScaleFactor(0.8)
+                                                    .foregroundStyle(.cDarkGray)
                                                 Text("\(song.artistNames)")
                                                     .lineLimit(1)
                                                     .minimumScaleFactor(0.8)
+                                                    .foregroundStyle(Color.cLightGray)
                                             }
-                                            .foregroundStyle(.black)
                                             
                                             
                                             Spacer()
@@ -144,11 +146,12 @@ struct MusicView: View {
                                         .padding(.horizontal, 15)
                                     }
                                     .frame(width: 324, height:76)
-                                    .background(Color.cLightGray)
+                                    .background(Color("cBarColor"))
                                     .clipShape(.rect(cornerRadius: 14))
                                     
                                 }
                             }
+                            .padding(.bottom, 100)
                         }
                         
                     }

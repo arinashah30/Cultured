@@ -78,7 +78,7 @@ struct SelfProfileView: View {
                 //My Challenges
                 ZStack {
                     Rectangle()
-                        .fill(Color.cLightGray)
+                        .fill(Color("cBarColor"))
                         .frame(width:354, height: 68)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                     HStack{
@@ -96,7 +96,7 @@ struct SelfProfileView: View {
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                             Text("In Progress")
                                 .font(.system(size: 20))
-                                .foregroundColor(Color.cDarkGray)
+                                .foregroundColor(Color("cDarkGrayConstant"))
                         }
                     }
                     .frame(width:330, height: 68)
@@ -105,7 +105,7 @@ struct SelfProfileView: View {
                 // Second Challenges
                 ZStack {
                     Rectangle()
-                        .fill(Color.cLightGray)
+                        .fill(Color("cBarColor"))
                         .frame(width:354, height: 68)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                     HStack{
@@ -123,7 +123,7 @@ struct SelfProfileView: View {
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                             Text("In Progress")
                                 .font(.system(size: 20))
-                                .foregroundColor(Color.cDarkGray)
+                                .foregroundColor(Color("cDarkGrayConstant"))
                         }
                     }
                     .frame(width:330, height: 68)

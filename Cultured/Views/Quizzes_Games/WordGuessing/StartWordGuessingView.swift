@@ -127,7 +127,7 @@ struct StartWordGuessingView: View {
                                 .padding()
                         })
                         .frame(maxWidth: 154, maxHeight: 57, alignment: .center)
-                        .background(Color.black.opacity(0.1))
+                        .background(.black.opacity(0.2))
                         .clipShape(.rect(cornerRadius: 100.0))
                         .padding(.top, 15)
                         .padding(.leading, 85)
