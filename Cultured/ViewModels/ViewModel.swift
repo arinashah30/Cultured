@@ -225,7 +225,7 @@ class ViewModel: ObservableObject {
      */
     
     func setCurrentUser(userId: String, completion: @escaping ((User?) -> Void)) {
-        if user.isEmpty {
+        if userId.isEmpty {
             completion(nil)
         }  else {
             if current_user == nil {
