@@ -707,6 +707,24 @@ final class ViewModelUnitTests: XCTestCase {
         wait(for: [expectation], timeout: 5)
     }
     
+    func testGetInfoCelebrities() {
+        let expectation = self.expectation(description: "Retrieve Celebrities Data From Firebase")
+
+        let nilObject = Celebrities()
+
+        vm.getInfoCelebrities(countryName: "MEXICO") { celebrityObject in
+            XCTAssertNotNil(celebrityObject, "Information should not be nil")
+            XCTAssertNotEqual(nilObject, celebrityObject)
+            print("Celebrities ====", celebrityObject)
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
     func testGetInfoLandmarks() {
          let expectation = self.expectation(description: "Retrieve Landmark Data From Firebase")
 

@@ -196,30 +196,30 @@ class ViewModel: ObservableObject {
     }
     
     func getInfoLandmarks(countryName: String, completion: @escaping (Landmarks) -> Void) {
-            self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("LANDMARKS").getDocument { document, error in
-                if let error = error {
-                    print(error.localizedDescription)
-                    completion(Landmarks())
-                    return
-                }
-                guard let document = document, document.exists else {
-                    print("Document Doesn't Exist")
-                    completion(Landmarks())
-                    return
-                }
+          self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("LANDMARKS").getDocument { document, error in
+              if let error = error {
+                  print(error.localizedDescription)
+                  completion(Landmarks())
+                  return
+              }
+              guard let document = document, document.exists else {
+                  print("Document Doesn't Exist")
+                  completion(Landmarks())
+                  return
+              }
 
-                guard let data = document.data(), !data.isEmpty else {
-                    print("Data is Nil or Data is Empty")
-                    completion(Landmarks())
-                    return
-                }
+              guard let data = document.data(), !data.isEmpty else {
+                  print("Data is Nil or Data is Empty")
+                  completion(Landmarks())
+                  return
+              }
 
-                var landmarkMap = [String : String]()
-                landmarkMap = data["landmarks"] as? [String : String] ?? [:]
-                let landmarkObject = Landmarks(landmarkMap: landmarkMap)
-                completion(landmarkObject)
-            }
-        }
+              var landmarkMap = [String : String]()
+              landmarkMap = data["landmarks"] as? [String : String] ?? [:]
+              let landmarkObject = Landmarks(landmarkMap: landmarkMap)
+              completion(landmarkObject)
+          }
+      }
 
   func getInfoEtiquettes(countryName: String, completion: @escaping (Etiquette) -> Void) {
         self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("ETIQUETTE").getDocument { document, error in
@@ -244,6 +244,32 @@ class ViewModel: ObservableObject {
             etiquetteMap = data["etiquettes"] as? [String : String] ?? [:]
             let etiquetteObject = Etiquette(etiquetteMap: etiquetteMap)
             completion(etiquetteObject)
+        }
+    }
+  
+   func getInfoCelebrities(countryName: String, completion: @escaping (Celebrities) -> Void) {
+        self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("CELEBRITIES").getDocument { document, error in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(Celebrities())
+                return
+            }
+            guard let document = document, document.exists else {
+                print("Document Doesn't Exist")
+                completion(Celebrities())
+                return
+            }
+
+            guard let data = document.data(), !data.isEmpty else {
+                print("Data is Nil or Data is Empty")
+                completion(Celebrities())
+                return
+            }
+
+            var celebritiesMap = [String : String]()
+            celebritiesMap = data["celebrities"] as? [String : String] ?? [:]
+            let celebritiesObject = Celebrities(celebritiesMap: celebritiesMap)
+            completion(celebritiesObject)
         }
     }
     
