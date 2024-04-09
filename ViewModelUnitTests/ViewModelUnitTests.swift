@@ -802,5 +802,20 @@ final class ViewModelUnitTests: XCTestCase {
             }
         }
     }
+    func testGetInfoMajorCities() {
+                let expectation = self.expectation(description: "Retrieve whether an activity is completed")
+                let nilMajorCities = MajorCities()
+                vm.getInfoMajorCities(countryName: "MEXICO") { majorCitiesObject in
+                    XCTAssertNotNil(majorCitiesObject, "Information should not be nil")
+                    XCTAssertNotEqual(nilMajorCities, majorCitiesObject)
+                    print("Major Cities ====", majorCitiesObject)
+                    expectation.fulfill()
+                }
+                waitForExpectations(timeout: 5) { error in
+                    if let error = error {
+                        XCTFail("waitForExpectations error: \(error)")
+                    }
+                }
+        }
     
 }
