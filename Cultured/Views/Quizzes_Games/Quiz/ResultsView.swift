@@ -10,6 +10,7 @@ import SwiftUI
 struct ResultsView: View {
     @ObservedObject var vm: QuizViewModel
     @State var totalPoints: Int = 0
+    @State var goHome: Bool = false
     //var progress: CGFloat
     //var total: Int
     
@@ -82,7 +83,6 @@ struct ResultsView: View {
                 VStack {
                     Spacer()
                     HStack {
-                        Spacer()
                         Button(action: {
                             
                         }) {
@@ -96,7 +96,7 @@ struct ResultsView: View {
                         .cornerRadius(100)
                         
                         Button(action: {
-                            
+                            goHome = true
                         }) {
                             Text("Exit")
                                 .padding()
@@ -104,7 +104,7 @@ struct ResultsView: View {
                                 .background(Color(red: 228/255, green: 228/255, blue: 228/255))
                                 .foregroundColor(Color(red: 64/255, green: 64/255, blue: 64/255))
                                 .font(.system(size: 20, weight: .bold))
-                        }
+                        }.navigationDestination(isPresented: $goHome, destination: {HomeView(vm: vm.viewModel)})
                         .cornerRadius(100)
                     }
                     .padding()
