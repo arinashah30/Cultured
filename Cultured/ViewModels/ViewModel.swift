@@ -192,6 +192,28 @@ class ViewModel: ObservableObject {
         }
     }
     
+    func getInfoFood(countryName: String, completion: @escaping (Food) -> Void) {
+                self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("FOOD").getDocument { document, error in
+                    if let err = error {
+                        print(err.localizedDescription)
+                        return
+                    } else {
+                        if let doc = document {
+                            if let data = doc.data() {
+                                
+                                let regional = data["regional"] as? [String : String] ?? [:]
+                                let seasonal = data["seasonal"] as? [String : String] ?? [:]
+                                
+                                let food = Food(regional: regional, seasonal: seasonal)
+                                //                        print (info)
+                                completion(food)
+                            }
+                        }
+                    }
+                }
+            }
+
+    
     func createNewCountry(countryName: String, lattitude: Double, longitude: Double) {
         let countryRef = db.collection("COUNTRIES").document(countryName)
         countryRef.setData(["population": 5000, "lattitude": lattitude, "longitude": longitude])
