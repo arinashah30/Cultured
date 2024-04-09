@@ -78,7 +78,7 @@ struct QuestionSuccessView: View {
                             .font(Font.custom("Quicksand-semibold",size: 24))
                         Text("Congratulations! Here is some more info:")
                             .font(Font.custom("Quicksand-medium",size: 16))
-                            .foregroundColor(Color(red: 64/255, green: 64/255, blue: 64/255))
+                            .foregroundColor(.cDarkGray)
                         Text("The ‘Ravanahatha’ is musical instrument believed to have originated among the ‘Hela.’")
                             .padding(.vertical, 20).font(.system(size: 18))
                         
