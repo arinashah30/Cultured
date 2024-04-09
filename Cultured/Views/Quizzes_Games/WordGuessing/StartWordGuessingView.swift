@@ -18,7 +18,7 @@ struct StartWordGuessingView: View {
     let categoryProgress: [Float] = [0.2, 0.8, 0.5, 0.7]
     
     var body: some View {
-        StartXView(vm: vm, gameName: "Word Guessing", countryName: countryName, backgroundImage: backgroundImage, categories: categories, categoryProgress: categoryProgress)
+        StartXView(vm: vm, gameName: "WordGuessing", countryName: countryName, backgroundImage: backgroundImage, categories: categories, categoryProgress: vm.wordGuessingViewModel!.getProgress())
     }
 }
 

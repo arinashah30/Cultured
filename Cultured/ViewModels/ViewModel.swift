@@ -230,7 +230,6 @@ class ViewModel: ObservableObject {
                 if let error = error {
                     print("SetCurrentUserError: \(error.localizedDescription)")
                 } else if let document = document {
-                    print("BEFORESET")
                     self.current_user = User(id: document.documentID,
                                              name: document["name"] as! String,
                                              profilePicture: document["profilePicture"] as! String,
@@ -243,20 +242,19 @@ class ViewModel: ObservableObject {
                                              savedArtists: document["savedArtists"] as? [String] ?? [],
                                              country: document["currentCountry"] as? String ?? ""
                     )
-                    print("BEFOREFUNCTIONS")
-                    self.connectionsViewModel = ConnectionsViewModel()
+                    self.connectionsViewModel = ConnectionsViewModel(viewModel: self)
                     self.wordGuessingViewModel = WordGuessingViewModel(viewModel: self)
                     self.quizViewModel = QuizViewModel(viewModel: self)
                     self.quizViewModel!.load_quizzes() { result in
                         print("RESULT FROM QUIZ " + String(result))
                         print(self.quizViewModel!.quizzes)
                     }
-                    self.wordGuessingViewModel!.load_word_guessing_games() { result in
+                    self.wordGuessingViewModel!.load_word_guessings() { result in
                         print("RESULT FROM WORD " + String(result))
-                        print(self.wordGuessingViewModel!.word_guessings)
-                        print(self.wordGuessingViewModel!.word_guessings["USFoodWordGuessing"]!)
                     }
-                    print("MADE IT")
+                    self.connectionsViewModel!.load_connections() { result in
+                        print("RESULT FROM CONNECTIONS " + String(result))
+                    }
                     completion(self.current_user)
                 }
             })
@@ -295,11 +293,18 @@ class ViewModel: ObservableObject {
                 optionTileArray.append(OptionTile(option: option,
                                                   isFlipped: false))
             }
-
+            
+            var winCountArray: [Int] = []
+            for i in 0..<10 {
+                var stringI = String(i)
+                winCountArray.append(winCount[stringI] as! Int)
+            }
+            
+            
             let wordGuessing = WordGuessing(title: title,
                                             options: optionTileArray,
                                             answer: answer,
-                                            stats: Array(winCount.values))
+                                            stats: winCountArray)
             completion(wordGuessing)
         }
     }
@@ -322,7 +327,7 @@ class ViewModel: ObservableObject {
             }
             let title = data["title"] as? String ?? ""
             let answerKey = data["answerKey"] as? [String : [String]] ?? [:]
-            let connections = Connections(title: title, answerKey: answerKey)
+            let connections = Connections(title: title, answer_key: answerKey)
             completion(connections)
         }
     }
@@ -362,7 +367,8 @@ class ViewModel: ObservableObject {
                     let quiz = Quiz(title: title,
                                     questions: questionsArray,
                                     points: 0,
-                                    currentQuestion: 0)
+                                    currentQuestion: 0,
+                                    completed: data["completed"] as? Bool ?? false)
                     completion(quiz)
                 }
             }
@@ -377,7 +383,7 @@ class ViewModel: ObservableObject {
      -----------------------------------------------------------------------------------------------
      */
     
-    func update_points(userID: String, pointToAdd: Int, completion: @escaping (Bool) -> Void) {
+    func update_points(userID: String, pointToAdd: Int, completion: @escaping (Int) -> Void) {
         db.collection("USERS").document(userID).getDocument { [self] document, error in
             if let err = error {
                 print(err.localizedDescription)
@@ -390,19 +396,20 @@ class ViewModel: ObservableObject {
                         db.collection("USERS").document(userID).updateData(["points": totalPoints])  { error in
                             if let error = error {
                                 print("Error updating document: \(error.localizedDescription)")
-                                completion(false)
+                                completion(totalPoints)
                             } else {
                                 // Document updated successfully
-                                completion(true)
+                                print("ADDING POINTS \(totalPoints)")
+                                completion(totalPoints)
                             }
                         }
                     } else {
                         print("Document data is nil")
-                        completion(false)
+                        completion(0)
                     }
                 } else {
                     print("Document does not exist")
-                    completion(false)
+                    completion(0)
                 }
             }
             
@@ -717,25 +724,25 @@ class ViewModel: ObservableObject {
      Manage user's ongoing/completed activities
      -----------------------------------------------------------------------------------------------
      */
-    
-    func addOnGoingActivity(userID: String, country: String, numQuestions: Int, titleOfActivity: String, typeOfActivity: String, completion: @escaping (Bool) -> Void) {
-        db.collection("USERS").document(userID).collection("ACTIVITIES").document("\(country)\(titleOfActivity)").setData(
+    func addOnGoingActivity(userID: String, numQuestions: Int = 0, titleOfActivity: String, typeOfActivity: String, completion: @escaping (Bool) -> Void) {
+        db.collection("USERS").document(userID).collection("ACTIVITIES").document(titleOfActivity).setData(
             ["completed": false,
-
+             
              "current": 0,
-
+             
              "history": [],
-
+             
              "score": 0,
-
+             
              "numberOfQuestions": numQuestions,
-
+             
              "type": typeOfActivity.lowercased(), //MUST be "quiz", "connection", or "wordgame"
             ])
-            completion(true)
-        }
+        completion(true)
+    }
     
-    func getOnGoingActivities(userId: String, type: String, completion: @escaping([String : [String : Any]]) -> Void) {
+    
+    func getAllActivitiesOfType(userId: String, type: String, completion: @escaping([String : [String : Any]]) -> Void) {
         db.collection("USERS").document(userId).collection("ACTIVITIES").whereField("type", isEqualTo: type).getDocuments { (querySnapshot, error) in
             if let error = error {
                 print("Error Getting Documents \(error)")
@@ -745,7 +752,7 @@ class ViewModel: ObservableObject {
                 for document in querySnapshot!.documents {
                     let data = document.data()
                     let completed = data["completed"] as? Bool ?? false
-                    if !completed {
+                    //if !completed {
                         
                         let current = data["current"] as? Int ?? 0
                         let history = data["history"] as? [String] ?? []
@@ -763,11 +770,13 @@ class ViewModel: ObservableObject {
                         
                         let nameOfActivity = document.documentID
                         activityDictionary[nameOfActivity] = typeDictionary
-                    }
+                    //}
                 }
                 completion(activityDictionary)
             }
+            //completion([:])
         }
+        //completion([:])
     }
     
     func getAllCompletedActivities(userId: String, type: String, completion: @escaping([String : [String : Any]]) -> Void) {
@@ -991,29 +1000,11 @@ class ViewModel: ObservableObject {
         }
     }
     
-    
-    func addOnGoingActivity(userID: String, numQuestions: Int, titleOfActivity: String, typeOfActivity: String, completion: @escaping (Bool) -> Void) {
-        db.collection("USERS").document(userID).collection("ACTIVITIES").document(titleOfActivity).setData(
-            ["completed": false,
-             
-             "current": 0,
-             
-             "history": [],
-             
-             "score": 0,
-             
-             "numberOfQuestions": numQuestions,
-             
-             "type": typeOfActivity, //MUST be "quiz", "connection", or "wordgame"
-            ])
-        completion(true)
-    }
-    
     func createNewConnections(connection: Connections) {
         let connectionsReference = db.collection("GAMES").document(connection.title)
         connectionsReference.setData(
             ["title": connection.title,
-             "answerKey": connection.answerKey
+             "answerKey": connection.answer_key
             ]) { error in
                 if let error = error {
                     print("Error writing game document: \(error.localizedDescription)")
@@ -1062,9 +1053,7 @@ class ViewModel: ObservableObject {
     
     func optionToDictionary(option: Connections.Option) -> [String: Any] {
         return [
-            "id": option.id,
             "isSelected": option.isSelected,
-            "isSubmitted": option.isSubmitted,
             "content": option.content,
             "category": option.category
         ]
@@ -1102,9 +1091,7 @@ class ViewModel: ObservableObject {
         let isSubmitted = optionData["isSubmitted"] as? Bool ?? false
         let content = optionData["content"] as? String ?? ""
         let category = optionData["category"] as? String ?? ""
-        return Connections.Option(id: id,
-                                  isSelected: isSelected,
-                                  isSubmitted: isSubmitted,
+        return Connections.Option(isSelected: isSelected,
                                   content: content,
                                   category: category)
         

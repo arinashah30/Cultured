@@ -23,9 +23,6 @@ class QuizViewModel: ObservableObject {
     }
     
     func load_quizzes(completion: @escaping (Bool) -> Void) {
-        //print("OMG I WAS CALLED!!!!")
-        //print(viewModel.current_user )
-        //print(viewModel.current_user!.country)
         if viewModel.current_user != nil && !viewModel.current_user!.country.isEmpty {
             var activityNames = categories
             var i = 0
@@ -33,8 +30,8 @@ class QuizViewModel: ObservableObject {
                 activityNames[i] = "\(self.viewModel.current_user!.country)\(activity)Quiz"
                 i += 1
             }
-            print(activityNames)
-            viewModel.getOnGoingActivities(userId: viewModel.current_user!.id, type: "quiz", completion: { activities in
+            //print(activityNames)
+            viewModel.getAllActivitiesOfType(userId: viewModel.current_user!.id, type: "quiz", completion: { activities in
                 for activity in activityNames {
                     self.viewModel.getQuizFromFirebase(activityName: activity, completion: { quizInfo in
                         if var quizInfo = quizInfo {
@@ -51,6 +48,7 @@ class QuizViewModel: ObservableObject {
                                 quizInfo.currentQuestion = activities[activity]!["current"] as! Int
                                 quizInfo.points = points
                                 quizInfo.history = activityHistory["history"] as! [String]
+                                quizInfo.completed = activityHistory["completed"] as! Bool
                             }
                             self.quizzes[activity] = quizInfo
                         }
@@ -61,8 +59,15 @@ class QuizViewModel: ObservableObject {
         }
     }
     
-    func start_quiz(category: String) {
+    func start_quiz(category: String, completion: @escaping () -> ()) {
         current_quiz = quizzes["\(viewModel.current_user!.country)\(category)Quiz"]
+        if current_quiz!.currentQuestion == 0 {
+            viewModel.addOnGoingActivity(userID: viewModel.current_user!.id, numQuestions: current_quiz!.questions.count, titleOfActivity: current_quiz!.title, typeOfActivity: "quiz", completion: { _ in
+                completion()
+            })
+        } else {
+            completion()
+        }
     }
     
     func get_current_question() -> QuizQuestion {
@@ -129,26 +134,19 @@ class QuizViewModel: ObservableObject {
             return [quiz1Progress, quiz2Progress, quiz3Progress, quiz4Progress]
     }
     
-    func finish_quiz() {
-        // add points function from FB
-        // Calculate total points earned
-        guard let quiz = current_quiz else {
-            return
-        }
-        
-        var totalPoints = 0
-        for question in quiz.questions {
-            if question.submitted {
-                totalPoints += question.submitted ? 10 : 0 // Add 10 points for each correctly submitted question?
-            }
-        }
-        
-        // Update user's points in Firebase
-        guard let currentUserID = viewModel.current_user?.id else {
-            return
-        }
-        
-        viewModel.update_points(userID: currentUserID, pointToAdd: totalPoints) { success in
+    func finish_quiz(completion: @escaping (Int) -> ()) {
+        if !(current_quiz!.completed) {
+            viewModel.updateCompleted(userID: viewModel.current_user!.id, activity: current_quiz!.title, completed: true, completion: { _ in
+                self.viewModel.updateScore(userID: self.viewModel.current_user!.id, activity: self.current_quiz!.title, newScore: self.current_quiz!.points, completion: { _ in
+                    self.viewModel.update_points(userID: self.viewModel.current_user!.id, pointToAdd: self.current_quiz!.points) { success in
+                        self.current_quiz!.completed = true
+                        self.viewModel.current_user!.points = success
+                        completion(success)
+                    }
+                })
+            })
+        } else {
+            completion(viewModel.current_user!.points)
         }
     }
     

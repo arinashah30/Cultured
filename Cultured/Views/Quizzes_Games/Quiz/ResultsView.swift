@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ResultsView: View {
     @ObservedObject var vm: QuizViewModel
+    @State var totalPoints: Int = 0
     //var progress: CGFloat
     //var total: Int
     
@@ -70,7 +71,7 @@ struct ResultsView: View {
                         .font(.system(size: 20))
                         .foregroundColor(Color(red: 64/255, green: 64/255, blue: 64/255))
                     
-                    Text("Total Points: \(vm.viewModel.current_user!.points)")
+                    Text("Total Points: \(totalPoints)")
                         .font(.system(size: 20))
                         .foregroundColor(Color(red: 64/255, green: 64/255, blue: 64/255))
                         .padding(.top, 20)
@@ -107,6 +108,15 @@ struct ResultsView: View {
                         .cornerRadius(100)
                     }
                     .padding()
+                    .onAppear(perform: {
+                        if !vm.current_quiz!.completed {
+                            vm.finish_quiz() { totalPoints in
+                                self.totalPoints = totalPoints
+                            }
+                        } else {
+                            totalPoints = vm.viewModel.current_user!.points
+                        }
+                    })
                 }
             }
         }

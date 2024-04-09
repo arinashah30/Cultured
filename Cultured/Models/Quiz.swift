@@ -13,4 +13,5 @@ struct Quiz {
     var history: [String] = []
     var points: Int = 0
     var currentQuestion: Int = 0
+    var completed: Bool = false
 }

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct WordGuessingResultsView: View {
     @ObservedObject var vm: WordGuessingViewModel
+    @State var goHome: Bool = false
 //    @State private var localHasWon: Bool = true
 
     var body: some View {
@@ -86,7 +87,7 @@ struct WordGuessingResultsView: View {
                         VStack() {
                             Text(String(vm.current_word_guessing_game!.stats[index]))
                                 .foregroundColor(Color.black.opacity(0.35))
-                            if vm.current_word_guessing_game!.hasWon && vm.current_word_guessing_game!.history.count == 9 {
+                            if vm.current_word_guessing_game!.current == index && vm.current_word_guessing_game!.hasWon {
                                 Rectangle()
                                     .frame(width: 25, height: 190 * CGFloat(adjustedStats[index]))
                                     .foregroundColor(Color("WinningBar"))
@@ -106,12 +107,12 @@ struct WordGuessingResultsView: View {
                 HStack(spacing: 35) {
                     Spacer()
                     Button(action: {
-                        // action to go home
+                        goHome = true
                     }) {
                         Text("Back to Home")
                             .font(Font.custom("Quicksand-Medium", size: 17))
                             .foregroundColor(.black.opacity(0.5))
-                    }
+                    }.navigationDestination(isPresented: $goHome, destination: {HomeView(vm: vm.viewModel)})
                     Spacer()
                 }
                 
@@ -131,6 +132,7 @@ func adjustStats(originalStats: [Int]) -> [Float] {
     for stat in originalStats {
         scaledStats.append(0.1 + (Float(stat) / Float(maxNum)))
     }
+    print(scaledStats)
     return scaledStats
 }
 

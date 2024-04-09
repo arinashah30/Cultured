@@ -30,25 +30,38 @@ struct StartXView: View {
     let buttonHeight: CGFloat = 57
     
     private func selectCategory(category: Int) -> some View {
-        if gameName == "WordGuessing" {
-            return AnyView(WordGuessingView(vm: vm.wordGuessingViewModel!))
-        } else if gameName == "Quiz" {
-            return AnyView(QuestionView(vm: vm.quizViewModel!))
-        } else {
-            return AnyView(ConnectionsGameView(vm: vm.connectionsViewModel!))
-        }
+        DynamicNavigationView(vm: vm, gameName: gameName)
+//        if gameName == "WordGuessing" {
+//            return AnyView(WordGuessingView(vm: vm.wordGuessingViewModel!))
+//        } else if gameName == "Quiz" {
+//            //print("CURRENT QUIZ \(vm.quizViewModel!.current_quiz)")
+//            if vm.$quizViewModel?.$current_quiz.completed {
+//                return AnyView(QuestionView(vm: vm.quizViewModel!))
+//            } else {
+//                if vm.quizViewModel!.current_quiz!.completed {
+//                    return AnyView(ResultsView(vm: vm.quizViewModel!))
+//                } else {
+//                    return AnyView(QuestionView(vm: vm.quizViewModel!))
+//                }
+//            }
+//        } else {
+//            return AnyView(ConnectionsGameView(vm: vm.connectionsViewModel!))
+//        }
     }
     
     private func setupActivity(category: Int) {
         if gameName == "WordGuessing" {
-            vm.wordGuessingViewModel!.current_word_guessing_game = vm.wordGuessingViewModel!.word_guessings["\(vm.current_user!.country)\(categories[category])WordGuessing"]
-            navigate = true
+            vm.wordGuessingViewModel!.start_wordguessing(category: categories[category].replacingOccurrences(of: "Pop ", with: "")) {
+                navigate = true
+            }
         } else if gameName == "Quiz" {
-            vm.quizViewModel!.current_quiz = vm.quizViewModel!.quizzes["\(vm.current_user!.country)\(categories[category])Quiz"]
-            navigate = true
+            vm.quizViewModel!.start_quiz(category: categories[category].replacingOccurrences(of: "Pop ", with: "")) {
+                navigate = true
+            }
         } else if gameName == "Connections" {
-            vm.connectionsViewModel!.current_connections_game = vm.connectionsViewModel!.connections["\(vm.current_user!.country)\(categories[category])Connections"]
-            navigate = true
+            vm.connectionsViewModel!.start_connections(category: categories[category].replacingOccurrences(of: "Pop ", with: "")) {
+                navigate = true
+            }
         }
     }
     
@@ -90,7 +103,7 @@ struct StartXView: View {
                         Text(gameName)
                             .foregroundColor(.cDarkGray)
                             .font(Font.custom("Quicksand-SemiBold", size: 32))
-                        Text(countryName)
+                        Text(vm.get_current_country())
                             .foregroundColor(.cMedGray)
                         Text("Select Category")
                             .font(Font.custom("Quicksand-Medium", size: 20))
@@ -155,7 +168,7 @@ struct StartXView: View {
             .padding(.bottom, 200)
             .onAppear() {
                 if gameName == "WordGuessing" {
-                    
+                    categoryProgress = vm.wordGuessingViewModel!.getProgress()
                 } else if gameName == "Quiz" {
                     categoryProgress = vm.quizViewModel!.getProgress()
                 } else if gameName == "Connections" {
