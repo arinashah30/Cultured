@@ -225,42 +225,46 @@ class ViewModel: ObservableObject {
      */
     
     func setCurrentUser(userId: String, completion: @escaping ((User?) -> Void)) {
-        if current_user == nil {
-            db.collection("USERS").document(userId).getDocument (completion: { document, error in
-                if let error = error {
-                    print("SetCurrentUserError: \(error.localizedDescription)")
-                    completion()
-                } else if let document = document {
-                    self.current_user = User(id: document.documentID,
-                                             name: document["name"] as! String,
-                                             profilePicture: document["profilePicture"] as! String,
-                                             email: document["email"] as! String,
-                                             points: document["points"] as? Int ?? 0,
-                                             streak: document["streak"] as? Int ?? 0,
-                                             streakRecord: document["streakRecord"] as? Int ?? 0,
-                                             completedChallenges: document["completedChallenges"] as? [String] ?? [],
-                                             badges: document["badges"] as? [String] ?? [],
-                                             savedArtists: document["savedArtists"] as? [String] ?? [],
-                                             country: document["currentCountry"] as? String ?? ""
-                    )
-                    self.connectionsViewModel = ConnectionsViewModel(viewModel: self)
-                    self.wordGuessingViewModel = WordGuessingViewModel(viewModel: self)
-                    self.quizViewModel = QuizViewModel(viewModel: self)
-                    self.quizViewModel!.load_quizzes() { result in
-                        print("RESULT FROM QUIZ " + String(result))
-                        print(self.quizViewModel!.quizzes)
+        if user.isEmpty {
+            completion(nil)
+        }  else {
+            if current_user == nil {
+                db.collection("USERS").document(userId).getDocument (completion: { document, error in
+                    if let error = error {
+                        print("SetCurrentUserError: \(error.localizedDescription)")
+                        completion(nil)
+                    } else if let document = document {
+                        self.current_user = User(id: document.documentID,
+                                                 name: document["name"] as! String,
+                                                 profilePicture: document["profilePicture"] as! String,
+                                                 email: document["email"] as! String,
+                                                 points: document["points"] as? Int ?? 0,
+                                                 streak: document["streak"] as? Int ?? 0,
+                                                 streakRecord: document["streakRecord"] as? Int ?? 0,
+                                                 completedChallenges: document["completedChallenges"] as? [String] ?? [],
+                                                 badges: document["badges"] as? [String] ?? [],
+                                                 savedArtists: document["savedArtists"] as? [String] ?? [],
+                                                 country: document["currentCountry"] as? String ?? ""
+                        )
+                        self.connectionsViewModel = ConnectionsViewModel(viewModel: self)
+                        self.wordGuessingViewModel = WordGuessingViewModel(viewModel: self)
+                        self.quizViewModel = QuizViewModel(viewModel: self)
+                        self.quizViewModel!.load_quizzes() { result in
+                            print("RESULT FROM QUIZ " + String(result))
+                            print(self.quizViewModel!.quizzes)
+                        }
+                        self.wordGuessingViewModel!.load_word_guessings() { result in
+                            print("RESULT FROM WORD " + String(result))
+                        }
+                        self.connectionsViewModel!.load_connections() { result in
+                            print("RESULT FROM CONNECTIONS " + String(result))
+                        }
+                        completion(self.current_user)
                     }
-                    self.wordGuessingViewModel!.load_word_guessings() { result in
-                        print("RESULT FROM WORD " + String(result))
-                    }
-                    self.connectionsViewModel!.load_connections() { result in
-                        print("RESULT FROM CONNECTIONS " + String(result))
-                    }
-                    completion(self.current_user)
-                }
-            })
-        } else {
-            completion(self.current_user)
+                })
+            } else {
+                completion(self.current_user)
+            }
         }
     }
     
