@@ -17,8 +17,9 @@ struct LeaderboardEntry: View {
     var body: some View {
         ZStack {
             Rectangle()
+                .foregroundColor(.clear)
                 .frame(width: 361, height: 86)
-                .background(Color.cOrange)
+                .background(Color.cLightGray)
                 .cornerRadius(20)
             HStack {
                 Text("\(rank)")
