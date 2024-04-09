@@ -21,6 +21,10 @@
 		48A11D722B9B63220061ED6A /* QuestionSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A11D6F2B9B63220061ED6A /* QuestionSuccessView.swift */; };
 		48A11D732B9B63220061ED6A /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A11D702B9B63220061ED6A /* ProgressBar.swift */; };
 		48A11D742B9B63220061ED6A /* QuestionFailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A11D712B9B63220061ED6A /* QuestionFailView.swift */; };
+		48ACC9802BBF6AF800AEC832 /* StartXView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48ACC97F2BBF6AF800AEC832 /* StartXView.swift */; };
+		48ACC9822BBF6B0B00AEC832 /* ProgressButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48ACC9812BBF6B0B00AEC832 /* ProgressButtonView.swift */; };
+		48ACC9842BC5A6E400AEC832 /* DynamicNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48ACC9832BC5A6E400AEC832 /* DynamicNavigationView.swift */; };
+		48ACC9872BC5DEDA00AEC832 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 48ACC9862BC5DEDA00AEC832 /* OrderedCollections */; };
 		59167BFD2BB7E1D7006C02C1 /* DanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59167BFC2BB7E1D7006C02C1 /* DanceView.swift */; };
 		6666C7452B88093300A64A3D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6666C7442B88093300A64A3D /* GoogleService-Info.plist */; };
 		666A717B2BBF2D1E005A849A /* Celebrities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666A71712BBF2D1E005A849A /* Celebrities.swift */; };
@@ -65,7 +69,6 @@
 		66FB6A112B72A1EF0066B826 /* StartQuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB6A102B72A1EF0066B826 /* StartQuizView.swift */; };
 		66FB6A132B72A2150066B826 /* StartConnectionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB6A122B72A2150066B826 /* StartConnectionsView.swift */; };
 		66FB6A152B72A21D0066B826 /* ConnectionsGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB6A142B72A21D0066B826 /* ConnectionsGameView.swift */; };
-		66FB6A172B72A2270066B826 /* ConnectionsResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB6A162B72A2270066B826 /* ConnectionsResultsView.swift */; };
 		66FB6A1B2B72A26E0066B826 /* Badge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB6A1A2B72A26E0066B826 /* Badge.swift */; };
 		66FB6A1E2B72A2DF0066B826 /* MusicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB6A1D2B72A2DF0066B826 /* MusicView.swift */; };
 		66FB6A202B72A2F00066B826 /* TraditionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB6A1F2B72A2F00066B826 /* TraditionsView.swift */; };
@@ -82,6 +85,7 @@
 		7CE5D3EF2BB5D2ED00EE0E14 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE5D3EE2BB5D2ED00EE0E14 /* BackButton.swift */; };
 		7CFE0FC42B979F3100D7283B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFE0FC32B979F3100D7283B /* ContentView.swift */; };
 		B31D2BFA2B8EB3EF00FAF095 /* ViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31D2BF92B8EB3EF00FAF095 /* ViewModelUnitTests.swift */; };
+		C4C2FF492BC08E2E00DCDE7E /* EtiquetteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C2FF482BC08E2E00DCDE7E /* EtiquetteView.swift */; };
 		CA0D9D522BBCC5F2006C7C2A /* FoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0D9D512BBCC5F2006C7C2A /* FoodView.swift */; };
 		CA64398A2B8579AF00181C5F /* FoodCategorySectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6439892B8579AF00181C5F /* FoodCategorySectionView.swift */; };
 		CA64398C2B857B0900181C5F /* CustomsSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA64398B2B857B0900181C5F /* CustomsSectionView.swift */; };
@@ -114,6 +118,9 @@
 		48A11D6F2B9B63220061ED6A /* QuestionSuccessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionSuccessView.swift; sourceTree = "<group>"; };
 		48A11D702B9B63220061ED6A /* ProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		48A11D712B9B63220061ED6A /* QuestionFailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionFailView.swift; sourceTree = "<group>"; };
+		48ACC97F2BBF6AF800AEC832 /* StartXView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartXView.swift; sourceTree = "<group>"; };
+		48ACC9812BBF6B0B00AEC832 /* ProgressButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressButtonView.swift; sourceTree = "<group>"; };
+		48ACC9832BC5A6E400AEC832 /* DynamicNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicNavigationView.swift; sourceTree = "<group>"; };
 		59167BFC2BB7E1D7006C02C1 /* DanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DanceView.swift; sourceTree = "<group>"; };
 		6666C7442B88093300A64A3D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		666A71712BBF2D1E005A849A /* Celebrities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Celebrities.swift; sourceTree = "<group>"; };
@@ -147,7 +154,6 @@
 		66FB6A102B72A1EF0066B826 /* StartQuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartQuizView.swift; sourceTree = "<group>"; };
 		66FB6A122B72A2150066B826 /* StartConnectionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartConnectionsView.swift; sourceTree = "<group>"; };
 		66FB6A142B72A21D0066B826 /* ConnectionsGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsGameView.swift; sourceTree = "<group>"; };
-		66FB6A162B72A2270066B826 /* ConnectionsResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsResultsView.swift; sourceTree = "<group>"; };
 		66FB6A1A2B72A26E0066B826 /* Badge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Badge.swift; sourceTree = "<group>"; };
 		66FB6A1D2B72A2DF0066B826 /* MusicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicView.swift; sourceTree = "<group>"; };
 		66FB6A1F2B72A2F00066B826 /* TraditionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraditionsView.swift; sourceTree = "<group>"; };
@@ -164,6 +170,7 @@
 		7CFE0FC32B979F3100D7283B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		B31D2BF72B8EB3EF00FAF095 /* ViewModelUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ViewModelUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B31D2BF92B8EB3EF00FAF095 /* ViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelUnitTests.swift; sourceTree = "<group>"; };
+		C4C2FF482BC08E2E00DCDE7E /* EtiquetteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EtiquetteView.swift; sourceTree = "<group>"; };
 		CA0D9D512BBCC5F2006C7C2A /* FoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodView.swift; sourceTree = "<group>"; };
 		CA6439892B8579AF00181C5F /* FoodCategorySectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodCategorySectionView.swift; sourceTree = "<group>"; };
 		CA64398B2B857B0900181C5F /* CustomsSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomsSectionView.swift; sourceTree = "<group>"; };
@@ -183,6 +190,7 @@
 				66FB69DB2B72A0A50066B826 /* FirebaseAnalytics in Frameworks */,
 				66FB69DD2B72A0A50066B826 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
 				66FB69E32B72A0A50066B826 /* FirebaseAppCheck in Frameworks */,
+				48ACC9872BC5DEDA00AEC832 /* OrderedCollections in Frameworks */,
 				66FB69E12B72A0A50066B826 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				66FB69E72B72A0A50066B826 /* FirebaseAuth in Frameworks */,
 				66FB69EB2B72A0A50066B826 /* FirebaseCrashlytics in Frameworks */,
@@ -213,14 +221,6 @@
 				480F22012B7C19F900CB5632 /* WordGuessingResultsView.swift */,
 			);
 			path = WordGuessing;
-			sourceTree = "<group>";
-		};
-		592F9AA72BB392E30046DFB8 /* PopCulture */ = {
-			isa = PBXGroup;
-			children = (
-				59167BFC2BB7E1D7006C02C1 /* DanceView.swift */,
-			);
-			path = PopCulture;
 			sourceTree = "<group>";
 		};
 		666A717A2BBF2D1E005A849A /* InfoModels */ = {
@@ -324,7 +324,6 @@
 				66FB6A052B72A14B0066B826 /* Onboarding */,
 				66FB6A0A2B72A1650066B826 /* Profile */,
 				66FB6A0F2B72A1860066B826 /* Quizzes_Games */,
-				592F9AA72BB392E30046DFB8 /* PopCulture */,
 				CA6439892B8579AF00181C5F /* FoodCategorySectionView.swift */,
 				CA64398B2B857B0900181C5F /* CustomsSectionView.swift */,
 				7C9E14682BBF6353003BC7B4 /* LandmarksView.swift */,
@@ -364,6 +363,8 @@
 		66FB6A0F2B72A1860066B826 /* Quizzes_Games */ = {
 			isa = PBXGroup;
 			children = (
+				48ACC9812BBF6B0B00AEC832 /* ProgressButtonView.swift */,
+				48ACC97F2BBF6AF800AEC832 /* StartXView.swift */,
 				480F21FC2B75A91100CB5632 /* WordGuessing */,
 				66FB6A192B72A23B0066B826 /* Quiz */,
 				66FB6A182B72A22C0066B826 /* Connections */,
@@ -376,7 +377,6 @@
 			children = (
 				66FB6A122B72A2150066B826 /* StartConnectionsView.swift */,
 				66FB6A142B72A21D0066B826 /* ConnectionsGameView.swift */,
-				66FB6A162B72A2270066B826 /* ConnectionsResultsView.swift */,
 			);
 			path = Connections;
 			sourceTree = "<group>";
@@ -390,6 +390,7 @@
 				66FB6A0B2B72A17C0066B826 /* QuestionView.swift */,
 				66FB6A102B72A1EF0066B826 /* StartQuizView.swift */,
 				66FB6A0D2B72A1830066B826 /* ResultsView.swift */,
+				48ACC9832BC5A6E400AEC832 /* DynamicNavigationView.swift */,
 			);
 			path = Quiz;
 			sourceTree = "<group>";
@@ -408,6 +409,7 @@
 			isa = PBXGroup;
 			children = (
 				66FB6A1D2B72A2DF0066B826 /* MusicView.swift */,
+				59167BFC2BB7E1D7006C02C1 /* DanceView.swift */,
 			);
 			path = PopCulture;
 			sourceTree = "<group>";
@@ -417,6 +419,7 @@
 			children = (
 				66FB6A212B72A2FD0066B826 /* HolidaysView.swift */,
 				66FB6A1F2B72A2F00066B826 /* TraditionsView.swift */,
+				C4C2FF482BC08E2E00DCDE7E /* EtiquetteView.swift */,
 			);
 			path = Customs;
 			sourceTree = "<group>";
@@ -488,6 +491,7 @@
 				66FB6A262B72A4F00066B826 /* FirebaseFirestore */,
 				66FB6A282B72A5020066B826 /* FirebaseStorage */,
 				09CAD0D92BA11E1500E7B47D /* PopupView */,
+				48ACC9862BC5DEDA00AEC832 /* OrderedCollections */,
 			);
 			productName = Cultured;
 			productReference = 66FB69C32B72A06D0066B826 /* Cultured.app */;
@@ -542,6 +546,7 @@
 			packageReferences = (
 				66FB69D92B72A0A50066B826 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				09CAD0D82BA11E1500E7B47D /* XCRemoteSwiftPackageReference "PopupView" */,
+				48ACC9852BC5DE4300AEC832 /* XCRemoteSwiftPackageReference "swift-collections" */,
 			);
 			productRefGroup = 66FB69C42B72A06D0066B826 /* Products */;
 			projectDirPath = "";
@@ -600,6 +605,7 @@
 				CA64398A2B8579AF00181C5F /* FoodCategorySectionView.swift in Sources */,
 				48A11D742B9B63220061ED6A /* QuestionFailView.swift in Sources */,
 				666A71822BBF2D1E005A849A /* TraditionalMusic.swift in Sources */,
+				48ACC9842BC5A6E400AEC832 /* DynamicNavigationView.swift in Sources */,
 				66FB6A002B72A1310066B826 /* MainView.swift in Sources */,
 				66FB6A042B72A1480066B826 /* SignUpView.swift in Sources */,
 				666A71812BBF2D1E005A849A /* Sports.swift in Sources */,
@@ -612,11 +618,13 @@
 				666A717C2BBF2D1E005A849A /* ClassicTvMovie.swift in Sources */,
 				480F22022B7C19F900CB5632 /* WordGuessingResultsView.swift in Sources */,
 				666A71802BBF2D1E005A849A /* Landmarks.swift in Sources */,
+				C4C2FF492BC08E2E00DCDE7E /* EtiquetteView.swift in Sources */,
 				48A11D722B9B63220061ED6A /* QuestionSuccessView.swift in Sources */,
 				66FB69D82B72A08F0066B826 /* ViewModel.swift in Sources */,
 				CA64398C2B857B0900181C5F /* CustomsSectionView.swift in Sources */,
 				480F21F52B75969500CB5632 /* Quiz.swift in Sources */,
 				7CE5D3EF2BB5D2ED00EE0E14 /* BackButton.swift in Sources */,
+				48ACC9822BBF6B0B00AEC832 /* ProgressButtonView.swift in Sources */,
 				66FB6A132B72A2150066B826 /* StartConnectionsView.swift in Sources */,
 				666A717D2BBF2D1E005A849A /* Dance.swift in Sources */,
 				66FB6A0E2B72A1830066B826 /* ResultsView.swift in Sources */,
@@ -626,11 +634,11 @@
 				7C1B20F32B7BFF41008E0244 /* UIColors.swift in Sources */,
 				66FB69FA2B72A1140066B826 /* ActivityView.swift in Sources */,
 				66FB6A1E2B72A2DF0066B826 /* MusicView.swift in Sources */,
+				48ACC9802BBF6AF800AEC832 /* StartXView.swift in Sources */,
 				66FB6A0C2B72A17C0066B826 /* QuestionView.swift in Sources */,
 				480F220A2B7C1FA900CB5632 /* ConnectionsViewModel.swift in Sources */,
 				666A717E2BBF2D1E005A849A /* Etiquette.swift in Sources */,
 				66FB6A112B72A1EF0066B826 /* StartQuizView.swift in Sources */,
-				66FB6A172B72A2270066B826 /* ConnectionsResultsView.swift in Sources */,
 				666A717B2BBF2D1E005A849A /* Celebrities.swift in Sources */,
 				48A11D732B9B63220061ED6A /* ProgressBar.swift in Sources */,
 				66FB6A022B72A1400066B826 /* LogInView.swift in Sources */,
@@ -920,6 +928,14 @@
 				minimumVersion = 2.9.0;
 			};
 		};
+		48ACC9852BC5DE4300AEC832 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.0;
+			};
+		};
 		66FB69D92B72A0A50066B826 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -935,6 +951,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 09CAD0D82BA11E1500E7B47D /* XCRemoteSwiftPackageReference "PopupView" */;
 			productName = PopupView;
+		};
+		48ACC9862BC5DEDA00AEC832 /* OrderedCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 48ACC9852BC5DE4300AEC832 /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = OrderedCollections;
 		};
 		66FB69DA2B72A0A50066B826 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;

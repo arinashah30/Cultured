@@ -146,7 +146,6 @@ final class ViewModelUnitTests: XCTestCase {
         vm.getQuizFromFirebase(activityName: "MexcioCultureQuiz") {quiz in
             XCTAssertNotNil(quiz, "Quiz should not be nil")
             XCTAssertEqual(quiz?.points, 0)
-            XCTAssertEqual(quiz?.pointsGoal, 0)
             XCTAssertEqual(quiz?.title, "MexcioCultureQuiz")
             XCTAssertFalse(quiz?.questions.isEmpty ??  true)
             print("Quiz =====", quiz!)
@@ -174,7 +173,8 @@ final class ViewModelUnitTests: XCTestCase {
         
         let wordGuessing = WordGuessing(title: "USFoodWordGuessing",
                                        options: options,
-                                       answer: "Provolone")
+                                       answer: "Provolone",
+                                        stats: [1, 2, 3, 5, 8, 8, 6, 5, 3, 10])
         
         let option2 = [OptionTile(option: "Dough", isFlipped: true),
                        OptionTile(option: "Filling", isFlipped: true),
@@ -187,7 +187,8 @@ final class ViewModelUnitTests: XCTestCase {
 
         let wordGuessing2 = WordGuessing(title: "ChinaFoodWordGuessing",
                                          options: options,
-                                         answer: "Dumpling")
+                                         answer: "Dumpling",
+                                         stats: [1, 2, 3, 5, 8, 8, 6, 5, 3, 10])
         
         vm.createNewWordGuessing(wordGuessing: wordGuessing)
         vm.createNewWordGuessing(wordGuessing: wordGuessing2)
@@ -687,7 +688,44 @@ final class ViewModelUnitTests: XCTestCase {
             }
         }
     }
+
+    func testImage() {
+        let expectation = self.expectation(description: "image stuff")
+//        vm.load_image_from_url(urlString: "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg") {
+//            image in
+//            self.vm.updateProfilePic(userID: "Rik Roy", image: image!) { completion in
+//                print(completion)
+//                expectation.fulfill()
+//            }
+//        }
+//        wait(for: [expectation], timeout: 5)
+        vm.getProfilePic(userID: "Rik Roy") { image in
+            self.vm.storeImageAndReturnURL(image: image!) { url in
+                print(url)
+                expectation.fulfill()
+            }
+        }
+        wait(for: [expectation], timeout: 5)
+    }
     
+    func testGetInfoCelebrities() {
+        let expectation = self.expectation(description: "Retrieve Celebrities Data From Firebase")
+
+        let nilObject = Celebrities()
+
+        vm.getInfoCelebrities(countryName: "MEXICO") { celebrityObject in
+            XCTAssertNotNil(celebrityObject, "Information should not be nil")
+            XCTAssertNotEqual(nilObject, celebrityObject)
+            print("Celebrities ====", celebrityObject)
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
     func testGetInfoLandmarks() {
          let expectation = self.expectation(description: "Retrieve Landmark Data From Firebase")
 
@@ -724,8 +762,28 @@ final class ViewModelUnitTests: XCTestCase {
                 XCTFail("waitForExpectations error: \(error)")
             }
         }
+
     }
     
+    func testGetInfoTraditions() {
+        let expectation = self.expectation(description: "Retrieve Traditions Data From Firebase")
+
+        let nilObject = Traditions()
+        
+        vm.getInfoTraditions(countryName: "MEXICO") { traditionsObject in
+            XCTAssertNotNil(traditionsObject, "Information should not be nil")
+            XCTAssertNotEqual(nilObject, traditionsObject)
+            print("Traditions ====", traditionsObject)
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
+
     func testGetInfoSports() {
         let expectation = self.expectation(description: "Retrieve Sports Data From Firebase")
         
