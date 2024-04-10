@@ -168,8 +168,10 @@ struct HomeView: View {
                         .multilineTextAlignment(.center)
                         .font(.system(size: 20))
                         .offset(y:-20)
-                    Button {
-                        
+                    
+                    NavigationLink {
+                        _DModelView(model: "Mexico").navigationBarBackButtonHidden(true)
+                            .toolbar(.hidden, for: .tabBar)
                     } label: {
                         Text("Let's go!")
                             .font(.system(size: 16))

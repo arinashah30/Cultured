@@ -18,20 +18,12 @@
 		480F22062B7C1F9000CB5632 /* QuizViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F22052B7C1F9000CB5632 /* QuizViewModel.swift */; };
 		480F22082B7C1F9C00CB5632 /* WordGuessingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F22072B7C1F9C00CB5632 /* WordGuessingViewModel.swift */; };
 		480F220A2B7C1FA900CB5632 /* ConnectionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F22092B7C1FA900CB5632 /* ConnectionsViewModel.swift */; };
-		663062F52B7BFD3500702E04 /* ARLandmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663062F42B7BFD3500702E04 /* ARLandmark.swift */; };
-		665997482B90EDCD00247314 /* TextBoxEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665997472B90EDCD00247314 /* TextBoxEntity.swift */; };
-		6690A2C62B8D74E7002C33C5 /* ARVideoPortalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6690A2C52B8D74E7002C33C5 /* ARVideoPortalView.swift */; };
-		6690A2CB2B8D7A2A002C33C5 /* SphereSpace.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 6690A2C92B8D7A2A002C33C5 /* SphereSpace.usdz */; };
-		6690A2CC2B8D7A2A002C33C5 /* tower_bridge.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 6690A2CA2B8D7A2A002C33C5 /* tower_bridge.mp4 */; };
-		6690A2D12B8D7AC7002C33C5 /* Taj_Mahal.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 6690A2CD2B8D7AC7002C33C5 /* Taj_Mahal.usdz */; };
-		6690A2D22B8D7AC7002C33C5 /* Chichen_Itza.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 6690A2CE2B8D7AC7002C33C5 /* Chichen_Itza.usdz */; };
-		6690A2D32B8D7AC7002C33C5 /* Pisa_Tower.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 6690A2CF2B8D7AC7002C33C5 /* Pisa_Tower.usdz */; };
-		6690A2D42B8D7AC7002C33C5 /* Burj_Khalifa.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 6690A2D02B8D7AC7002C33C5 /* Burj_Khalifa.usdz */; };
-		6690A2D62B8D7EE5002C33C5 /* Eiffel_Tower.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 6690A2D52B8D7EE4002C33C5 /* Eiffel_Tower.usdz */; };
 		48A11D722B9B63220061ED6A /* QuestionSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A11D6F2B9B63220061ED6A /* QuestionSuccessView.swift */; };
 		48A11D732B9B63220061ED6A /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A11D702B9B63220061ED6A /* ProgressBar.swift */; };
 		48A11D742B9B63220061ED6A /* QuestionFailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A11D712B9B63220061ED6A /* QuestionFailView.swift */; };
 		59167BFD2BB7E1D7006C02C1 /* DanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59167BFC2BB7E1D7006C02C1 /* DanceView.swift */; };
+		663062F52B7BFD3500702E04 /* ARLandmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663062F42B7BFD3500702E04 /* ARLandmark.swift */; };
+		665997482B90EDCD00247314 /* TextBoxEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665997472B90EDCD00247314 /* TextBoxEntity.swift */; };
 		6666C7452B88093300A64A3D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6666C7442B88093300A64A3D /* GoogleService-Info.plist */; };
 		666A717B2BBF2D1E005A849A /* Celebrities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666A71712BBF2D1E005A849A /* Celebrities.swift */; };
 		666A717C2BBF2D1E005A849A /* ClassicTvMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666A71722BBF2D1E005A849A /* ClassicTvMovie.swift */; };
@@ -42,6 +34,7 @@
 		666A71812BBF2D1E005A849A /* Sports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666A71772BBF2D1E005A849A /* Sports.swift */; };
 		666A71822BBF2D1E005A849A /* TraditionalMusic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666A71782BBF2D1E005A849A /* TraditionalMusic.swift */; };
 		666A71832BBF2D1E005A849A /* Traditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666A71792BBF2D1E005A849A /* Traditions.swift */; };
+		6690A2C62B8D74E7002C33C5 /* ARVideoPortalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6690A2C52B8D74E7002C33C5 /* ARVideoPortalView.swift */; };
 		66FB69C72B72A06D0066B826 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB69C62B72A06D0066B826 /* AppDelegate.swift */; };
 		66FB69C92B72A06D0066B826 /* TourView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB69C82B72A06D0066B826 /* TourView.swift */; };
 		66FB69CB2B72A06E0066B826 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66FB69CA2B72A06E0066B826 /* Assets.xcassets */; };
@@ -121,20 +114,12 @@
 		480F22052B7C1F9000CB5632 /* QuizViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizViewModel.swift; sourceTree = "<group>"; };
 		480F22072B7C1F9C00CB5632 /* WordGuessingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGuessingViewModel.swift; sourceTree = "<group>"; };
 		480F22092B7C1FA900CB5632 /* ConnectionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsViewModel.swift; sourceTree = "<group>"; };
-		663062F42B7BFD3500702E04 /* ARLandmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARLandmark.swift; sourceTree = "<group>"; };
-		665997472B90EDCD00247314 /* TextBoxEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBoxEntity.swift; sourceTree = "<group>"; };
-		6690A2C52B8D74E7002C33C5 /* ARVideoPortalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ARVideoPortalView.swift; sourceTree = "<group>"; };
-		6690A2C92B8D7A2A002C33C5 /* SphereSpace.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = SphereSpace.usdz; sourceTree = "<group>"; };
-		6690A2CA2B8D7A2A002C33C5 /* tower_bridge.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = tower_bridge.mp4; sourceTree = "<group>"; };
-		6690A2CD2B8D7AC7002C33C5 /* Taj_Mahal.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Taj_Mahal.usdz; sourceTree = "<group>"; };
-		6690A2CE2B8D7AC7002C33C5 /* Chichen_Itza.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Chichen_Itza.usdz; sourceTree = "<group>"; };
-		6690A2CF2B8D7AC7002C33C5 /* Pisa_Tower.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Pisa_Tower.usdz; sourceTree = "<group>"; };
-		6690A2D02B8D7AC7002C33C5 /* Burj_Khalifa.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Burj_Khalifa.usdz; sourceTree = "<group>"; };
-		6690A2D52B8D7EE4002C33C5 /* Eiffel_Tower.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Eiffel_Tower.usdz; sourceTree = "<group>"; };
 		48A11D6F2B9B63220061ED6A /* QuestionSuccessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionSuccessView.swift; sourceTree = "<group>"; };
 		48A11D702B9B63220061ED6A /* ProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		48A11D712B9B63220061ED6A /* QuestionFailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionFailView.swift; sourceTree = "<group>"; };
 		59167BFC2BB7E1D7006C02C1 /* DanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DanceView.swift; sourceTree = "<group>"; };
+		663062F42B7BFD3500702E04 /* ARLandmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARLandmark.swift; sourceTree = "<group>"; };
+		665997472B90EDCD00247314 /* TextBoxEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBoxEntity.swift; sourceTree = "<group>"; };
 		6666C7442B88093300A64A3D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		666A71712BBF2D1E005A849A /* Celebrities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Celebrities.swift; sourceTree = "<group>"; };
 		666A71722BBF2D1E005A849A /* ClassicTvMovie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassicTvMovie.swift; sourceTree = "<group>"; };
@@ -145,6 +130,7 @@
 		666A71772BBF2D1E005A849A /* Sports.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sports.swift; sourceTree = "<group>"; };
 		666A71782BBF2D1E005A849A /* TraditionalMusic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TraditionalMusic.swift; sourceTree = "<group>"; };
 		666A71792BBF2D1E005A849A /* Traditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Traditions.swift; sourceTree = "<group>"; };
+		6690A2C52B8D74E7002C33C5 /* ARVideoPortalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ARVideoPortalView.swift; sourceTree = "<group>"; };
 		66FB69C32B72A06D0066B826 /* Cultured.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cultured.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66FB69C62B72A06D0066B826 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		66FB69C82B72A06D0066B826 /* TourView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourView.swift; sourceTree = "<group>"; };
@@ -281,13 +267,6 @@
 		66FB69C52B72A06D0066B826 /* Cultured */ = {
 			isa = PBXGroup;
 			children = (
-				6690A2D52B8D7EE4002C33C5 /* Eiffel_Tower.usdz */,
-				6690A2C92B8D7A2A002C33C5 /* SphereSpace.usdz */,
-				6690A2D02B8D7AC7002C33C5 /* Burj_Khalifa.usdz */,
-				6690A2CE2B8D7AC7002C33C5 /* Chichen_Itza.usdz */,
-				6690A2CF2B8D7AC7002C33C5 /* Pisa_Tower.usdz */,
-				6690A2CD2B8D7AC7002C33C5 /* Taj_Mahal.usdz */,
-				6690A2CA2B8D7A2A002C33C5 /* tower_bridge.mp4 */,
 				6666C7442B88093300A64A3D /* GoogleService-Info.plist */,
 				7C1B20F62B7C002C008E0244 /* Info.plist */,
 				66FB69C62B72A06D0066B826 /* AppDelegate.swift */,
@@ -588,19 +567,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6690A2D32B8D7AC7002C33C5 /* Pisa_Tower.usdz in Resources */,
 				66FB69CE2B72A06E0066B826 /* Preview Assets.xcassets in Resources */,
-				6690A2CB2B8D7A2A002C33C5 /* SphereSpace.usdz in Resources */,
 				6666C7452B88093300A64A3D /* GoogleService-Info.plist in Resources */,
 				7C1B20FF2B7C00A0008E0244 /* Quicksand-Medium.ttf in Resources */,
 				7C1B20FE2B7C00A0008E0244 /* Quicksand-Bold.ttf in Resources */,
 				7C1B21022B7C00A0008E0244 /* Quicksand-Light.ttf in Resources */,
 				7C1B21012B7C00A0008E0244 /* Quicksand-SemiBold.ttf in Resources */,
-				6690A2D12B8D7AC7002C33C5 /* Taj_Mahal.usdz in Resources */,
-				6690A2CC2B8D7A2A002C33C5 /* tower_bridge.mp4 in Resources */,
-				6690A2D22B8D7AC7002C33C5 /* Chichen_Itza.usdz in Resources */,
-				6690A2D42B8D7AC7002C33C5 /* Burj_Khalifa.usdz in Resources */,
-				6690A2D62B8D7EE5002C33C5 /* Eiffel_Tower.usdz in Resources */,
 				66FB69CB2B72A06E0066B826 /* Assets.xcassets in Resources */,
 				7C1B21002B7C00A0008E0244 /* Quicksand-Regular.ttf in Resources */,
 			);

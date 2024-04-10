@@ -50,7 +50,9 @@ class ARViewController: ARView {
         _videoShown = videoShown
         super.init(frame: . zero)
         //createVideoSphere()
-        retrieveVideo()
+        Task {
+            await retrieveVideo()
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -61,16 +63,65 @@ class ARViewController: ARView {
         fatalError("init(frame:) has not been implemented")
     }
     
-    func retrieveVideo() {
+    func downloadSphere(_ closure: @escaping (ModelEntity) -> ()) async {
+        let storage = Storage.storage()
+        let pathReference = storage.reference(withPath: "models/SphereSpace.usdz")
+        let localURL = URL.documentsDirectory.appending(path: "models/SphereSpace.usdz")
+        
+        // Download to the local filesystem
+        let downloadTask = pathReference.write(toFile: localURL) { url, error in
+            if let error = error {
+                // Uh-oh, an error occurred!
+                print(error)
+                fatalError("Could not load download model with name SphereSpace")
+            } else {
+                guard let modelEntityLocal = try? ModelEntity.loadModel(contentsOf: localURL) else {
+                    fatalError("Could not load download model with name SphereSpace")
+                }
+                closure(modelEntityLocal)
+            }
+        }
+    }
+    
+    func renderModel(anchorEntity: AnchorEntity, material: VideoMaterial) async {
+        let localURL = URL.documentsDirectory.appending(path: "models/SphereSpace.usdz")
+        
+        if let modelEntityLocal = try? ModelEntity.loadModel(contentsOf: localURL) {
+            // model already downloaded
+            renderModelSync(modelEntityLocal, anchorEntity: anchorEntity, material: material)
+        } else {
+            // download model
+            await downloadSphere { downloadedModel in
+                self.renderModelSync(downloadedModel, anchorEntity: anchorEntity, material: material)
+            }
+        }
+    }
+    
+    func renderModelSync(_ modelEntity: ModelEntity, anchorEntity: AnchorEntity, material: VideoMaterial) {
+        
+        
+        modelEntity.model?.materials = [material]
+        anchorEntity.addChild(modelEntity)
+        print("before disable")
+        //spaceModelEntity.isEnabled = false
+        modelEntity.generateCollisionShapes(recursive: false)
+        modelEntity.name = "spaceModel"
+        self.installGestures([.rotation, .translation, .scale], for: modelEntity as HasCollision)
+    }
+    
+    func retrieveVideo() async {
         let localURL = URL.documentsDirectory.appending(path: "videos/\(modelName).\(videoType)")
         
         if localURL.checkFileExist() {
             // video already downloaded
-            createVideoSphere(localURL)
+            await createVideoSphere(localURL)
         } else {
             // download video first!
             downloadVideo { videoURL in
-                self.createVideoSphere(videoURL)
+                Task {
+                    await self.createVideoSphere(videoURL)
+                }
+                
             }
         }
     }
@@ -92,7 +143,7 @@ class ARViewController: ARView {
         }
     }
         
-    func createVideoSphere(_ videoURL: URL) {
+    func createVideoSphere(_ videoURL: URL) async {
         let anchorEntity = AnchorEntity()
         self.scene.addAnchor(anchorEntity)
         var spaceModelEntity: ModelEntity
@@ -103,15 +154,16 @@ class ARViewController: ARView {
         
         let material = VideoMaterial(avPlayer: player)
         do {
-            spaceModelEntity = try Entity.loadModel(named: spaceName)
-            
-            spaceModelEntity.model?.materials = [material]
-            anchorEntity.addChild(spaceModelEntity)
-            print("before disable")
-            //spaceModelEntity.isEnabled = false
-            spaceModelEntity.generateCollisionShapes(recursive: false)
-            spaceModelEntity.name = "spaceModel"
-            self.installGestures([.rotation, .translation, .scale], for: spaceModelEntity as HasCollision)
+//            spaceModelEntity = try Entity.loadModel(named: spaceName)
+//            
+//            spaceModelEntity.model?.materials = [material]
+//            anchorEntity.addChild(spaceModelEntity)
+//            print("before disable")
+//            //spaceModelEntity.isEnabled = false
+//            spaceModelEntity.generateCollisionShapes(recursive: false)
+//            spaceModelEntity.name = "spaceModel"
+//            self.installGestures([.rotation, .translation, .scale], for: spaceModelEntity as HasCollision)
+            await renderModel(anchorEntity: anchorEntity, material: material)
             
             let handleTap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
             self.addGestureRecognizer(handleTap) // calling the objc function

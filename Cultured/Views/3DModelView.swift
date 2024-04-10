@@ -20,9 +20,11 @@ let landmarks: [ARLandmark] = [
     ARLandmark(modelName: "Chichen_Itza", color: nil, scale: 0.005, facts: ["Chichen Itza in Mexico is renowned for its stepped pyramid, El Castillo, dedicated to the serpent god Kukulkan.", "It served as a major center of Mayan civilization from around 600 AD to 1200 AD and is now a UNESCO World Heritage Site.", "Chichen Itza's astronomical significance is evident in its alignment with the equinoxes, creating a light and shadow effect on El Castillo.", "The site includes various structures such as the Temple of the Warriors, the Great Ballcourt, and the Sacred Cenote.","With over 100 million votes cast, Chichen Itza was chosen as one of the New 7 Wonders of the World in 2000."], textBoxWidths: [0.3,0.3,0.3,0.3,0.3], textBoxHeights: [0.13,0.13,0.13,0.13,0.13], video: "tower_bridge")
 ]
 
+var modelsDictionary = ["France": 0, "Italy": 1, "UAE": 2, "India": 3, "Mexico": 4]
+
 
 struct _DModelView : View {
-    @State private var selection = 0
+    var model: String
     enum ViewShown {
         case Landmark, ARVideoPortal
     }
@@ -32,27 +34,13 @@ struct _DModelView : View {
     var body: some View {
         
         if (!videoShown) {
-            ZStack{
-                LandmarkViewContainer(model: landmarks[selection], videoShown: $videoShown).edgesIgnoringSafeArea(.all)
-                VStack {
-                    Spacer() // Pushes the VStack to the top
-                    Picker("Select a Country", selection: $selection) {
-                        ForEach(0..<landmarks.count) { index in
-                            Text(landmarks[index].modelName).tag(index)
-                        }
-                    }
-                    .pickerStyle(DefaultPickerStyle()) // Apply a default picker style
-                    .frame(width: 150, height: 40) // Set a fixed width and height for consistency
-                    .background(.white) // Set a white background
-                    .cornerRadius(10) // Apply corner radius for rounded edges
-                    .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
-                }
-                .alignmentGuide(.bottom) { _ in
-                    UIScreen.main.bounds.height * 0.05 // Adjust the value as needed
-                }
-            }
+            ZStack(alignment: .topLeading) {
+                
+                LandmarkViewContainer(model: landmarks[modelsDictionary[model]!], videoShown: $videoShown).edgesIgnoringSafeArea(.all)
+                BackButton()
+            }.padding(.bottom, 50).frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         } else {
-            ARVideoPortalView(model: landmarks[selection], videoShown: $videoShown)
+            ARVideoPortalView(model: landmarks[modelsDictionary[model]!], videoShown: $videoShown)
         }
         
     }
@@ -231,7 +219,7 @@ class LandmarkARView: ARView {
 }
 
 #Preview {
-    _DModelView()
+    _DModelView(model: "Mexico")
 }
 
 
