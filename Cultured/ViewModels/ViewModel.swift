@@ -1176,9 +1176,10 @@ class ViewModel: ObservableObject {
     
     func createNewConnections(connection: Connections) {
         let connectionsReference = db.collection("GAMES").document(connection.title)
+        let answerKeyDict = convertAnswerKeyToStringDict(answerKey: connection.answer_key)
         connectionsReference.setData(
             ["title": connection.title,
-             "answerKey": connection.answer_key
+             "answerKey": answerKeyDict
             ]) { error in
                 if let error = error {
                     print("Error writing game document: \(error.localizedDescription)")
@@ -1304,6 +1305,15 @@ class ViewModel: ObservableObject {
                 }
             }
         }
+    }
+    
+    func convertAnswerKeyToStringDict(answerKey: [String: [Connections.Option]]) -> [String: [String]] {
+        var stringDict: [String: [String]] = [:]
+        for (key, options) in answerKey {
+            let strings = options.map { $0.content }
+            stringDict[key] = strings
+        }
+        return stringDict
     }
     
     /*-------------------------------------------------------------------------------------------------*/
