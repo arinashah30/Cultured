@@ -129,7 +129,6 @@ struct MovieView: View {
                                     }
                                 }
                             }
-//                            .padding(.top, 5)
                             .padding(.horizontal, 18)
                         }
                     }

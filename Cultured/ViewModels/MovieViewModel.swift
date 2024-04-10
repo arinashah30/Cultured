@@ -16,14 +16,8 @@ class MovieViewModel: ObservableObject {
 //    static let token = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJiN2JiZTQ4NDc5ZjczNWRjZjNmYTdhZDZiYzljYmQxYyIsInN1YiI6IjY2MDcxM2QyYTZkZGNiMDE2MzQ0ZjM3MiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.oWo37m4dRCfuROD9J_1ngTG9jKLmMoKduXPNOjRLrhg"
  func loadMovies() {
         Task {
-//            for (num, name) in movieNames.enumerated() {
-//                print(num)
-//            let name = "Arthur the King"
-
                 do{
                     for name in movieNames {
-//                        let name = "Arthur the King"
-                        //                    let  temp: [MovieItem] = movieResults.results
                         let url = URL(string: "https://api.themoviedb.org/3/search/movie?query=\(name.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)&include_adult=false&language=es-mx&page=1&region=mx&api_key=\(MovieViewModel.apiKey)")!
                         let (data, _) = try await URLSession.shared.data(from: url)
                         let movieResults = try? JSONDecoder().decode(MovieResults.self, from: data)
