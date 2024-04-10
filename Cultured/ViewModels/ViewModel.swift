@@ -345,6 +345,56 @@ class ViewModel: ObservableObject {
             completion(traditionsObject)
         }
     }
+    
+    func getInfoMusic(countryName: String, completion: @escaping (Music) -> Void) {
+        self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("MUSIC").getDocument { document, error in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(Music())
+                return
+            }
+            guard let document = document, document.exists else {
+                print("Document Doesn't Exist")
+                completion(Music())
+                return
+            }
+            
+            guard let data = document.data(), !data.isEmpty else {
+                print("Data is Nil or Data is Empty")
+                completion(Music())
+                return
+            }
+            
+            let classicsDict = data["classics"] as? [String : String] ?? [:]
+            let stylesDict = data["styles"] as? [String: String] ?? [:]
+            //let traditionsObject = Traditions(traditionsDictionary: traditionsDictionary)
+            var artists: [String] = []
+            var title: [String] = []
+            var link: [String] = []
+
+            var i = 0
+            for (titleArtist, youtubeLink) in classicsDict {
+                let components = titleArtist.split(separator: ",").map(String.init)
+                if components.count == 2 {
+                    var title2 = components[0].trimmingCharacters(in: .whitespaces)
+                    var artist3 = components[1].trimmingCharacters(in: .whitespaces)
+                    title2 = String(title2)
+                    artist3 = String(artist3)
+                    title.append(title2)
+                    artists.append(artist3)
+                    link.append(youtubeLink)
+                }
+                //increase i for the next iteration
+                i = i + 1
+                
+            }
+            let musicObject = Music(title: title, artist: artists, link: link, styles: stylesDict)
+            completion(musicObject)
+        }
+    }
+    
+    
+    
   
     
     /*-------------------------------------------------------------------------------------------------*/
