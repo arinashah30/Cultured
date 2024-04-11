@@ -81,12 +81,14 @@ class ViewModel: ObservableObject {
                         if let docs = documents {
                             for doc in docs.documents {
                                 let id = doc.data()["id"] as! String
-                                self.setCurrentUser(userId: id, completion: { user in })
+                                self.setCurrentUser(userId: id, completion: { user in
+                                    UserDefaults.standard.setValue(true, forKey: "log_Status")
+                                })
                             }
                         }
                     }
                 }
-                UserDefaults.standard.setValue(true, forKey: "log_Status")
+                
                 self.updateLastLoggedOn(email: email) { success in
                     if success {
                         print("lastLoggedOn field updated successfully")

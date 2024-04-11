@@ -79,7 +79,7 @@ struct HomeView: View {
                                 .offset(y:-15)
                             NavigationLink {
                                 //print(vm.current_user!)
-                                StartQuizView(vm: vm, countryName: vm.current_user!.country, backgroundImage: Image("StartQuizImage"))
+                                StartQuizView(vm: vm, countryName: vm.current_user?.country ?? "Mexico", backgroundImage: Image("StartQuizImage"))
                             } label: {
                                 Text("Start")
                                     .font(.system(size: 16))
@@ -169,8 +169,9 @@ struct HomeView: View {
                             .multilineTextAlignment(.center)
                             .font(.system(size: 20))
                             .offset(y:-20)
-                        Button {
-                            
+                        NavigationLink {
+                            _DModelView(model: vm.current_user?.country ?? "Mexico").navigationBarBackButtonHidden(true)
+                            .toolbar(.hidden, for: .tabBar)
                         } label: {
                             Text("Let's go!")
                                 .font(.system(size: 16))
@@ -186,6 +187,7 @@ struct HomeView: View {
                     .padding(.bottom, 8)
                     Spacer()
                 }
+
                 
                 Text("Explore")
                     .font(Font.custom("Quicksand-Medium", size: 24))

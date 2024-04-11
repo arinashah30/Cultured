@@ -7,6 +7,7 @@
 
 import UIKit
 import SwiftUI
+import Firebase
 import FirebaseCore
 import FirebaseAppCheck
 
