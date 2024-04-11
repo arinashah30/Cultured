@@ -9,7 +9,8 @@ import SwiftUI
 
 struct WordGuessingResultsView: View {
     @ObservedObject var vm: WordGuessingViewModel
-    @State private var localHasWon: Bool = true
+    @State var goHome: Bool = false
+//    @State private var localHasWon: Bool = true
 
     var body: some View {
         ZStack {
@@ -39,9 +40,9 @@ struct WordGuessingResultsView: View {
                         .padding(.trailing, 25)
                     }
                     VStack(alignment: .leading, spacing: 2) {
-                        Text(localHasWon ? "You guessed it!" : "Nice try...")
+                        Text(vm.current_word_guessing_game!.hasWon ? "You guessed it!" : "Nice try...")
                             .font(Font.custom("Quicksand-Medium", size: 18))
-                            .foregroundColor(localHasWon ? Color("WinningText") : .red)
+                            .foregroundColor(vm.current_word_guessing_game!.hasWon ? Color("WinningText") : .red)
                         Text("Answer: " + String(vm.current_word_guessing_game?.answer ?? ""))
                             .font(Font.custom("Quicksand-Medium", size: 18))
                     }
@@ -62,7 +63,8 @@ struct WordGuessingResultsView: View {
                             .foregroundColor(Color.primary.opacity(0.5))
                     }
                     VStack {
-                        Text(String(vm.winPercent) + "%")
+                        
+                        Text(String(vm.getWinPercent()) + "%")
                             .font(Font.custom("Quicksand-Bold", size: 22))
                             .foregroundColor(.primary)
                         Text("Win %")
@@ -80,37 +82,37 @@ struct WordGuessingResultsView: View {
                 
                 HStack(alignment: .bottom, spacing: 4) {
                     Spacer()
-                            let adjustedStats = adjustStats(originalStats: vm.stats)
-                            ForEach(0..<9, id: \.self) { index in
-                                VStack() {
-                                    Text(String(vm.stats[index]))
-                                        .foregroundColor(Color.primary.opacity(0.35))
-                                    if localHasWon && vm.current_word_guessing_game?.flipsDone == index {
-                                        Rectangle()
-                                            .frame(width: 25, height: 190 * CGFloat(adjustedStats[index]))
-                                            .foregroundColor(Color("WinningBar"))
-                                    } else {
-                                        Rectangle()
-                                            .frame(width: 25, height: 200 * CGFloat(adjustedStats[index]))
-                                            .foregroundColor(Color.primary.opacity(0.15))
-                                    }
-                                    Text(String(index + 1))
-                                        .foregroundColor(Color.primary.opacity(0.5))
-                                }
-                                
+                    let adjustedStats = adjustStats(originalStats: vm.current_word_guessing_game!.stats)
+                    ForEach(0..<9, id: \.self) { (index: Int) in
+                        VStack() {
+                            Text(String(vm.current_word_guessing_game!.stats[index]))
+                                .foregroundColor(Color.primary.opacity(0.35))
+                            if vm.current_word_guessing_game!.current == index && vm.current_word_guessing_game!.hasWon {
+                                Rectangle()
+                                    .frame(width: 25, height: 190 * CGFloat(adjustedStats[index]))
+                                    .foregroundColor(Color("WinningBar"))
+                            } else {
+                                Rectangle()
+                                    .frame(width: 25, height: 200 * CGFloat(adjustedStats[index]))
+                                    .foregroundColor(Color.primary.opacity(0.15))
                             }
-                    Spacer()
+                            Text(String(index + 1))
+                                .foregroundColor(Color.black.opacity(0.5))
                         }
+                        
+                    }
+                    Spacer()
+                }
                 
                 HStack(spacing: 35) {
                     Spacer()
                     Button(action: {
-                        // action to go home
+                        goHome = true
                     }) {
                         Text("Back to Home")
                             .font(Font.custom("Quicksand-Medium", size: 17))
                             .foregroundColor(.primary.opacity(0.5))
-                    }
+                    }.navigationDestination(isPresented: $goHome, destination: {HomeView(vm: vm.viewModel)})
                     Spacer()
                 }
                 
@@ -130,10 +132,11 @@ func adjustStats(originalStats: [Int]) -> [Float] {
     for stat in originalStats {
         scaledStats.append(0.1 + (Float(stat) / Float(maxNum)))
     }
+    print(scaledStats)
     return scaledStats
 }
 
 #Preview {
-    WordGuessingResultsView(vm: WordGuessingViewModel())
+    WordGuessingResultsView(vm: WordGuessingViewModel(viewModel: ViewModel()))
 }
 

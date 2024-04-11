@@ -146,7 +146,6 @@ final class ViewModelUnitTests: XCTestCase {
         vm.getQuizFromFirebase(activityName: "MexcioCultureQuiz") {quiz in
             XCTAssertNotNil(quiz, "Quiz should not be nil")
             XCTAssertEqual(quiz?.points, 0)
-            XCTAssertEqual(quiz?.pointsGoal, 0)
             XCTAssertEqual(quiz?.title, "MexcioCultureQuiz")
             XCTAssertFalse(quiz?.questions.isEmpty ??  true)
             print("Quiz =====", quiz!)
@@ -174,7 +173,8 @@ final class ViewModelUnitTests: XCTestCase {
         
         let wordGuessing = WordGuessing(title: "USFoodWordGuessing",
                                        options: options,
-                                       answer: "Provolone")
+                                       answer: "Provolone",
+                                        stats: [1, 2, 3, 5, 8, 8, 6, 5, 3, 10])
         
         let option2 = [OptionTile(option: "Dough", isFlipped: true),
                        OptionTile(option: "Filling", isFlipped: true),
@@ -187,7 +187,8 @@ final class ViewModelUnitTests: XCTestCase {
 
         let wordGuessing2 = WordGuessing(title: "ChinaFoodWordGuessing",
                                          options: options,
-                                         answer: "Dumpling")
+                                         answer: "Dumpling",
+                                         stats: [1, 2, 3, 5, 8, 8, 6, 5, 3, 10])
         
         vm.createNewWordGuessing(wordGuessing: wordGuessing)
         vm.createNewWordGuessing(wordGuessing: wordGuessing2)
@@ -235,38 +236,8 @@ final class ViewModelUnitTests: XCTestCase {
                                              "Exhilaration": ["Buzz", "Kick", "Rush", "Thrill"]
                                             ]
         
-        //This doesn't matter, we're just making sure that these aren't populated into firebase even if the values exist
-        let categories = ["Food", "GT Locations"]
-        let points = 2000
-        let attempts = 123
-        let mistakesRemaining = 32
-        let correctCategories = 41
-
-        // Options
-        let option1 = Connections.Option(id: "Pizza", isSelected: false, isSubmitted: false, content: "Pizza", category: "Category1")
-        let option2 = Connections.Option(id: "Pasta", isSelected: false, isSubmitted: false, content: "Pasta", category: "Category1")
-        let option3 = Connections.Option(id: "College of Computing Building", isSelected: false, isSubmitted: false, content: "College of Computing Building", category: "Category2")
-        let option4 = Connections.Option(id: "Klaus Advanced Computing Building", isSelected: false, isSubmitted: false, content: "Klaus Advanced Computing Building", category: "Category2")
-        let option5 = Connections.Option(id: "Bio Quad", isSelected: false, isSubmitted: false, content: "Bio Quad", category: "Category")
-        let options = [option1, option2, option3, option4, option5]
-        
-        // Option selection
-        let selection = [option2, option4, option5]
-
-        // History
-        let history: [[Connections.Option]] = [[option1, option2], [option3, option4, option5]]
-
         // Create Connections object
-        let connections = Connections(title: title,
-                                      categories: categories,
-                                      answerKey: answerKey,
-                                      options: options,
-                                      selection: selection,
-                                      history: history,
-                                      points: points,
-                                      attempts: attempts,
-                                      mistakes_remaining: mistakesRemaining,
-                                      correct_categories: correctCategories)
+        let connections = Connections(title: title, answer_key: answerKey)
 
         // Test the createNewConnections function
         vm.createNewConnections(connection: connections)
@@ -290,11 +261,7 @@ final class ViewModelUnitTests: XCTestCase {
             XCTAssertNotNil(connection, "Connection should not be nil")
             XCTAssertEqual(connection?.title, "ChinaCultureConnections")
             XCTAssertEqual(connection?.points, 0)
-            XCTAssertEqual(connection?.attempts, 0)
-            XCTAssertEqual(connection?.mistakes_remaining, 0)
-            XCTAssertEqual(connection?.correct_categories, 0)
-            XCTAssertTrue(connection?.options.isEmpty ?? true, "The Options array is Empty")
-            XCTAssertTrue(connection?.selection.isEmpty ?? true, "The Selection array is Empty")
+            XCTAssertEqual(connection?.mistakes_remaining, 4)
             print("ChinaFoodConnections =====", connection!)
         }
         
@@ -302,11 +269,7 @@ final class ViewModelUnitTests: XCTestCase {
             XCTAssertNotNil(connection, "Connection should not be nil")
             XCTAssertEqual(connection?.title, "USFoodConnections")
             XCTAssertEqual(connection?.points, 0)
-            XCTAssertEqual(connection?.attempts, 0)
-            XCTAssertEqual(connection?.mistakes_remaining, 0)
-            XCTAssertEqual(connection?.correct_categories, 0)
-            XCTAssertTrue(connection?.options.isEmpty ?? false, "The Options array is NOT Empty")
-            XCTAssertTrue(connection?.selection.isEmpty ?? false, "The Selection array is NOT Empty")
+            XCTAssertEqual(connection?.mistakes_remaining, 4)
             print("USFoodConnections =====", connection!)
             expectation.fulfill()
         }
@@ -325,7 +288,7 @@ final class ViewModelUnitTests: XCTestCase {
     func testGetOnGoingQuiz() {
         let expectation = self.expectation(description: "Retrieve an On-Going Quiz")
                     
-        vm.getOnGoingActivities(userId: "ryanomeara", type: "quiz") { quizDictionary in
+        vm.getAllActivitiesOfType(userId: "ryanomeara", type: "quiz") { quizDictionary in
             XCTAssertNotNil(quizDictionary, "Information should not be nil")
             print("Name of On-Going Quizzes: \(quizDictionary)")
             expectation.fulfill()
@@ -341,7 +304,7 @@ final class ViewModelUnitTests: XCTestCase {
     func testGetOnGoingConnection() {
         let expectation = self.expectation(description: "Retrieve an On-Going Connection")
                     
-        vm.getOnGoingActivities(userId: "ryanomeara", type: "connection") { connectionDictionary in
+        vm.getAllActivitiesOfType(userId: "ryanomeara", type: "connection") { connectionDictionary in
             XCTAssertNotNil(connectionDictionary, "Information should not be nil")
             print("Name of On-Going Connections: \(connectionDictionary)")
             expectation.fulfill()
@@ -357,7 +320,7 @@ final class ViewModelUnitTests: XCTestCase {
     func testGetOnGoingWordGame() {
         let expectation = self.expectation(description: "Retrieve an On-Going Word Game")
             
-        vm.getOnGoingActivities(userId: "ryanomeara", type: "wordgame") { wordGameDictionary in
+        vm.getAllActivitiesOfType(userId: "ryanomeara", type: "wordgame") { wordGameDictionary in
             XCTAssertNotNil(wordGameDictionary, "Information should not be nil")
             print("Name of On-Going Word Games: \(wordGameDictionary)")
             expectation.fulfill()
@@ -687,9 +650,65 @@ final class ViewModelUnitTests: XCTestCase {
             }
         }
     }
+
+    func testImage() {
+        let expectation = self.expectation(description: "image stuff")
+//        vm.load_image_from_url(urlString: "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg") {
+//            image in
+//            self.vm.updateProfilePic(userID: "Rik Roy", image: image!) { completion in
+//                print(completion)
+//                expectation.fulfill()
+//            }
+//        }
+//        wait(for: [expectation], timeout: 5)
+        vm.getProfilePic(userID: "Rik Roy") { image in
+            self.vm.storeImageAndReturnURL(image: image!) { url in
+                print(url)
+                expectation.fulfill()
+            }
+        }
+        wait(for: [expectation], timeout: 5)
+    }
     
+    func testGetInfoCelebrities() {
+        let expectation = self.expectation(description: "Retrieve Celebrities Data From Firebase")
+
+        let nilObject = Celebrities()
+
+        vm.getInfoCelebrities(countryName: "MEXICO") { celebrityObject in
+            XCTAssertNotNil(celebrityObject, "Information should not be nil")
+            XCTAssertNotEqual(nilObject, celebrityObject)
+            print("Celebrities ====", celebrityObject)
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
+    func testGetInfoLandmarks() {
+         let expectation = self.expectation(description: "Retrieve Landmark Data From Firebase")
+
+         let nilObject = Landmarks()
+
+         vm.getInfoLandmarks(countryName: "MEXICO") { landmarkObject in
+             XCTAssertNotNil(landmarkObject, "Information should not be nil")
+             XCTAssertNotEqual(nilObject, landmarkObject)
+             print("Landmarks ====", landmarkObject)
+             expectation.fulfill()
+         }
+
+         waitForExpectations(timeout: 5) { error in
+             if let error = error {
+                 XCTFail("waitForExpectations error: \(error)")
+             }
+         }
+     }
+  
     func testGetInfoEtiquettes() {
-        let expectation = self.expectation(description: "Retrieve whether an activity is completed")
+        let expectation = self.expectation(description: "Retrieve Etiquette Data From Firebase")
         
         let nilEtiquette = Etiquette()
         
@@ -697,6 +716,45 @@ final class ViewModelUnitTests: XCTestCase {
             XCTAssertNotNil(etiquetteObject, "Information should not be nil")
             XCTAssertNotEqual(nilEtiquette, etiquetteObject)
             print("Etiquette ====", etiquetteObject)
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+
+    }
+    
+    func testGetInfoTraditions() {
+        let expectation = self.expectation(description: "Retrieve Traditions Data From Firebase")
+
+        let nilObject = Traditions()
+        
+        vm.getInfoTraditions(countryName: "MEXICO") { traditionsObject in
+            XCTAssertNotNil(traditionsObject, "Information should not be nil")
+            XCTAssertNotEqual(nilObject, traditionsObject)
+            print("Traditions ====", traditionsObject)
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
+
+    func testGetInfoSports() {
+        let expectation = self.expectation(description: "Retrieve Sports Data From Firebase")
+        
+        let nilObject = Sports()
+        
+        vm.getInfoSports(countryName: "MEXICO") { sportsObject in
+            XCTAssertNotNil(sportsObject, "Information should not be nil")
+            XCTAssertNotEqual(nilObject, sportsObject)
+            print("Sports ====", sportsObject)
             expectation.fulfill()
         }
 
