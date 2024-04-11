@@ -838,12 +838,29 @@ func testGetInfoFood() {
           }
 
           waitForExpectations(timeout: 5) { error in
-          if let error = error {
-          XCTFail("waitForExpectations error: \(error)")
+            if let error = error {
+              XCTFail("waitForExpectations error: \(error)")
           }
         }
      }
-    
+    func testGetInfoMusic() {
+        let expectation = self.expectation(description: "Retrieve Music Data From Firebase")
+        
+        let nilObject = Music()
+        
+        vm.getInfoMusic(countryName: "MEXICO") { musicObject in
+            XCTAssertNotNil(musicObject, "Information should not be nil")
+            XCTAssertNotEqual(nilObject, musicObject)
+            print("Music ====", musicObject)
+            print("Ganden Fung")
+            expectation.fulfill()
+        }
 
+        waitForExpectations(timeout: 5) { error in
+          if let error = error {
+              XCTFail("waitForExpectations error: \(error)")
+          }
+      }
+    }
 }
 
