@@ -24,13 +24,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Create the SwiftUI view that provides the window contents.
         //let contentView = ContentView()
 //        var contentView = MainView(vm: ViewModel())
-        var contentView = ContentView(vm: ViewModel())
+        let vm = ViewModel()
+        vm.setCurrentUser(userId: vm.auth.currentUser?.displayName ?? "", completion: { result in
+            var contentView = ContentView(vm: vm)
+            let window = UIWindow(frame: UIScreen.main.bounds)
+            window.rootViewController = UIHostingController(rootView: contentView)
+            self.window = window
+            window.makeKeyAndVisible()
+            //return true
+        })
 
         // Use a UIHostingController as window root view controller.
-        let window = UIWindow(frame: UIScreen.main.bounds)
-        window.rootViewController = UIHostingController(rootView: contentView)
-        self.window = window
-        window.makeKeyAndVisible()
         return true
     }
 
