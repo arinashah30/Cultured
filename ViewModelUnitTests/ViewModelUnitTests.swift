@@ -676,7 +676,119 @@ final class ViewModelUnitTests: XCTestCase {
             }
         }
     }
+
+    func testImage() {
+        let expectation = self.expectation(description: "image stuff")
+//        vm.load_image_from_url(urlString: "https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg") {
+//            image in
+//            self.vm.updateProfilePic(userID: "Rik Roy", image: image!) { completion in
+//                print(completion)
+//                expectation.fulfill()
+//            }
+//        }
+//        wait(for: [expectation], timeout: 5)
+        vm.getProfilePic(userID: "Rik Roy") { image in
+            self.vm.storeImageAndReturnURL(image: image!) { url in
+                print(url)
+                expectation.fulfill()
+            }
+        }
+        wait(for: [expectation], timeout: 5)
+    }
     
+    func testGetInfoCelebrities() {
+        let expectation = self.expectation(description: "Retrieve Celebrities Data From Firebase")
+
+        let nilObject = Celebrities()
+
+        vm.getInfoCelebrities(countryName: "MEXICO") { celebrityObject in
+            XCTAssertNotNil(celebrityObject, "Information should not be nil")
+            XCTAssertNotEqual(nilObject, celebrityObject)
+            print("Celebrities ====", celebrityObject)
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
+    func testGetInfoLandmarks() {
+         let expectation = self.expectation(description: "Retrieve Landmark Data From Firebase")
+
+         let nilObject = Landmarks()
+
+         vm.getInfoLandmarks(countryName: "MEXICO") { landmarkObject in
+             XCTAssertNotNil(landmarkObject, "Information should not be nil")
+             XCTAssertNotEqual(nilObject, landmarkObject)
+             print("Landmarks ====", landmarkObject)
+             expectation.fulfill()
+         }
+
+         waitForExpectations(timeout: 5) { error in
+             if let error = error {
+                 XCTFail("waitForExpectations error: \(error)")
+             }
+         }
+     }
+  
+    func testGetInfoEtiquettes() {
+        let expectation = self.expectation(description: "Retrieve Etiquette Data From Firebase")
+        
+        let nilEtiquette = Etiquette()
+        
+        vm.getInfoEtiquettes(countryName: "MEXICO") { etiquetteObject in
+            XCTAssertNotNil(etiquetteObject, "Information should not be nil")
+            XCTAssertNotEqual(nilEtiquette, etiquetteObject)
+            print("Etiquette ====", etiquetteObject)
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+
+    }
     
+    func testGetInfoTraditions() {
+        let expectation = self.expectation(description: "Retrieve Traditions Data From Firebase")
+
+        let nilObject = Traditions()
+        
+        vm.getInfoTraditions(countryName: "MEXICO") { traditionsObject in
+            XCTAssertNotNil(traditionsObject, "Information should not be nil")
+            XCTAssertNotEqual(nilObject, traditionsObject)
+            print("Traditions ====", traditionsObject)
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
+
+    func testGetInfoSports() {
+        let expectation = self.expectation(description: "Retrieve Sports Data From Firebase")
+        
+        let nilObject = Sports()
+        
+        vm.getInfoSports(countryName: "MEXICO") { sportsObject in
+            XCTAssertNotNil(sportsObject, "Information should not be nil")
+            XCTAssertNotEqual(nilObject, sportsObject)
+            print("Sports ====", sportsObject)
+            expectation.fulfill()
+        }
+
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
     
 }

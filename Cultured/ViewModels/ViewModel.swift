@@ -218,6 +218,137 @@ class ViewModel: ObservableObject {
         
     }
     
+    func getInfoLandmarks(countryName: String, completion: @escaping (Landmarks) -> Void) {
+          self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("LANDMARKS").getDocument { document, error in
+              if let error = error {
+                  print(error.localizedDescription)
+                  completion(Landmarks())
+                  return
+              }
+              guard let document = document, document.exists else {
+                  print("Document Doesn't Exist")
+                  completion(Landmarks())
+                  return
+              }
+
+              guard let data = document.data(), !data.isEmpty else {
+                  print("Data is Nil or Data is Empty")
+                  completion(Landmarks())
+                  return
+              }
+
+              var landmarkMap = [String : String]()
+              landmarkMap = data["landmarks"] as? [String : String] ?? [:]
+              let landmarkObject = Landmarks(landmarkMap: landmarkMap)
+              completion(landmarkObject)
+          }
+      }
+
+  func getInfoEtiquettes(countryName: String, completion: @escaping (Etiquette) -> Void) {
+        self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("ETIQUETTE").getDocument { document, error in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(Etiquette())
+                return
+            }
+            guard let document = document, document.exists else {
+                print("Document Doesn't Exist")
+                completion(Etiquette())
+                return
+            }
+            
+            guard let data = document.data(), !data.isEmpty else {
+                print("Data is Nil or Data is Empty")
+                completion(Etiquette())
+                return
+            }
+            
+            var etiquetteMap = [String : String]()
+            etiquetteMap = data["etiquettes"] as? [String : String] ?? [:]
+            let etiquetteObject = Etiquette(etiquetteMap: etiquetteMap)
+            completion(etiquetteObject)
+        }
+    }
+  
+   func getInfoCelebrities(countryName: String, completion: @escaping (Celebrities) -> Void) {
+        self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("CELEBRITIES").getDocument { document, error in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(Celebrities())
+                return
+            }
+            guard let document = document, document.exists else {
+                print("Document Doesn't Exist")
+                completion(Celebrities())
+                return
+            }
+
+            guard let data = document.data(), !data.isEmpty else {
+                print("Data is Nil or Data is Empty")
+                completion(Celebrities())
+                return
+            }
+
+            var celebritiesMap = [String : String]()
+            celebritiesMap = data["celebrities"] as? [String : String] ?? [:]
+            let celebritiesObject = Celebrities(celebritiesMap: celebritiesMap)
+            completion(celebritiesObject)
+        }
+    }
+    
+    func getInfoSports(countryName: String, completion: @escaping (Sports) -> Void) {
+        self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("SPORTS").getDocument { document, error in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(Sports())
+                return
+            }
+            guard let document = document, document.exists else {
+                print("Document Doesn't Exist")
+                completion(Sports())
+                return
+            }
+            
+            guard let data = document.data(), !data.isEmpty else {
+                print("Data is Nil or Data is Empty")
+                completion(Sports())
+                return
+            }
+            
+            let athletes = data["athletes"] as? [String] ?? []
+//            var sportsDictionary = [String : String]()
+            let sportsDictionary = data["sports"] as? [String : String] ?? [:]
+            let sportsObject = Sports(athletes: athletes, sports: sportsDictionary)
+            completion(sportsObject)
+        }
+    }
+  
+    func getInfoTraditions(countryName: String, completion: @escaping (Traditions) -> Void) {
+        self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("TRADITIONS").getDocument { document, error in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(Traditions())
+                return
+            }
+            guard let document = document, document.exists else {
+                print("Document Doesn't Exist")
+                completion(Traditions())
+                return
+            }
+            
+            guard let data = document.data(), !data.isEmpty else {
+                print("Data is Nil or Data is Empty")
+                completion(Traditions())
+                return
+            }
+            
+            let traditionsDictionary = data["traditions"] as? [String : String] ?? [:]
+            let traditionsObject = Traditions(traditionsDictionary: traditionsDictionary)
+            completion(traditionsObject)
+        }
+    }
+  
+    
     /*-------------------------------------------------------------------------------------------------*/
     
     /*
@@ -541,6 +672,44 @@ class ViewModel: ObservableObject {
             }
         }
     }
+    
+    
+    func updateProfilePic(userID: String, image: UIImage, completion: @escaping (Bool) -> Void) {
+        storeImageAndReturnURL(image: image) { url in
+            guard let imageURL = url else {
+                print("Failed to get download URL")
+                completion(false)
+                return
+            }
+            
+            let userDocument = self.db.collection("USERS").document(userID)
+            userDocument.updateData(["profilePicture": imageURL.absoluteString]) { error in
+                if let error = error {
+                    print("Error updating document: \(error.localizedDescription)")
+                    completion(false)
+                } else {
+                    print("GANDEN FUNG GOOD")
+                    print("Document successfully updated with new profile picture URL")
+                    completion(true)
+                }
+            }
+        }
+    }
+    func getProfilePic(userID: String, completion: @escaping (UIImage?) -> Void) {
+        let userDocument = db.collection("USERS").document(userID)
+        
+        userDocument.getDocument { (document, error) in
+            if let document = document, document.exists, let data = document.data(), let urlString = data["profilePicture"] as? String {
+                self.getImageFromURL(urlString: urlString) { image in
+                    completion(image)
+                }
+            } else {
+                print("Document does not exist or URL could not be retrieved")
+                completion(nil)
+            }
+        }
+    }
+
     
     //Return "true" if streak is incremented or stays same
     //Return "false" if streak is reset to 0
@@ -1334,7 +1503,7 @@ class ViewModel: ObservableObject {
         
         return (firstNSongs, artists)
     }
-    /*-------------------------------------------------------------------------------------------------*/
+    
     
     func getWinCountDictionary(nameOfWordgame: String, completion: @escaping([String : Int]) -> Void) {
         
@@ -1377,4 +1546,60 @@ class ViewModel: ObservableObject {
             }
         }
     }
+    
+    func storeImageAndReturnURL(image: UIImage, completion: @escaping (URL?) -> Void) {
+        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
+            completion(nil)
+            return
+        }
+            // create random image path
+        let imagePath = "images/\(UUID().uuidString).jpg"
+        let storageRef = Storage.storage().reference()
+        // create reference to file you want to upload
+        let imageRef = storageRef.child(imagePath)
+
+        //upload image
+        DispatchQueue.main.async {
+            let uploadTask = imageRef.putData(imageData, metadata: nil) { (metadata, error) in
+                if let error = error {
+                    print("Error uploading image: (error.localizedDescription)")
+                    print("GANDEN FUNG BAD")
+                    completion(nil)
+                } else {
+                    // Image successfully uploaded
+                    imageRef.downloadURL { url, error in
+                        if let downloadURL = url {
+                            completion(downloadURL)
+                        } else {
+                            print("Error getting download URL: (String(describing: error?.localizedDescription))")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    func getImageFromURL(urlString: String, completion: @escaping (UIImage?) -> Void) {
+        guard let url = URL(string: urlString) else {
+            print("Invalid URL string: \(urlString)")
+            completion(nil)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    print("Error loading image from URL: \(error.localizedDescription)")
+                    completion(nil)
+                } else if let data = data, let image = UIImage(data: data) {
+                    completion(image)
+                } else {
+                    print("Could not load image from URL: \(urlString)")
+                    completion(nil)
+                }
+            }
+        }.resume()
+    }
+    
+    /*-------------------------------------------------------------------------------------------------*/
 }
