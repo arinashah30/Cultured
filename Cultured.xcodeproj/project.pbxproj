@@ -85,6 +85,9 @@
 		7C9E14692BBF6353003BC7B4 /* LandmarksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9E14682BBF6353003BC7B4 /* LandmarksView.swift */; };
 		7CE5D3EF2BB5D2ED00EE0E14 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE5D3EE2BB5D2ED00EE0E14 /* BackButton.swift */; };
 		7CFE0FC42B979F3100D7283B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFE0FC32B979F3100D7283B /* ContentView.swift */; };
+		849347992BB75365000EC3F4 /* MovieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849347982BB75365000EC3F4 /* MovieView.swift */; };
+		8493479B2BC081EE000EC3F4 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8493479A2BC081EE000EC3F4 /* Movie.swift */; };
+		8493479D2BC0843C000EC3F4 /* MovieViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8493479C2BC0843C000EC3F4 /* MovieViewModel.swift */; };
 		B31D2BFA2B8EB3EF00FAF095 /* ViewModelUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B31D2BF92B8EB3EF00FAF095 /* ViewModelUnitTests.swift */; };
 		C4C2FF492BC08E2E00DCDE7E /* EtiquetteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C2FF482BC08E2E00DCDE7E /* EtiquetteView.swift */; };
 		CA0D9D522BBCC5F2006C7C2A /* FoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA0D9D512BBCC5F2006C7C2A /* FoodView.swift */; };
@@ -170,6 +173,9 @@
 		7C9E14682BBF6353003BC7B4 /* LandmarksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandmarksView.swift; sourceTree = "<group>"; };
 		7CE5D3EE2BB5D2ED00EE0E14 /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
 		7CFE0FC32B979F3100D7283B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		849347982BB75365000EC3F4 /* MovieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieView.swift; sourceTree = "<group>"; };
+		8493479A2BC081EE000EC3F4 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		8493479C2BC0843C000EC3F4 /* MovieViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieViewModel.swift; sourceTree = "<group>"; };
 		B31D2BF72B8EB3EF00FAF095 /* ViewModelUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ViewModelUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B31D2BF92B8EB3EF00FAF095 /* ViewModelUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelUnitTests.swift; sourceTree = "<group>"; };
 		C4C2FF482BC08E2E00DCDE7E /* EtiquetteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EtiquetteView.swift; sourceTree = "<group>"; };
@@ -299,6 +305,7 @@
 				480F21F62B7596BA00CB5632 /* QuizQuestion.swift */,
 				480F21F82B75A29500CB5632 /* Connections.swift */,
 				480F21FA2B75A54700CB5632 /* WordGuessing.swift */,
+				8493479A2BC081EE000EC3F4 /* Movie.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -310,6 +317,7 @@
 				480F22052B7C1F9000CB5632 /* QuizViewModel.swift */,
 				480F22072B7C1F9C00CB5632 /* WordGuessingViewModel.swift */,
 				480F22092B7C1FA900CB5632 /* ConnectionsViewModel.swift */,
+				8493479C2BC0843C000EC3F4 /* MovieViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -412,6 +420,7 @@
 			isa = PBXGroup;
 			children = (
 				66FB6A1D2B72A2DF0066B826 /* MusicView.swift */,
+				849347982BB75365000EC3F4 /* MovieView.swift */,
 				59167BFC2BB7E1D7006C02C1 /* DanceView.swift */,
 			);
 			path = PopCulture;
@@ -617,6 +626,7 @@
 				66FB6A1B2B72A26E0066B826 /* Badge.swift in Sources */,
 				480F22082B7C1F9C00CB5632 /* WordGuessingViewModel.swift in Sources */,
 				66FB69F72B72A0BF0066B826 /* User.swift in Sources */,
+				8493479D2BC0843C000EC3F4 /* MovieViewModel.swift in Sources */,
 				480F21F72B7596BA00CB5632 /* QuizQuestion.swift in Sources */,
 				666A717C2BBF2D1E005A849A /* ClassicTvMovie.swift in Sources */,
 				480F22022B7C19F900CB5632 /* WordGuessingResultsView.swift in Sources */,
@@ -629,6 +639,7 @@
 				7CE5D3EF2BB5D2ED00EE0E14 /* BackButton.swift in Sources */,
 				48ACC9822BBF6B0B00AEC832 /* ProgressButtonView.swift in Sources */,
 				66FB6A132B72A2150066B826 /* StartConnectionsView.swift in Sources */,
+				8493479B2BC081EE000EC3F4 /* Movie.swift in Sources */,
 				666A717D2BBF2D1E005A849A /* Dance.swift in Sources */,
 				66FB6A0E2B72A1830066B826 /* ResultsView.swift in Sources */,
 				66FB6A152B72A21D0066B826 /* ConnectionsGameView.swift in Sources */,
@@ -648,6 +659,7 @@
 				66FB6A022B72A1400066B826 /* LogInView.swift in Sources */,
 				66FB69F52B72A0B90066B826 /* Country.swift in Sources */,
 				66FB6A222B72A2FD0066B826 /* HolidaysView.swift in Sources */,
+				849347992BB75365000EC3F4 /* MovieView.swift in Sources */,
 				66FB6A092B72A1620066B826 /* EditSelfProfileView.swift in Sources */,
 				480F21FB2B75A54700CB5632 /* WordGuessing.swift in Sources */,
 				66FB69C72B72A06D0066B826 /* AppDelegate.swift in Sources */,
