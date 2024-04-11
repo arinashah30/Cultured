@@ -374,7 +374,7 @@ class ViewModel: ObservableObject {
 
             var i = 0
             for (titleArtist, youtubeLink) in classicsDict {
-                let components = titleArtist.split(separator: ",").map(String.init)
+                let components = titleArtist.split(separator: "|").map(String.init)
                 if components.count == 2 {
                     var title2 = components[0].trimmingCharacters(in: .whitespaces)
                     var artist3 = components[1].trimmingCharacters(in: .whitespaces)
