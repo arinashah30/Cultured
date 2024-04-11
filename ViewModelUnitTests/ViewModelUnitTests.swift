@@ -780,6 +780,24 @@ final class ViewModelUnitTests: XCTestCase {
                 }
         }
     
+func testGetInfoFood() {
+          let expectation = self.expectation(description: "Retrieve TvMovie Data From Firebase")
+
+      //             let nilObject = Food()
+
+          vm.getInfoFood(countryName: "MEXICO") { food in
+              XCTAssertNotNil(food, "Information should not be nil")
+              print(food)
+              expectation.fulfill()
+          }
+
+          waitForExpectations(timeout: 5) { error in
+          if let error = error {
+          XCTFail("waitForExpectations error: \(error)")
+          }
+        }
+     }
+
     func testGetInfoDance() {
         let expectation = self.expectation(description: "Retrieve Dance Data From Firebase")
         
@@ -797,15 +815,34 @@ final class ViewModelUnitTests: XCTestCase {
             XCTAssertNotEqual(nilObject, danceObject)
             XCTAssertEqual(6, danceObject.danceDictionary.count)
             print("France Dance ====", danceObject)
+
             expectation.fulfill()
         }
 
         waitForExpectations(timeout: 5) { error in
-            if let error = error {
-                XCTFail("waitForExpectations error: \(error)")
-            }
+        if let error = error {
+        XCTFail("waitForExpectations error: \(error)")
         }
-    }
+      }
+   }
+    
+    func testGetInfoTvMovie() {
+          let expectation = self.expectation(description: "Retrieve TvMovie Data From Firebase")
+
+      //             let nilObject = Food()
+
+          vm.getInfoTvMovie(countryName: "MEXICO") { tvMovie in
+              XCTAssertNotNil(tvMovie, "Information should not be nil")
+              print(tvMovie)
+              expectation.fulfill()
+          }
+
+          waitForExpectations(timeout: 5) { error in
+            if let error = error {
+              XCTFail("waitForExpectations error: \(error)")
+          }
+        }
+     }
     func testGetInfoMusic() {
         let expectation = self.expectation(description: "Retrieve Music Data From Firebase")
         
@@ -820,9 +857,10 @@ final class ViewModelUnitTests: XCTestCase {
         }
 
         waitForExpectations(timeout: 5) { error in
-            if let error = error {
-                XCTFail("waitForExpectations error: \(error)")
-            }
-        }
+          if let error = error {
+              XCTFail("waitForExpectations error: \(error)")
+          }
+      }
     }
 }
+
