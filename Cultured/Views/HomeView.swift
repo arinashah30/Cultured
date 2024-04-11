@@ -79,7 +79,7 @@ struct HomeView: View {
                                 .offset(y:-15)
                             NavigationLink {
                                 //print(vm.current_user!)
-                                StartQuizView(vm: vm, countryName: vm.current_user!.country, backgroundImage: Image("StartQuizImage"))
+                                StartQuizView(vm: vm, countryName: vm.current_user?.country ?? "Mexico", backgroundImage: Image("StartQuizImage"))
                             } label: {
                                 Text("Start")
                                     .font(.system(size: 16))
