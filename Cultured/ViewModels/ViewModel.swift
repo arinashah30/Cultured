@@ -345,7 +345,56 @@ class ViewModel: ObservableObject {
             completion(traditionsObject)
         }
     }
-  
+    
+    func getInfoDance(countryName: String, completion: @escaping (Dance) -> Void) {
+        self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("DANCE").getDocument { document, error in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(Dance())
+                return
+            }
+            guard let document = document, document.exists else {
+                print("Document Doesn't Exist")
+                completion(Dance())
+                return
+            }
+            
+            guard let data = document.data(), !data.isEmpty else {
+                print("Data is Nil or Data is Empty")
+                completion(Dance())
+                return
+            }
+            
+            let danceDictionary = data["dances"] as? [String : String] ?? [:]
+            let danceObject = Dance(danceDictionary: danceDictionary)
+            completion(danceObject)
+        }
+    }
+
+    func getInfoMajorCities(countryName: String, completion: @escaping (MajorCities) -> Void) {
+                self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("MAJORCITIES").getDocument { document, error in
+                    if let error = error {
+                        print(error.localizedDescription)
+                        completion(MajorCities())
+                        return
+                    }
+                    guard let document = document, document.exists else {
+                        print("Document Doesn't Exist")
+                        completion(MajorCities())
+                        return
+                    }
+                    guard let data = document.data(), !data.isEmpty else {
+                        print("Data is Nil or Data is Empty")
+                        completion(MajorCities())
+                        return
+                    }
+                    var majorCitiesMap = [String : String]()
+                    majorCitiesMap = data["major cities"] as? [String : String] ?? [:]
+                    let majorCitiesObject = MajorCities(majorCitiesMap: majorCitiesMap)
+                    completion(majorCitiesObject)
+                }
+    }
+    
     
     /*-------------------------------------------------------------------------------------------------*/
     
@@ -1176,9 +1225,10 @@ class ViewModel: ObservableObject {
     
     func createNewConnections(connection: Connections) {
         let connectionsReference = db.collection("GAMES").document(connection.title)
+        let answerKeyDict = convertAnswerKeyToStringDict(answerKey: connection.answer_key)
         connectionsReference.setData(
             ["title": connection.title,
-             "answerKey": connection.answer_key
+             "answerKey": answerKeyDict
             ]) { error in
                 if let error = error {
                     print("Error writing game document: \(error.localizedDescription)")
@@ -1304,6 +1354,15 @@ class ViewModel: ObservableObject {
                 }
             }
         }
+    }
+    
+    func convertAnswerKeyToStringDict(answerKey: [String: [Connections.Option]]) -> [String: [String]] {
+        var stringDict: [String: [String]] = [:]
+        for (key, options) in answerKey {
+            let strings = options.map { $0.content }
+            stringDict[key] = strings
+        }
+        return stringDict
     }
     
     /*-------------------------------------------------------------------------------------------------*/
