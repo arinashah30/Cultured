@@ -43,24 +43,22 @@ struct MajorCitiesView: View {
                                 .foregroundColor(.cDarkGray)
                                 .font(Font.custom("Quicksand-SemiBold", size: 32))
                                 .padding(.top, 20)
-                            Text("Mexico")
+                            Text("Mexico") //getCountryName()
                                 .foregroundColor(.cMedGray)
-                            Text("North Mexico")
-                                .font(Font.custom("Quicksand-Medium", size: 24))
-                                .foregroundColor(.cDarkGray)
-                                .padding(.top, 20)
-                                .padding(.bottom, 10)
+                            //list of cities
+                            //for (int i = 0; i < list.length; i++) {
+                            //if (i % 2 == 0) {
                             HStack (alignment: .top){
                                 VStack {
                                     Image("MapPointer")
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
                                         .frame(width: 26, height: 33)
-                                    Text("San Miguel De Allende")
+                                    Text("San Miguel De Allende") //getCityName()
                                         .font(Font.custom("Quicksand-Medium", size: 20))
                                         .foregroundColor(.cDarkGray)
                                         .padding(.bottom, 5)
-                                    Text("In this vibrant city, do this and this activity.")
+                                    Text("In this vibrant city, do this and this activity. this this") //getCityDescription()
                                         .foregroundColor(.cMedGray)
                                 }
                                 .padding(.top, 10)
@@ -68,9 +66,10 @@ struct MajorCitiesView: View {
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
                                     .frame(width: 180, height: 180)
-                                    .padding(.leading, 10)
+                                    .padding(.leading, 20)
                             }
                             .padding(.bottom, 20)
+                            //else {
                             HStack (alignment: .top){
                                 Image("SanMiguel")
                                     .resizable()
