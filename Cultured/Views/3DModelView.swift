@@ -38,7 +38,7 @@ struct _DModelView : View {
                 
                 LandmarkViewContainer(model: landmarks[modelsDictionary[model]!], videoShown: $videoShown).edgesIgnoringSafeArea(.all)
                 BackButton()
-            }.padding(.bottom, 50).frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            }.frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         } else {
             ARVideoPortalView(model: landmarks[modelsDictionary[model]!], videoShown: $videoShown)
         }
