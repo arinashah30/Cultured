@@ -9,7 +9,7 @@ struct QuestionView: View {
     let buttonColors: [Color] = [Color(red: 255/255, green: 164/255, blue: 164/255), Color(red: 255/255, green: 204/255, blue: 153/255), Color(red: 168/255, green: 220/255, blue: 168/255), Color(red: 179/255, green: 230/255, blue: 255/255)]
     let colorRed: Color = Color(red: 241/255, green: 72/255, blue: 72/255)
     
-    let buttonWidth: CGFloat = 153.29
+    let buttonWidth: CGFloat = 350
     let buttonHeight: CGFloat = 57.0
     let buttonRadius=13.0
     @State var totalSteps: Int = 0
@@ -70,41 +70,20 @@ struct QuestionView: View {
                             .padding(.vertical, 20).font(.system(size: 20))
                         
                         VStack(spacing: 16) {
-                            HStack(spacing: 16) {
-                                ForEach(categories.prefix(2), id: \.self) { category in
-                                    Button(action: {
-                                        toggleCategorySelection(category)
-                                    }) {
-                                        HStack {
-                                            Text(category)
-                                                .padding().font(.system(size:20))
-                                            
-                                        }
-                                    }
-                                    .frame(width: buttonWidth, height: buttonHeight)
-                                    .background(buttonColor(category: category))
-                                    .foregroundColor(textColor(category: category))
-                                    .cornerRadius(buttonRadius)
+                            ForEach(categories, id: \.self) { category in
+                                Button(action: {
+                                    toggleCategorySelection(category)
+                                }) {
+                                    Text(category)
+                                        .padding()
+                                        .font(.system(.body, design: .rounded)) // Use dynamic type
+                                        .minimumScaleFactor(0.5)
                                 }
-                            }.frame(maxWidth: .infinity, alignment: .center)
-                            
-                            HStack(spacing: 16) {
-                                ForEach(categories.suffix(2), id: \.self) { category in
-                                    Button(action: {
-                                        toggleCategorySelection(category)
-                                    }) {
-                                        HStack {
-                                            Text(category)
-                                                .padding().font(.system(size:20))
-                                            
-                                        }
-                                    }
-                                    .frame(width: buttonWidth, height: buttonHeight)
-                                    .background(buttonColor(category: category))
-                                    .foregroundColor(textColor(category: category))
-                                    .cornerRadius(buttonRadius)
-                                }
-                            }.frame(maxWidth: .infinity, alignment: .center)
+                                .frame(width: buttonWidth, height: buttonHeight)
+                                .background(buttonColor(category: category))
+                                .foregroundColor(textColor(category: category))
+                                .cornerRadius(buttonRadius)
+                            }
                             
                         }
                     }
@@ -128,6 +107,7 @@ struct QuestionView: View {
                             .font(.system(size:20))
                             .fontWeight(.bold)
                         }.navigationDestination(isPresented: $nav) { destinationView }
+                        .padding(.top, 20)
                     //}.padding(.top, 20)
                     
                     
@@ -171,7 +151,7 @@ struct QuestionView: View {
     var destinationView: some View {
         let result = vm.check_answer(selected: selectedCategory)
         if result.result {
-            return AnyView(QuestionSuccessView(vm: vm, categories: vm.get_current_question().answers, totalSteps: vm.current_quiz!.questions.count, currentStep: vm.current_quiz!.currentQuestion + 1, progress: CGFloat(Float(vm.current_quiz!.currentQuestion + 1) / Float(vm.current_quiz!.questions.count)), answer: selectedCategory, correctAnswer: selectedCategory))
+            return AnyView(QuestionSuccessView(vm: vm, totalSteps: vm.current_quiz!.questions.count, currentStep: vm.current_quiz!.currentQuestion + 1, progress: CGFloat(Float(vm.current_quiz!.currentQuestion + 1) / Float(vm.current_quiz!.questions.count)), answer: selectedCategory, correctAnswer: selectedCategory))
         } else {
             return AnyView(QuestionFailView(vm: vm, totalSteps: vm.current_quiz!.questions.count, currentStep: vm.current_quiz!.currentQuestion + 1, progress: CGFloat(Float(vm.current_quiz!.currentQuestion + 1) / Float(vm.current_quiz!.questions.count)), answer: selectedCategory, correctAnswer: vm.get_current_question().answers[vm.get_current_question().correctAnswer]))
         }
@@ -181,7 +161,9 @@ struct QuestionView: View {
 
 
 //#Preview {
-//    QuestionView(vm: QuizViewModel(viewModel: ViewModel()))
+    //var viewModel = ViewModel()
+    //@State var navigate = false
+    //QuestionView(vm: QuizViewModel(viewModel: ViewModel()))
 //}
 
 

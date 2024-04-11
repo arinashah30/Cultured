@@ -244,11 +244,11 @@ final class ViewModelUnitTests: XCTestCase {
         let correctCategories = 41
 
         // Options
-        let option1 = Connections.Option(id: "Pizza", isSelected: false, isSubmitted: false, content: "Pizza", category: "Category1")
-        let option2 = Connections.Option(id: "Pasta", isSelected: false, isSubmitted: false, content: "Pasta", category: "Category1")
-        let option3 = Connections.Option(id: "College of Computing Building", isSelected: false, isSubmitted: false, content: "College of Computing Building", category: "Category2")
-        let option4 = Connections.Option(id: "Klaus Advanced Computing Building", isSelected: false, isSubmitted: false, content: "Klaus Advanced Computing Building", category: "Category2")
-        let option5 = Connections.Option(id: "Bio Quad", isSelected: false, isSubmitted: false, content: "Bio Quad", category: "Category")
+        let option1 = Connections.Option(content: "Pizza", category: "Category1")
+        let option2 = Connections.Option(content: "Pasta", category: "Category1")
+        let option3 = Connections.Option(content: "College of Computing Building", category: "Category2")
+        let option4 = Connections.Option(content: "Klaus Advanced Computing Building", category: "Category2")
+        let option5 = Connections.Option(content: "Bio Quad", category: "Category")
         let options = [option1, option2, option3, option4, option5]
         
         // Option selection
@@ -259,15 +259,7 @@ final class ViewModelUnitTests: XCTestCase {
 
         // Create Connections object
         let connections = Connections(title: title,
-                                      categories: categories,
-                                      answerKey: answerKey,
-                                      options: options,
-                                      selection: selection,
-                                      history: history,
-                                      points: points,
-                                      attempts: attempts,
-                                      mistakes_remaining: mistakesRemaining,
-                                      correct_categories: correctCategories)
+                                      answer_key: answerKey)
 
         // Test the createNewConnections function
         vm.createNewConnections(connection: connections)
@@ -291,9 +283,7 @@ final class ViewModelUnitTests: XCTestCase {
             XCTAssertNotNil(connection, "Connection should not be nil")
             XCTAssertEqual(connection?.title, "ChinaCultureConnections")
             XCTAssertEqual(connection?.points, 0)
-            XCTAssertEqual(connection?.attempts, 0)
             XCTAssertEqual(connection?.mistakes_remaining, 0)
-            XCTAssertEqual(connection?.correct_categories, 0)
             XCTAssertTrue(connection?.options.isEmpty ?? true, "The Options array is Empty")
             XCTAssertTrue(connection?.selection.isEmpty ?? true, "The Selection array is Empty")
             print("ChinaFoodConnections =====", connection!)
@@ -303,9 +293,7 @@ final class ViewModelUnitTests: XCTestCase {
             XCTAssertNotNil(connection, "Connection should not be nil")
             XCTAssertEqual(connection?.title, "USFoodConnections")
             XCTAssertEqual(connection?.points, 0)
-            XCTAssertEqual(connection?.attempts, 0)
             XCTAssertEqual(connection?.mistakes_remaining, 0)
-            XCTAssertEqual(connection?.correct_categories, 0)
             XCTAssertTrue(connection?.options.isEmpty ?? false, "The Options array is NOT Empty")
             XCTAssertTrue(connection?.selection.isEmpty ?? false, "The Selection array is NOT Empty")
             print("USFoodConnections =====", connection!)
@@ -326,7 +314,7 @@ final class ViewModelUnitTests: XCTestCase {
     func testGetOnGoingQuiz() {
         let expectation = self.expectation(description: "Retrieve an On-Going Quiz")
                     
-        vm.getOnGoingActivities(userId: "ryanomeara", type: "quiz") { quizDictionary in
+        vm.getAllActivitiesOfType(userId: "ryanomeara", type: "quiz") { quizDictionary in
             XCTAssertNotNil(quizDictionary, "Information should not be nil")
             print("Name of On-Going Quizzes: \(quizDictionary)")
             expectation.fulfill()
@@ -342,7 +330,7 @@ final class ViewModelUnitTests: XCTestCase {
     func testGetOnGoingConnection() {
         let expectation = self.expectation(description: "Retrieve an On-Going Connection")
                     
-        vm.getOnGoingActivities(userId: "ryanomeara", type: "connection") { connectionDictionary in
+        vm.getAllActivitiesOfType(userId: "ryanomeara", type: "connection") { connectionDictionary in
             XCTAssertNotNil(connectionDictionary, "Information should not be nil")
             print("Name of On-Going Connections: \(connectionDictionary)")
             expectation.fulfill()
@@ -358,7 +346,7 @@ final class ViewModelUnitTests: XCTestCase {
     func testGetOnGoingWordGame() {
         let expectation = self.expectation(description: "Retrieve an On-Going Word Game")
             
-        vm.getOnGoingActivities(userId: "ryanomeara", type: "wordgame") { wordGameDictionary in
+        vm.getAllActivitiesOfType(userId: "ryanomeara", type: "wordgame") { wordGameDictionary in
             XCTAssertNotNil(wordGameDictionary, "Information should not be nil")
             print("Name of On-Going Word Games: \(wordGameDictionary)")
             expectation.fulfill()

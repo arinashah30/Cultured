@@ -81,12 +81,14 @@ class ViewModel: ObservableObject {
                         if let docs = documents {
                             for doc in docs.documents {
                                 let id = doc.data()["id"] as! String
-                                self.setCurrentUser(userId: id, completion: { user in })
+                                self.setCurrentUser(userId: id, completion: { user in
+                                    UserDefaults.standard.setValue(true, forKey: "log_Status")
+                                })
                             }
                         }
                     }
                 }
-                UserDefaults.standard.setValue(true, forKey: "log_Status")
+                
                 self.updateLastLoggedOn(email: email) { success in
                     if success {
                         print("lastLoggedOn field updated successfully")
@@ -250,14 +252,10 @@ class ViewModel: ObservableObject {
                         self.wordGuessingViewModel = WordGuessingViewModel(viewModel: self)
                         self.quizViewModel = QuizViewModel(viewModel: self)
                         self.quizViewModel!.load_quizzes() { result in
-                            print("RESULT FROM QUIZ " + String(result))
-                            print(self.quizViewModel!.quizzes)
                         }
                         self.wordGuessingViewModel!.load_word_guessings() { result in
-                            print("RESULT FROM WORD " + String(result))
                         }
                         self.connectionsViewModel!.load_connections() { result in
-                            print("RESULT FROM CONNECTIONS " + String(result))
                         }
                         completion(self.current_user)
                     }
