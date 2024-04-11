@@ -780,14 +780,42 @@ final class ViewModelUnitTests: XCTestCase {
                 }
         }
     
-    func testGetInfoFood() {
-        let expectation = self.expectation(description: "Retrieve Food Data From Firebase")
+func testGetInfoFood() {
+          let expectation = self.expectation(description: "Retrieve TvMovie Data From Firebase")
 
-    //             let nilObject = Food()
+      //             let nilObject = Food()
 
-        vm.getInfoFood(countryName: "MEXICO") { food in
-            XCTAssertNotNil(food, "Information should not be nil")
-            print(food)
+          vm.getInfoFood(countryName: "MEXICO") { food in
+              XCTAssertNotNil(food, "Information should not be nil")
+              print(food)
+              expectation.fulfill()
+          }
+
+          waitForExpectations(timeout: 5) { error in
+          if let error = error {
+          XCTFail("waitForExpectations error: \(error)")
+          }
+        }
+     }
+
+    func testGetInfoDance() {
+        let expectation = self.expectation(description: "Retrieve Dance Data From Firebase")
+        
+        let nilObject = Dance()
+        
+        vm.getInfoDance(countryName: "MEXICO") { danceObject in
+            XCTAssertNotNil(danceObject, "Information should not be nil")
+            XCTAssertNotEqual(nilObject, danceObject)
+            XCTAssertEqual(10, danceObject.danceDictionary.count)
+            print("Mexico Dance ====", danceObject)
+        }
+        
+        vm.getInfoDance(countryName: "FRANCE") { danceObject in
+            XCTAssertNotNil(danceObject, "Information should not be nil")
+            XCTAssertNotEqual(nilObject, danceObject)
+            XCTAssertEqual(6, danceObject.danceDictionary.count)
+            print("France Dance ====", danceObject)
+
             expectation.fulfill()
         }
 
@@ -816,4 +844,6 @@ final class ViewModelUnitTests: XCTestCase {
         }
      }
     
+
 }
+
