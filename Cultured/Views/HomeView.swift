@@ -170,7 +170,7 @@ struct HomeView: View {
                             .font(.system(size: 20))
                             .offset(y:-20)
                         NavigationLink {
-                          _DModelView(model: "Mexico").navigationBarBackButtonHidden(true)
+                            _DModelView(model: vm.current_user?.country ?? "Mexico").navigationBarBackButtonHidden(true)
                             .toolbar(.hidden, for: .tabBar)
                         } label: {
                             Text("Let's go!")
