@@ -45,7 +45,7 @@ struct CustomsSectionView: View {
                                 } label: {
                                     Text("Tradition")
                                         .font(.system(size: 20))
-                                        .foregroundColor(.cDarkGray)
+                                        .foregroundColor(.cDarkGrayConstant)
                                         .padding()
                                 }
                                 .frame(maxWidth: 159, maxHeight: 57)
@@ -57,7 +57,7 @@ struct CustomsSectionView: View {
                                 } label: {
                                     Text("Holiday")
                                         .font(.system(size: 20))
-                                        .foregroundColor(.cDarkGray)
+                                        .foregroundColor(.cDarkGrayConstant)
                                         .padding()
                                 }
                                 .frame(maxWidth: 159, maxHeight: 57)
@@ -75,7 +75,7 @@ struct CustomsSectionView: View {
                                 } label: {
                                     Text("Etiquette")
                                         .font(.system(size: 20))
-                                        .foregroundColor(.cDarkGray)
+                                        .foregroundColor(.cDarkGrayConstant)
                                         .padding()
                                 }
                                 .frame(maxWidth: 159, maxHeight: 57)

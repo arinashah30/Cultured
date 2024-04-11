@@ -42,7 +42,7 @@ struct FoodCategorySectionView: View {
                             } label: {
                                 Text("Food")
                                     .font(.system(size: 20))
-                                    .foregroundColor(.cDarkGray)
+                                    .foregroundColor(.cDarkGrayConstant)
                                     .padding()
                             }
                             .frame(maxWidth: 159, maxHeight: 57)
@@ -54,7 +54,7 @@ struct FoodCategorySectionView: View {
                             } label: {
                                 Text("Drink")
                                     .font(.system(size: 20))
-                                    .foregroundColor(.cDarkGray)
+                                    .foregroundColor(.cDarkGrayConstant)
                                     .padding()
                             }
                             .frame(maxWidth: 159, maxHeight: 57)

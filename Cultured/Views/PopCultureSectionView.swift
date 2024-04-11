@@ -45,7 +45,7 @@ struct PopCultureSectionView: View {
                                 } label: {
                                     Text("Music")
                                         .font(.system(size: 20))
-                                        .foregroundColor(.cDarkGray)
+                                        .foregroundColor(.cDarkGrayConstant)
                                         .padding()
                                 }
                                 .frame(maxWidth: 159, maxHeight: 57)
@@ -58,7 +58,7 @@ struct PopCultureSectionView: View {
                                 } label: {
                                     Text("Dance")
                                         .font(.system(size: 20))
-                                        .foregroundColor(.cDarkGray)
+                                        .foregroundColor(.cDarkGrayConstant)
                                         .padding()
                                 }
                                 .frame(maxWidth: 159, maxHeight: 57)
@@ -74,7 +74,7 @@ struct PopCultureSectionView: View {
                                 } label: {
                                     Text("Sports")
                                         .font(.system(size: 20))
-                                        .foregroundColor(.cDarkGray)
+                                        .foregroundColor(.cDarkGrayConstant)
                                         .padding()
                                 }
                                 .frame(maxWidth: 159, maxHeight: 57)
@@ -86,7 +86,7 @@ struct PopCultureSectionView: View {
                                 } label: {
                                     Text("Movies/TV")
                                         .font(.system(size: 20))
-                                        .foregroundColor(.cDarkGray)
+                                        .foregroundColor(.cDarkGrayConstant)
                                         .padding()
                                 }
                                 .frame(maxWidth: 159, maxHeight: 57)
