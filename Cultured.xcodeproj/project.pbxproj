@@ -36,6 +36,7 @@
 		666A71812BBF2D1E005A849A /* Sports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666A71772BBF2D1E005A849A /* Sports.swift */; };
 		666A71822BBF2D1E005A849A /* TraditionalMusic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666A71782BBF2D1E005A849A /* TraditionalMusic.swift */; };
 		666A71832BBF2D1E005A849A /* Traditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 666A71792BBF2D1E005A849A /* Traditions.swift */; };
+		669553402BC84408004CD831 /* MajorCities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6695533F2BC84408004CD831 /* MajorCities.swift */; };
 		66FB69C72B72A06D0066B826 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB69C62B72A06D0066B826 /* AppDelegate.swift */; };
 		66FB69C92B72A06D0066B826 /* TourView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FB69C82B72A06D0066B826 /* TourView.swift */; };
 		66FB69CB2B72A06E0066B826 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66FB69CA2B72A06E0066B826 /* Assets.xcassets */; };
@@ -132,6 +133,7 @@
 		666A71772BBF2D1E005A849A /* Sports.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sports.swift; sourceTree = "<group>"; };
 		666A71782BBF2D1E005A849A /* TraditionalMusic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TraditionalMusic.swift; sourceTree = "<group>"; };
 		666A71792BBF2D1E005A849A /* Traditions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Traditions.swift; sourceTree = "<group>"; };
+		6695533F2BC84408004CD831 /* MajorCities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MajorCities.swift; sourceTree = "<group>"; };
 		66FB69C32B72A06D0066B826 /* Cultured.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Cultured.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66FB69C62B72A06D0066B826 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		66FB69C82B72A06D0066B826 /* TourView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TourView.swift; sourceTree = "<group>"; };
@@ -226,6 +228,7 @@
 		666A717A2BBF2D1E005A849A /* InfoModels */ = {
 			isa = PBXGroup;
 			children = (
+				6695533F2BC84408004CD831 /* MajorCities.swift */,
 				666A71712BBF2D1E005A849A /* Celebrities.swift */,
 				666A71722BBF2D1E005A849A /* ClassicTvMovie.swift */,
 				666A71732BBF2D1E005A849A /* Dance.swift */,
@@ -630,6 +633,7 @@
 				66FB6A0E2B72A1830066B826 /* ResultsView.swift in Sources */,
 				66FB6A152B72A21D0066B826 /* ConnectionsGameView.swift in Sources */,
 				7CFE0FC42B979F3100D7283B /* ContentView.swift in Sources */,
+				669553402BC84408004CD831 /* MajorCities.swift in Sources */,
 				59167BFD2BB7E1D7006C02C1 /* DanceView.swift in Sources */,
 				7C1B20F32B7BFF41008E0244 /* UIColors.swift in Sources */,
 				66FB69FA2B72A1140066B826 /* ActivityView.swift in Sources */,
