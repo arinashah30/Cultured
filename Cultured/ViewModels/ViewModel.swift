@@ -81,12 +81,14 @@ class ViewModel: ObservableObject {
                         if let docs = documents {
                             for doc in docs.documents {
                                 let id = doc.data()["id"] as! String
-                                self.setCurrentUser(userId: id, completion: { user in })
+                                self.setCurrentUser(userId: id, completion: { user in
+                                    UserDefaults.standard.setValue(true, forKey: "log_Status")
+                                })
                             }
                         }
                     }
                 }
-                UserDefaults.standard.setValue(true, forKey: "log_Status")
+                
                 self.updateLastLoggedOn(email: email) { success in
                     if success {
                         print("lastLoggedOn field updated successfully")
@@ -345,9 +347,56 @@ class ViewModel: ObservableObject {
             completion(traditionsObject)
         }
     }
-
     
-    func getInfoMusic(countryName: String, completion: @escaping (Music) -> Void) {
+  func getInfoDance(countryName: String, completion: @escaping (Dance) -> Void) {
+        self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("DANCE").getDocument { document, error in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(Dance())
+                return
+            }
+            guard let document = document, document.exists else {
+                print("Document Doesn't Exist")
+                completion(Dance())
+                return
+            }
+            
+            guard let data = document.data(), !data.isEmpty else {
+                print("Data is Nil or Data is Empty")
+                completion(Dance())
+                return
+            }
+            
+            let danceDictionary = data["dances"] as? [String : String] ?? [:]
+            let danceObject = Dance(danceDictionary: danceDictionary)
+            completion(danceObject)
+        }
+    }
+  
+    func getInfoMajorCities(countryName: String, completion: @escaping (MajorCities) -> Void) {
+                self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("MAJORCITIES").getDocument { document, error in
+                    if let error = error {
+                        print(error.localizedDescription)
+                        completion(MajorCities())
+                        return
+                    }
+                    guard let document = document, document.exists else {
+                        print("Document Doesn't Exist")
+                        completion(MajorCities())
+                        return
+                    }
+                    guard let data = document.data(), !data.isEmpty else {
+                        print("Data is Nil or Data is Empty")
+                        completion(MajorCities())
+                        return
+                    }
+                    var majorCitiesMap = [String : String]()
+                    majorCitiesMap = data["major cities"] as? [String : String] ?? [:]
+                    let majorCitiesObject = MajorCities(majorCitiesMap: majorCitiesMap)
+                    completion(majorCitiesObject)
+                }
+    }
+  func getInfoMusic(countryName: String, completion: @escaping (Music) -> Void) {
         self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("MUSIC").getDocument { document, error in
             if let error = error {
                 print(error.localizedDescription)
@@ -393,32 +442,6 @@ class ViewModel: ObservableObject {
             completion(musicObject)
         }
     }
-    
-    
-    func getInfoMajorCities(countryName: String, completion: @escaping (MajorCities) -> Void) {
-                self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("MAJORCITIES").getDocument { document, error in
-                    if let error = error {
-                        print(error.localizedDescription)
-                        completion(MajorCities())
-                        return
-                    }
-                    guard let document = document, document.exists else {
-                        print("Document Doesn't Exist")
-                        completion(MajorCities())
-                        return
-                    }
-                    guard let data = document.data(), !data.isEmpty else {
-                        print("Data is Nil or Data is Empty")
-                        completion(MajorCities())
-                        return
-                    }
-                    var majorCitiesMap = [String : String]()
-                    majorCitiesMap = data["major cities"] as? [String : String] ?? [:]
-                    let majorCitiesObject = MajorCities(majorCitiesMap: majorCitiesMap)
-                    completion(majorCitiesObject)
-                }
-    }
-
   
     
     /*-------------------------------------------------------------------------------------------------*/
