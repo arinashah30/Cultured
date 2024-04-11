@@ -88,10 +88,6 @@ class QuizViewModel: ObservableObject {
     }
     
     func move_to_results () -> Bool {
-        print("MOVING TO RESULTS?")
-        print(current_quiz!.currentQuestion == current_quiz!.questions.count - 1)
-        print(current_quiz!.questions[current_quiz!.questions.count - 1].submitted)
-        print(current_quiz!.currentQuestion == current_quiz!.questions.count - 1 && current_quiz!.questions[current_quiz!.questions.count - 1].submitted)
         return current_quiz!.currentQuestion == current_quiz!.questions.count - 1 && current_quiz!.questions[current_quiz!.questions.count - 1].submitted
     }
     
@@ -130,7 +126,6 @@ class QuizViewModel: ObservableObject {
             let quiz3Progress = Float(quizzes["\(viewModel.current_user!.country)\(categories[2])Quiz"]?.currentQuestion ?? 0) / Float(quizzes["\(viewModel.current_user!.country)\(categories[2])Quiz"]?.questions.count ?? 1)
             let quiz4Progress = Float(quizzes["\(viewModel.current_user!.country)\(categories[3])Quiz"]?.currentQuestion ?? 0) / Float(quizzes["\(viewModel.current_user!.country)\(categories[3])Quiz"]?.questions.count ?? 1)
             
-            print([quiz1Progress, quiz2Progress, quiz3Progress, quiz4Progress])
             return [quiz1Progress, quiz2Progress, quiz3Progress, quiz4Progress]
     }
     

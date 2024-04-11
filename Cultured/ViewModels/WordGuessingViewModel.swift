@@ -92,7 +92,6 @@ class WordGuessingViewModel: ObservableObject {
                         self.viewModel.updateHistory(userID: self.viewModel.current_user!.id, activity: self.current_word_guessing_game!.title, history: game.history, completion: { _ in
                             game.totalPoints -= 10
                             let optionIndex = game.history.count
-                            print("FLIPPING TILE \(optionIndex)")
                             game.options[optionIndex].isFlipped = true
                             self.current_word_guessing_game = game
                             completion()
@@ -100,7 +99,6 @@ class WordGuessingViewModel: ObservableObject {
                     } else {
                         game.totalPoints -= 10
                         let optionIndex = game.history.count
-                        print("FLIPPING TILE \(optionIndex)")
                         game.options[optionIndex].isFlipped = true
                         self.current_word_guessing_game = game
                         completion()
