@@ -212,6 +212,28 @@ class ViewModel: ObservableObject {
                     }
                 }
             }
+    
+    func getInfoTvMovie(countryName: String, completion: @escaping (TvMovie) -> Void) {
+                self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("TVMOVIE").getDocument { document, error in
+                        if let err = error {
+                            print(err.localizedDescription)
+                            return
+                        } else {
+                            if let doc = document {
+                                if let data = doc.data() {
+                                    
+                                    let actors = data["actors"] as? [String] ?? []
+                                    let classics = data["classics"] as? [String] ?? []
+                                    
+                                    let tvMovie = TvMovie(actors: actors, classics: classics)
+                                    //                        print (info)
+                                    completion(tvMovie)
+                                }
+                            }
+                        }
+                    }
+                }
+
 
     
     func createNewCountry(countryName: String, lattitude: Double, longitude: Double) {

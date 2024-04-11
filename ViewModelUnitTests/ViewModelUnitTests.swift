@@ -798,4 +798,22 @@ final class ViewModelUnitTests: XCTestCase {
       }
    }
     
+    func testGetInfoTvMovie() {
+          let expectation = self.expectation(description: "Retrieve TvMovie Data From Firebase")
+
+      //             let nilObject = Food()
+
+          vm.getInfoTvMovie(countryName: "MEXICO") { tvMovie in
+              XCTAssertNotNil(tvMovie, "Information should not be nil")
+              print(tvMovie)
+              expectation.fulfill()
+          }
+
+          waitForExpectations(timeout: 5) { error in
+          if let error = error {
+          XCTFail("waitForExpectations error: \(error)")
+          }
+        }
+     }
+    
 }
