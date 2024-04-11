@@ -275,8 +275,8 @@ struct OptionView: View {
     var body: some View {
             ZStack {
                 RoundedRectangle(cornerRadius: 10.0)
-                    .foregroundColor(option.isSubmitted ? .green : option.isSelected ? .cDarkGray : .cMedGray)
-                    .opacity(option.isSelected || option.isSubmitted ? 0.6 : 0.2)
+                    .foregroundColor(option.isSelected ?  .cDarkGray : .cMedGray)
+                    .opacity(option.isSelected ? 0.6 : 0.2)
                     .frame(width: 85, height: 65)
 
                 Text(option.content)
