@@ -345,6 +345,32 @@ class ViewModel: ObservableObject {
             completion(traditionsObject)
         }
     }
+    
+    func getInfoDance(countryName: String, completion: @escaping (Dance) -> Void) {
+        self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("DANCE").getDocument { document, error in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(Dance())
+                return
+            }
+            guard let document = document, document.exists else {
+                print("Document Doesn't Exist")
+                completion(Dance())
+                return
+            }
+            
+            guard let data = document.data(), !data.isEmpty else {
+                print("Data is Nil or Data is Empty")
+                completion(Dance())
+                return
+            }
+            
+            let danceDictionary = data["dances"] as? [String : String] ?? [:]
+            let danceObject = Dance(danceDictionary: danceDictionary)
+            completion(danceObject)
+        }
+    }
+
     func getInfoMajorCities(countryName: String, completion: @escaping (MajorCities) -> Void) {
                 self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("MAJORCITIES").getDocument { document, error in
                     if let error = error {
@@ -369,7 +395,6 @@ class ViewModel: ObservableObject {
                 }
     }
     
-  
     
     /*-------------------------------------------------------------------------------------------------*/
     
