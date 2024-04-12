@@ -31,22 +31,6 @@ struct StartXView: View {
     
     private func selectCategory(category: Int) -> some View {
         DynamicNavigationView(vm: vm, gameName: gameName)
-//        if gameName == "WordGuessing" {
-//            return AnyView(WordGuessingView(vm: vm.wordGuessingViewModel!))
-//        } else if gameName == "Quiz" {
-//            //print("CURRENT QUIZ \(vm.quizViewModel!.current_quiz)")
-//            if vm.$quizViewModel?.$current_quiz.completed {
-//                return AnyView(QuestionView(vm: vm.quizViewModel!))
-//            } else {
-//                if vm.quizViewModel!.current_quiz!.completed {
-//                    return AnyView(ResultsView(vm: vm.quizViewModel!))
-//                } else {
-//                    return AnyView(QuestionView(vm: vm.quizViewModel!))
-//                }
-//            }
-//        } else {
-//            return AnyView(ConnectionsGameView(vm: vm.connectionsViewModel!))
-//        }
     }
     
     private func setupActivity(category: Int) {
@@ -113,13 +97,21 @@ struct StartXView: View {
                             Button {
                                 setupActivity(category: 0)
                             } label: {
-                                ProgressButtonView(buttonText: categories[0], buttonColor: Color("Category1"), progress: categoryProgress[0])
+                                let progressBinding = Binding<Float>(
+                                        get: { self.categoryProgress[0] },
+                                        set: { self.categoryProgress[0] = $0 }
+                                    )
+                                ProgressButtonView(buttonText: categories[0], buttonColor: Color("Category1"), progress: progressBinding)
                             }.navigationDestination(isPresented: $navigate) { selectCategory(category: 0)}
                             
                             Button {
                                 setupActivity(category: 1)
                             } label: {
-                                ProgressButtonView(buttonText: categories[1], buttonColor: Color("Category2"), progress: categoryProgress[1])
+                                let progressBinding = Binding<Float>(
+                                        get: { self.categoryProgress[1] },
+                                        set: { self.categoryProgress[1] = $0 }
+                                    )
+                                ProgressButtonView(buttonText: categories[1], buttonColor: Color("Category2"), progress: $categoryProgress[1])
                             }.navigationDestination(isPresented: $navigate) { selectCategory(category: 1)}
                         }
                         
@@ -127,38 +119,23 @@ struct StartXView: View {
                             Button {
                                 setupActivity(category: 2)
                             } label: {
-                                ProgressButtonView(buttonText: categories[2], buttonColor: Color("Category3"), progress: categoryProgress[2])
+                                let progressBinding = Binding<Float>(
+                                        get: { self.categoryProgress[2] },
+                                        set: { self.categoryProgress[2] = $0 }
+                                    )
+                                ProgressButtonView(buttonText: categories[2], buttonColor: Color("Category3"), progress: $categoryProgress[2])
                             }.navigationDestination(isPresented: $navigate) { selectCategory(category: 2)}
                             
                             Button {
                                 setupActivity(category: 3)
                             } label: {
-                                ProgressButtonView(buttonText: categories[3], buttonColor: Color("Category4"), progress: categoryProgress[3])
+                                let progressBinding = Binding<Float>(
+                                        get: { self.categoryProgress[3] },
+                                        set: { self.categoryProgress[3] = $0 }
+                                    )
+                                ProgressButtonView(buttonText: categories[3], buttonColor: Color("Category4"), progress: $categoryProgress[3])
                             }.navigationDestination(isPresented: $navigate) { selectCategory(category: 3)}
                         }
-                        
-//                        NavigationLink(destination: {
-//                            if (gameName == "Word Guessing") {
-//                                vm.wordGuessingViewModel?.current_word_guessing_game = 
-//                                WordGuessingView(vm: vm.wordGuessingViewModel!)
-//                            } else if (gameName == "Quiz") {
-//                                QuestionView(vm: vm.quizViewModel!)
-//                            } else if (gameName == "Connections") {
-//                                ConnectionsGameView(vm: vm.connectionsViewModel!)
-//                            }
-//                            
-//                        }, label: {
-//                            Text("Start")
-//                                .font(.system(size: 20))
-//                                .foregroundColor(.cDarkGray)
-//                                .padding()
-//                        })
-//                        .frame(maxWidth: 154, maxHeight: 57, alignment: .center)
-//                        .background(Color.black.opacity(0.1))
-//                        .clipShape(.rect(cornerRadius: 100.0))
-//                        .padding(.top, 15)
-//                        .padding(.leading, 85)
-//                        //.padding(.bottom, 200)
                     }
                     .padding(.top, 30)
                     .padding(.leading, 35)
@@ -172,7 +149,7 @@ struct StartXView: View {
                 } else if gameName == "Quiz" {
                     categoryProgress = vm.quizViewModel!.getProgress()
                 } else if gameName == "Connections" {
-        
+                    categoryProgress = vm.connectionsViewModel!.getProgress()
                 }
             }
         }

@@ -98,19 +98,32 @@ final class ViewModelUnitTests: XCTestCase {
     
     func testCreateNewQuiz() {
         let expectation = self.expectation(description: "Update Quiz information in Firebase")
-        let quizQuestion1 = QuizQuestion(question: "What color is the Mexican Flag?",
-                                         answers: ["Blue", "Orange", "Red", "Yellow"],
+        let quizQuestion1 = QuizQuestion(question: "What historical figure played a significant role in establishing classical ballet in France?",
+                                         answers: ["Isadora Duncan", "Pierre Beauchamp", "Louis XIV", "Maurice Béjart"],
                                          correctAnswer: 2,
-                                         correctAnswerDescription: "Mexico's flag has three vertical stripes. Green on the left, White in the Middle, and Red on the right.",
-                                         submitted: false)
+                                         correctAnswerDescription: "Louis XIV played a significant role in classical ballet influence during the Renaissance.")
 
-        let quizQuestion2 = QuizQuestion(question: "Which traditional Mexican dish is made from masa dough?",
-                                         answers: ["Tacos", "Enchiladas", "Quesadillas", "Tamales"],
+        let quizQuestion2 = QuizQuestion(question: "Which institution has contributed to France's global reputation in classical ballet?",
+                                         answers: ["Royal Academy of Dance", "Paris Opera Ballet", "Bolshoi Ballet", "Opéra Bastille"],
+                                         correctAnswer: 1,
+                                         correctAnswerDescription: "Ballet has been refined and perfected in prestigious institutions like the Paris Opera Ballet.")
+        
+        let quizQuestion3 = QuizQuestion(question: "What is the leading sport in France, capturing widespread support from both local clubs and the national team?",
+                                         answers: ["Rugby", "Basketball", "Football", "Tennis"],
+                                         correctAnswer: 2,
+                                         correctAnswerDescription: "Football is the predominant sport in France, with widespread support for both local clubs and the national team, Les Bleus.")
+        
+        let quizQuestion4 = QuizQuestion(question: "Which annual cycling race is a testament to France's love for cycling and contributes significantly to its cultural heritage?",
+                                         answers: ["Tour de France", "Paris-Roubaix", "Critérium du Dauphiné", "Paris-Nice"],
+                                         correctAnswer: 0,
+                                         correctAnswerDescription: "The Tour de France, an annual cycling race, not only is a testament to the country's love for cycling but also contributes significantly to its cultural heritage and global sports reputation.")
+        
+        let quizQuestion5 = QuizQuestion(question: "What major tennis tournament held in France attracts global attention and is considered one of the sport's Grand Slam events?",
+                                         answers: ["Monte Carlo Masters", "Paris Masters", "Lyon Open", "French Open"],
                                          correctAnswer: 3,
-                                         correctAnswerDescription: "Tamales are a traditional Mexican dish made from masa dough.",
-                                         submitted: false)
-        let quizQuestionArray = [quizQuestion1, quizQuestion2]
-        let quiz1 = Quiz(title: "MexcioCultureQuiz", questions: quizQuestionArray)
+                                         correctAnswerDescription: "The French Open is one of the tennis world's four Grand Slam tournaments, attracting global attention to France's sporting excellence.")
+        let quizQuestionArray = [quizQuestion1, quizQuestion2, quizQuestion3, quizQuestion4, quizQuestion5]
+        let quiz1 = Quiz(title: "FranceCultureQuiz", questions: quizQuestionArray)
         vm.createNewQuiz(quiz: quiz1)
 
 //        let quizQuestion3 = QuizQuestion(question: "How many cups of coffee are consumed everyday in the US",
@@ -229,7 +242,7 @@ final class ViewModelUnitTests: XCTestCase {
     func testCreateNewConnections() {
         let expectation = self.expectation(description: "Update Information in Firebase")
         
-        let title = "ChinaCultureConnections"
+        let title = "UnitedStatesCultureConnections"
         let answerKey: [String: [String]] = ["Ways to Prepare Eggs": ["Boil", "Fry", "Poach", "Scramble"],
                                              "Thrown in Target Games": ["Axe", "Dart", "Horseshoe", "Ring"],
                                              "____ Wrap": ["Body", "Bubble", "Gift", "Shrink"],

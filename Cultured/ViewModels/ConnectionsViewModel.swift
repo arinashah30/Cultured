@@ -30,9 +30,9 @@ class ConnectionsViewModel: ObservableObject {
                 for activity in activityNames {
                     self.viewModel.getConnectionsFromFirebase(activityName: activity, completion: { connInfo in
                         if var connInfo = connInfo {
-                            var points = 0
                             if let activityHistory = activities[activity] {
-                                var history = activityHistory["history"] as! [String]
+                                let history = activityHistory["history"] as! [String]
+                                
                                 
                                 var splitHistory: [[String]] = []
                                 let size = 4
@@ -40,9 +40,8 @@ class ConnectionsViewModel: ObservableObject {
                                 for index in stride(from: 0, to: history.count, by: size) {
                                     let endIndex = index + size < history.count ? index + size : history.count
                                     splitHistory.append(Array(history[index..<endIndex]))
+                                    connInfo.history.append(splitHistory[splitHistory.count - 1])
                                 }
-                                
-                                
                                 
                                 for history in splitHistory {
                                     var amount_correct: [String: Int] = [:]
@@ -103,10 +102,8 @@ class ConnectionsViewModel: ObservableObject {
                                     }
                                 }
                                 
-                                connInfo.history = splitHistory
                                 connInfo.mistakes_remaining = 4 - (activityHistory["current"] as? Int ?? 0)
                             }
-                            
                             
                             
                             self.connections[activity] = connInfo
@@ -220,35 +217,42 @@ class ConnectionsViewModel: ObservableObject {
             }
             
             var selectionString: [String] = []
-            for selection in selection {
-                selectionString.append(selection.content)
+            for selectionTile in selection {
+                selectionString.append(selectionTile.content)
             }
             current_connections_game!.history.append(selectionString)
-            
-            viewModel.updateHistory(userID: viewModel.current_user!.id, activity: current_connections_game!.title, history: current_connections_game!.history.flatMap{$0}) { [self] _ in
+            viewModel.updateHistory(userID: viewModel.current_user!.id, activity: current_connections_game!.title, history: current_connections_game!.history.flatMap{$0}) { _ in
                 var amount_correct: [String: Int] = [:]
                 
-                for index in selection.indices {
-                    let category: String = selection[index].category
+                for index in self.selection.indices {
+                    let category: String = self.selection[index].category
                     amount_correct.updateValue((amount_correct[category] ?? 0) + 1, forKey: category)
                 }
                 
+                for index in self.selection.indices {
+                    for index2 in self.options.indices {
+                        if self.options[index2].content == self.selection[index].content {
+                            self.current_connections_game!.options[index2].isSelected = false
+                        }
+                    }
+                }
+                
                 if amount_correct.values.contains(4) {
-                    current_connections_game!.points += 25
-                    for index in selection.indices {
-                        for index2 in options.indices {
-                            if options[index2].content == selection[index].content {
-                                current_connections_game!.options[index2].isSelected = false
-                                current_connections_game!.options.remove(at: index2)
+                    self.current_connections_game!.points += 25
+                    
+                    for index in self.selection.indices {
+                        for index2 in self.options.indices {
+                            if self.options[index2].content == self.selection[index].content {
+                                self.current_connections_game!.options.remove(at: index2)
                                 break
                             }
                         }
                     }
                     
-                    current_connections_game!.correct_history.updateValue(selection, forKey: selection[0].category)
-                    current_connections_game!.selection = []
+                    self.current_connections_game!.correct_history.updateValue(self.selection, forKey: self.selection[0].category)
+                    self.current_connections_game!.selection = []
                     
-                    if current_connections_game!.points == 100 {
+                    if self.current_connections_game!.points == 100 {
                         self.viewModel.updateCompleted(userID: self.viewModel.current_user!.id, activity: self.current_connections_game!.title, completed: true, completion: { _ in
                             self.viewModel.updateScore(userID: self.viewModel.current_user!.id, activity: self.current_connections_game!.title, newScore: self.current_connections_game!.points, completion: { _ in
                                 self.viewModel.update_points(userID: self.viewModel.current_user!.id, pointToAdd: self.current_connections_game!.points, completion: { success in
@@ -257,16 +261,19 @@ class ConnectionsViewModel: ObservableObject {
                                 })
                             })
                         })
+                    } else {
+                        completion()
                     }
                 } else {
                     if amount_correct.values.contains(3) {
-                        current_connections_game!.mistake_history.updateValue(true, forKey: selection)
-                        current_connections_game!.one_away = true
+                        self.current_connections_game!.mistake_history.updateValue(true, forKey: self.selection)
+                        self.current_connections_game!.one_away = true
                     } else {
-                        current_connections_game!.mistake_history.updateValue(false, forKey: selection)
+                        self.current_connections_game!.mistake_history.updateValue(false, forKey: self.selection)
                     }
-                    viewModel.incrementCurrent(userID: viewModel.current_user!.id, activityName: current_connections_game!.title, completion: { _ in
+                    self.viewModel.incrementCurrent(userID: self.viewModel.current_user!.id, activityName: self.current_connections_game!.title, completion: { _ in
                         self.current_connections_game!.mistakes_remaining -= 1
+                        self.current_connections_game!.selection = []
                         if self.current_connections_game!.mistakes_remaining == 0 {
                             self.current_connections_game!.options.removeAll()
                             
@@ -280,10 +287,13 @@ class ConnectionsViewModel: ObservableObject {
                                 self.viewModel.updateScore(userID: self.viewModel.current_user!.id, activity: self.current_connections_game!.title, newScore: self.current_connections_game!.points, completion: { _ in
                                     self.viewModel.update_points(userID: self.viewModel.current_user!.id, pointToAdd: self.current_connections_game!.points, completion: { success in
                                         self.viewModel.current_user!.points = success
+                                        
                                         completion()
                                     })
                                 })
                             })
+                        } else {
+                            completion()
                         }
                     })
                 }
@@ -303,17 +313,23 @@ class ConnectionsViewModel: ObservableObject {
     
     func getProgress() -> [Float] {
         var progress: [Float] = []
-        for category in categories {
-            if (Array(connections.keys).firstIndex(of: "\(viewModel.current_user!.country)\(categories[0])Connections") != nil) {
-                if connections["\(viewModel.current_user!.country)\(categories[0])Connections"]!.mistakes_remaining == 0 {
-                    progress.append(1.0)
+        if let country = viewModel.current_user?.country {
+            for category in categories {
+                print(connections["\(country)\(category)Connections"])
+                if (Array(connections.keys).firstIndex(of: "\(country)\(category)Connections") != nil) {
+                    if connections["\(country)\(category)Connections"]!.mistakes_remaining == 0 {
+                        progress.append(1.0)
+                    } else {
+                        progress.append(Float(connections["\(country)\(category)Connections"]!.history.count) / Float(7))
+                    }
                 } else {
-                    progress.append(Float((connections["\(viewModel.current_user!.country)\(categories[0])Connections"]?.history.count)! / 4) / Float(7))
+                    progress.append(0.0)
                 }
-            } else {
-                progress.append(0.0)
             }
+        } else {
+            return [0.0, 0.0, 0.0, 0.0]
         }
+        print(progress)
         return progress
     }
 }

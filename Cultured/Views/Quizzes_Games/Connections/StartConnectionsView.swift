@@ -15,10 +15,10 @@ struct StartConnectionsView: View {
     @State var backgroundImage: Image
     
     let categories: [String] = ["Pop Culture", "Food", "Customs", "Places"]
-    let categoryProgress: [Float] = [0.25, 0.75, 0, 0.9]
+    //let categoryProgress: [Float] = [0.25, 0.75, 0, 0.9]
     
     var body: some View {
-        StartXView(vm: vm, gameName: "Connections", countryName: countryName, backgroundImage: backgroundImage, categories: categories, categoryProgress: vm.connectionsViewModel!.getProgress())
+        StartXView(vm: vm, gameName: "Connections", countryName: countryName, backgroundImage: backgroundImage, categories: categories)
     }
 }
 
