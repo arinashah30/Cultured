@@ -67,6 +67,7 @@ struct LandmarkViewContainer: UIViewRepresentable {
 
 
 class LandmarkARView: ARView {
+    @ObservedObject var vm: ViewModel
     
     var model: ARLandmark {
         didSet {
@@ -78,11 +79,13 @@ class LandmarkARView: ARView {
     var showPortalFunc: (() -> ())?
     var informationBubbles: [ModelEntity] = []
     var informationTextBoxes: [Entity] = []
+    var pointsGiven: [String:Bool] = [:]
     @Binding var videoShown: Bool
     
     let modelURL: URL?
     
     init(model: ARLandmark, videoShown: Binding<Bool>) {
+        self.vm = ViewModel()
         self.modelURL = URL.documentsDirectory.appending(path: "models/\(model.modelName).usdz")
         self.model = model
         _videoShown = videoShown
@@ -93,6 +96,7 @@ class LandmarkARView: ARView {
         self.scene.anchors.removeAll()
         informationBubbles = []
         informationTextBoxes = []
+        pointsGiven = [:]
         self.model = newModel
     }
     
@@ -183,6 +187,7 @@ class LandmarkARView: ARView {
             textbox.position = [-1 * isEven * bubbleRadius * 3.5, 0, bubbleRadius * 1.5]
             informationTextBoxes.append(textbox)
             textbox.isEnabled = false //hides textbox at first
+            pointsGiven[informationBubbleEntity.name] = false //defaults all pointsGiven values to false
         }
         
         self.scene.addAnchor(anchor)
@@ -212,6 +217,14 @@ class LandmarkARView: ARView {
             print("Heyyy")
         } else if (modelEntity.name.prefix(4) == "Fact") {
             informationTextBoxes[Int(modelEntity.name.suffix(from: modelEntity.name.index(modelEntity.name.startIndex, offsetBy: 5)))!].isEnabled = !informationTextBoxes[Int(modelEntity.name.suffix(from: modelEntity.name.index(modelEntity.name.startIndex, offsetBy: 5)))!].isEnabled
+            
+            // gives points if bubble is pressed for first time
+            if (pointsGiven[modelEntity.name] == false) {
+                pointsGiven[modelEntity.name] = true
+                self.vm.update_points(userID: self.vm.current_user!.id, pointToAdd: 10, completion: { success in
+                    print(success)
+                })
+            }
         }
         
         
