@@ -522,14 +522,10 @@ class ViewModel: ObservableObject {
                         self.wordGuessingViewModel = WordGuessingViewModel(viewModel: self)
                         self.quizViewModel = QuizViewModel(viewModel: self)
                         self.quizViewModel!.load_quizzes() { result in
-                            print("RESULT FROM QUIZ " + String(result))
-                            print(self.quizViewModel!.quizzes)
                         }
                         self.wordGuessingViewModel!.load_word_guessings() { result in
-                            print("RESULT FROM WORD " + String(result))
                         }
                         self.connectionsViewModel!.load_connections() { result in
-                            print("RESULT FROM CONNECTIONS " + String(result))
                         }
                         completion(self.current_user)
                     }

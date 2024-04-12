@@ -125,7 +125,7 @@ struct QuestionSuccessView: View {
                 }.offset(y:UIScreen.main.bounds.height/7).padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 40))
                 
             }
-            .navigationBarBackButtonHidden()
+            //.navigationBarBackButtonHidden()
             .padding(.bottom, 100)
             
         }
