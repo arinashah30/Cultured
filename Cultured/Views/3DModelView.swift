@@ -24,21 +24,29 @@ var modelsDictionary = ["France": 0, "Italy": 1, "UAE": 2, "India": 3, "Mexico":
 
 
 struct _DModelView : View {
+    @ObservedObject var vm: ViewModel
     var model: String
     enum ViewShown {
         case Landmark, ARVideoPortal
     }
     
     @State var videoShown = false
+    @State var tourCompleted = false
     
     var body: some View {
         
         if (!videoShown) {
             ZStack(alignment: .topLeading) {
                 
-                LandmarkViewContainer(model: landmarks[modelsDictionary[model]!], videoShown: $videoShown).edgesIgnoringSafeArea(.all)
+                LandmarkViewContainer(vm: vm, model: landmarks[modelsDictionary[model]!], videoShown: $videoShown, tourCompleted: $tourCompleted).edgesIgnoringSafeArea(.all)
                 BackButton()
             }.padding(.bottom, 50).frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                .onAppear {
+                    vm.getAllCompletedActivities(userId: vm.current_user?.id ?? "Arina", type: "artour") { completed in
+                        tourCompleted = (completed["\(model)ARTour"]?["completed"] ?? false) as! Bool
+                    }
+                    print("tourcompleted: \(tourCompleted)")
+                }
         } else {
             ARVideoPortalView(model: landmarks[modelsDictionary[model]!], videoShown: $videoShown)
         }
@@ -48,9 +56,11 @@ struct _DModelView : View {
 }
 
 struct LandmarkViewContainer: UIViewRepresentable {
-    
+    @ObservedObject var vm: ViewModel
     var model: ARLandmark
     @Binding var videoShown: Bool
+    @Binding var tourCompleted: Bool
+
     
     
     
@@ -59,7 +69,7 @@ struct LandmarkViewContainer: UIViewRepresentable {
     }
     
     func makeUIView(context: Context) -> LandmarkARView {
-        return LandmarkARView(model: model, videoShown: $videoShown)
+        return LandmarkARView(vm: vm, model: model, videoShown: $videoShown, tourCompleted: $tourCompleted)
     }
     
     
@@ -79,16 +89,23 @@ class LandmarkARView: ARView {
     var showPortalFunc: (() -> ())?
     var informationBubbles: [ModelEntity] = []
     var informationTextBoxes: [Entity] = []
-    var pointsGiven: [String:Bool] = [:]
+    var pointsGiven: [String:Bool]
     @Binding var videoShown: Bool
+    @Binding var tourCompleted: Bool
     
     let modelURL: URL?
     
-    init(model: ARLandmark, videoShown: Binding<Bool>) {
-        self.vm = ViewModel()
+    init(vm: ViewModel, model: ARLandmark, videoShown: Binding<Bool>, tourCompleted: Binding<Bool>) {
+        self.vm = vm
         self.modelURL = URL.documentsDirectory.appending(path: "models/\(model.modelName).usdz")
         self.model = model
         _videoShown = videoShown
+        _tourCompleted = tourCompleted
+        pointsGiven = [:]
+        for i in 0..<model.facts.count {
+            pointsGiven["Fact " + String(i)] = tourCompleted.wrappedValue
+        }
+        print("pointsGiven: \(self.pointsGiven)")
         super.init(frame: . zero)
     }
     
@@ -96,7 +113,7 @@ class LandmarkARView: ARView {
         self.scene.anchors.removeAll()
         informationBubbles = []
         informationTextBoxes = []
-        pointsGiven = [:]
+        //pointsGiven = [:]
         self.model = newModel
     }
     
@@ -187,7 +204,7 @@ class LandmarkARView: ARView {
             textbox.position = [-1 * isEven * bubbleRadius * 3.5, 0, bubbleRadius * 1.5]
             informationTextBoxes.append(textbox)
             textbox.isEnabled = false //hides textbox at first
-            pointsGiven[informationBubbleEntity.name] = false //defaults all pointsGiven values to false
+            pointsGiven[informationBubbleEntity.name] = tourCompleted //defaults all pointsGiven values to false
         }
         
         self.scene.addAnchor(anchor)
@@ -217,22 +234,45 @@ class LandmarkARView: ARView {
             print("Heyyy")
         } else if (modelEntity.name.prefix(4) == "Fact") {
             informationTextBoxes[Int(modelEntity.name.suffix(from: modelEntity.name.index(modelEntity.name.startIndex, offsetBy: 5)))!].isEnabled = !informationTextBoxes[Int(modelEntity.name.suffix(from: modelEntity.name.index(modelEntity.name.startIndex, offsetBy: 5)))!].isEnabled
-            
+            print("Value for \(modelEntity.name): \(pointsGiven[modelEntity.name])")
             // gives points if bubble is pressed for first time
             if (pointsGiven[modelEntity.name] == false) {
                 pointsGiven[modelEntity.name] = true
                 self.vm.update_points(userID: self.vm.current_user!.id, pointToAdd: 10, completion: { success in
                     print(success)
                 })
+                checkTourCompleted()
+                
             }
         }
         
         
     }
+    
+    func checkTourCompleted() {
+        var allCompleted = true
+        for fact in pointsGiven {
+            print("\(fact.key) in checktourcompleted: \(fact.value)")
+            if fact.value == false {
+                allCompleted = false
+                break
+            }
+        }
+        
+        if (allCompleted) {
+            print("ALL COMPLETED")
+            vm.updateCompleted(userID: vm.current_user?.id ?? "", activity: "\(model)ARTour", completed: true) {_ in
+                self.tourCompleted = true
+                print("ADDED TO FIREBASE")
+            }
+        } else {
+            print("NOT COMPLETED")
+        }
+    }
 }
 
 #Preview {
-    _DModelView(model: "Mexico")
+    _DModelView(vm: ViewModel(), model: "Mexico")
 }
 
 
