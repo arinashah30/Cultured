@@ -261,7 +261,10 @@ class LandmarkARView: ARView {
         
         if (allCompleted) {
             print("ALL COMPLETED")
-            vm.updateCompleted(userID: vm.current_user?.id ?? "", activity: "\(model)ARTour", completed: true) {_ in
+            vm.addOnGoingActivity(userID: vm.current_user?.id ?? "", titleOfActivity: "\(model.modelName)ARTour", typeOfActivity: "artour") {_ in 
+                
+            }
+            vm.updateCompleted(userID: vm.current_user?.id ?? "", activity: "\(model.modelName)ARTour", completed: true) {_ in
                 self.tourCompleted = true
                 print("ADDED TO FIREBASE")
             }
