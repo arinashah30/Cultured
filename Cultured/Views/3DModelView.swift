@@ -38,7 +38,7 @@ struct _DModelView : View {
             ZStack(alignment: .topLeading) {
                 
                 LandmarkViewContainer(model: landmarks[modelsDictionary[model] ?? 4], videoShown: $videoShown).edgesIgnoringSafeArea(.all)
-                    .padding(.bottom, 50).frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 VStack {
                     HStack {
                         BackButton()
@@ -49,7 +49,7 @@ struct _DModelView : View {
                 }
             }
         } else {
-            ARVideoPortalView(model: landmarks[modelsDictionary[model] ?? 4], videoShown: $videoShown)
+            ARVideoPortalView(model: landmarks[modelsDictionary[model] ?? 4], videoShown: $videoShown).edgesIgnoringSafeArea(.all).frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         }
         
     }
@@ -80,7 +80,6 @@ struct _DModelView : View {
                         }
                     }
                     .frame(width: UIScreen.main.bounds.width * 0.8)
-                    .padding(.bottom)
                     Text("Tap on the bubbles to learn more about this landmark and earn points.")
                     Text("Tap on the landmark to see it in AR.")
                        
