@@ -59,26 +59,22 @@ struct MovieView: View {
                                             } placeholder: {
                                                 ProgressView()
                                             }
-                                            .frame(width: 90, height: 90)
+                                            .frame(width: 100, height: 90)
                                             .aspectRatio(contentMode: .fit)
                                             .foregroundStyle(.black)
-                                            .padding()
                                             
-                                            .frame(width: 90, height: 90)
+                                            .frame(width: 100, height: 90)
                                             .background(Color.cGreen)
                                             .clipShape(.circle)
                                             
-                                            .padding(.trailing, 25)
-                                            Spacer()
-                                                .frame(height: 5)
+                                            .padding(.trailing, 15)
                                             Text("\(actor.name)")
                                                 .font(.system(size: 18))
-                                                .frame(width: 105)
+                                                .frame(width: 100, height: 50)
                                                 .lineLimit(6)
                                                 .minimumScaleFactor(0.8)
                                                 .multilineTextAlignment(.center)
                                         }
-                                        
                                     }
                                 }
                             }
@@ -116,16 +112,14 @@ struct MovieView: View {
                                             .frame(width: 150, height: 207)
                                             .background(Color.cGreen)
                                             .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
-
-                                            .padding([.bottom, .trailing], 5)
+                                            
                                             Text("\(movie.title)")
                                                 .font(.system(size: 18))
-                                                .frame(width: 150)
+                                                .frame(width: 150, height: 50)
                                                 .lineLimit(6)
                                                 .minimumScaleFactor(0.8)
                                                 .multilineTextAlignment(.center)
                                         }
-                                        
                                     }
                                 }
                             }
