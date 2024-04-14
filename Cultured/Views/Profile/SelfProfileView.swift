@@ -11,7 +11,7 @@ import MapKit
 struct SelfProfileView: View {
     @ObservedObject var vm: ViewModel
     @State var showFullMap = false
-    var completedCountries: [String] = []
+    @State var completedCountries: [String] = []
     
     var body: some View {
         VStack {
@@ -71,13 +71,13 @@ struct SelfProfileView: View {
             Button(action: {
                 self.showFullMap.toggle()
             }, label: {
-                MapView(vm: vm, showFullMap: $showFullMap, completedCountries: completedCountries)
+                MapView(vm: vm, showFullMap: $showFullMap, completedCountries: $completedCountries)
                     .frame(width:354 ,height: 175)
                     .cornerRadius(20)
                     .padding(.bottom, 10)
             })
             .fullScreenCover(isPresented: $showFullMap, content: {
-                MapView(vm: vm, showFullMap: $showFullMap, completedCountries: completedCountries)
+                MapView(vm: vm, showFullMap: $showFullMap, completedCountries: $completedCountries)
             })
             Spacer()
             ChallengeView(country: vm.current_user?.country ?? "Mexico", status: "In Progress")
@@ -87,27 +87,30 @@ struct SelfProfileView: View {
             
             
             
+        }.onAppear {
+            vm.getCompletedCountries(userID: vm.current_user?.id ?? "") { countries in
+                completedCountries = countries
+            }
         }
     }
     
-        init(vm: ViewModel, showFullMap: Bool = false) {
-            self.vm = vm
-            self.showFullMap = showFullMap
-            self.completedCountries = []
-            var donecountries: [String] = []
-            self.vm.getCompletedCountries(userID: vm.current_user?.id ?? "") { countries in
-                donecountries = countries
-                print("DONE COUNTRIES \(donecountries)")
-            }
-            self.completedCountries = donecountries
-            print("COMPLETEDCOUNTRIES: \(completedCountries)")
-        }
+//        init(vm: ViewModel, showFullMap: Bool = false) {
+//            self.vm = vm
+//            self.showFullMap = showFullMap
+//            self.completedCountries = []
+//            var donecountries: [String] = []
+//            self.vm.getCompletedCountries(userID: vm.current_user?.id ?? "") { countries in
+//                donecountries = countries
+//                print("DONE COUNTRIES \(donecountries)")
+//            }
+//            self.completedCountries = donecountries
+//            print("COMPLETEDCOUNTRIES: \(completedCountries)")
+//        }
 }
 
 struct ChallengeView: View {
     var country: String
     var status: String
-    let countries: [String:String] = ["Mexico": "🇲🇽", "France": "🇫🇷", "India": "🇮🇳", "Italy": "🇮🇹"]
     
     var body: some View {
         ZStack {
@@ -116,9 +119,8 @@ struct ChallengeView: View {
                 .frame(width:354, height: 68)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
             HStack{
-                Image("MXFlag")
-                    .resizable()
-                    .frame(width: 51.4, height: 39.8)
+                Text(countryflags[country] ?? "🇲🇽")
+                    .font(.system(size: 50))
                 Text(country)
                     .font(.system(size: 20))
                     .foregroundColor(Color.cDarkGray)

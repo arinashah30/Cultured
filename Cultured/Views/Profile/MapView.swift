@@ -9,23 +9,20 @@ import SwiftUI
 import MapKit
 
 
+let countryflags: [String:String] = ["Mexico": "🇲🇽", "France": "🇫🇷", "India": "🇮🇳", "Italy": "🇮🇹"]
 
 struct MapView: View {
     @ObservedObject var vm: ViewModel
     @State private var position: MapCameraPosition
     @Binding var showFullMap: Bool
-    var locations: [Location]
-    var completedCountries: [String]
-
+    @State var locations: [Location]
+    @Binding var completedCountries: [String]
     
-    init(vm: ViewModel, showFullMap: Binding<Bool>, completedCountries: [String]) {
+    
+    init(vm: ViewModel, showFullMap: Binding<Bool>, completedCountries: Binding<[String]>) {
         self.vm = vm
-//        self.locations = [
-//            Location(name: "Mexico", coordinate: CLLocationCoordinate2D(latitude: 19.432608, longitude: -99.133209), flag: UIImage(imageLiteralResourceName: "MXFlag")),
-//            Location(name: "France", coordinate: CLLocationCoordinate2D(latitude: 48.8566, longitude: 2.3522), flag: UIImage(imageLiteralResourceName: "USFlag"))
-//        ]
-        self.completedCountries = completedCountries
-
+        self._completedCountries = completedCountries
+        
         self._showFullMap = showFullMap
         
         self._position = State<MapCameraPosition>(initialValue: MapCameraPosition.region(
@@ -37,72 +34,29 @@ struct MapView: View {
         
         self.locations = []
         
-        self.locations = populateLocations()
-        
-        if !locations.isEmpty {
-            // Camera position defaults to first location
-            position = MapCameraPosition.region(
-                MKCoordinateRegion(
-                    center: locations[0].coordinate,
-                    span: MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5)
-                )
-            )
-        }
-
     }
     
-    // Returns an array of Locations from current_user's completed and current countries
-    func populateLocations() -> [Location] {
-        var countries: [String] = []
-        countries.append(vm.current_user?.country ?? "null")
-        if !(completedCountries.isEmpty) {
-            countries += completedCountries
-        }
-        
-        
-        
-        var locations: [Location] = []
-        if !countries.isEmpty && countries[0] != "null" {
-            for country in countries {
-//                print(country)
-                vm.getLatitudeLongitude(countryName: country) { coords in
-                    if let coords = coords {
-                        // for testing
-                        print(coords["latitude"])
-                        print(coords["longitude"])
-                        
-                        locations.append(Location(name: country, coordinate: CLLocationCoordinate2D(latitude: coords["latitude"] ?? 0, longitude: coords["latitude"] ?? 0)))
-                        //for testing
-                        print("locations: \(locations)")
-                    } else {
-                        print("Error in populating locations")
-                    }
-                }
-            }
-            print("locations is empty: " + String(locations.isEmpty))
-            return locations
-        }
-        //for testing
-        print("locations is still empty: " + String(locations.isEmpty))
-
-        return []
-    }
+    
     
     
     var body: some View {
         ZStack {
             Map(position: $position) {
-                    ForEach(locations) { location in
-                        Annotation(location.name, coordinate: location.coordinate) {
-                            Image(uiImage: location.flag)
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 60, height: 60)
-                                .clipShape(Circle())
-                                
-                        }
-                        .annotationTitles(.hidden)
+                ForEach(locations) { location in
+                    Annotation(location.name, coordinate: location.coordinate) {
+                        
+                        Circle()
+                            .fill(Color.white) // You can change the color as needed
+                            .frame(width: 60, height: 60) // Adjust size as needed
+                            .overlay(
+                                Text(countryflags[location.name] ?? "🇲🇽")
+                                    .font(.system(size: 50)) // Adjust font size as needed
+                                    .foregroundColor(.white)
+                            )
+                        
                     }
+                    .annotationTitles(.hidden)
+                }
             }
             // Back button
             VStack {
@@ -123,14 +77,87 @@ struct MapView: View {
                 }.padding(.horizontal, 7)
                 Spacer()
             }
-        }.onAppear()
+        }.onChange(of: completedCountries) {
+            populateLocations { coords in
+                locations = coords
+            }
+            print("Locations in on change of \(locations)")
+            
+            if !locations.isEmpty {
+                // Camera position defaults to first location
+                position = MapCameraPosition.region(
+                    MKCoordinateRegion(
+                        center: locations[0].coordinate,
+                        span: MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5)
+                    )
+                )
+            }
+        }
+        .onAppear {
+            populateLocations { coords in
+                locations = coords
+            }
+            
+            if !locations.isEmpty {
+                // Camera position defaults to first location
+                position = MapCameraPosition.region(
+                    MKCoordinateRegion(
+                        center: locations[0].coordinate,
+                        span: MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5)
+                    )
+                )
+            }
+        }
+    }
+    
+    
+    
+    func populateLocations(completion: @escaping ([Location]) -> Void) {
+        var countries: [String] = []
+        countries.append(vm.current_user?.country ?? "null")
+        if !completedCountries.isEmpty {
+            countries += completedCountries
+        }
+        
+        var locations: [Location] = []
+        
+        let group = DispatchGroup() // Create a dispatch group
+        
+        for country in countries {
+            group.enter() // Enter the group before starting each asynchronous task
+            
+            vm.getLatitudeLongitude(country: country) { coords in
+                defer {
+                    group.leave() // Leave the group after the asynchronous task completes
+                }
+                if let coords = coords {
+                    let latitude = coords["latitude"] ?? 0
+                    let longitude = coords["longitude"] ?? 0
+                    locations.append(Location(name: country, coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude)))
+                } else {
+                    print("Error in populating locations")
+                }
+            }
+        }
+        
+        group.notify(queue: .main) {
+            // This closure is called when all tasks in the group have completed
+            if !locations.isEmpty {
+                // Camera position defaults to first location
+                position = MapCameraPosition.region(
+                    MKCoordinateRegion(
+                        center: locations[0].coordinate,
+                        span: MKCoordinateSpan(latitudeDelta: 5, longitudeDelta: 5)
+                    )
+                )
+            }
+            completion(locations)
+        }
     }
 }
 
 
 
-
-
 #Preview {
-    MapView(vm: ViewModel(), showFullMap: Binding.constant(false), completedCountries: ["France"])
+    MapView(vm: ViewModel(), showFullMap: Binding.constant(false), completedCountries: Binding.constant([]))
 }
