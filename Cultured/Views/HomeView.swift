@@ -84,7 +84,6 @@ struct HomeView: View {
                                 .bold()
                                 .offset(y:-15)
                             NavigationLink {
-                                //print(vm.current_user!)
                                 StartQuizView(vm: vm, countryName: vm.current_user?.country ?? "Mexico", backgroundImage: Image("StartQuizImage"))
                             } label: {
                                 Text("Start")
@@ -111,7 +110,7 @@ struct HomeView: View {
                                 .bold()
                                 .offset(y:-15)
                             NavigationLink {
-                                StartConnectionsView(vm: ViewModel(), countryName: vm.current_user?.country ?? "", backgroundImage: Image("WordGuessing"))
+                                StartConnectionsView(vm: vm, countryName: vm.current_user?.country ?? "", backgroundImage: Image("WordGuessing"))
                             } label: {
                                 Text("Start")
                                     .font(.system(size: 16))
@@ -292,6 +291,12 @@ struct HomeView: View {
                 points = vm.current_user?.points ?? 0
                 streak = vm.current_user?.streak ?? 0
                 badges = vm.current_user?.badges.count ?? 0
+                vm.quizViewModel!.load_quizzes() { result in
+                }
+                vm.wordGuessingViewModel!.load_word_guessings() { result in
+                }
+                vm.connectionsViewModel!.load_connections() { result in
+                }
             }
                 if popUpOpen {
                     Color.gray.opacity(0.7)
