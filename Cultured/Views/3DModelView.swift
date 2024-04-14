@@ -41,12 +41,6 @@ struct _DModelView : View {
                 LandmarkViewContainer(vm: vm, model: landmarks[modelsDictionary[model]!], videoShown: $videoShown, tourCompleted: $tourCompleted).edgesIgnoringSafeArea(.all)
                 BackButton()
             }.padding(.bottom, 50).frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                .onAppear {
-                    vm.getAllCompletedActivities(userId: vm.current_user?.id ?? "Arina", type: "artour") { completed in
-                        tourCompleted = (completed["\(model)ARTour"]?["completed"] ?? false) as! Bool
-                    }
-                    print("tourcompleted: \(tourCompleted)")
-                }
         } else {
             ARVideoPortalView(model: landmarks[modelsDictionary[model]!], videoShown: $videoShown)
         }
@@ -60,15 +54,21 @@ struct LandmarkViewContainer: UIViewRepresentable {
     var model: ARLandmark
     @Binding var videoShown: Bool
     @Binding var tourCompleted: Bool
-
+    
     
     
     
     func updateUIView(_ uiView: LandmarkARView, context: Context) {
+        vm.getAllCompletedActivities(userId: vm.current_user?.id ?? "Arina", type: "artour") { completed in
+            tourCompleted = (completed["\(model.modelName)ARTour"]?["completed"] ?? false) as! Bool
+        }
         uiView.updateModel(model)
     }
     
     func makeUIView(context: Context) -> LandmarkARView {
+        vm.getAllCompletedActivities(userId: vm.current_user?.id ?? "Arina", type: "artour") { completed in
+            tourCompleted = (completed["\(model.modelName)ARTour"]?["completed"] ?? false) as! Bool
+        }
         return LandmarkARView(vm: vm, model: model, videoShown: $videoShown, tourCompleted: $tourCompleted)
     }
     
@@ -105,7 +105,6 @@ class LandmarkARView: ARView {
         for i in 0..<model.facts.count {
             pointsGiven["Fact " + String(i)] = tourCompleted.wrappedValue
         }
-        print("pointsGiven: \(self.pointsGiven)")
         super.init(frame: . zero)
     }
     
@@ -234,8 +233,6 @@ class LandmarkARView: ARView {
             print("Heyyy")
         } else if (modelEntity.name.prefix(4) == "Fact") {
             informationTextBoxes[Int(modelEntity.name.suffix(from: modelEntity.name.index(modelEntity.name.startIndex, offsetBy: 5)))!].isEnabled = !informationTextBoxes[Int(modelEntity.name.suffix(from: modelEntity.name.index(modelEntity.name.startIndex, offsetBy: 5)))!].isEnabled
-            print("Value for \(modelEntity.name): \(pointsGiven[modelEntity.name])")
-            // gives points if bubble is pressed for first time
             if (pointsGiven[modelEntity.name] == false) {
                 pointsGiven[modelEntity.name] = true
                 self.vm.update_points(userID: self.vm.current_user!.id, pointToAdd: 10, completion: { success in
@@ -252,7 +249,6 @@ class LandmarkARView: ARView {
     func checkTourCompleted() {
         var allCompleted = true
         for fact in pointsGiven {
-            print("\(fact.key) in checktourcompleted: \(fact.value)")
             if fact.value == false {
                 allCompleted = false
                 break
@@ -261,12 +257,11 @@ class LandmarkARView: ARView {
         
         if (allCompleted) {
             print("ALL COMPLETED")
-            vm.addOnGoingActivity(userID: vm.current_user?.id ?? "", titleOfActivity: "\(model.modelName)ARTour", typeOfActivity: "artour") {_ in 
+            vm.addOnGoingActivity(userID: vm.current_user?.id ?? "", titleOfActivity: "\(model.modelName)ARTour", typeOfActivity: "artour") {_ in
                 
             }
             vm.updateCompleted(userID: vm.current_user?.id ?? "", activity: "\(model.modelName)ARTour", completed: true) {_ in
                 self.tourCompleted = true
-                print("ADDED TO FIREBASE")
             }
         } else {
             print("NOT COMPLETED")
