@@ -32,19 +32,65 @@ struct _DModelView : View {
     
     @State var videoShown = false
     @State var tourCompleted = false
+    @State var showingInfoBubbleAlert = true
     
     var body: some View {
         
         if (!videoShown) {
             ZStack(alignment: .topLeading) {
                 
-                LandmarkViewContainer(vm: vm, model: landmarks[modelsDictionary[model]!], videoShown: $videoShown, tourCompleted: $tourCompleted).edgesIgnoringSafeArea(.all)
-                BackButton()
-            }.padding(.bottom, 50).frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                LandmarkViewContainer(model: landmarks[modelsDictionary[model] ?? 4], videoShown: $videoShown).edgesIgnoringSafeArea(.all)
+                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                VStack {
+                    HStack {
+                        BackButton()
+                        Spacer()
+                    }
+                        
+                    infoBubbleAlert()
+                }
+            }
         } else {
-            ARVideoPortalView(model: landmarks[modelsDictionary[model]!], videoShown: $videoShown)
+            ARVideoPortalView(model: landmarks[modelsDictionary[model] ?? 4], videoShown: $videoShown).edgesIgnoringSafeArea(.all).frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         }
         
+    }
+    
+    @ViewBuilder
+    func infoBubbleAlert() -> some View {
+        if showingInfoBubbleAlert {
+            ZStack {
+                RoundedRectangle(cornerRadius: 17)
+                    .fill(Color.cDarkGray)
+                    .frame(width: UIScreen.main.bounds.width * 0.9, height: 200)
+                
+                
+                
+                VStack(alignment: .leading) {
+                    HStack {
+                        Text("How to complete the tour")
+                            .font(.title2)
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            showingInfoBubbleAlert = false
+                        }) {
+                            Text("\(Image(systemName: "x.circle.fill"))")
+                                .foregroundStyle(Color.white)
+                                .font(.title)
+                        }
+                    }
+                    .frame(width: UIScreen.main.bounds.width * 0.8)
+                    Text("Tap on the bubbles to learn more about this landmark and earn points.")
+                    Text("Tap on the landmark to see it in AR.")
+                       
+                }
+                .frame(width: UIScreen.main.bounds.width * 0.8)
+                .foregroundStyle(Color.white)
+            }
+            
+        }
     }
     
 }

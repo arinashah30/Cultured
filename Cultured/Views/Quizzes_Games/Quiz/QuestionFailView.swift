@@ -12,7 +12,6 @@ import SwiftUI
 struct QuestionFailView: View {
     @ObservedObject var vm: QuizViewModel
     @State var next = false
-    let categories = ["Ravanhatha", "Sitar", "Morchang", "Veena"]
     
     var totalSteps: Int
     var currentStep: Int
@@ -24,7 +23,7 @@ struct QuestionFailView: View {
     
     let buttonColors: [Color] = [Color(red: 255/255, green: 164/255, blue: 164/255), Color(red: 255/255, green: 204/255, blue: 153/255), Color(red: 168/255, green: 220/255, blue: 168/255), Color(red: 179/255, green: 230/255, blue: 255/255)]
     let colorRed: Color = Color(red: 241/255, green: 72/255, blue: 72/255)
-    let buttonWidth: CGFloat = 153.29
+    let buttonWidth: CGFloat = 350
     let buttonHeight: CGFloat = 57.0
     let buttonRadius=13.0
     
@@ -47,7 +46,7 @@ struct QuestionFailView: View {
                     RoundedRectangle(cornerRadius: 40)
                         .fill(Color.white)
                         .frame(width: UIScreen.main.bounds.width, height: 2*UIScreen.main.bounds.height / 3)
-                        .offset(y: UIScreen.main.bounds.height / 7)
+                        .offset(y: UIScreen.main.bounds.height / 10)
                 }
                 
                 
@@ -82,40 +81,22 @@ struct QuestionFailView: View {
                             .font(Font.custom("Quicksand-medium",size: 16))
                             .foregroundColor(Color(red: 64/255, green: 64/255, blue: 64/255))
                         Text("\(vm.get_current_question().correctAnswerDescription)")
-                            .padding(.vertical, 20).font(.system(size: 18))
+                            .padding(.vertical, 20).font(.system(size: 14))
                         
                         VStack(spacing: 16) {
-                            HStack(spacing: 16) {
-                                ForEach(vm.get_current_question().answers.prefix(2), id: \.self) { category in
-                                    Button(action: {}) {
-                                        HStack {
-                                            Text(category)
-                                                .padding().font(.system(size:20))
-                                            
-                                        }
-                                    }
-                                    .frame(width: buttonWidth, height: buttonHeight)
-                                    .background(buttonColor(category: category))
-                                    .foregroundColor(textColor(category: category))
-                                    .cornerRadius(buttonRadius)
+                            ForEach(vm.get_current_question().answers, id: \.self) { category in
+                                Button(action: {
+                                }) {
+                                    Text(category)
+                                        .padding()
+                                        .font(.system(.body, design: .rounded)) // Use dynamic type
+                                        .minimumScaleFactor(0.5)
                                 }
-                            }.frame(maxWidth: .infinity, alignment: .center)
-                            
-                            HStack(spacing: 16) {
-                                ForEach(vm.get_current_question().answers.suffix(2), id: \.self) { category in
-                                    Button(action: {}) {
-                                        HStack {
-                                            Text(category)
-                                                .padding().font(.system(size:20))
-                                            
-                                        }
-                                    }
-                                    .frame(width: buttonWidth, height: buttonHeight)
-                                    .background(buttonColor(category: category))
-                                    .foregroundColor(textColor(category: category))
-                                    .cornerRadius(buttonRadius)
-                                }
-                            }.frame(maxWidth: .infinity, alignment: .center)
+                                .frame(width: buttonWidth, height: buttonHeight)
+                                .background(buttonColor(category: category))
+                                .foregroundColor(textColor(category: category))
+                                .cornerRadius(buttonRadius)
+                            }
                             
                         }
                     }
@@ -149,6 +130,8 @@ struct QuestionFailView: View {
                 }.offset(y:UIScreen.main.bounds.height/7).padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 40))
                 
             }
+            //.navigationBarBackButtonHidden()
+            .padding(.bottom, 100)
             
         }
     }
@@ -182,5 +165,3 @@ struct QuestionFailView: View {
 //#Preview {
 //    QuestionFailView(vm: QuizViewModel(viewModel: ViewModel()))
 //}
-
-

@@ -194,6 +194,50 @@ class ViewModel: ObservableObject {
         }
     }
     
+    func getInfoFood(countryName: String, completion: @escaping (Food) -> Void) {
+                self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("FOOD").getDocument { document, error in
+                    if let err = error {
+                        print(err.localizedDescription)
+                        return
+                    } else {
+                        if let doc = document {
+                            if let data = doc.data() {
+                                
+                                let regional = data["regional"] as? [String : String] ?? [:]
+                                let seasonal = data["seasonal"] as? [String : String] ?? [:]
+                                
+                                let food = Food(regional: regional, seasonal: seasonal)
+                                //                        print (info)
+                                completion(food)
+                            }
+                        }
+                    }
+                }
+            }
+    
+    func getInfoTvMovie(countryName: String, completion: @escaping (TvMovie) -> Void) {
+                self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("TVMOVIE").getDocument { document, error in
+                        if let err = error {
+                            print(err.localizedDescription)
+                            return
+                        } else {
+                            if let doc = document {
+                                if let data = doc.data() {
+                                    
+                                    let actors = data["actors"] as? [String] ?? []
+                                    let classics = data["classics"] as? [String] ?? []
+                                    
+                                    let tvMovie = TvMovie(actors: actors, classics: classics)
+                                    //                        print (info)
+                                    completion(tvMovie)
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+    
     func createNewCountry(countryName: String, lattitude: Double, longitude: Double) {
         let countryRef = db.collection("COUNTRIES").document(countryName)
         countryRef.setData(["population": 5000, "lattitude": lattitude, "longitude": longitude])
@@ -348,7 +392,7 @@ class ViewModel: ObservableObject {
         }
     }
     
-    func getInfoDance(countryName: String, completion: @escaping (Dance) -> Void) {
+  func getInfoDance(countryName: String, completion: @escaping (Dance) -> Void) {
         self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("DANCE").getDocument { document, error in
             if let error = error {
                 print(error.localizedDescription)
@@ -372,7 +416,7 @@ class ViewModel: ObservableObject {
             completion(danceObject)
         }
     }
-
+  
     func getInfoMajorCities(countryName: String, completion: @escaping (MajorCities) -> Void) {
                 self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("MAJORCITIES").getDocument { document, error in
                     if let error = error {
@@ -396,7 +440,53 @@ class ViewModel: ObservableObject {
                     completion(majorCitiesObject)
                 }
     }
-    
+  func getInfoMusic(countryName: String, completion: @escaping (Music) -> Void) {
+        self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("MUSIC").getDocument { document, error in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(Music())
+                return
+            }
+            guard let document = document, document.exists else {
+                print("Document Doesn't Exist")
+                completion(Music())
+                return
+            }
+            
+            guard let data = document.data(), !data.isEmpty else {
+                print("Data is Nil or Data is Empty")
+                completion(Music())
+                return
+            }
+            
+            let classicsDict = data["classics"] as? [String : String] ?? [:]
+            let stylesDict = data["styles"] as? [String: String] ?? [:]
+            //let traditionsObject = Traditions(traditionsDictionary: traditionsDictionary)
+            var artists: [String] = []
+            var title: [String] = []
+            var link: [String] = []
+
+            var i = 0
+            for (titleArtist, youtubeLink) in classicsDict {
+                let components = titleArtist.split(separator: "|").map(String.init)
+                if components.count == 2 {
+                    var title2 = components[0].trimmingCharacters(in: .whitespaces)
+                    var artist3 = components[1].trimmingCharacters(in: .whitespaces)
+                    title2 = String(title2)
+                    artist3 = String(artist3)
+                    title.append(title2)
+                    artists.append(artist3)
+                    link.append(youtubeLink)
+                }
+                //increase i for the next iteration
+                i = i + 1
+                
+            }
+            let musicObject = Music(title: title, artist: artists, link: link, styles: stylesDict)
+            completion(musicObject)
+        }
+    }
+  
     
     /*-------------------------------------------------------------------------------------------------*/
     
@@ -432,14 +522,10 @@ class ViewModel: ObservableObject {
                         self.wordGuessingViewModel = WordGuessingViewModel(viewModel: self)
                         self.quizViewModel = QuizViewModel(viewModel: self)
                         self.quizViewModel!.load_quizzes() { result in
-                            print("RESULT FROM QUIZ " + String(result))
-                            print(self.quizViewModel!.quizzes)
                         }
                         self.wordGuessingViewModel!.load_word_guessings() { result in
-                            print("RESULT FROM WORD " + String(result))
                         }
                         self.connectionsViewModel!.load_connections() { result in
-                            print("RESULT FROM CONNECTIONS " + String(result))
                         }
                         completion(self.current_user)
                     }
