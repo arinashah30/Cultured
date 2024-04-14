@@ -86,6 +86,8 @@
 		7C1B21002B7C00A0008E0244 /* Quicksand-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B20FB2B7C00A0008E0244 /* Quicksand-Regular.ttf */; };
 		7C1B21012B7C00A0008E0244 /* Quicksand-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B20FC2B7C00A0008E0244 /* Quicksand-SemiBold.ttf */; };
 		7C1B21022B7C00A0008E0244 /* Quicksand-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B20FD2B7C00A0008E0244 /* Quicksand-Light.ttf */; };
+		7C3DE01F2BC9FA2B00D9DD46 /* ChangeCountryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3DE01E2BC9FA2B00D9DD46 /* ChangeCountryView.swift */; };
+		7C864BBE2BC9A5AF0052502B /* CountrySetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C864BBD2BC9A5AF0052502B /* CountrySetView.swift */; };
 		7C9E14692BBF6353003BC7B4 /* LandmarksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9E14682BBF6353003BC7B4 /* LandmarksView.swift */; };
 		7CE5D3EF2BB5D2ED00EE0E14 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CE5D3EE2BB5D2ED00EE0E14 /* BackButton.swift */; };
 		7CFE0FC42B979F3100D7283B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7CFE0FC32B979F3100D7283B /* ContentView.swift */; };
@@ -178,6 +180,8 @@
 		7C1B20FB2B7C00A0008E0244 /* Quicksand-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Regular.ttf"; sourceTree = "<group>"; };
 		7C1B20FC2B7C00A0008E0244 /* Quicksand-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-SemiBold.ttf"; sourceTree = "<group>"; };
 		7C1B20FD2B7C00A0008E0244 /* Quicksand-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Light.ttf"; sourceTree = "<group>"; };
+		7C3DE01E2BC9FA2B00D9DD46 /* ChangeCountryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeCountryView.swift; sourceTree = "<group>"; };
+		7C864BBD2BC9A5AF0052502B /* CountrySetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountrySetView.swift; sourceTree = "<group>"; };
 		7C9E14682BBF6353003BC7B4 /* LandmarksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandmarksView.swift; sourceTree = "<group>"; };
 		7CE5D3EE2BB5D2ED00EE0E14 /* BackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackButton.swift; sourceTree = "<group>"; };
 		7CFE0FC32B979F3100D7283B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -369,6 +373,8 @@
 			isa = PBXGroup;
 			children = (
 				66FB6A012B72A1400066B826 /* LogInView.swift */,
+				7C864BBD2BC9A5AF0052502B /* CountrySetView.swift */,
+				7C3DE01E2BC9FA2B00D9DD46 /* ChangeCountryView.swift */,
 				66FB6A032B72A1480066B826 /* SignUpView.swift */,
 			);
 			path = Onboarding;
@@ -633,6 +639,7 @@
 				666A71822BBF2D1E005A849A /* TraditionalMusic.swift in Sources */,
 				48ACC9842BC5A6E400AEC832 /* DynamicNavigationView.swift in Sources */,
 				66FB6A002B72A1310066B826 /* MainView.swift in Sources */,
+				7C3DE01F2BC9FA2B00D9DD46 /* ChangeCountryView.swift in Sources */,
 				66FB6A042B72A1480066B826 /* SignUpView.swift in Sources */,
 				666A71812BBF2D1E005A849A /* Sports.swift in Sources */,
 				66FB69F32B72A0B30066B826 /* Module.swift in Sources */,
@@ -650,6 +657,7 @@
 				66FB69D82B72A08F0066B826 /* ViewModel.swift in Sources */,
 				665997482B90EDCD00247314 /* TextBoxEntity.swift in Sources */,
 				CA64398C2B857B0900181C5F /* CustomsSectionView.swift in Sources */,
+				7C864BBE2BC9A5AF0052502B /* CountrySetView.swift in Sources */,
 				480F21F52B75969500CB5632 /* Quiz.swift in Sources */,
 				7CE5D3EF2BB5D2ED00EE0E14 /* BackButton.swift in Sources */,
 				48ACC9822BBF6B0B00AEC832 /* ProgressButtonView.swift in Sources */,

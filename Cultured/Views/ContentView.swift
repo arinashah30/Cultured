@@ -12,8 +12,9 @@ struct ContentView: View {
     @AppStorage("log_Status") var logStatus = false
     
     var body: some View {
-        
-        if logStatus == true && vm.auth.currentUser != nil && vm.get_current_country() != "" {
+        if logStatus == true && vm.auth.currentUser != nil && vm.current_user != nil && vm.get_current_country() == "" {
+            CountrySetView(vm: vm)
+        } else if logStatus == true && vm.auth.currentUser != nil && vm.current_user != nil && vm.get_current_country() != "" {
             MainView(selectedView: .home, vm: vm)
         } else {
             NavigationStack {

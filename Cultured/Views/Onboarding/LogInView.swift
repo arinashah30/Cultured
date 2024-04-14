@@ -12,6 +12,8 @@ struct LogInView: View {
     @State var isChecked = false
     @State var email = ""
     @State var password = ""
+    private let screenWidth = UIScreen.main.bounds.size.width
+    private let screenHeight = UIScreen.main.bounds.size.height
     @State var navigateToHome: Bool = false
     
     var body: some View {
@@ -20,10 +22,13 @@ struct LogInView: View {
                 ZStack{
                     Image("SignInBanner")
                         .resizable()
-                        .frame(width: UIScreen.main.bounds.size.width, height: 200)
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: screenWidth, height: screenHeight / 4)
+                        .padding(.top, -8)
                     Image("CulturedTitle")
                         .resizable()
-                        .frame(width:126, height:29)
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width:screenWidth * 2/3, height: screenHeight / 1/5)
                     
                 }
                 
