@@ -1025,8 +1025,7 @@ class ViewModel: ObservableObject {
         return result.trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
-    func getCompletedCountries(completion: @escaping ([String]) -> Void) {
-        let userID = current_user?.id ?? ""
+    func getCompletedCountries(userID: String, completion: @escaping ([String]) -> Void) {
         self.db.collection("USERS").document(userID).getDocument { document, error in
             if let err = error {
                 print(err.localizedDescription)

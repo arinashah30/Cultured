@@ -877,7 +877,8 @@ func testGetInfoFood() {
     }
     func testGetCompletedCountries() {
         let expectation = self.expectation(description: "getCompletedCountries")
-        vm.getCompletedCountries() { countries in
+        vm.getCompletedCountries(userID: "Rik Roy") { countries in
+            print("whaaa")
             print(countries)
             expectation.fulfill()
         }
