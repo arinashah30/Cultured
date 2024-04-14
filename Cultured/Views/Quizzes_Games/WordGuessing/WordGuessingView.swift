@@ -24,6 +24,7 @@ struct WordGuessingView: View {
                     HStack {
                         BackButton()
                             .offset(x:UIScreen.main.bounds.size.width/100, y:UIScreen.main.bounds.size.height/50)
+                        Spacer()
                     }
                     Spacer(minLength: 15)
                     HStack{
@@ -118,7 +119,7 @@ struct WordGuessingView: View {
                     WordGuessingResultsView(vm: vm)
                 }
             }
-            .navigationBarBackButtonHidden()
+            .navigationBarBackButtonHidden(true)
         }
     }
 }
