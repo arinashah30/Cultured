@@ -12,6 +12,7 @@ struct LogInView: View {
     @State var isChecked = false
     @State var email = ""
     @State var password = ""
+    @State var navigateToHome: Bool = false
     
     var body: some View {
         NavigationStack {
@@ -19,7 +20,7 @@ struct LogInView: View {
                 ZStack{
                     Image("SignInBanner")
                         .resizable()
-                        .frame(width: 393, height: 200)
+                        .frame(width: UIScreen.main.bounds.size.width, height: 200)
                     Image("CulturedTitle")
                         .resizable()
                         .frame(width:126, height:29)
@@ -46,6 +47,7 @@ struct LogInView: View {
                             .padding([.leading, .trailing], 16)
                         TextField("", text: $email, prompt: Text("Email Address")                .foregroundColor(.cMedGray))
                             .textInputAutocapitalization(.never)
+                            .textContentType(.emailAddress)
                     }
                     .frame(maxWidth: .infinity, minHeight:52)
                     .background(Color.cLightGray)
@@ -65,8 +67,9 @@ struct LogInView: View {
                             .resizable()
                             .frame(width:15, height:17)
                             .padding([.leading, .trailing], 19)
-                        TextField("", text: $password, prompt: Text("Password")                .foregroundColor(.cMedGray))
+                        SecureField("", text: $password, prompt: Text("Password")                .foregroundColor(.cMedGray))
                             .textInputAutocapitalization(.never)
+                            .textContentType(.password)
                     }
                     .frame(maxWidth: .infinity, minHeight:52)
                     .background(Color.cLightGray)
@@ -86,6 +89,9 @@ struct LogInView: View {
                         
                         if !email.isEmpty && !password.isEmpty {
                             vm.fireBaseSignIn(email: email, password: password) { completed in
+                                if completed {
+                                    navigateToHome = true
+                                }
                             }
                         } else {
                             vm.errorText = "You must fill out all fields"
@@ -94,7 +100,7 @@ struct LogInView: View {
                         Text("Sign In")
                             .foregroundColor(.black)
                             .font(.system(size: 19))
-                    }
+                    }.navigationDestination(isPresented: $navigateToHome, destination: {HomeView(vm: vm)})
                     .frame(maxWidth: .infinity, minHeight:45)
                     .background(Color.cOrange)
                     .clipShape(.rect(cornerRadius: 60))

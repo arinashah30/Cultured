@@ -13,7 +13,7 @@ struct ContentView: View {
     
     var body: some View {
         
-        if logStatus == true && vm.auth.currentUser != nil && vm.get_current_country() {
+        if logStatus == true && vm.auth.currentUser != nil && vm.get_current_country() != "" {
             MainView(selectedView: .home, vm: vm)
         } else {
             NavigationStack {
