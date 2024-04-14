@@ -57,6 +57,7 @@ struct QuestionFailView: View {
                         Text("Quiz")
                             .foregroundColor(colorRed)
                             .font(Font.custom("Quicksand-semibold",size: 32))
+                            .padding(.top, UIScreen.main.bounds.size.height * 0.03)
                         HStack{
                             Text("\(vm.viewModel.get_current_country()) - \(vm.get_current_category())")
                                 .font(.system(size: 16))
@@ -117,6 +118,8 @@ struct QuestionFailView: View {
                                 )
                                 .font(.system(size:20))
                                 .fontWeight(.bold)
+                                .padding(.top, UIScreen.main.bounds.size.height * 0.02)
+                                .padding(.bottom, UIScreen.main.bounds.size.height / 20)
                         }.navigationDestination(isPresented: $next) {
                             if vm.move_to_results() {
                                 ResultsView(vm: vm)
@@ -131,7 +134,7 @@ struct QuestionFailView: View {
                 
             }
             //.navigationBarBackButtonHidden()
-            .padding(.bottom, 100)
+            .padding(.bottom, UIScreen.main.bounds.size.height / 6)
             
         }
     }
