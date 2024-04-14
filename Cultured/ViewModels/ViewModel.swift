@@ -155,7 +155,9 @@ class ViewModel: ObservableObject {
     func firebase_sign_out() {
         do {
             try auth.signOut()
+            current_user = nil
         } catch let signOutError as NSError {
+        
             print("Error signing out: %@", signOutError)
         }
     }
@@ -1006,12 +1008,13 @@ class ViewModel: ObservableObject {
                 return
             }
             self.db.collection("USERS").document(userID).updateData([
-                    "currentCountry": countryNameUppercased
+                    "currentCountry": countryName
                 ]) { err in
                     if let err = error {
                         print(err.localizedDescription)
                         completion(false)
                     } else {
+                        self.current_user?.country = countryName
                         completion(true)
                     }
                 }
