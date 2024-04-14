@@ -47,14 +47,9 @@ struct ConnectionsGameView: View {
                     self.presentationMode.wrappedValue.dismiss()
                 } label: {
                     ZStack {
-                        Circle()
-                            .frame(width: 50, height: 50)
-                            .padding(.top, 5)
-                            .padding(.leading, 20)
-                            .foregroundColor(Color.black.opacity(0.1))
-                        Image("Arrow")
-                            .padding(.top, 5)
-                            .padding(.leading, 18)
+                        BackButton()
+                            .offset(x:10, y:100)
+
                     }
                 }
                 .padding(.trailing, 100)

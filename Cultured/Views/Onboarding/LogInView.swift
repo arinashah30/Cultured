@@ -19,7 +19,7 @@ struct LogInView: View {
                 ZStack{
                     Image("SignInBanner")
                         .resizable()
-                        .frame(width: 393, height: 200)
+                        .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height/4)
                     Image("CulturedTitle")
                         .resizable()
                         .frame(width:126, height:29)
