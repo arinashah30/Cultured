@@ -18,6 +18,8 @@
 		480F22062B7C1F9000CB5632 /* QuizViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F22052B7C1F9000CB5632 /* QuizViewModel.swift */; };
 		480F22082B7C1F9C00CB5632 /* WordGuessingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F22072B7C1F9C00CB5632 /* WordGuessingViewModel.swift */; };
 		480F220A2B7C1FA900CB5632 /* ConnectionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F22092B7C1FA900CB5632 /* ConnectionsViewModel.swift */; };
+		482153622BA11A4E000C02FB /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482153612BA11A4E000C02FB /* MapView.swift */; };
+		482153642BB739FA000C02FB /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482153632BB739FA000C02FB /* Location.swift */; };
 		48A11D722B9B63220061ED6A /* QuestionSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A11D6F2B9B63220061ED6A /* QuestionSuccessView.swift */; };
 		48A11D732B9B63220061ED6A /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A11D702B9B63220061ED6A /* ProgressBar.swift */; };
 		48A11D742B9B63220061ED6A /* QuestionFailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A11D712B9B63220061ED6A /* QuestionFailView.swift */; };
@@ -125,6 +127,8 @@
 		480F22052B7C1F9000CB5632 /* QuizViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizViewModel.swift; sourceTree = "<group>"; };
 		480F22072B7C1F9C00CB5632 /* WordGuessingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGuessingViewModel.swift; sourceTree = "<group>"; };
 		480F22092B7C1FA900CB5632 /* ConnectionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsViewModel.swift; sourceTree = "<group>"; };
+		482153612BA11A4E000C02FB /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		482153632BB739FA000C02FB /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		48A11D6F2B9B63220061ED6A /* QuestionSuccessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionSuccessView.swift; sourceTree = "<group>"; };
 		48A11D702B9B63220061ED6A /* ProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		48A11D712B9B63220061ED6A /* QuestionFailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionFailView.swift; sourceTree = "<group>"; };
@@ -318,6 +322,7 @@
 				480F21F62B7596BA00CB5632 /* QuizQuestion.swift */,
 				480F21F82B75A29500CB5632 /* Connections.swift */,
 				480F21FA2B75A54700CB5632 /* WordGuessing.swift */,
+				482153632BB739FA000C02FB /* Location.swift */,
 				8493479A2BC081EE000EC3F4 /* Movie.swift */,
 			);
 			path = Models;
@@ -385,6 +390,7 @@
 			children = (
 				66FB6A062B72A15B0066B826 /* SelfProfileView.swift */,
 				66FB6A082B72A1620066B826 /* EditSelfProfileView.swift */,
+				482153612BA11A4E000C02FB /* MapView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -655,6 +661,7 @@
 				C4C2FF492BC08E2E00DCDE7E /* EtiquetteView.swift in Sources */,
 				48A11D722B9B63220061ED6A /* QuestionSuccessView.swift in Sources */,
 				66FB69D82B72A08F0066B826 /* ViewModel.swift in Sources */,
+				482153642BB739FA000C02FB /* Location.swift in Sources */,
 				665997482B90EDCD00247314 /* TextBoxEntity.swift in Sources */,
 				CA64398C2B857B0900181C5F /* CustomsSectionView.swift in Sources */,
 				7C864BBE2BC9A5AF0052502B /* CountrySetView.swift in Sources */,
@@ -662,6 +669,7 @@
 				7CE5D3EF2BB5D2ED00EE0E14 /* BackButton.swift in Sources */,
 				48ACC9822BBF6B0B00AEC832 /* ProgressButtonView.swift in Sources */,
 				66FB6A132B72A2150066B826 /* StartConnectionsView.swift in Sources */,
+				482153622BA11A4E000C02FB /* MapView.swift in Sources */,
 				8493479B2BC081EE000EC3F4 /* Movie.swift in Sources */,
 				666A717D2BBF2D1E005A849A /* Dance.swift in Sources */,
 				66FB6A0E2B72A1830066B826 /* ResultsView.swift in Sources */,

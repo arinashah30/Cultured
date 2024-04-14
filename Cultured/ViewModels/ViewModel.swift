@@ -1534,7 +1534,8 @@ class ViewModel: ObservableObject {
     }
     
     
-    func getLatitudeLongitude(countryName: String, completion: @escaping ([String: Double]?) -> Void) {
+    func getLatitudeLongitude(country: String, completion: @escaping ([String: Double]?) -> Void) {
+        var countryName = country.uppercased()
         let countryRef = db.collection("COUNTRIES").document(countryName)
         countryRef.getDocument { (document, error) in
             if let error = error {
@@ -1562,6 +1563,7 @@ class ViewModel: ObservableObject {
                 }
             } else {
                 // Handle the case where the document does not exist
+                print("Country \(countryName)")
                 print("We are in this area")
                 print("Document does not exist")
                 completion(nil)
