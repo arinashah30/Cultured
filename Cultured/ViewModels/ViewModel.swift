@@ -360,7 +360,7 @@ class ViewModel: ObservableObject {
             db.collection("USERS").document(userId).getDocument (completion: { document, error in
                 if let error = error {
                     print("SetCurrentUserError: \(error.localizedDescription)")
-                    completion()
+                    completion(nil)
                 } else if let document = document {
                     self.current_user = User(id: document.documentID,
                                              name: document["name"] as! String,
