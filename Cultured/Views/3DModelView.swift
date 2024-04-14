@@ -39,7 +39,7 @@ struct _DModelView : View {
         if (!videoShown) {
             ZStack(alignment: .topLeading) {
                 
-                LandmarkViewContainer(model: landmarks[modelsDictionary[model] ?? 4], videoShown: $videoShown).edgesIgnoringSafeArea(.all)
+                LandmarkViewContainer(vm: vm, model: landmarks[modelsDictionary[model] ?? 4], videoShown: $videoShown, tourCompleted: $tourCompleted).edgesIgnoringSafeArea(.all)
                     .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                 VStack {
                     HStack {
