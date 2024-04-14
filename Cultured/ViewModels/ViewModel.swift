@@ -19,30 +19,36 @@ class ViewModel: ObservableObject {
     let db = Firestore.firestore();
     let auth = Auth.auth();
     @Published var errorText: String? = nil
+    var onSetupCompleted: ((ViewModel) -> Void)?
     //@Published var points: Int = 100
     
     init(current_user: User? = nil, errorText: String? = nil) {
-        if self.current_user != nil {
+        if self.current_user == nil {
             self.current_user = current_user
             self.errorText = errorText
-        }
-        
-        _ = Auth.auth().addStateDidChangeListener { [weak self] auth, user in
-            if let user = user {
-                print("User Found")
-                if let username = user.displayName {
-                    if !(current_user != nil && current_user!.id == username) {
-                        print("Setting User: \(username)")
-                        self?.setCurrentUser(userId: username) { user in
-                            UserDefaults.standard.setValue(true, forKey: "log_Status")
+            
+            
+            _ = Auth.auth().addStateDidChangeListener { [weak self] auth, user in
+                if let user = user {
+                    print("User Found")
+                    if let username = user.displayName {
+                        if !(current_user != nil && current_user!.id == username) {
+                            print("Setting User: \(username)")
+                            self?.setCurrentUser(userId: username) { user in
+                                UserDefaults.standard.setValue(true, forKey: "log_Status")
+                            }
                         }
                     }
+                } else {
+                    UserDefaults.standard.setValue(false, forKey: "log_Status")
                 }
-            } else {
-                UserDefaults.standard.setValue(false, forKey: "log_Status")
             }
         }
     }
+    
+    func configure() {
+            onSetupCompleted?(self)
+        }
     
     /*
      ----------------------------------------------------------------------------------------------
@@ -76,13 +82,14 @@ class ViewModel: ObservableObject {
                 self.db.collection("USERS").whereField("email", isEqualTo: email).getDocuments { documents, error in
                     if let err = error {
                         print(err.localizedDescription)
-                        return
+                        completion(false)
                     } else {
                         if let docs = documents {
                             for doc in docs.documents {
                                 let id = doc.data()["id"] as! String
                                 self.setCurrentUser(userId: id, completion: { user in
                                     UserDefaults.standard.setValue(true, forKey: "log_Status")
+                                    completion(true)
                                 })
                             }
                         }
@@ -96,12 +103,11 @@ class ViewModel: ObservableObject {
                         print("Failed to update lastLoggedOn field")
                     }
                 }
-                completion(true)
             }
         }
     }
     
-    func firebase_email_password_sign_up_(email: String, password: String, username: String) {
+    func firebase_email_password_sign_up_(email: String, password: String, username: String, completion: @escaping (Bool) -> ()) {
         auth.createUser(withEmail: email, password: password) { authResult, error in
             if let errorSignUp = error {
                 let firebaseError = AuthErrorCode.Code(rawValue: errorSignUp._code)
@@ -113,6 +119,7 @@ class ViewModel: ObservableObject {
                 default:
                     self.errorText = "An error has occurred"
                 }
+                completion(false)
             } else if let user = authResult?.user {
                 let currentDate = Date()
                 let dateFormatter = DateFormatter()
@@ -124,6 +131,7 @@ class ViewModel: ObservableObject {
                 changeRequest.commitChanges { error in
                     if let error = error {
                         print(error.localizedDescription)
+                        completion(false)
                     }
                 }
                 self.db.collection("USERS").document(username).setData(
@@ -142,9 +150,11 @@ class ViewModel: ObservableObject {
                     ] as [String : Any]) { error in
                         if let error = error {
                             self.errorText = error.localizedDescription
+                            completion(false)
                         } else {
                             self.setCurrentUser(userId: username) { user in
                                 UserDefaults.standard.setValue(true, forKey: "log_Status")
+                                completion(true)
                             }
                         }
                     }
