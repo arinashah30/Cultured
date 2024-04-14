@@ -10,16 +10,11 @@ import SwiftUI
 struct ProgressButtonView: View {
     @State var buttonText: String
     @State var buttonColor: Color
-    @State var progress: Float
+    @Binding var progress: Float
     //let action: () -> Void
     
     private func clampProgress(progress: Float) -> Float {
-        if progress < 0.0 {
-            return 0.0
-        } else if progress > 1.0 {
-            return 1.0
-        }
-        return progress
+        return min(max(progress, 0.0), 1.0)
     }
     
     var body: some View {
@@ -45,6 +40,6 @@ struct ProgressButtonView: View {
     }
 }
 
-#Preview {
-    ProgressButtonView(buttonText: "Button", buttonColor: Color("Category3"), progress: 0.4)
-}
+//#Preview {
+//    ProgressButtonView(buttonText: "Button", buttonColor: Color("Category3"), progress: 0.4)
+//}

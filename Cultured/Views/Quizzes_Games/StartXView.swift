@@ -31,22 +31,6 @@ struct StartXView: View {
     
     private func selectCategory(category: Int) -> some View {
         DynamicNavigationView(vm: vm, gameName: gameName)
-//        if gameName == "WordGuessing" {
-//            return AnyView(WordGuessingView(vm: vm.wordGuessingViewModel!))
-//        } else if gameName == "Quiz" {
-//            //print("CURRENT QUIZ \(vm.quizViewModel!.current_quiz)")
-//            if vm.$quizViewModel?.$current_quiz.completed {
-//                return AnyView(QuestionView(vm: vm.quizViewModel!))
-//            } else {
-//                if vm.quizViewModel!.current_quiz!.completed {
-//                    return AnyView(ResultsView(vm: vm.quizViewModel!))
-//                } else {
-//                    return AnyView(QuestionView(vm: vm.quizViewModel!))
-//                }
-//            }
-//        } else {
-//            return AnyView(ConnectionsGameView(vm: vm.connectionsViewModel!))
-//        }
     }
     
     private func setupActivity(category: Int) {
@@ -72,35 +56,21 @@ struct StartXView: View {
                     backgroundImage
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: 400, height: 470, alignment: .top)
+                        .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height * 0.47, alignment: .top)
                     
                     
-                    Button {
-                        self.presentationMode.wrappedValue.dismiss()
-                    } label: {
-                        
-                        ZStack {
-                            Circle()
-                                .frame(width: 50, height: 50)
-                                .padding(.top, 150)
-                                .padding(.leading, 20)
-                                .foregroundColor(Color.white.opacity(0.8))
-                            Image("Arrow")
-                                .padding(.top, 150)
-                                .padding(.leading, 18)
-                        }
-                        
-                    }
+                    BackButton()
+                        .offset(x:UIScreen.main.bounds.size.width/100, y:UIScreen.main.bounds.size.height/18)
                     
                 }
                 
                 ZStack (alignment: .topLeading){
                     Rectangle()
-                        .frame(width: 400, height: 460)
+                        .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height * 0.35)
                         .clipShape(.rect(cornerRadius: 40))
                         .foregroundColor(.cPopover)
                     VStack (alignment: .leading){
-                        Text(gameName)
+                        Text(gameName.replacingOccurrences(of: "WordGuessing", with: "Word Guessing"))
                             .foregroundColor(.cDarkGray)
                             .font(Font.custom("Quicksand-SemiBold", size: 32))
                         Text(vm.get_current_country())
@@ -113,56 +83,51 @@ struct StartXView: View {
                             Button {
                                 setupActivity(category: 0)
                             } label: {
-                                ProgressButtonView(buttonText: categories[0], buttonColor: buttonColors[0], progress: categoryProgress[0])
+                                let progressBinding = Binding<Float>(
+                                    get: { self.categoryProgress[0] },
+                                    set: { self.categoryProgress[0] = $0 }
+                                )
+                                ProgressButtonView(buttonText: categories[0], buttonColor: Color("Category1"), progress: progressBinding)
                             }.navigationDestination(isPresented: $navigate) { selectCategory(category: 0)}
                             
                             Button {
                                 setupActivity(category: 1)
                             } label: {
-                                ProgressButtonView(buttonText: categories[1], buttonColor: buttonColors[1], progress: categoryProgress[1])
+                                let progressBinding = Binding<Float>(
+                                    get: { self.categoryProgress[1] },
+                                    set: { self.categoryProgress[1] = $0 }
+                                )
+                                ProgressButtonView(buttonText: categories[1], buttonColor: Color("Category2"), progress: $categoryProgress[1])
                             }.navigationDestination(isPresented: $navigate) { selectCategory(category: 1)}
                         }
+                        .frame(maxWidth: .infinity, alignment: .center)
                         
-                        HStack(alignment: .center, spacing: 20) {
+                        HStack(alignment: .center, spacing: UIScreen.main.bounds.width * 0.05) {
                             Button {
                                 setupActivity(category: 2)
                             } label: {
-                                ProgressButtonView(buttonText: categories[2], buttonColor: buttonColors[2], progress: categoryProgress[2])
+                                let progressBinding = Binding<Float>(
+                                    get: { self.categoryProgress[2] },
+                                    set: { self.categoryProgress[2] = $0 }
+                                )
+                                ProgressButtonView(buttonText: categories[2], buttonColor: Color("Category3"), progress: $categoryProgress[2])
                             }.navigationDestination(isPresented: $navigate) { selectCategory(category: 2)}
                             
                             Button {
                                 setupActivity(category: 3)
                             } label: {
-                                ProgressButtonView(buttonText: categories[3], buttonColor: buttonColors[3], progress: categoryProgress[3])
+                                let progressBinding = Binding<Float>(
+                                    get: { self.categoryProgress[3] },
+                                    set: { self.categoryProgress[3] = $0 }
+                                )
+                                ProgressButtonView(buttonText: categories[3], buttonColor: Color("Category4"), progress: $categoryProgress[3])
                             }.navigationDestination(isPresented: $navigate) { selectCategory(category: 3)}
                         }
-                        
-//                        NavigationLink(destination: {
-//                            if (gameName == "Word Guessing") {
-//                                vm.wordGuessingViewModel?.current_word_guessing_game = 
-//                                WordGuessingView(vm: vm.wordGuessingViewModel!)
-//                            } else if (gameName == "Quiz") {
-//                                QuestionView(vm: vm.quizViewModel!)
-//                            } else if (gameName == "Connections") {
-//                                ConnectionsGameView(vm: vm.connectionsViewModel!)
-//                            }
-//                            
-//                        }, label: {
-//                            Text("Start")
-//                                .font(.system(size: 20))
-//                                .foregroundColor(.cDarkGray)
-//                                .padding()
-//                        })
-//                        .frame(maxWidth: 154, maxHeight: 57, alignment: .center)
-//                        .background(Color.black.opacity(0.1))
-//                        .clipShape(.rect(cornerRadius: 100.0))
-//                        .padding(.top, 15)
-//                        .padding(.leading, 85)
-//                        //.padding(.bottom, 200)
+                        .frame(maxWidth: .infinity, alignment: .center)
                     }
                     .padding(.top, 30)
-                    .padding(.leading, 35)
-                    //.frame(alignment: .center)
+//                    .padding(.leading, 35)
+                    .frame(alignment: .center)
                 }
             }
             .padding(.bottom, 200)
@@ -172,7 +137,7 @@ struct StartXView: View {
                 } else if gameName == "Quiz" {
                     categoryProgress = vm.quizViewModel!.getProgress()
                 } else if gameName == "Connections" {
-        
+                    categoryProgress = vm.connectionsViewModel!.getProgress()
                 }
             }
         }

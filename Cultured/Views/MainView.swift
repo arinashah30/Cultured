@@ -14,7 +14,7 @@ struct MainView: View {
         
         TabView(selection: $selectedView,
                 content:  {
-            ActivityView(vm: vm).tabItem {
+            ActivityType(vm: vm).tabItem {
                 VStack {
                     Image(systemName: "trophy.fill")
                     Text("Activity")
@@ -35,13 +35,6 @@ struct MainView: View {
         })
         .accentColor(.cDarkGray)
         .onAppear() {
-//            if let name = vm.auth.currentUser!.displayName {
-//                vm.setCurrentUser(userId: name, completion: { user in
-//                    print("SETTING USER IN APPEAR")
-//
-//                    
-//                })
-//            }
         }
     }
 }

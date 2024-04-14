@@ -92,7 +92,6 @@ class WordGuessingViewModel: ObservableObject {
                         self.viewModel.updateHistory(userID: self.viewModel.current_user!.id, activity: self.current_word_guessing_game!.title, history: game.history, completion: { _ in
                             game.totalPoints -= 10
                             let optionIndex = game.history.count
-                            print("FLIPPING TILE \(optionIndex)")
                             game.options[optionIndex].isFlipped = true
                             self.current_word_guessing_game = game
                             completion()
@@ -100,7 +99,6 @@ class WordGuessingViewModel: ObservableObject {
                     } else {
                         game.totalPoints -= 10
                         let optionIndex = game.history.count
-                        print("FLIPPING TILE \(optionIndex)")
                         game.options[optionIndex].isFlipped = true
                         self.current_word_guessing_game = game
                         completion()
@@ -183,16 +181,20 @@ class WordGuessingViewModel: ObservableObject {
     
     func getProgress() -> [Float] {
         var progress: [Float] = []
-        for category in categories {
-            if (Array(word_guessings.keys).firstIndex(of: "\(viewModel.current_user!.country)\(categories[0])WordGuessing") != nil) {
-                if word_guessings["\(viewModel.current_user!.country)\(categories[0])WordGuessing"]!.isOver {
-                    progress.append(1.0)
+        if let country = viewModel.current_user?.country {
+            for category in categories {
+                if (Array(word_guessings.keys).firstIndex(of: "\(viewModel.current_user!.country)\(category)WordGuessing") != nil) {
+                    if word_guessings["\(viewModel.current_user!.country)\(category)WordGuessing"]!.isOver {
+                        progress.append(1.0)
+                    } else {
+                        progress.append(Float(word_guessings["\(viewModel.current_user!.country)\(category)WordGuessing"]?.current ?? 0) / Float(9))
+                    }
                 } else {
-                    progress.append(Float(word_guessings["\(viewModel.current_user!.country)\(categories[0])WordGuessing"]?.current ?? 0) / Float(9))
+                    progress.append(0.0)
                 }
-            } else {
-                progress.append(0.0)
             }
+        } else {
+            return [0.0, 0.0, 0.0, 0.0]
         }
         return progress
     }

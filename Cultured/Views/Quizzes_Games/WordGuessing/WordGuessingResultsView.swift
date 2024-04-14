@@ -132,7 +132,6 @@ func adjustStats(originalStats: [Int]) -> [Float] {
     for stat in originalStats {
         scaledStats.append(0.1 + (Float(stat) / Float(maxNum)))
     }
-    print(scaledStats)
     return scaledStats
 }
 

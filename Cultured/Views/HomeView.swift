@@ -12,10 +12,13 @@ struct HomeView: View {
     @State var points: Int = 0
     @State var streak: Int = 0
     @State var badges: Int = 0
+    @State var popUpOpen: Bool = false
 
     
     var body: some View {
         NavigationStack {
+            ZStack {
+            
             VStack(alignment: .leading) {
                 HStack { //Badges
                     Spacer()
@@ -47,17 +50,20 @@ struct HomeView: View {
                 .padding(.top, 10)
                 
                 
-                Text("Welcome to Mexico")
+                Text("Welcome to \(vm.get_current_country())")
                     .font(Font.custom("Quicksand-Semibold", size: 32))
                     .foregroundColor(.cDarkGray)
                     .padding(.leading, 10)
                 
-                Text("change destination")
-                    .font(.system(size: 16))
-                    .foregroundColor(.cMedGray)
-                    .padding(.bottom, 5)
-                    .padding(.leading, 10)
-                
+                Button {
+                    popUpOpen = true
+                } label: {
+                    Text("Change Destination")
+                        .font(.system(size: 16))
+                        .foregroundColor(.cMedGray)
+                        .padding(.bottom, 5)
+                        .padding(.leading, 10)
+                }
                 Text("Learn")
                     .font(Font.custom("Quicksand-Medium", size: 24))
                     .foregroundColor(.cDarkGray)
@@ -78,8 +84,7 @@ struct HomeView: View {
                                 .bold()
                                 .offset(y:-15)
                             NavigationLink {
-                                //print(vm.current_user!)
-                                StartQuizView(vm: vm, countryName: vm.current_user!.country, backgroundImage: Image("StartQuizImage"))
+                                StartQuizView(vm: vm, countryName: vm.current_user?.country ?? "Mexico", backgroundImage: Image("StartQuizImage"))
                             } label: {
                                 Text("Start")
                                     .font(.system(size: 16))
@@ -105,7 +110,7 @@ struct HomeView: View {
                                 .bold()
                                 .offset(y:-15)
                             NavigationLink {
-                                StartConnectionsView(vm: ViewModel(), countryName: vm.current_user?.country ?? "", backgroundImage: Image("WordGuessing"))
+                                StartConnectionsView(vm: vm, countryName: vm.current_user?.country ?? "", backgroundImage: Image("WordGuessing"))
                             } label: {
                                 Text("Start")
                                     .font(.system(size: 16))
@@ -169,8 +174,9 @@ struct HomeView: View {
                             .multilineTextAlignment(.center)
                             .font(.system(size: 20))
                             .offset(y:-20)
-                        Button {
-                            
+                        NavigationLink {
+                            _DModelView(vm: vm, model: vm.current_user?.country ?? "Mexico").navigationBarBackButtonHidden(true)
+                            .toolbar(.hidden, for: .tabBar)
                         } label: {
                             Text("Let's go!")
                                 .font(.system(size: 16))
@@ -186,6 +192,7 @@ struct HomeView: View {
                     .padding(.bottom, 8)
                     Spacer()
                 }
+
                 
                 Text("Explore")
                     .font(Font.custom("Quicksand-Medium", size: 24))
@@ -282,11 +289,31 @@ struct HomeView: View {
             .navigationBarBackButtonHidden()
             .onAppear() {
                 points = vm.current_user?.points ?? 0
-                streak = vm.current_user?.streak ?? 0
+                vm.checkIfStreakIsIntact(userID: vm.current_user?.id ?? "") { _ in
+                    streak = vm.current_user?.streak ?? 0
+                    vm.updateLastLoggedOn(userID: vm.current_user?.id ?? "") { _ in
+                        
+                    }
+                }
                 badges = vm.current_user?.badges.count ?? 0
+                vm.quizViewModel!.load_quizzes() { result in
+                }
+                vm.wordGuessingViewModel!.load_word_guessings() { result in
+                }
+                vm.connectionsViewModel!.load_connections() { result in
+                }
+            }
+                if popUpOpen {
+                    Color.gray.opacity(0.7)
+                        .edgesIgnoringSafeArea(.all)
+                        .onTapGesture {
+                            popUpOpen = false
+                        }
+                    ChangeCountryView(vm: vm, popUpOpen: $popUpOpen)
+                }
+                
             }
         }
-        
         
     }
     

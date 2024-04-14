@@ -53,8 +53,10 @@ struct PopCultureSectionView: View {
                                 .clipShape(.rect(cornerRadius: 14.0))
                                 
                                 
-                                Button {
-                                    
+                                NavigationLink {
+                                    DanceView(vm: vm)
+                                        .navigationBarBackButtonHidden(true)
+                                        .toolbar(.hidden, for: .tabBar)
                                 } label: {
                                     Text("Dance")
                                         .font(.system(size: 20))
@@ -81,17 +83,16 @@ struct PopCultureSectionView: View {
                                 .background(Color.cGreen)
                                 .clipShape(.rect(cornerRadius: 14.0))
                                 
-                                Button {
-                                    
-                                } label: {
+                                NavigationLink(destination: MovieView(), label: {
                                     Text("Movies/TV")
                                         .font(.system(size: 20))
                                         .foregroundColor(.cDarkGrayConstant)
                                         .padding()
-                                }
-                                .frame(maxWidth: 159, maxHeight: 57)
-                                .background(Color.cBlue)
-                                .clipShape(.rect(cornerRadius: 14.0))
+                                }).frame(maxWidth: 159, maxHeight: 57)
+                                    .background(Color.cBlue)
+                                    .clipShape(.rect(cornerRadius: 14.0))
+                       
+                                
                             }
                             .shadow(radius: 4, x: 0, y: 4)
                             HStack {
