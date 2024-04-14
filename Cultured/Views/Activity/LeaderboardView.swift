@@ -8,10 +8,9 @@
 import SwiftUI
 
 struct LeaderboardEntry: View {
-    @ObservedObject var vm: ViewModel
     var rank: Int
     var username: String
-    var avatar: Image
+    var avatar: UIImage
     var streak: Int
     var badges: Int
     var points: Int
@@ -29,7 +28,7 @@ struct LeaderboardEntry: View {
                     .font(Font.custom("Quicksand-Semibold", size: 20))
                     .foregroundColor(.cDarkGray)
                     .bold()
-                avatar
+                Image(uiImage: avatar)
                     .resizable()
                     .scaledToFill()
                     .frame(width: 61, height: 61)
@@ -62,7 +61,7 @@ struct LeaderboardEntry: View {
 
 struct LeaderboardView: View {
     @ObservedObject var vm: ViewModel
-    @State var users: [(String, Int, Int, Int, String)]
+    @State var users: [Int: (String, Int, Int, Int, UIImage)] = [:]
     
     var body: some View {
 
@@ -71,6 +70,12 @@ struct LeaderboardView: View {
             HStack (alignment: .bottom) {
                 VStack {
                     //Find a way to put the prof pic and info of the second place user
+                    Image(uiImage: users[2]?.4 ?? UIImage())
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 61, height: 61)
+                        .clipShape(Circle())
+                        .overlay(Circle().stroke(Color.white, lineWidth: 2))
                     ZStack {
                         Rectangle()
                             .foregroundColor(.clear)
@@ -86,7 +91,12 @@ struct LeaderboardView: View {
                 }
                 VStack {
                     // First Place user
-                    
+                    Image(uiImage: users[1]?.4 ?? UIImage())
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 61, height: 61)
+                        .clipShape(Circle())
+                        .overlay(Circle().stroke(Color.white, lineWidth: 2))
                     ZStack {
                         Rectangle()
                             .foregroundColor(.clear)
@@ -103,6 +113,12 @@ struct LeaderboardView: View {
                 }
                 VStack {
                     //Third place user
+                    Image(uiImage: users[3]?.4 ?? UIImage())
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 61, height: 61)
+                        .clipShape(Circle())
+                        .overlay(Circle().stroke(Color.white, lineWidth: 2))
                     ZStack {
                         Rectangle()
                             .foregroundColor(.clear)
@@ -121,25 +137,39 @@ struct LeaderboardView: View {
             }
             ScrollView {
                 VStack {
-                    ForEach(Array(users.enumerated()), id: \.element.0) { index, user in
-                        LeaderboardEntry(vm: vm, rank: index + 1, username: user.0, avatar: vm.getPro, streak: user.2, badges: user.3, points: user.1)
-                                                .padding(.vertical, 4)
-                                        }
+                    ForEach(users.sorted(by: { $0.key < $1.key }), id: \.key) { key, value in
+                                        LeaderboardEntry(
+                                            rank: key,
+                                            username: value.0,
+                                            avatar: value.4,
+                                            streak: value.2,
+                                            badges: value.3,
+                                            points: value.1
+                                        )
+                                        .padding(.vertical, 4)
+                                    }
                 }
             }
             
         }
         .onAppear(perform: {
             vm.getLeaderBoardInfo(completion: { users in
-                if let users = users {
-                    self.users = users
-                }
+                print("USERS \(users)")
+                self.users = users
+//                for key in Array(users.keys) {
+//                    self.users.
+//                    self.users.append(users[user]!)
+//                }
+//                
+//                for user in 0..<users.keys.count {
+//                    self.users.append(users[user]!)
+//                }
             })
         })
     }
 }
 
 
-#Preview {
-    LeaderboardView(vm: ViewModel())
-}
+//#Preview {
+//    LeaderboardView(vm: ViewModel())
+//}

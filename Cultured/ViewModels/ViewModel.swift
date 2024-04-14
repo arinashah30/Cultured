@@ -850,7 +850,7 @@ class ViewModel: ObservableObject {
             }
         }
     }
-
+    
     
     //Return "true" if streak is incremented or stays same
     //Return "false" if streak is reset to 0
@@ -1482,15 +1482,16 @@ class ViewModel: ObservableObject {
      -----------------------------------------------------------------------------------------------
      */
     
-    func getLeaderBoardInfo(completion: @escaping([(String, Int, Int, Int, String)]?) -> Void) {
+    func getLeaderBoardInfo(completion: @escaping([Int: (String, Int, Int, Int, UIImage)]) -> Void) {
         let usersCollectionReference = db.collection("USERS")
         usersCollectionReference.whereField("points", isGreaterThan: 0).order(by: "points", descending: true).limit(to: 20).getDocuments { (querySnapshot, error) in
             if let error = error {
                 print("Error getting Documents \(error)")
-                completion(nil)
+                completion([:])
             } else {
-                var topUsers: [(String, Int, Int, Int, String)] = []
+                var topUsers: [Int: (String, Int, Int, Int, UIImage)] = [:]
                 print(topUsers.count)
+                var i = 1
                 for document in querySnapshot!.documents {
                     let data = document.data()
                     let id = data["id"] as? String ?? ""
@@ -1499,10 +1500,15 @@ class ViewModel: ObservableObject {
                     let badges = (data["badges"] as? [String] ?? []).count
                     let profilePicture = (data["profilePicture"] as? String ?? "https://static-00.iconduck.com/assets.00/person-crop-circle-icon-256x256-02mzjh1k.png")
                     
+                    let currI = i
+                    self.getProfilePic(userID: id) { image in
+                        topUsers.updateValue((id, points, streak, badges, image!), forKey: currI)
+                        completion(topUsers)
+                    }
                     // Add the user ID and streak to the topUsers dictionary
-                    topUsers.append((id, points, streak, badges, profilePicture))
+                    i += 1
                 }
-                completion(topUsers)
+                
             }
         }
     }
