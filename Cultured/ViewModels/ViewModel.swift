@@ -879,13 +879,14 @@ class ViewModel: ObservableObject {
                         if let daysSinceLastLoggedOn = components.day {
                             //Update Streak to 0 if more than 1 day passed since last login
                             if daysSinceLastLoggedOn > 1 {
+                                self.current_user?.streak = 0
                                 self.db.collection("USERS").document(userID).updateData(["streak": 0]) { error in
                                     if let error = error {
                                         print("Error updating document: \(error)")
                                     } else {
                                         print("Document updated successfully")
-                                        completion(false)
                                     }
+                                    completion(false)
                                 }
                                 return
                             // Increment Streak by 1 if last login was yesterday
@@ -895,7 +896,7 @@ class ViewModel: ObservableObject {
                                         print("Error updating document: \(error)")
                                     } else {
                                         print("Document updated successfully")
-                                        completion(true)
+                                        self.current_user?.streak = (document?["streak"] as? Int ?? 0) + 1
                                         self.updateStreakRecord(userID: userID) { success in
                                             if success {
                                                 print("Streak Record updated sucessfully")
@@ -903,6 +904,7 @@ class ViewModel: ObservableObject {
                                                 print("Failed to update Streak Record")
                                             }
                                         }
+                                        completion(true)
                                     }
                                 }
                                 return

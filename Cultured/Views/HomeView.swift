@@ -289,7 +289,12 @@ struct HomeView: View {
             .navigationBarBackButtonHidden()
             .onAppear() {
                 points = vm.current_user?.points ?? 0
-                streak = vm.current_user?.streak ?? 0
+                vm.checkIfStreakIsIntact(userID: vm.current_user?.id ?? "") { _ in
+                    streak = vm.current_user?.streak ?? 0
+                    vm.updateLastLoggedOn(userID: vm.current_user?.id ?? "") { _ in
+                        
+                    }
+                }
                 badges = vm.current_user?.badges.count ?? 0
                 vm.quizViewModel!.load_quizzes() { result in
                 }
