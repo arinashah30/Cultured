@@ -54,7 +54,7 @@ struct MapView: View {
     // Returns an array of Locations from current_user's completed and current countries
     func populateLocations() -> [Location] {
         var countries: [String] = []
-        countries.append(vm.current_user?.currentCountry ?? "null")
+        countries.append(vm.current_user?.country ?? "null")
         if let completedCountries = vm.current_user?.completedCountries {
             countries += completedCountries
         }
