@@ -12,10 +12,13 @@ struct HomeView: View {
     @State var points: Int = 0
     @State var streak: Int = 0
     @State var badges: Int = 0
+    @State var popUpOpen: Bool = false
 
     
     var body: some View {
         NavigationStack {
+            ZStack {
+            
             VStack(alignment: .leading) {
                 HStack { //Badges
                     Spacer()
@@ -52,12 +55,15 @@ struct HomeView: View {
                     .foregroundColor(.cDarkGray)
                     .padding(.leading, 10)
                 
-                Text("change destination")
-                    .font(.system(size: 16))
-                    .foregroundColor(.cMedGray)
-                    .padding(.bottom, 5)
-                    .padding(.leading, 10)
-                
+                Button {
+                    popUpOpen = true
+                } label: {
+                    Text("change destination")
+                        .font(.system(size: 16))
+                        .foregroundColor(.cMedGray)
+                        .padding(.bottom, 5)
+                        .padding(.leading, 10)
+                }
                 Text("Learn")
                     .font(Font.custom("Quicksand-Medium", size: 24))
                     .foregroundColor(.cDarkGray)
@@ -292,8 +298,17 @@ struct HomeView: View {
                 vm.connectionsViewModel!.load_connections() { result in
                 }
             }
+                if popUpOpen {
+                    Color.gray.opacity(0.7)
+                        .edgesIgnoringSafeArea(.all)
+                        .onTapGesture {
+                            popUpOpen = false
+                        }
+                    ChangeCountryView(vm: vm, popUpOpen: $popUpOpen)
+                }
+                
+            }
         }
-        
         
     }
     

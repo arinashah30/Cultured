@@ -55,11 +55,11 @@ struct SelfProfileView: View {
                     }
                 }
                 VStack{
-                    Text("\(vm.current_user!.name)")
+                    Text("\(vm.current_user?.name ?? "No user")")
                         .font(Font.custom("Quicksand-Semibold", size: 32))
                         .foregroundColor(.cDarkGray)
                     
-                    Text("\(vm.current_user!.id)")
+                    Text("\(vm.current_user?.id ?? "No user")")
                         .font(.system(size: 20))
                         .foregroundColor(.cMedGray)
                 }
