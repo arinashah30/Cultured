@@ -131,7 +131,7 @@ struct QuestionFailView: View {
                 
             }
             //.navigationBarBackButtonHidden()
-            .padding(.bottom, 100)
+            .padding(.bottom, UIScreen.main.bounds.size.height / 6)
             
         }
     }

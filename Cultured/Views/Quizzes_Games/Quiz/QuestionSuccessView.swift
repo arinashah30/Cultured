@@ -126,7 +126,7 @@ struct QuestionSuccessView: View {
                 
             }
             //.navigationBarBackButtonHidden()
-            .padding(.bottom, 100)
+            .padding(.bottom, UIScreen.main.bounds.size.height / 6)
             
         }
     }
@@ -152,7 +152,7 @@ struct QuestionSuccessView: View {
 }
 
 
-
+//
 //#Preview {
 //    QuestionSuccessView(vm: QuizViewModel(viewModel: ViewModel()))
 //}

@@ -107,7 +107,8 @@ struct QuestionView: View {
                             .font(.system(size:20))
                             .fontWeight(.bold)
                         }.navigationDestination(isPresented: $nav) { destinationView }
-                        .padding(.top, 20)
+                        .padding(.top, UIScreen.main.bounds.size.height * 0.02)
+                        .padding(.bottom, UIScreen.main.bounds.size.height / 10)
                     //}.padding(.top, 20)
                     
                     
