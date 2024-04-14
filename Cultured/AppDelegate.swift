@@ -26,16 +26,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //let contentView = ContentView()
 //        var contentView = MainView(vm: ViewModel())
         let vm = ViewModel()
-        vm.setCurrentUser(userId: vm.auth.currentUser?.displayName ?? "", completion: { result in
-            var contentView = ContentView(vm: vm)
-            let window = UIWindow(frame: UIScreen.main.bounds)
-            window.rootViewController = UIHostingController(rootView: contentView)
-            self.window = window
-            window.makeKeyAndVisible()
-            //return true
-        })
+        
+        
+        vm.onSetupCompleted = { vm in
+            print("IN VIEW MODEL")
+            
+            DispatchQueue.main.async {
+                let contentView = ContentView(vm: vm)
+                let window = UIWindow(frame: UIScreen.main.bounds)
+                window.rootViewController = UIHostingController(rootView: contentView)
+                self.window = window
+                window.makeKeyAndVisible()
+            }
+        }
+        
 
         // Use a UIHostingController as window root view controller.
+        vm.configure()
+        
         return true
     }
 

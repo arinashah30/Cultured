@@ -19,30 +19,36 @@ class ViewModel: ObservableObject {
     let db = Firestore.firestore();
     let auth = Auth.auth();
     @Published var errorText: String? = nil
+    var onSetupCompleted: ((ViewModel) -> Void)?
     //@Published var points: Int = 100
     
     init(current_user: User? = nil, errorText: String? = nil) {
-        if self.current_user != nil {
+        if self.current_user == nil {
             self.current_user = current_user
             self.errorText = errorText
-        }
-        
-        _ = Auth.auth().addStateDidChangeListener { [weak self] auth, user in
-            if let user = user {
-                print("User Found")
-                if let username = user.displayName {
-                    if !(current_user != nil && current_user!.id == username) {
-                        print("Setting User: \(username)")
-                        self?.setCurrentUser(userId: username) { user in
-                            UserDefaults.standard.setValue(true, forKey: "log_Status")
+            
+            
+            _ = Auth.auth().addStateDidChangeListener { [weak self] auth, user in
+                if let user = user {
+                    print("User Found")
+                    if let username = user.displayName {
+                        if !(current_user != nil && current_user!.id == username) {
+                            print("Setting User: \(username)")
+                            self?.setCurrentUser(userId: username) { user in
+                                UserDefaults.standard.setValue(true, forKey: "log_Status")
+                            }
                         }
                     }
+                } else {
+                    UserDefaults.standard.setValue(false, forKey: "log_Status")
                 }
-            } else {
-                UserDefaults.standard.setValue(false, forKey: "log_Status")
             }
         }
     }
+    
+    func configure() {
+            onSetupCompleted?(self)
+        }
     
     /*
      ----------------------------------------------------------------------------------------------

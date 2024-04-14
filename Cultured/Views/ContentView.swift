@@ -25,6 +25,6 @@ struct ContentView: View {
     
 }
 
-#Preview {
-    ContentView(vm: ViewModel())
-}
+//#Preview {
+//    ContentView(vm: ViewModel())
+//}

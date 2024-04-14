@@ -153,7 +153,7 @@ struct SignUpView: View {
                             .foregroundColor(.black)
                             .font(.system(size: 19))
                     }
-                    .navigationDestination(isPresented: $navigateToHome, destination: {HomeView(vm: vm)})
+                    .navigationDestination(isPresented: $navigateToHome, destination: {MainView(selectedView: .home, vm: vm)})
                     .frame(maxWidth: .infinity, minHeight:45)
                     .background(Color.cOrange)
                     .clipShape(.rect(cornerRadius: 60))
