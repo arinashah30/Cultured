@@ -9,80 +9,80 @@ import SwiftUI
 
 struct PlacesSectionView: View {
     @ObservedObject var vm: ViewModel
-    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
-        VStack {
+        NavigationStack {
             ZStack (alignment: .topLeading){
                 Image("Places")
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 400, height: 470)
                 
-                Button {
-                    dismiss()
-                } label: {
-                    
-                    ZStack {
-                        Circle()
-                            .frame(width: 50, height: 50)
-                            .padding(.top, 50)
-                            .padding(.leading, 20)
-                            .foregroundColor(Color.white.opacity(0.8))
-                        Image("Arrow")
-                            .padding(.top, 50)
-                            .padding(.leading, 18)
-                    }
-                    
-                }
+                BackButton()
+                    .offset(y:-40)
                 
-            }
-            
-            ZStack (alignment: .topLeading){
-                Rectangle()
-                    .frame(width: 395, height: 380)
-                    .clipShape(.rect(cornerRadius: 40))
-                    .foregroundColor(.white)
-                VStack (alignment: .leading){
-                    Text("Places")
-                        .foregroundColor(.cDarkGray)
-                        .font(Font.custom("Quicksand-SemiBold", size: 32))
-                    Text("Mexico")
-                        .foregroundColor(.cMedGray)
-                    Text("Categories")
-                        .font(Font.custom("Quicksand-Medium", size: 24))
-                        .foregroundColor(.cDarkGray)
-                        .padding(.top, 20)
-                    HStack {
-                        Button {
-                            
-                        } label: {
-                            Text("Landmarks")
-                                .font(.system(size: 20))
+                VStack {
+                    Spacer()
+                    ZStack (alignment: .topLeading){
+                        Rectangle()
+                            .frame(width: 395, height: 310)
+                            .clipShape(.rect(cornerRadius: 40))
+                            .foregroundColor(.white)
+                        VStack (alignment: .leading){
+                            Text("Places")
                                 .foregroundColor(.cDarkGray)
-                                .padding()
-                        }
-                        .frame(maxWidth: 159, maxHeight: 57)
-                        .background(Color.cRed)
-                        .clipShape(.rect(cornerRadius: 14.0))
-                        
-                        Button {
-                            
-                        } label: {
-                            Text("Major Cities")
-                                .font(.system(size: 20))
+                                .font(Font.custom("Quicksand-SemiBold", size: 32))
+                            Text("Mexico")
+                                .foregroundColor(.cMedGray)
+                            Text("Categories")
+                                .font(Font.custom("Quicksand-Medium", size: 24))
                                 .foregroundColor(.cDarkGray)
-                                .padding()
+                                .padding(.top, 20)
+                            HStack (spacing: 13){
+                                NavigationLink {
+                                    LandmarksView(vm: vm)
+                                        .navigationBarBackButtonHidden(true)
+                                        .toolbar(.hidden, for: .tabBar)
+                                } label: {
+                                    Text("Landmarks")
+                                        .font(.system(size: 20))
+                                        .foregroundColor(.cDarkGray)
+                                        .padding()
+                                }
+                                .frame(maxWidth: 159, maxHeight: 57)
+                                .background(Color.cRed)
+                                .clipShape(.rect(cornerRadius: 14.0))
+                                
+                                Button {
+                                    
+                                } label: {
+                                    Text("Major Cities")
+                                        .font(.system(size: 20))
+                                        .foregroundColor(.cDarkGray)
+                                        .padding()
+                                }
+                                .frame(maxWidth: 159, maxHeight: 57)
+                                .background(Color.cOrange)
+                                .clipShape(.rect(cornerRadius: 14.0))
+                            }
+                            .shadow(radius: 4, x: 0, y: 4)
+                            HStack {
+                                Spacer()
+                                Button {} label: {
+                                    Text("Quiz Me!")
+                                        .foregroundColor(.cMedGray)
+                                        .font(.system(size: 20))
+                                }
+                                Spacer()
+                            }
+                            .padding(.top, 30)
+                            .padding(.leading, -35)
                         }
-                        .frame(maxWidth: 159, maxHeight: 57)
-                        .background(Color.cOrange)
-                        .clipShape(.rect(cornerRadius: 14.0))
+                        .padding(.top, 30)
+                        .padding(.leading, 32)
                     }
-                    .shadow(radius: 4, x: 0, y: 4)
-
+                    .padding(.leading, 3)
                 }
-                .padding(.top, 30)
-                .padding(.leading, 35)
             }
         }
     }
