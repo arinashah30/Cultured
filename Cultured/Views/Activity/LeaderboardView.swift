@@ -20,7 +20,6 @@ struct LeaderboardEntry: View {
         ZStack {
             Rectangle()
                 .foregroundColor(.clear)
-                .frame(width: 361, height: 86)
                 .background(Color.cLightGray)
                 .cornerRadius(20)
             HStack {
@@ -34,7 +33,8 @@ struct LeaderboardEntry: View {
                     .frame(width: 61, height: 61)
                     .clipShape(Circle())
                     .overlay(Circle().stroke(Color.white, lineWidth: 2))
-
+                    .padding(.trailing, 20)
+                
                 VStack(alignment: .leading) {
                     Text(username)
                         .font(.system(size: 20))
@@ -54,8 +54,11 @@ struct LeaderboardEntry: View {
                         Text(badges.description)
                     }
                 }
+                Spacer()
             }
+            .padding()
         }
+        .frame(width: 361, height: 86)
     }
 }
 
@@ -75,7 +78,7 @@ struct LeaderboardView: View {
                         .scaledToFill()
                         .frame(width: 61, height: 61)
                         .clipShape(Circle())
-                        .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                        .overlay(Circle().stroke(Color(red: 0.99, green: 0.7, blue: 0.7), lineWidth: 4))
                     ZStack {
                         Rectangle()
                             .foregroundColor(.clear)
@@ -96,7 +99,7 @@ struct LeaderboardView: View {
                         .scaledToFill()
                         .frame(width: 61, height: 61)
                         .clipShape(Circle())
-                        .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                        .overlay(Circle().stroke(Color(red: 1, green: 0.86, blue: 0.65), lineWidth: 4))
                     ZStack {
                         Rectangle()
                             .foregroundColor(.clear)
@@ -118,7 +121,7 @@ struct LeaderboardView: View {
                         .scaledToFill()
                         .frame(width: 61, height: 61)
                         .clipShape(Circle())
-                        .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                        .overlay(Circle().stroke(Color(red: 0.6, green: 0.76, blue: 0.87), lineWidth: 4))
                     ZStack {
                         Rectangle()
                             .foregroundColor(.clear)
@@ -152,20 +155,6 @@ struct LeaderboardView: View {
             }
             
         }
-        .onAppear(perform: {
-            vm.getLeaderBoardInfo(completion: { users in
-                print("USERS \(users)")
-                self.users = users
-//                for key in Array(users.keys) {
-//                    self.users.
-//                    self.users.append(users[user]!)
-//                }
-//                
-//                for user in 0..<users.keys.count {
-//                    self.users.append(users[user]!)
-//                }
-            })
-        })
     }
 }
 

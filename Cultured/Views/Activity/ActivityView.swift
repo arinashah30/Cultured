@@ -11,7 +11,8 @@ struct ActivityView: View {
     @ObservedObject var vm: ViewModel
     @State var badgePopUp: Bool = false
     @State var selectedBadge: String? = nil
-    let badges = ["1MonthStreakBadge", "3ContinentsCompleteBadge", "3CountriesBadge", "7DaysStreakBadge", "50PointsBadge", "100PointsBadge", "arTourBadge", "FranceBadge", "IndiaBadge", "MexicoBadge", "Top3Badge", "1MonthStreakBadge", "3ContinentsCompleteBadge", "3CountriesBadge", "7DaysStreakBadge", "50PointsBadge", "100PointsBadge", "arTourBadge", "FranceBadge", "IndiaBadge", "MexicoBadge", "Top3Badge"]
+    //let badges = ["1MonthStreakBadge", "3ContinentsCompleteBadge", "3CountriesBadge", "7DaysStreakBadge", "50PointsBadge", "100PointsBadge", "arTourBadge", "FranceBadge", "IndiaBadge", "MexicoBadge", "Top3Badge", "1MonthStreakBadge", "3ContinentsCompleteBadge", "3CountriesBadge", "7DaysStreakBadge", "50PointsBadge", "100PointsBadge", "arTourBadge", "FranceBadge", "IndiaBadge", "MexicoBadge", "Top3Badge"]
+    var badges: [String]
     @State var maxRows = 2
     @State var columns = 5
     @State var showAllBadges = false
@@ -86,6 +87,7 @@ struct ActivityView: View {
                     
                     Text("Streak")
                         .font(Font.custom("Quicksand-Medium", size: 24))
+                        .padding(.bottom, 10)
                     HStack {
                         ZStack {
                             Rectangle()
@@ -127,8 +129,8 @@ struct ActivityView: View {
                                             .frame(width: 31, height: 36)
                                     }
                                 }
-                                //Text("\(vm.current_user?.record ?? 0) Days")
-                                Text("49 Days")
+                                Text("\(vm.current_user?.streakRecord ?? 0) Days")
+                                //Text("49 Days")
                                     .font(Font.custom("Quicksand-SemiBold", size: 32))
                                     .foregroundColor(.black)
                             }
@@ -139,48 +141,52 @@ struct ActivityView: View {
                     Text("Points")
                         .font(Font.custom("Quicksand-Medium", size: 24))
                         .padding(.top, 10)
+                        .padding(.bottom, 10)
                     ZStack {
                         Rectangle()
                             .foregroundColor(lightOrange)
-                            .frame(width: 361, height: 196)
+                            .frame(width: 361, height: 70)
                             .clipShape(.rect(cornerRadius: 14))
                             .padding(.top, -14)
-                        VStack {
+                        //VStack {
                             HStack {
                                 Text("Total")
                                     .font(Font.custom("Quicksand-SemiBold", size: 32))
                                     .foregroundColor(.black)
-                                    .padding(.trailing, 145)
-                                //Text("150")
+                                    //.padding(.trailing, 60)
+                                Spacer()
                                 Text("\(vm.current_user?.points ?? 0)")
                                     .font(Font.custom("Quicksand-SemiBold", size: 32))
                                     .foregroundColor(.black)
                                 Image("StarBadge")
                             }
-                            .padding(.bottom, 3)
+                            .padding()
+                            .padding(.bottom, 15)
+                            //.frame(width: UIScreen.main.bounds.size.width - 20)
                             
-                            Divider()
-                                .frame(maxWidth: 320, minHeight: 4)
-                                .background(.gray)
+//                            Divider()
+//                                .frame(maxWidth: 320, minHeight: 4)
+//                                .background(.gray)
+//                            
+//                            HStack {
+//                                VStack(alignment: .leading) {
+//                                    Text("Completed quiz")
+//                                    Text("Date + Time")
+//                                        .font(.system(size: 14))
+//                                        .foregroundColor(.cMedGray)
+//                                }
+//                                .padding(.trailing, 110)
+//                                Text("+10")
+//                                Image("StarBadge")
+//                                    .resizable()
+//                                    .frame(width: 20, height: 20)
+//                            }
+//                            .padding(.top, 15)
                             
-                            HStack {
-                                VStack(alignment: .leading) {
-                                    Text("Completed quiz")
-                                    Text("Date + Time")
-                                        .font(.system(size: 14))
-                                        .foregroundColor(.cMedGray)
-                                }
-                                .padding(.trailing, 110)
-                                Text("+10")
-                                Image("StarBadge")
-                                    .resizable()
-                                    .frame(width: 20, height: 20)
-                            }
-                            .padding(.top, 15)
-                            
-                        }
-                        .padding(.top, -70)
+                        //}
+                        //.padding(.top, -70)
                     }
+                    .frame(width: 361, height: 70)
                 }
             }
         
@@ -258,7 +264,7 @@ struct BadgePopUp: View {
     }
 }
 
-#Preview {
-    ActivityView(vm: ViewModel())
-}
+//#Preview {
+//    ActivityView(vm: ViewModel())
+//}
 

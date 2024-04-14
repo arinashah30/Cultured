@@ -50,7 +50,7 @@ struct HomeView: View {
                 .padding(.top, 10)
                 
                 
-                Text("Welcome to Mexico")
+                Text("Welcome to \(vm.get_current_country())")
                     .font(Font.custom("Quicksand-Semibold", size: 32))
                     .foregroundColor(.cDarkGray)
                     .padding(.leading, 10)
@@ -58,7 +58,7 @@ struct HomeView: View {
                 Button {
                     popUpOpen = true
                 } label: {
-                    Text("change destination")
+                    Text("Change Destination")
                         .font(.system(size: 16))
                         .foregroundColor(.cMedGray)
                         .padding(.bottom, 5)
