@@ -48,6 +48,79 @@ struct SelfProfileView: View {
                                 .offset(x: -115, y: -33)//this is hardcoded couldnt figure out a better way to do it
                         }
                     }
+                }
+                VStack{
+                    Text("\(vm.current_user?.name ?? "No user")")
+                        .font(Font.custom("Quicksand-Semibold", size: 32))
+                        .foregroundColor(.cDarkGray)
+                    
+                    Text("\(vm.current_user?.id ?? "No user")")
+                        .font(.system(size: 20))
+                        .foregroundColor(.cMedGray)
+                }
+                Text("My Challenges")
+                    .font(Font.custom("Quicksand", size:24))
+                    .foregroundColor(.cDarkGray)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .multilineTextAlignment(.leading)
+                    .padding([.top, .leading], 15)
+                
+                Image("PlaceHolderMap")
+                    .resizable()
+                    .frame(width: 354, height: 175)
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                Spacer()
+                //My Challenges
+                ZStack {
+                    Rectangle()
+                        .fill(Color.cLightGray)
+                        .frame(width:354, height: 68)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                    HStack{
+                        Image("MXFlag")
+                            .resizable()
+                            .frame(width: 51.4, height: 39.8)
+                        Text("Mexico")
+                            .font(.system(size: 20))
+                            .foregroundColor(Color.cDarkGray)
+                        Spacer()
+                        ZStack{
+                            Rectangle()
+                                .fill(Color.cOrange)
+                                .frame(width: 110, height: 33)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                            Text("In Progress")
+                                .font(.system(size: 20))
+                                .foregroundColor(Color.cDarkGray)
+                        }
+                    }
+                    .frame(width:330, height: 68)
+                    
+                }
+                // Second Challenges
+                ZStack {
+                    Rectangle()
+                        .fill(Color.cLightGray)
+                        .frame(width:354, height: 68)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                    HStack{
+                        Image("USFlag")
+                            .resizable()
+                            .frame(width: 51.4, height: 39.8)
+                        Text("United States")
+                            .font(.system(size: 20))
+                            .foregroundColor(Color.cDarkGray)
+                        Spacer()
+                        ZStack{
+                            Rectangle()
+                                .fill(Color.cOrange)
+                                .frame(width: 110, height: 33)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                            Text("In Progress")
+                                .font(.system(size: 20))
+                                .foregroundColor(Color.cDarkGray)
+                        }
+                    }
             }
             VStack{
                 Text("First Last")
