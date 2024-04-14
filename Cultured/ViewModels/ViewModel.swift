@@ -815,11 +815,10 @@ class ViewModel: ObservableObject {
     }
     
     
-    func updateProfilePic(userID: String, image: UIImage, completion: @escaping (Bool) -> Void) {
+    func updateProfilePic(userID: String, image: UIImage, completion: @escaping (URL) -> Void) {
         storeImageAndReturnURL(image: image) { url in
             guard let imageURL = url else {
                 print("Failed to get download URL")
-                completion(false)
                 return
             }
             
@@ -827,11 +826,10 @@ class ViewModel: ObservableObject {
             userDocument.updateData(["profilePicture": imageURL.absoluteString]) { error in
                 if let error = error {
                     print("Error updating document: \(error.localizedDescription)")
-                    completion(false)
+                    return
                 } else {
-                    print("GANDEN FUNG GOOD")
                     print("Document successfully updated with new profile picture URL")
-                    completion(true)
+                    completion(imageURL)
                 }
             }
         }
