@@ -34,6 +34,8 @@ struct MainView: View {
                  }.tag(TabSelection.profile)
         })
         .accentColor(.cDarkGray)
+        .onAppear() {
+        }
     }
 }
 

@@ -12,7 +12,7 @@ struct WordGuessingView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var vm: WordGuessingViewModel
     @State private var currentGuess: String = ""
-    @State private var localHasWon: Bool = false
+    @State var localHasWon: Bool = false
     
 
     let colors: [Color] = [Color("Gradient1"), Color("Gradient2"), Color("Gradient3"), Color("Gradient4"), Color("Gradient5"), Color("Gradient6"), Color("Gradient7"), Color("Gradient8"), Color("Gradient9")]
@@ -22,21 +22,8 @@ struct WordGuessingView: View {
             VStack {
                 if let game = vm.current_word_guessing_game {
                     HStack {
-                        Button {
-                            self.presentationMode.wrappedValue.dismiss()
-                        } label: {
-                            ZStack {
-                                Circle()
-                                    .frame(width: 50, height: 50)
-                                    .padding(.top, 5)
-                                    .padding(.leading, 20)
-                                    .foregroundColor(Color.black.opacity(0.1))
-                                Image("Arrow")
-                                    .padding(.top, 5)
-                                    .padding(.leading, 18)
-                            }
-                        }
-                        .padding(.trailing, 300)
+                        BackButton()
+                            .offset(x:UIScreen.main.bounds.size.width/100, y:UIScreen.main.bounds.size.height/50)
                     }
                     Spacer(minLength: 15)
                     HStack{
@@ -46,13 +33,14 @@ struct WordGuessingView: View {
                         Spacer(minLength: 190)
                         
                         Button(action: {
-                            vm.flipTile()
+                            vm.flipTile() {}
                         }) {
                             Text("Next hint")
                                 .font(.title3)
                                 .foregroundColor(.gray)
                                 .font(Font.custom("SF-Pro-Display-Light", size: 18))
                         }
+                        .disabled(vm.current_word_guessing_game!.current >= vm.current_word_guessing_game!.options.count - 1)
                         Spacer(minLength: 20)
                     }
                     
@@ -84,7 +72,7 @@ struct WordGuessingView: View {
                     
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
-                            ForEach(vm.guessesMade, id: \.self) { guess in
+                            ForEach(self.vm.get_reversed_history(), id: \.self) { guess in
                                 Text(guess)
                                     .foregroundColor(.red.opacity(0.5))
                                     .padding()
@@ -105,16 +93,18 @@ struct WordGuessingView: View {
                                     .stroke(Color.gray, lineWidth: 2)
                             )
                         Button("Enter") {
-                            if currentGuess != "" && vm.current_word_guessing_game?.numberOfGuesses != 0 {
-                                vm.submitGuess(currentGuess)
+                            if currentGuess != "" && vm.current_word_guessing_game!.history.count < vm.current_word_guessing_game!.current + 1 {
+                                vm.submitGuess(currentGuess) { result in
+                                    localHasWon = result
+                                }
                             }
                             currentGuess = ""
                         }
-                        .disabled(vm.current_word_guessing_game?.numberOfGuesses ?? 0 <= 0)
+                        .disabled(vm.current_word_guessing_game!.history.count == vm.current_word_guessing_game!.current + 1)
                         .font(Font.custom("SF-Pro-Display-Light", size: 19))
                         .foregroundColor(.black)
                         .frame(minWidth: 0, maxWidth: 71, minHeight: 45)
-                        .background(vm.current_word_guessing_game?.numberOfGuesses ?? 0 > 0 ? Color("EnterButtonColor") : Color.black.opacity(0.1))
+                        .background(vm.current_word_guessing_game!.history.count == vm.current_word_guessing_game!.current ? Color("EnterButtonColor") : Color.black.opacity(0.1))
                         .cornerRadius(10)
                         Spacer(minLength: 20)
                     }
@@ -123,13 +113,10 @@ struct WordGuessingView: View {
                         .padding()
                 }
             }
-            .onAppear {
-                vm.create_mock_wg_game()
-            }
-            .onReceive(vm.$hasWon) { newHasWon in
-                        self.localHasWon = newHasWon
-                    }
-            .popup(isPresented: $vm.isOver) {
+//            .onReceive(vm.current_word_guessing_game.hasWon) { newHasWon in
+//                        self.localHasWon = newHasWon
+//                    }
+            .popup(isPresented: $localHasWon) {
                 ZStack {
                     WordGuessingResultsView(vm: vm)
                 }
@@ -140,5 +127,5 @@ struct WordGuessingView: View {
 }
 
 #Preview {
-    WordGuessingView(vm: WordGuessingViewModel())
+    WordGuessingView(vm: WordGuessingViewModel(viewModel: ViewModel()))
 }

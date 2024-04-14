@@ -13,29 +13,42 @@ import FirebaseStorage
 
 class ViewModel: ObservableObject {
     @Published var current_user: User? = nil
+    @Published var quizViewModel: QuizViewModel? = nil
+    @Published var connectionsViewModel: ConnectionsViewModel? = nil
+    @Published var wordGuessingViewModel: WordGuessingViewModel? = nil
     let db = Firestore.firestore();
     let auth = Auth.auth();
     @Published var errorText: String? = nil
+    var onSetupCompleted: ((ViewModel) -> Void)?
     //@Published var points: Int = 100
     
     init(current_user: User? = nil, errorText: String? = nil) {
-        self.current_user = current_user
-        self.errorText = errorText
-        
-        _ = Auth.auth().addStateDidChangeListener { [weak self] auth, user in
-            if let user = user {
-                print("User Found")
-                if let username = user.displayName {
-                    print("Setting User: \(username)")
-                    self?.setCurrentUser(userId: username) {
-                        UserDefaults.standard.setValue(true, forKey: "log_Status")
+        if self.current_user == nil {
+            self.current_user = current_user
+            self.errorText = errorText
+            
+            
+            _ = Auth.auth().addStateDidChangeListener { [weak self] auth, user in
+                if let user = user {
+                    print("User Found")
+                    if let username = user.displayName {
+                        if !(current_user != nil && current_user!.id == username) {
+                            print("Setting User: \(username)")
+                            self?.setCurrentUser(userId: username) { user in
+                                UserDefaults.standard.setValue(true, forKey: "log_Status")
+                            }
+                        }
                     }
+                } else {
+                    UserDefaults.standard.setValue(false, forKey: "log_Status")
                 }
-            } else {
-                UserDefaults.standard.setValue(false, forKey: "log_Status")
             }
         }
     }
+    
+    func configure() {
+            onSetupCompleted?(self)
+        }
     
     /*
      ----------------------------------------------------------------------------------------------
@@ -65,7 +78,24 @@ class ViewModel: ObservableObject {
                 completion(false)
             }
             else {
-                UserDefaults.standard.setValue(true, forKey: "log_Status")
+                
+                self.db.collection("USERS").whereField("email", isEqualTo: email).getDocuments { documents, error in
+                    if let err = error {
+                        print(err.localizedDescription)
+                        completion(false)
+                    } else {
+                        if let docs = documents {
+                            for doc in docs.documents {
+                                let id = doc.data()["id"] as! String
+                                self.setCurrentUser(userId: id, completion: { user in
+                                    UserDefaults.standard.setValue(true, forKey: "log_Status")
+                                    completion(true)
+                                })
+                            }
+                        }
+                    }
+                }
+                
                 self.updateLastLoggedOn(email: email) { success in
                     if success {
                         print("lastLoggedOn field updated successfully")
@@ -73,12 +103,11 @@ class ViewModel: ObservableObject {
                         print("Failed to update lastLoggedOn field")
                     }
                 }
-                completion(true)
             }
         }
     }
     
-    func firebase_email_password_sign_up_(email: String, password: String, username: String) {
+    func firebase_email_password_sign_up_(email: String, password: String, username: String, completion: @escaping (Bool) -> ()) {
         auth.createUser(withEmail: email, password: password) { authResult, error in
             if let errorSignUp = error {
                 let firebaseError = AuthErrorCode.Code(rawValue: errorSignUp._code)
@@ -90,6 +119,7 @@ class ViewModel: ObservableObject {
                 default:
                     self.errorText = "An error has occurred"
                 }
+                completion(false)
             } else if let user = authResult?.user {
                 let currentDate = Date()
                 let dateFormatter = DateFormatter()
@@ -101,6 +131,7 @@ class ViewModel: ObservableObject {
                 changeRequest.commitChanges { error in
                     if let error = error {
                         print(error.localizedDescription)
+                        completion(false)
                     }
                 }
                 self.db.collection("USERS").document(username).setData(
@@ -119,9 +150,11 @@ class ViewModel: ObservableObject {
                     ] as [String : Any]) { error in
                         if let error = error {
                             self.errorText = error.localizedDescription
+                            completion(false)
                         } else {
-                            self.setCurrentUser(userId: username) {
+                            self.setCurrentUser(userId: username) { user in
                                 UserDefaults.standard.setValue(true, forKey: "log_Status")
+                                completion(true)
                             }
                         }
                     }
@@ -132,7 +165,9 @@ class ViewModel: ObservableObject {
     func firebase_sign_out() {
         do {
             try auth.signOut()
+            current_user = nil
         } catch let signOutError as NSError {
+        
             print("Error signing out: %@", signOutError)
         }
     }
@@ -171,6 +206,50 @@ class ViewModel: ObservableObject {
         }
     }
     
+    func getInfoFood(countryName: String, completion: @escaping (Food) -> Void) {
+                self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("FOOD").getDocument { document, error in
+                    if let err = error {
+                        print(err.localizedDescription)
+                        return
+                    } else {
+                        if let doc = document {
+                            if let data = doc.data() {
+                                
+                                let regional = data["regional"] as? [String : String] ?? [:]
+                                let seasonal = data["seasonal"] as? [String : String] ?? [:]
+                                
+                                let food = Food(regional: regional, seasonal: seasonal)
+                                //                        print (info)
+                                completion(food)
+                            }
+                        }
+                    }
+                }
+            }
+    
+    func getInfoTvMovie(countryName: String, completion: @escaping (TvMovie) -> Void) {
+                self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("TVMOVIE").getDocument { document, error in
+                        if let err = error {
+                            print(err.localizedDescription)
+                            return
+                        } else {
+                            if let doc = document {
+                                if let data = doc.data() {
+                                    
+                                    let actors = data["actors"] as? [String] ?? []
+                                    let classics = data["classics"] as? [String] ?? []
+                                    
+                                    let tvMovie = TvMovie(actors: actors, classics: classics)
+                                    //                        print (info)
+                                    completion(tvMovie)
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+    
     func createNewCountry(countryName: String, lattitude: Double, longitude: Double) {
         let countryRef = db.collection("COUNTRIES").document(countryName)
         countryRef.setData(["population": 5000, "lattitude": lattitude, "longitude": longitude])
@@ -196,30 +275,30 @@ class ViewModel: ObservableObject {
     }
     
     func getInfoLandmarks(countryName: String, completion: @escaping (Landmarks) -> Void) {
-            self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("LANDMARKS").getDocument { document, error in
-                if let error = error {
-                    print(error.localizedDescription)
-                    completion(Landmarks())
-                    return
-                }
-                guard let document = document, document.exists else {
-                    print("Document Doesn't Exist")
-                    completion(Landmarks())
-                    return
-                }
+          self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("LANDMARKS").getDocument { document, error in
+              if let error = error {
+                  print(error.localizedDescription)
+                  completion(Landmarks())
+                  return
+              }
+              guard let document = document, document.exists else {
+                  print("Document Doesn't Exist")
+                  completion(Landmarks())
+                  return
+              }
 
-                guard let data = document.data(), !data.isEmpty else {
-                    print("Data is Nil or Data is Empty")
-                    completion(Landmarks())
-                    return
-                }
+              guard let data = document.data(), !data.isEmpty else {
+                  print("Data is Nil or Data is Empty")
+                  completion(Landmarks())
+                  return
+              }
 
-                var landmarkMap = [String : String]()
-                landmarkMap = data["landmarks"] as? [String : String] ?? [:]
-                let landmarkObject = Landmarks(landmarkMap: landmarkMap)
-                completion(landmarkObject)
-            }
-        }
+              var landmarkMap = [String : String]()
+              landmarkMap = data["landmarks"] as? [String : String] ?? [:]
+              let landmarkObject = Landmarks(landmarkMap: landmarkMap)
+              completion(landmarkObject)
+          }
+      }
 
   func getInfoEtiquettes(countryName: String, completion: @escaping (Etiquette) -> Void) {
         self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("ETIQUETTE").getDocument { document, error in
@@ -244,6 +323,32 @@ class ViewModel: ObservableObject {
             etiquetteMap = data["etiquettes"] as? [String : String] ?? [:]
             let etiquetteObject = Etiquette(etiquetteMap: etiquetteMap)
             completion(etiquetteObject)
+        }
+    }
+  
+   func getInfoCelebrities(countryName: String, completion: @escaping (Celebrities) -> Void) {
+        self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("CELEBRITIES").getDocument { document, error in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(Celebrities())
+                return
+            }
+            guard let document = document, document.exists else {
+                print("Document Doesn't Exist")
+                completion(Celebrities())
+                return
+            }
+
+            guard let data = document.data(), !data.isEmpty else {
+                print("Data is Nil or Data is Empty")
+                completion(Celebrities())
+                return
+            }
+
+            var celebritiesMap = [String : String]()
+            celebritiesMap = data["celebrities"] as? [String : String] ?? [:]
+            let celebritiesObject = Celebrities(celebritiesMap: celebritiesMap)
+            completion(celebritiesObject)
         }
     }
     
@@ -273,6 +378,127 @@ class ViewModel: ObservableObject {
             completion(sportsObject)
         }
     }
+  
+    func getInfoTraditions(countryName: String, completion: @escaping (Traditions) -> Void) {
+        self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("TRADITIONS").getDocument { document, error in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(Traditions())
+                return
+            }
+            guard let document = document, document.exists else {
+                print("Document Doesn't Exist")
+                completion(Traditions())
+                return
+            }
+            
+            guard let data = document.data(), !data.isEmpty else {
+                print("Data is Nil or Data is Empty")
+                completion(Traditions())
+                return
+            }
+            
+            let traditionsDictionary = data["traditions"] as? [String : String] ?? [:]
+            let traditionsObject = Traditions(traditionsDictionary: traditionsDictionary)
+            completion(traditionsObject)
+        }
+    }
+    
+  func getInfoDance(countryName: String, completion: @escaping (Dance) -> Void) {
+        self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("DANCE").getDocument { document, error in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(Dance())
+                return
+            }
+            guard let document = document, document.exists else {
+                print("Document Doesn't Exist")
+                completion(Dance())
+                return
+            }
+            
+            guard let data = document.data(), !data.isEmpty else {
+                print("Data is Nil or Data is Empty")
+                completion(Dance())
+                return
+            }
+            
+            let danceDictionary = data["dances"] as? [String : String] ?? [:]
+            let danceObject = Dance(danceDictionary: danceDictionary)
+            completion(danceObject)
+        }
+    }
+  
+    func getInfoMajorCities(countryName: String, completion: @escaping (MajorCities) -> Void) {
+                self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("MAJORCITIES").getDocument { document, error in
+                    if let error = error {
+                        print(error.localizedDescription)
+                        completion(MajorCities())
+                        return
+                    }
+                    guard let document = document, document.exists else {
+                        print("Document Doesn't Exist")
+                        completion(MajorCities())
+                        return
+                    }
+                    guard let data = document.data(), !data.isEmpty else {
+                        print("Data is Nil or Data is Empty")
+                        completion(MajorCities())
+                        return
+                    }
+                    var majorCitiesMap = [String : String]()
+                    majorCitiesMap = data["major cities"] as? [String : String] ?? [:]
+                    let majorCitiesObject = MajorCities(majorCitiesMap: majorCitiesMap)
+                    completion(majorCitiesObject)
+                }
+    }
+  func getInfoMusic(countryName: String, completion: @escaping (Music) -> Void) {
+        self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("MUSIC").getDocument { document, error in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(Music())
+                return
+            }
+            guard let document = document, document.exists else {
+                print("Document Doesn't Exist")
+                completion(Music())
+                return
+            }
+            
+            guard let data = document.data(), !data.isEmpty else {
+                print("Data is Nil or Data is Empty")
+                completion(Music())
+                return
+            }
+            
+            let classicsDict = data["classics"] as? [String : String] ?? [:]
+            let stylesDict = data["styles"] as? [String: String] ?? [:]
+            //let traditionsObject = Traditions(traditionsDictionary: traditionsDictionary)
+            var artists: [String] = []
+            var title: [String] = []
+            var link: [String] = []
+
+            var i = 0
+            for (titleArtist, youtubeLink) in classicsDict {
+                let components = titleArtist.split(separator: "|").map(String.init)
+                if components.count == 2 {
+                    var title2 = components[0].trimmingCharacters(in: .whitespaces)
+                    var artist3 = components[1].trimmingCharacters(in: .whitespaces)
+                    title2 = String(title2)
+                    artist3 = String(artist3)
+                    title.append(title2)
+                    artists.append(artist3)
+                    link.append(youtubeLink)
+                }
+                //increase i for the next iteration
+                i = i + 1
+                
+            }
+            let musicObject = Music(title: title, artist: artists, link: link, styles: stylesDict)
+            completion(musicObject)
+        }
+    }
+  
     
     /*-------------------------------------------------------------------------------------------------*/
     
@@ -282,25 +508,44 @@ class ViewModel: ObservableObject {
      -----------------------------------------------------------------------------------------------
      */
     
-    func setCurrentUser(userId: String, completion: @escaping (() -> Void)) {
-        db.collection("USERS").document(userId).getDocument (completion: { [weak self] document, error in
-            if let error = error {
-                print("SetCurrentUserError: \(error.localizedDescription)")
-            } else if let document = document {
-                self?.current_user = User(id: document.documentID,
-                                          name: document["name"] as! String,
-                                          profilePicture: document["profilePicture"] as! String,
-                                          email: document["email"] as! String,
-                                          points: document["points"] as? Int ?? 0,
-                                          streak: document["streak"] as? Int ?? 0,
-                                          streakRecord: document["streakRecord"] as? Int ?? 0,
-                                          completedChallenges: document["completedChallenges"] as? [String] ?? [],
-                                          badges: document["badges"] as? [String] ?? [],
-                                          savedArtists: document["savedArtists"] as? [String] ?? []
-                )
-                completion()
+    func setCurrentUser(userId: String, completion: @escaping ((User?) -> Void)) {
+        if userId.isEmpty {
+            completion(nil)
+        }  else {
+            if current_user == nil {
+                db.collection("USERS").document(userId).getDocument (completion: { document, error in
+                    if let error = error {
+                        print("SetCurrentUserError: \(error.localizedDescription)")
+                        completion(nil)
+                    } else if let document = document {
+                        self.current_user = User(id: document.documentID,
+                                                 name: document["name"] as! String,
+                                                 profilePicture: document["profilePicture"] as! String,
+                                                 email: document["email"] as! String,
+                                                 points: document["points"] as? Int ?? 0,
+                                                 streak: document["streak"] as? Int ?? 0,
+                                                 streakRecord: document["streakRecord"] as? Int ?? 0,
+                                                 completedChallenges: document["completedChallenges"] as? [String] ?? [],
+                                                 badges: document["badges"] as? [String] ?? [],
+                                                 savedArtists: document["savedArtists"] as? [String] ?? [],
+                                                 country: document["currentCountry"] as? String ?? ""
+                        )
+                        self.connectionsViewModel = ConnectionsViewModel(viewModel: self)
+                        self.wordGuessingViewModel = WordGuessingViewModel(viewModel: self)
+                        self.quizViewModel = QuizViewModel(viewModel: self)
+                        self.quizViewModel!.load_quizzes() { result in
+                        }
+                        self.wordGuessingViewModel!.load_word_guessings() { result in
+                        }
+                        self.connectionsViewModel!.load_connections() { result in
+                        }
+                        completion(self.current_user)
+                    }
+                })
+            } else {
+                completion(self.current_user)
             }
-        })
+        }
     }
     
     func getWordGameFromFirebase(activityName: String, completion: @escaping (WordGuessing?) -> Void) {
@@ -326,16 +571,25 @@ class ViewModel: ObservableObject {
             let title = data["title"] as? String ?? ""
             let answer = data["answer"] as? String ?? ""
             let options = data["hints"] as? [String] ?? []
+            let winCount = data["winCount"] as? [String : Int] ?? [:]
             
             var optionTileArray = [OptionTile]()
             for option in options {
                 optionTileArray.append(OptionTile(option: option,
                                                   isFlipped: false))
             }
-
+            
+            var winCountArray: [Int] = []
+            for i in 0..<10 {
+                var stringI = String(i)
+                winCountArray.append(winCount[stringI] as! Int)
+            }
+            
+            
             let wordGuessing = WordGuessing(title: title,
                                             options: optionTileArray,
-                                            answer: answer)
+                                            answer: answer,
+                                            stats: winCountArray)
             completion(wordGuessing)
         }
     }
@@ -358,7 +612,7 @@ class ViewModel: ObservableObject {
             }
             let title = data["title"] as? String ?? ""
             let answerKey = data["answerKey"] as? [String : [String]] ?? [:]
-            let connections = Connections(title: title, answerKey: answerKey)
+            let connections = Connections(title: title, answer_key: answerKey)
             completion(connections)
         }
     }
@@ -390,16 +644,16 @@ class ViewModel: ObservableObject {
                     var questionsArray = [QuizQuestion]()
                     for questionsDocuments in querySnapshot!.documents {
                         let questionData = questionsDocuments.data()
+                        //print("DataQ: \(questionData)")
                         let question = questionsDocuments.documentID
-                        if let quizQuestion = self.parseQuestionData(questionData, question) {
-                            questionsArray.append(quizQuestion)
-                        }
+                        questionsArray.append(QuizQuestion(question: question, answers: questionData["answerChoices"] as! [String], correctAnswer: questionData["correctAnswer"] as! Int, correctAnswerDescription: questionData["correctAnswerDescription"] as! String))
                     }
+                    //print("QArray: \(questionsArray)")
                     let quiz = Quiz(title: title,
                                     questions: questionsArray,
                                     points: 0,
-                                    pointsGoal: 0,
-                                    currentQuestion: 0)
+                                    currentQuestion: 0,
+                                    completed: data["completed"] as? Bool ?? false)
                     completion(quiz)
                 }
             }
@@ -414,7 +668,7 @@ class ViewModel: ObservableObject {
      -----------------------------------------------------------------------------------------------
      */
     
-    func update_points(userID: String, pointToAdd: Int, completion: @escaping (Bool) -> Void) {
+    func update_points(userID: String, pointToAdd: Int, completion: @escaping (Int) -> Void) {
         db.collection("USERS").document(userID).getDocument { [self] document, error in
             if let err = error {
                 print(err.localizedDescription)
@@ -427,19 +681,20 @@ class ViewModel: ObservableObject {
                         db.collection("USERS").document(userID).updateData(["points": totalPoints])  { error in
                             if let error = error {
                                 print("Error updating document: \(error.localizedDescription)")
-                                completion(false)
+                                completion(totalPoints)
                             } else {
                                 // Document updated successfully
-                                completion(true)
+                                print("ADDING POINTS \(totalPoints)")
+                                completion(totalPoints)
                             }
                         }
                     } else {
                         print("Document data is nil")
-                        completion(false)
+                        completion(0)
                     }
                 } else {
                     print("Document does not exist")
-                    completion(false)
+                    completion(0)
                 }
             }
             
@@ -568,6 +823,44 @@ class ViewModel: ObservableObject {
             }
         }
     }
+    
+    
+    func updateProfilePic(userID: String, image: UIImage, completion: @escaping (Bool) -> Void) {
+        storeImageAndReturnURL(image: image) { url in
+            guard let imageURL = url else {
+                print("Failed to get download URL")
+                completion(false)
+                return
+            }
+            
+            let userDocument = self.db.collection("USERS").document(userID)
+            userDocument.updateData(["profilePicture": imageURL.absoluteString]) { error in
+                if let error = error {
+                    print("Error updating document: \(error.localizedDescription)")
+                    completion(false)
+                } else {
+                    print("GANDEN FUNG GOOD")
+                    print("Document successfully updated with new profile picture URL")
+                    completion(true)
+                }
+            }
+        }
+    }
+    func getProfilePic(userID: String, completion: @escaping (UIImage?) -> Void) {
+        let userDocument = db.collection("USERS").document(userID)
+        
+        userDocument.getDocument { (document, error) in
+            if let document = document, document.exists, let data = document.data(), let urlString = data["profilePicture"] as? String {
+                self.getImageFromURL(urlString: urlString) { image in
+                    completion(image)
+                }
+            } else {
+                print("Document does not exist or URL could not be retrieved")
+                completion(nil)
+            }
+        }
+    }
+
     
     //Return "true" if streak is incremented or stays same
     //Return "false" if streak is reset to 0
@@ -721,16 +1014,28 @@ class ViewModel: ObservableObject {
                 return
             }
             self.db.collection("USERS").document(userID).updateData([
-                    "currentCountry": countryNameUppercased
+                    "currentCountry": countryName
                 ]) { err in
                     if let err = error {
                         print(err.localizedDescription)
                         completion(false)
                     } else {
+                        self.current_user?.country = countryName
                         completion(true)
                     }
                 }
         }
+    }
+    
+    func get_current_country() -> String {
+        var result = ""
+        for char in current_user?.country ?? "" {
+            if char.isUppercase {
+                result.append(" ")
+            }
+            result.append(char)
+        }
+        return result.trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
     
@@ -743,25 +1048,25 @@ class ViewModel: ObservableObject {
      Manage user's ongoing/completed activities
      -----------------------------------------------------------------------------------------------
      */
-    
-    func addOnGoingActivity(userID: String, country: String, numQuestions: Int, titleOfActivity: String, typeOfActivity: String, completion: @escaping (Bool) -> Void) {
-        db.collection("USERS").document(userID).collection("ACTIVITIES").document("\(country)\(titleOfActivity)").setData(
+    func addOnGoingActivity(userID: String, numQuestions: Int = 0, titleOfActivity: String, typeOfActivity: String, completion: @escaping (Bool) -> Void) {
+        db.collection("USERS").document(userID).collection("ACTIVITIES").document(titleOfActivity).setData(
             ["completed": false,
-
+             
              "current": 0,
-
+             
              "history": [],
-
+             
              "score": 0,
-
+             
              "numberOfQuestions": numQuestions,
-
-             "type": typeOfActivity, //MUST be "quiz", "connection", or "wordgame"
+             
+             "type": typeOfActivity.lowercased(), //MUST be "quiz", "connection", or "wordgame"
             ])
-            completion(true)
-        }
+        completion(true)
+    }
     
-    func getOnGoingActivities(userId: String, type: String, completion: @escaping([String : [String : Any]]) -> Void) {
+    
+    func getAllActivitiesOfType(userId: String, type: String, completion: @escaping([String : [String : Any]]) -> Void) {
         db.collection("USERS").document(userId).collection("ACTIVITIES").whereField("type", isEqualTo: type).getDocuments { (querySnapshot, error) in
             if let error = error {
                 print("Error Getting Documents \(error)")
@@ -771,7 +1076,7 @@ class ViewModel: ObservableObject {
                 for document in querySnapshot!.documents {
                     let data = document.data()
                     let completed = data["completed"] as? Bool ?? false
-                    if !completed {
+                    //if !completed {
                         
                         let current = data["current"] as? Int ?? 0
                         let history = data["history"] as? [String] ?? []
@@ -789,11 +1094,13 @@ class ViewModel: ObservableObject {
                         
                         let nameOfActivity = document.documentID
                         activityDictionary[nameOfActivity] = typeDictionary
-                    }
+                    //}
                 }
                 completion(activityDictionary)
             }
+            //completion([:])
         }
+        //completion([:])
     }
     
     func getAllCompletedActivities(userId: String, type: String, completion: @escaping([String : [String : Any]]) -> Void) {
@@ -923,13 +1230,13 @@ class ViewModel: ObservableObject {
                 completion(false)
                 return
             }
-            guard let document = document, document.exists, var currentCounter = document.data()?["counter"] as? Int else {
+            guard let document = document, document.exists, var currentCounter = document.data()?["current"] as? Int else {
                 print("Document does not exist")
                 completion(false)
                 return
             }
             currentCounter = currentCounter + 1
-            self.db.collection("USERS").document(userID).collection("ACTIVITIES").document(activityName).updateData(["counter": currentCounter]) { err in
+            self.db.collection("USERS").document(userID).collection("ACTIVITIES").document(activityName).updateData(["current": currentCounter]) { err in
                 if let err = err {
                     print("Error updating document: \(err.localizedDescription)")
                     completion(false)
@@ -1017,29 +1324,12 @@ class ViewModel: ObservableObject {
         }
     }
     
-    
-    func addOnGoingActivity(userID: String, numQuestions: Int, titleOfActivity: String, typeOfActivity: String, completion: @escaping (Bool) -> Void) {
-        db.collection("USERS").document(userID).collection("ACTIVITIES").document(titleOfActivity).setData(
-            ["completed": false,
-             
-             "current": 0,
-             
-             "history": [],
-             
-             "score": 0,
-             
-             "numberOfQuestions": numQuestions,
-             
-             "type": typeOfActivity, //MUST be "quiz", "connection", or "wordgame"
-            ])
-        completion(true)
-    }
-    
     func createNewConnections(connection: Connections) {
         let connectionsReference = db.collection("GAMES").document(connection.title)
+        let answerKeyDict = convertAnswerKeyToStringDict(answerKey: connection.answer_key)
         connectionsReference.setData(
             ["title": connection.title,
-             "answerKey": connection.answerKey
+             "answerKey": answerKeyDict
             ]) { error in
                 if let error = error {
                     print("Error writing game document: \(error.localizedDescription)")
@@ -1088,9 +1378,7 @@ class ViewModel: ObservableObject {
     
     func optionToDictionary(option: Connections.Option) -> [String: Any] {
         return [
-            "id": option.id,
             "isSelected": option.isSelected,
-            "isSubmitted": option.isSubmitted,
             "content": option.content,
             "category": option.category
         ]
@@ -1128,9 +1416,7 @@ class ViewModel: ObservableObject {
         let isSubmitted = optionData["isSubmitted"] as? Bool ?? false
         let content = optionData["content"] as? String ?? ""
         let category = optionData["category"] as? String ?? ""
-        return Connections.Option(id: id,
-                                  isSelected: isSelected,
-                                  isSubmitted: isSubmitted,
+        return Connections.Option(isSelected: isSelected,
                                   content: content,
                                   category: category)
         
@@ -1169,6 +1455,15 @@ class ViewModel: ObservableObject {
                 }
             }
         }
+    }
+    
+    func convertAnswerKeyToStringDict(answerKey: [String: [Connections.Option]]) -> [String: [String]] {
+        var stringDict: [String: [String]] = [:]
+        for (key, options) in answerKey {
+            let strings = options.map { $0.content }
+            stringDict[key] = strings
+        }
+        return stringDict
     }
     
     /*-------------------------------------------------------------------------------------------------*/
@@ -1370,7 +1665,7 @@ class ViewModel: ObservableObject {
         
         return (firstNSongs, artists)
     }
-    /*-------------------------------------------------------------------------------------------------*/
+    
     
     func getWinCountDictionary(nameOfWordgame: String, completion: @escaping([String : Int]) -> Void) {
         
@@ -1413,4 +1708,60 @@ class ViewModel: ObservableObject {
             }
         }
     }
+    
+    func storeImageAndReturnURL(image: UIImage, completion: @escaping (URL?) -> Void) {
+        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
+            completion(nil)
+            return
+        }
+            // create random image path
+        let imagePath = "images/\(UUID().uuidString).jpg"
+        let storageRef = Storage.storage().reference()
+        // create reference to file you want to upload
+        let imageRef = storageRef.child(imagePath)
+
+        //upload image
+        DispatchQueue.main.async {
+            let uploadTask = imageRef.putData(imageData, metadata: nil) { (metadata, error) in
+                if let error = error {
+                    print("Error uploading image: (error.localizedDescription)")
+                    print("GANDEN FUNG BAD")
+                    completion(nil)
+                } else {
+                    // Image successfully uploaded
+                    imageRef.downloadURL { url, error in
+                        if let downloadURL = url {
+                            completion(downloadURL)
+                        } else {
+                            print("Error getting download URL: (String(describing: error?.localizedDescription))")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    func getImageFromURL(urlString: String, completion: @escaping (UIImage?) -> Void) {
+        guard let url = URL(string: urlString) else {
+            print("Invalid URL string: \(urlString)")
+            completion(nil)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            DispatchQueue.main.async {
+                if let error = error {
+                    print("Error loading image from URL: \(error.localizedDescription)")
+                    completion(nil)
+                } else if let data = data, let image = UIImage(data: data) {
+                    completion(image)
+                } else {
+                    print("Could not load image from URL: \(urlString)")
+                    completion(nil)
+                }
+            }
+        }.resume()
+    }
+    
+    /*-------------------------------------------------------------------------------------------------*/
 }
