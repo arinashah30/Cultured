@@ -12,6 +12,9 @@ struct LeaderboardEntry: View {
     var rank: Int
     var username: String
     var avatar: Image
+    var streak: Int
+    var badges: Int
+    var points: Int
     
     
     var body: some View {
@@ -41,12 +44,15 @@ struct LeaderboardEntry: View {
                         Image("FireBadge")
                             .resizable()
                             .frame(width: 22, height: 25)
+                        Text(streak.description)
                         Image("StarBadge")
                             .resizable()
                             .frame(width: 22, height: 25)
+                        Text(points.description)
                         Image("ShieldBadge")
                             .resizable()
                             .frame(width: 22, height: 25)
+                        Text(badges.description)
                     }
                 }
             }
@@ -56,12 +62,7 @@ struct LeaderboardEntry: View {
 
 struct LeaderboardView: View {
     @ObservedObject var vm: ViewModel
-    let users: [(username: String, points: Int)] = [
-            ("User1", 120),
-            ("User2", 150),
-            ("User3", 110),
-            ("User4", 130)
-        ].sorted(by: { $0.points > $1.points })
+    @State var users: [(String, Int, Int, Int, String)]
     
     var body: some View {
 
@@ -120,14 +121,21 @@ struct LeaderboardView: View {
             }
             ScrollView {
                 VStack {
-                    ForEach(Array(users.enumerated()), id: \.element.username) { index, user in
-                        LeaderboardEntry(vm: ViewModel(), rank: index + 1, username: user.username, avatar: Image(systemName: "person.fill"))
-                            .padding(.vertical, 4)
-                    }
+                    ForEach(Array(users.enumerated()), id: \.element.0) { index, user in
+                        LeaderboardEntry(vm: vm, rank: index + 1, username: user.0, avatar: vm.getPro, streak: user.2, badges: user.3, points: user.1)
+                                                .padding(.vertical, 4)
+                                        }
                 }
             }
             
         }
+        .onAppear(perform: {
+            vm.getLeaderBoardInfo(completion: { users in
+                if let users = users {
+                    self.users = users
+                }
+            })
+        })
     }
 }
 

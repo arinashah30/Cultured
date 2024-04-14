@@ -1179,22 +1179,25 @@ class ViewModel: ObservableObject {
      -----------------------------------------------------------------------------------------------
      */
     
-    func getLeaderBoardInfo(completion: @escaping([(String, Int)]?) -> Void) {
+    func getLeaderBoardInfo(completion: @escaping([(String, Int, Int, Int, String)]?) -> Void) {
         let usersCollectionReference = db.collection("USERS")
         usersCollectionReference.whereField("points", isGreaterThan: 0).order(by: "points", descending: true).limit(to: 20).getDocuments { (querySnapshot, error) in
             if let error = error {
                 print("Error getting Documents \(error)")
                 completion(nil)
             } else {
-                var topUsers: [(String, Int)] = []
+                var topUsers: [(String, Int, Int, Int, String)] = []
                 print(topUsers.count)
                 for document in querySnapshot!.documents {
                     let data = document.data()
                     let id = data["id"] as? String ?? ""
                     let points = data["points"] as? Int ?? 0
+                    let streak = data["streak"] as? Int ?? 0
+                    let badges = (data["badges"] as? [String] ?? []).count
+                    let profilePicture = (data["profilePicture"] as? String ?? "https://static-00.iconduck.com/assets.00/person-crop-circle-icon-256x256-02mzjh1k.png")
                     
                     // Add the user ID and streak to the topUsers dictionary
-                    topUsers.append((id, points))
+                    topUsers.append((id, points, streak, badges, profilePicture))
                 }
                 completion(topUsers)
             }
