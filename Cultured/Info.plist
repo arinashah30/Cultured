@@ -4,6 +4,17 @@
 <dict>
 	<key>UILaunchScreen</key>
 	<dict>
+		<key>UILaunchScreen</key>
+		<dict>
+			<key>UIColorName</key>
+			<string>gradient3</string>
+			<key>UIImageName</key>
+			<string>splashpage</string>
+		</dict>
+		<key>UIColorName</key>
+		<string>gradient3</string>
+		<key>UIImageRespectsSafeAreaInsets</key>
+		<false/>
 		<key>UIImageName</key>
 		<string>splashpage</string>
 	</dict>
