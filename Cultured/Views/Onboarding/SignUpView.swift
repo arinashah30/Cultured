@@ -13,6 +13,8 @@ struct SignUpView: View {
     @State private var password: String = ""
     @State private var repeatPassword = ""
     @State private var username: String = ""
+    private let screenWidth = UIScreen.main.bounds.size.width
+    private let screenHeight = UIScreen.main.bounds.size.height
     
     var body: some View {
         NavigationStack {
@@ -20,10 +22,13 @@ struct SignUpView: View {
                 ZStack{
                     Image("SignInBanner")
                         .resizable()
-                        .frame(width: 393, height: 200)
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: screenWidth, height: screenHeight / 4)
+                        .padding(.top, -8)
                     Image("CulturedTitle")
                         .resizable()
-                        .frame(width:126, height:29)
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width:screenWidth * 2/3, height: screenHeight / 1/5)
                     
                 }
                 
