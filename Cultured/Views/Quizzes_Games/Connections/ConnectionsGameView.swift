@@ -10,7 +10,6 @@ import SwiftUI
 struct ConnectionsGameView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var vm: ConnectionsViewModel
-    @State var one_away: Bool = false
     @State var already_guessed: Bool = false
     @State var goHome: Bool = false
     var colors: [Color] = [.red, .orange, .green, .blue]
@@ -62,11 +61,11 @@ struct ConnectionsGameView: View {
                 Spacer()
             }
             
-            if one_away {
+            if vm.one_away {
                 temp_alert_one_away
             }
-            
-            if already_guessed {
+                    
+            if vm.already_guessed {
                 temp_alert_already_guessed
             }
         }
@@ -218,35 +217,25 @@ struct ConnectionsGameView: View {
     }
     
     var submit: some View {
-            Button(action: {
-                vm.submit() {}
+        Button(action: {
+            vm.submit() {}
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    vm.reset_alerts()
+                }
+        }) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 30.0)
+                    .frame(width: 180, height: 50)
+                    .foregroundStyle(.orange)
+                    .opacity(vm.selection.count < 4 ? 0.4 : 0.4)
                 
-                if vm.one_away == true {
-                    one_away = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                        self.one_away = false
-                    }
-                } else if vm.already_guessed == true {
-                    already_guessed = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                        self.already_guessed = false
-                    }
-                }
-                vm.reset_alerts()
-            }) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 30.0)
-                        .frame(width: 180, height: 50)
-                        .foregroundStyle(.orange)
-                        .opacity(vm.selection.count < 4 ? 0.4 : 0.4)
-                    
-                    Text("Submit")
-                    
-                        .font(.system(size: 20))
-                        .foregroundStyle(.black)
-                }
+                Text("Submit")
+                
+                    .font(.system(size: 20))
+                    .foregroundStyle(.black)
             }
         }
+    }
     
     var back_home: some View {
             Button(action: {
