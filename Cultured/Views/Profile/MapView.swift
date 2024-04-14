@@ -15,16 +15,16 @@ struct MapView: View {
     @State private var position: MapCameraPosition
     @Binding var showFullMap: Bool
     var locations: [Location]
-//    var countries: [String]
+    var completedCountries: [String]
 
     
-    init(vm: ViewModel, showFullMap: Binding<Bool>) {
+    init(vm: ViewModel, showFullMap: Binding<Bool>, completedCountries: [String]) {
         self.vm = vm
 //        self.locations = [
 //            Location(name: "Mexico", coordinate: CLLocationCoordinate2D(latitude: 19.432608, longitude: -99.133209), flag: UIImage(imageLiteralResourceName: "MXFlag")),
 //            Location(name: "France", coordinate: CLLocationCoordinate2D(latitude: 48.8566, longitude: 2.3522), flag: UIImage(imageLiteralResourceName: "USFlag"))
 //        ]
-        
+        self.completedCountries = completedCountries
 
         self._showFullMap = showFullMap
         
@@ -55,7 +55,7 @@ struct MapView: View {
     func populateLocations() -> [Location] {
         var countries: [String] = []
         countries.append(vm.current_user?.country ?? "null")
-        if let completedCountries = vm.current_user?.completedCountries {
+        if !(completedCountries.isEmpty) {
             countries += completedCountries
         }
         
@@ -132,5 +132,5 @@ struct MapView: View {
 
 
 #Preview {
-    MapView(vm: ViewModel(), showFullMap: Binding.constant(false))
+    MapView(vm: ViewModel(), showFullMap: Binding.constant(false), completedCountries: ["France"])
 }
