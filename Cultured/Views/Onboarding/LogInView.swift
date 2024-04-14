@@ -44,8 +44,9 @@ struct LogInView: View {
                             .resizable()
                             .frame(width:21, height:17)
                             .padding([.leading, .trailing], 16)
-                        TextField("", text: $email, prompt: Text("Email Address")                .foregroundColor(.cMedGray))
+                        TextField("", text: $email, prompt: Text("Email Address")                .foregroundColor(.cMedGray)).foregroundColor(.black)
                             .textInputAutocapitalization(.never)
+
                     }
                     .frame(maxWidth: .infinity, minHeight:52)
                     .background(Color.cLightGray)
@@ -65,7 +66,7 @@ struct LogInView: View {
                             .resizable()
                             .frame(width:15, height:17)
                             .padding([.leading, .trailing], 19)
-                        TextField("", text: $password, prompt: Text("Password")                .foregroundColor(.cMedGray))
+                        TextField("", text: $password, prompt: Text("Password")                .foregroundColor(.cMedGray)).foregroundColor(.black)
                             .textInputAutocapitalization(.never)
                     }
                     .frame(maxWidth: .infinity, minHeight:52)

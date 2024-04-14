@@ -24,7 +24,7 @@ struct StartXView: View {
     
     @State private var selectedCategory: String = ""
     let categoryColors = [Color("Category1"), Color("Category2"), Color("Category3"), Color("Category4")]
-    let buttonColors: [Color] = [Color(red: 252/255, green: 179/255, blue: 179/255), Color(red: 255/255, green: 219/255, blue: 165/255), Color(red: 171/255, green: 232/255, blue: 186/255), Color(red: 153/255, green: 194/255, blue: 223/255)]
+    let buttonColors: [Color] = [Color.cRed, Color.cOrange, Color.cGreen, Color.cBlue]
     
     let buttonWidth: CGFloat = 156
     let buttonHeight: CGFloat = 57
@@ -98,7 +98,7 @@ struct StartXView: View {
                     Rectangle()
                         .frame(width: 400, height: 460)
                         .clipShape(.rect(cornerRadius: 40))
-                        .foregroundColor(.white)
+                        .foregroundColor(.cPopover)
                     VStack (alignment: .leading){
                         Text(gameName)
                             .foregroundColor(.cDarkGray)
@@ -113,13 +113,13 @@ struct StartXView: View {
                             Button {
                                 setupActivity(category: 0)
                             } label: {
-                                ProgressButtonView(buttonText: categories[0], buttonColor: Color("Category1"), progress: categoryProgress[0])
+                                ProgressButtonView(buttonText: categories[0], buttonColor: buttonColors[0], progress: categoryProgress[0])
                             }.navigationDestination(isPresented: $navigate) { selectCategory(category: 0)}
                             
                             Button {
                                 setupActivity(category: 1)
                             } label: {
-                                ProgressButtonView(buttonText: categories[1], buttonColor: Color("Category2"), progress: categoryProgress[1])
+                                ProgressButtonView(buttonText: categories[1], buttonColor: buttonColors[1], progress: categoryProgress[1])
                             }.navigationDestination(isPresented: $navigate) { selectCategory(category: 1)}
                         }
                         
@@ -127,13 +127,13 @@ struct StartXView: View {
                             Button {
                                 setupActivity(category: 2)
                             } label: {
-                                ProgressButtonView(buttonText: categories[2], buttonColor: Color("Category3"), progress: categoryProgress[2])
+                                ProgressButtonView(buttonText: categories[2], buttonColor: buttonColors[2], progress: categoryProgress[2])
                             }.navigationDestination(isPresented: $navigate) { selectCategory(category: 2)}
                             
                             Button {
                                 setupActivity(category: 3)
                             } label: {
-                                ProgressButtonView(buttonText: categories[3], buttonColor: Color("Category4"), progress: categoryProgress[3])
+                                ProgressButtonView(buttonText: categories[3], buttonColor: buttonColors[3], progress: categoryProgress[3])
                             }.navigationDestination(isPresented: $navigate) { selectCategory(category: 3)}
                         }
                         

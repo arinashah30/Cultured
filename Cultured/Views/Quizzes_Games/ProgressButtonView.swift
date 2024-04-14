@@ -34,7 +34,7 @@ struct ProgressButtonView: View {
             //}) {
                 Text(buttonText)
                     .font(.system(size: 20))
-                    .foregroundColor(.cDarkGray)
+                    .foregroundColor(.cDarkGrayConstant)
                     .padding()
             //}
             .frame(maxWidth: 154, maxHeight: 57)
