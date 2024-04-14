@@ -14,7 +14,7 @@ struct MainView: View {
         
         TabView(selection: $selectedView,
                 content:  {
-            ActivityView(vm: vm).tabItem {
+            ActivityType(vm: vm).tabItem {
                 VStack {
                     Image(systemName: "trophy.fill")
                     Text("Activity")

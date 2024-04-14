@@ -114,9 +114,6 @@ struct WordGuessingView: View {
                         .padding()
                 }
             }
-//            .onReceive(vm.current_word_guessing_game.hasWon) { newHasWon in
-//                        self.localHasWon = newHasWon
-//                    }
             .popup(isPresented: $localHasWon) {
                 ZStack {
                     WordGuessingResultsView(vm: vm)

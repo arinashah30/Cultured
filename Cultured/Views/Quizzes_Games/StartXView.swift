@@ -69,21 +69,17 @@ struct StartXView: View {
                         .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height * 0.35)
                         .clipShape(.rect(cornerRadius: 40))
                         .foregroundColor(.white)
-                    VStack(alignment: .leading) {
-                        VStack (alignment: .leading){
-                            Text(gameName)
-                                .foregroundColor(.cDarkGray)
-                                .font(Font.custom("Quicksand-SemiBold", size: 32))
-                            Text(vm.get_current_country())
-                                .foregroundColor(.cMedGray)
-                            Text("Select Category")
-                                .font(Font.custom("Quicksand-Medium", size: 20))
-                                .foregroundColor(.cDarkGray)
-                                .padding(.top, 20)
-                        }
-                        .padding(.leading, 35)
-                        
-                        HStack(alignment: .center, spacing: UIScreen.main.bounds.width * 0.05) {
+                    VStack (alignment: .leading){
+                        Text(gameName.replacingOccurrences(of: "WordGuessing", with: "Word Guessing"))
+                            .foregroundColor(.cDarkGray)
+                            .font(Font.custom("Quicksand-SemiBold", size: 32))
+                        Text(vm.get_current_country())
+                            .foregroundColor(.cMedGray)
+                        Text("Select Category")
+                            .font(Font.custom("Quicksand-Medium", size: 20))
+                            .foregroundColor(.cDarkGray)
+                            .padding(.top, 20)
+                        HStack(alignment: .center, spacing: 20) {
                             Button {
                                 setupActivity(category: 0)
                             } label: {
