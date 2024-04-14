@@ -1025,6 +1025,23 @@ class ViewModel: ObservableObject {
         return result.trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
+    func getCompletedCountries(completion: @escaping ([String]) -> Void) {
+        let userID = current_user?.id ?? ""
+        self.db.collection("USERS").document(userID).getDocument { document, error in
+            if let err = error {
+                print(err.localizedDescription)
+                completion([])
+                return
+            }
+            guard let document = document, document.exists else {
+                print("no doc")
+                return
+            }
+            var completedCountries = document["completedCountries"] as? [String] ?? []
+            completion(completedCountries)
+        }
+    }
+    
     
     
     /*-------------------------------------------------------------------------------------------------*/
