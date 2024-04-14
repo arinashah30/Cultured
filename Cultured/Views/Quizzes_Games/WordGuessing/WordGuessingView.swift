@@ -22,21 +22,8 @@ struct WordGuessingView: View {
             VStack {
                 if let game = vm.current_word_guessing_game {
                     HStack {
-                        Button {
-                            self.presentationMode.wrappedValue.dismiss()
-                        } label: {
-                            ZStack {
-                                Circle()
-                                    .frame(width: 50, height: 50)
-                                    .padding(.top, 5)
-                                    .padding(.leading, 20)
-                                    .foregroundColor(Color.black.opacity(0.1))
-                                Image("Arrow")
-                                    .padding(.top, 5)
-                                    .padding(.leading, 18)
-                            }
-                        }
-                        .padding(.trailing, 300)
+                        BackButton()
+                            .offset(x:UIScreen.main.bounds.size.width/100, y:UIScreen.main.bounds.size.height/50)
                     }
                     Spacer(minLength: 15)
                     HStack{
