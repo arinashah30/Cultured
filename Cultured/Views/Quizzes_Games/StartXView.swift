@@ -56,31 +56,17 @@ struct StartXView: View {
                     backgroundImage
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: 400, height: 470, alignment: .top)
+                        .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height * 0.47, alignment: .top)
                     
                     
-                    Button {
-                        self.presentationMode.wrappedValue.dismiss()
-                    } label: {
-                        
-                        ZStack {
-                            Circle()
-                                .frame(width: 50, height: 50)
-                                .padding(.top, 150)
-                                .padding(.leading, 20)
-                                .foregroundColor(Color.white.opacity(0.8))
-                            Image("Arrow")
-                                .padding(.top, 150)
-                                .padding(.leading, 18)
-                        }
-                        
-                    }
+                    BackButton()
+                        .offset(x:UIScreen.main.bounds.size.width/100, y:UIScreen.main.bounds.size.height/18)
                     
                 }
                 
                 ZStack (alignment: .topLeading){
                     Rectangle()
-                        .frame(width: 400, height: 460)
+                        .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height * 0.35)
                         .clipShape(.rect(cornerRadius: 40))
                         .foregroundColor(.white)
                     VStack (alignment: .leading){
