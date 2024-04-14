@@ -36,7 +36,7 @@ struct QuestionView: View {
                     RoundedRectangle(cornerRadius: 40)
                         .fill(Color.white)
                         .frame(width: UIScreen.main.bounds.width, height: 2*UIScreen.main.bounds.height / 3)
-                        .offset(y: UIScreen.main.bounds.height / 7)
+                        .offset(y: UIScreen.main.bounds.height / 10)
                 }
                 
                 
@@ -47,7 +47,7 @@ struct QuestionView: View {
                         Text("Quiz")
                             .font(Font.custom("Quicksand-semibold",size: 32))
                             .foregroundColor(colorRed)
-                        
+                            .padding(.top, UIScreen.main.bounds.size.height * 0.02)
                         HStack{
                             Text("\(vm.viewModel.get_current_country()) - \(vm.get_current_category())")
                                 .font(.system(size: 16))
@@ -108,7 +108,7 @@ struct QuestionView: View {
                             .fontWeight(.bold)
                         }.navigationDestination(isPresented: $nav) { destinationView }
                         .padding(.top, UIScreen.main.bounds.size.height * 0.02)
-                        .padding(.bottom, UIScreen.main.bounds.size.height / 10)
+                        .padding(.bottom, UIScreen.main.bounds.size.height / 15)
                     //}.padding(.top, 20)
                     
                     

@@ -44,7 +44,7 @@ struct ConnectionsGameView: View {
         ZStack {
             HStack {
                 BackButton()
-                    .offset(x:UIScreen.main.bounds.size.width/100, y:UIScreen.main.bounds.size.height/50)
+                    .offset(x:UIScreen.main.bounds.size.width/100, y:UIScreen.main.bounds.size.height/100)
                 
                 Spacer()
             }
