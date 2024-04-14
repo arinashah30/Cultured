@@ -69,24 +69,28 @@ struct StartXView: View {
                         .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height * 0.35)
                         .clipShape(.rect(cornerRadius: 40))
                         .foregroundColor(.white)
-                    VStack (alignment: .leading){
-                        Text(gameName)
-                            .foregroundColor(.cDarkGray)
-                            .font(Font.custom("Quicksand-SemiBold", size: 32))
-                        Text(vm.get_current_country())
-                            .foregroundColor(.cMedGray)
-                        Text("Select Category")
-                            .font(Font.custom("Quicksand-Medium", size: 20))
-                            .foregroundColor(.cDarkGray)
-                            .padding(.top, 20)
-                        HStack(alignment: .center, spacing: 20) {
+                    VStack(alignment: .leading) {
+                        VStack (alignment: .leading){
+                            Text(gameName)
+                                .foregroundColor(.cDarkGray)
+                                .font(Font.custom("Quicksand-SemiBold", size: 32))
+                            Text(vm.get_current_country())
+                                .foregroundColor(.cMedGray)
+                            Text("Select Category")
+                                .font(Font.custom("Quicksand-Medium", size: 20))
+                                .foregroundColor(.cDarkGray)
+                                .padding(.top, 20)
+                        }
+                        .padding(.leading, 35)
+                        
+                        HStack(alignment: .center, spacing: UIScreen.main.bounds.width * 0.05) {
                             Button {
                                 setupActivity(category: 0)
                             } label: {
                                 let progressBinding = Binding<Float>(
-                                        get: { self.categoryProgress[0] },
-                                        set: { self.categoryProgress[0] = $0 }
-                                    )
+                                    get: { self.categoryProgress[0] },
+                                    set: { self.categoryProgress[0] = $0 }
+                                )
                                 ProgressButtonView(buttonText: categories[0], buttonColor: Color("Category1"), progress: progressBinding)
                             }.navigationDestination(isPresented: $navigate) { selectCategory(category: 0)}
                             
@@ -94,21 +98,22 @@ struct StartXView: View {
                                 setupActivity(category: 1)
                             } label: {
                                 let progressBinding = Binding<Float>(
-                                        get: { self.categoryProgress[1] },
-                                        set: { self.categoryProgress[1] = $0 }
-                                    )
+                                    get: { self.categoryProgress[1] },
+                                    set: { self.categoryProgress[1] = $0 }
+                                )
                                 ProgressButtonView(buttonText: categories[1], buttonColor: Color("Category2"), progress: $categoryProgress[1])
                             }.navigationDestination(isPresented: $navigate) { selectCategory(category: 1)}
                         }
+                        .frame(maxWidth: .infinity, alignment: .center)
                         
-                        HStack(alignment: .center, spacing: 20) {
+                        HStack(alignment: .center, spacing: UIScreen.main.bounds.width * 0.05) {
                             Button {
                                 setupActivity(category: 2)
                             } label: {
                                 let progressBinding = Binding<Float>(
-                                        get: { self.categoryProgress[2] },
-                                        set: { self.categoryProgress[2] = $0 }
-                                    )
+                                    get: { self.categoryProgress[2] },
+                                    set: { self.categoryProgress[2] = $0 }
+                                )
                                 ProgressButtonView(buttonText: categories[2], buttonColor: Color("Category3"), progress: $categoryProgress[2])
                             }.navigationDestination(isPresented: $navigate) { selectCategory(category: 2)}
                             
@@ -116,16 +121,17 @@ struct StartXView: View {
                                 setupActivity(category: 3)
                             } label: {
                                 let progressBinding = Binding<Float>(
-                                        get: { self.categoryProgress[3] },
-                                        set: { self.categoryProgress[3] = $0 }
-                                    )
+                                    get: { self.categoryProgress[3] },
+                                    set: { self.categoryProgress[3] = $0 }
+                                )
                                 ProgressButtonView(buttonText: categories[3], buttonColor: Color("Category4"), progress: $categoryProgress[3])
                             }.navigationDestination(isPresented: $navigate) { selectCategory(category: 3)}
                         }
+                        .frame(maxWidth: .infinity, alignment: .center)
                     }
                     .padding(.top, 30)
-                    .padding(.leading, 35)
-                    //.frame(alignment: .center)
+//                    .padding(.leading, 35)
+                    .frame(alignment: .center)
                 }
             }
             .padding(.bottom, 200)
