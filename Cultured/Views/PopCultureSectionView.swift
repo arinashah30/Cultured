@@ -53,8 +53,10 @@ struct PopCultureSectionView: View {
                                 .clipShape(.rect(cornerRadius: 14.0))
                                 
                                 
-                                Button {
-                                    
+                                NavigationLink {
+                                    DanceView(vm: vm)
+                                        .navigationBarBackButtonHidden(true)
+                                        .toolbar(.hidden, for: .tabBar)
                                 } label: {
                                     Text("Dance")
                                         .font(.system(size: 20))

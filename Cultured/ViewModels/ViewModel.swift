@@ -19,30 +19,36 @@ class ViewModel: ObservableObject {
     let db = Firestore.firestore();
     let auth = Auth.auth();
     @Published var errorText: String? = nil
+    var onSetupCompleted: ((ViewModel) -> Void)?
     //@Published var points: Int = 100
     
     init(current_user: User? = nil, errorText: String? = nil) {
-        if self.current_user != nil {
+        if self.current_user == nil {
             self.current_user = current_user
             self.errorText = errorText
-        }
-        
-        _ = Auth.auth().addStateDidChangeListener { [weak self] auth, user in
-            if let user = user {
-                print("User Found")
-                if let username = user.displayName {
-                    if !(current_user != nil && current_user!.id == username) {
-                        print("Setting User: \(username)")
-                        self?.setCurrentUser(userId: username) { user in
-                            UserDefaults.standard.setValue(true, forKey: "log_Status")
+            
+            
+            _ = Auth.auth().addStateDidChangeListener { [weak self] auth, user in
+                if let user = user {
+                    print("User Found")
+                    if let username = user.displayName {
+                        if !(current_user != nil && current_user!.id == username) {
+                            print("Setting User: \(username)")
+                            self?.setCurrentUser(userId: username) { user in
+                                UserDefaults.standard.setValue(true, forKey: "log_Status")
+                            }
                         }
                     }
+                } else {
+                    UserDefaults.standard.setValue(false, forKey: "log_Status")
                 }
-            } else {
-                UserDefaults.standard.setValue(false, forKey: "log_Status")
             }
         }
     }
+    
+    func configure() {
+            onSetupCompleted?(self)
+        }
     
     /*
      ----------------------------------------------------------------------------------------------
@@ -76,13 +82,14 @@ class ViewModel: ObservableObject {
                 self.db.collection("USERS").whereField("email", isEqualTo: email).getDocuments { documents, error in
                     if let err = error {
                         print(err.localizedDescription)
-                        return
+                        completion(false)
                     } else {
                         if let docs = documents {
                             for doc in docs.documents {
                                 let id = doc.data()["id"] as! String
                                 self.setCurrentUser(userId: id, completion: { user in
                                     UserDefaults.standard.setValue(true, forKey: "log_Status")
+                                    completion(true)
                                 })
                             }
                         }
@@ -96,12 +103,11 @@ class ViewModel: ObservableObject {
                         print("Failed to update lastLoggedOn field")
                     }
                 }
-                completion(true)
             }
         }
     }
     
-    func firebase_email_password_sign_up_(email: String, password: String, username: String) {
+    func firebase_email_password_sign_up_(email: String, password: String, username: String, completion: @escaping (Bool) -> ()) {
         auth.createUser(withEmail: email, password: password) { authResult, error in
             if let errorSignUp = error {
                 let firebaseError = AuthErrorCode.Code(rawValue: errorSignUp._code)
@@ -113,6 +119,7 @@ class ViewModel: ObservableObject {
                 default:
                     self.errorText = "An error has occurred"
                 }
+                completion(false)
             } else if let user = authResult?.user {
                 let currentDate = Date()
                 let dateFormatter = DateFormatter()
@@ -124,6 +131,7 @@ class ViewModel: ObservableObject {
                 changeRequest.commitChanges { error in
                     if let error = error {
                         print(error.localizedDescription)
+                        completion(false)
                     }
                 }
                 self.db.collection("USERS").document(username).setData(
@@ -142,9 +150,11 @@ class ViewModel: ObservableObject {
                     ] as [String : Any]) { error in
                         if let error = error {
                             self.errorText = error.localizedDescription
+                            completion(false)
                         } else {
                             self.setCurrentUser(userId: username) { user in
                                 UserDefaults.standard.setValue(true, forKey: "log_Status")
+                                completion(true)
                             }
                         }
                     }
@@ -415,6 +425,7 @@ class ViewModel: ObservableObject {
             
             let danceDictionary = data["dances"] as? [String : String] ?? [:]
             let danceObject = Dance(danceDictionary: danceDictionary)
+            print(danceObject)
             completion(danceObject)
         }
     }
@@ -815,11 +826,10 @@ class ViewModel: ObservableObject {
     }
     
     
-    func updateProfilePic(userID: String, image: UIImage, completion: @escaping (Bool) -> Void) {
+    func updateProfilePic(userID: String, image: UIImage, completion: @escaping (URL) -> Void) {
         storeImageAndReturnURL(image: image) { url in
             guard let imageURL = url else {
                 print("Failed to get download URL")
-                completion(false)
                 return
             }
             
@@ -827,11 +837,10 @@ class ViewModel: ObservableObject {
             userDocument.updateData(["profilePicture": imageURL.absoluteString]) { error in
                 if let error = error {
                     print("Error updating document: \(error.localizedDescription)")
-                    completion(false)
+                    return
                 } else {
-                    print("GANDEN FUNG GOOD")
                     print("Document successfully updated with new profile picture URL")
-                    completion(true)
+                    completion(imageURL)
                 }
             }
         }
@@ -879,13 +888,14 @@ class ViewModel: ObservableObject {
                         if let daysSinceLastLoggedOn = components.day {
                             //Update Streak to 0 if more than 1 day passed since last login
                             if daysSinceLastLoggedOn > 1 {
+                                self.current_user?.streak = 0
                                 self.db.collection("USERS").document(userID).updateData(["streak": 0]) { error in
                                     if let error = error {
                                         print("Error updating document: \(error)")
                                     } else {
                                         print("Document updated successfully")
-                                        completion(false)
                                     }
+                                    completion(false)
                                 }
                                 return
                             // Increment Streak by 1 if last login was yesterday
@@ -895,7 +905,7 @@ class ViewModel: ObservableObject {
                                         print("Error updating document: \(error)")
                                     } else {
                                         print("Document updated successfully")
-                                        completion(true)
+                                        self.current_user?.streak = (document?["streak"] as? Int ?? 0) + 1
                                         self.updateStreakRecord(userID: userID) { success in
                                             if success {
                                                 print("Streak Record updated sucessfully")
@@ -903,6 +913,7 @@ class ViewModel: ObservableObject {
                                                 print("Failed to update Streak Record")
                                             }
                                         }
+                                        completion(true)
                                     }
                                 }
                                 return
@@ -1025,6 +1036,7 @@ class ViewModel: ObservableObject {
             }
             result.append(char)
         }
+
         return result.trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
@@ -1506,19 +1518,19 @@ class ViewModel: ObservableObject {
 
     func getImage(imageName: String, completion: @escaping (UIImage?) -> Void) {
         let storage = Storage.storage()
-        let imageRef = storage.reference().child("images/\(imageName)")
-        
-        imageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
-            if let error = error {
-                print("An error occured when getting the image data")
-                completion(nil)
-            } else if let data = data, let image = UIImage(data: data) {
-                completion(image)
-                print("Should have successfully returned image")
-            } else {
-                completion(nil)
+        let fileExtensions = ["jpg", "jpeg", "png"]
+        for ext in fileExtensions {
+            let imageRef = storage.reference().child("images/\(imageName).\(ext)")
+            imageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+                if let error = error {
+                    print("An error occurred when getting the image data for \(ext): \(error.localizedDescription)")
+                } else if let data = data, let image = UIImage(data: data) {
+                    completion(image)
+                    return // Return if image is successfully fetched
+                }
             }
         }
+        
     }
     
     

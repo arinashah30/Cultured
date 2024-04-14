@@ -54,6 +54,7 @@ struct QuestionSuccessView: View {
                         Text("Quiz")
                             .font(Font.custom("Quicksand-semibold",size: 32))
                             .foregroundColor(colorRed)
+                            .padding(.top, UIScreen.main.bounds.size.height * 0.025)
                         HStack{
                             Text("\(vm.viewModel.get_current_country()) - \(vm.get_current_category())")
                                 .font(.system(size: 16))
@@ -114,6 +115,8 @@ struct QuestionSuccessView: View {
                             )
                             .font(.system(size:20))
                             .fontWeight(.bold)
+                            .padding(.top, UIScreen.main.bounds.size.height * 0.02)
+                            .padding(.bottom, UIScreen.main.bounds.size.height / 20)
                     }.navigationDestination(isPresented: $next) {
                         if vm.move_to_results() {
                             ResultsView(vm: vm)
@@ -126,7 +129,7 @@ struct QuestionSuccessView: View {
                 
             }
             //.navigationBarBackButtonHidden()
-            .padding(.bottom, 100)
+            .padding(.bottom, UIScreen.main.bounds.size.height / 6)
             
         }
     }
@@ -152,7 +155,7 @@ struct QuestionSuccessView: View {
 }
 
 
-
+//
 //#Preview {
 //    QuestionSuccessView(vm: QuizViewModel(viewModel: ViewModel()))
 //}

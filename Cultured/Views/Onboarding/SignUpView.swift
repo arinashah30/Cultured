@@ -15,6 +15,7 @@ struct SignUpView: View {
     @State private var username: String = ""
     private let screenWidth = UIScreen.main.bounds.size.width
     private let screenHeight = UIScreen.main.bounds.size.height
+    @State var navigateToHome: Bool = false
     
     var body: some View {
         NavigationStack {
@@ -52,6 +53,7 @@ struct SignUpView: View {
                             .padding([.leading, .trailing], 18.5)
                         TextField("", text: $username, prompt: Text("Name")                .foregroundColor(.cMedGray))
                             .textInputAutocapitalization(.never)
+                            .textContentType(.name)
                     }
                     .frame(maxWidth: .infinity, minHeight:52)
                     .background(Color.cLightGray)
@@ -72,6 +74,7 @@ struct SignUpView: View {
                             .padding([.leading, .trailing], 16)
                         TextField("", text: $email, prompt: Text("Email Address")                .foregroundColor(.cMedGray))
                             .textInputAutocapitalization(.never)
+                            .textContentType(.emailAddress)
                     }
                     .frame(maxWidth: .infinity, minHeight:52)
                     .background(Color.cLightGray)
@@ -91,8 +94,9 @@ struct SignUpView: View {
                             .resizable()
                             .frame(width:15, height:17)
                             .padding([.leading, .trailing], 19)
-                        TextField("", text: $password, prompt: Text("Password")                .foregroundColor(.cMedGray))
+                        SecureField("", text: $password, prompt: Text("Password")                .foregroundColor(.cMedGray))
                             .textInputAutocapitalization(.never)
+                            .textContentType(.newPassword)
                     }
                     .frame(maxWidth: .infinity, minHeight:52)
                     .background(Color.cLightGray)
@@ -112,8 +116,9 @@ struct SignUpView: View {
                             .resizable()
                             .frame(width:15, height:17)
                             .padding([.leading, .trailing], 19)
-                        TextField("", text: $repeatPassword, prompt: Text("Confirm Password")                .foregroundColor(.cMedGray))
+                        SecureField("", text: $repeatPassword, prompt: Text("Confirm Password") .foregroundColor(.cMedGray))
                             .textInputAutocapitalization(.never)
+                            .textContentType(.newPassword)
                     }
                     .frame(maxWidth: .infinity, minHeight:52)
                     .background(Color.cLightGray)
@@ -136,7 +141,9 @@ struct SignUpView: View {
                                 email: self.email,
                                 password: self.password,
                                 username: self.username
-                            )
+                            ) { completed in
+                                navigateToHome = completed
+                            }
                         }
                         else {
                             vm.errorText = "You must fill out all fields"
@@ -146,6 +153,7 @@ struct SignUpView: View {
                             .foregroundColor(.black)
                             .font(.system(size: 19))
                     }
+                    .navigationDestination(isPresented: $navigateToHome, destination: {MainView(selectedView: .home, vm: vm)})
                     .frame(maxWidth: .infinity, minHeight:45)
                     .background(Color.cOrange)
                     .clipShape(.rect(cornerRadius: 60))
