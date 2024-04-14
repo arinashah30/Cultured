@@ -145,9 +145,9 @@ struct CountrySetView: View {
                     .padding([.top, .bottom], -5)
                 
                 Button {
-                    selectedOption = "UAE"
+                    selectedOption = "United Arab Emirates"
                 } label: {
-                    if(selectedOption == "UAE") {
+                    if(selectedOption == "United Arab Emirates") {
                         HStack {
                             Text("United Arab Emirates 🇦🇪")
                                 .font(Font.custom("Quicksand-Medium", size: 24))
@@ -234,13 +234,6 @@ struct CountrySetView: View {
             .ignoresSafeArea()
         }
     }
-//    private enum CountryOption: Hashable {
-//        case France
-//        case Mexico
-//        case Italy
-//        case UAE
-//        case India
-//    }
 }
 
 
