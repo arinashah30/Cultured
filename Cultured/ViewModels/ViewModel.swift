@@ -425,6 +425,7 @@ class ViewModel: ObservableObject {
             
             let danceDictionary = data["dances"] as? [String : String] ?? [:]
             let danceObject = Dance(danceDictionary: danceDictionary)
+            print(danceObject)
             completion(danceObject)
         }
     }
@@ -1035,6 +1036,7 @@ class ViewModel: ObservableObject {
             }
             result.append(char)
         }
+
         return result.trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
@@ -1516,19 +1518,19 @@ class ViewModel: ObservableObject {
 
     func getImage(imageName: String, completion: @escaping (UIImage?) -> Void) {
         let storage = Storage.storage()
-        let imageRef = storage.reference().child("images/\(imageName)")
-        
-        imageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
-            if let error = error {
-                print("An error occured when getting the image data")
-                completion(nil)
-            } else if let data = data, let image = UIImage(data: data) {
-                completion(image)
-                print("Should have successfully returned image")
-            } else {
-                completion(nil)
+        let fileExtensions = ["jpg", "jpeg", "png"]
+        for ext in fileExtensions {
+            let imageRef = storage.reference().child("images/\(imageName).\(ext)")
+            imageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+                if let error = error {
+                    print("An error occurred when getting the image data for \(ext): \(error.localizedDescription)")
+                } else if let data = data, let image = UIImage(data: data) {
+                    completion(image)
+                    return // Return if image is successfully fetched
+                }
             }
         }
+        
     }
     
     
