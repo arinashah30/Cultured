@@ -70,7 +70,7 @@ struct StartXView: View {
                         .clipShape(.rect(cornerRadius: 40))
                         .foregroundColor(.white)
                     VStack (alignment: .leading){
-                        Text(gameName)
+                        Text(gameName.replacingOccurrences(of: "WordGuessing", with: "Word Guessing"))
                             .foregroundColor(.cDarkGray)
                             .font(Font.custom("Quicksand-SemiBold", size: 32))
                         Text(vm.get_current_country())
