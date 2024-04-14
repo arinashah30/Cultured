@@ -155,6 +155,7 @@ class ViewModel: ObservableObject {
     func firebase_sign_out() {
         do {
             try auth.signOut()
+            current_user = nil
         } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
         }
