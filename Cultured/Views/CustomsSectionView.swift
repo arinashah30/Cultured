@@ -26,7 +26,7 @@ struct CustomsSectionView: View {
                     Spacer()
                     ZStack (alignment: .topLeading){
                         Rectangle()
-                            .frame(width: 395, height: 405)
+                            .frame(width: screenWidth, height: screenHeight * 0.4)
                             .clipShape(.rect(cornerRadius: 40))
                             .foregroundColor(.white)
                         VStack (alignment: .leading){
@@ -41,9 +41,11 @@ struct CustomsSectionView: View {
                                 .padding(.top, 20)
                             HStack (spacing: 13){
                                 NavigationLink {
-                                    
+                                    TraditionsView(vm:vm)
+                                        .navigationBarBackButtonHidden(true)
+                                        .toolbar(.hidden, for: .tabBar)
                                 } label: {
-                                    Text("Tradition")
+                                    Text("Traditions")
                                         .font(.system(size: 20))
                                         .foregroundColor(.cDarkGray)
                                         .padding()
@@ -52,22 +54,22 @@ struct CustomsSectionView: View {
                                 .background(Color.cRed)
                                 .clipShape(.rect(cornerRadius: 14.0))
                                 
-                                NavigationLink {
-                                    
-                                } label: {
-                                    Text("Holiday")
-                                        .font(.system(size: 20))
-                                        .foregroundColor(.cDarkGray)
-                                        .padding()
-                                }
-                                .frame(maxWidth: 159, maxHeight: 57)
-                                .background(Color.cOrange)
-                                .clipShape(.rect(cornerRadius: 14.0))
-                            }
-                            .shadow(radius: 4, x: 0, y: 4)
-                            .padding(.bottom, 7)
+//                                NavigationLink {
+//                                    
+//                                } label: {
+//                                    Text("Holiday")
+//                                        .font(.system(size: 20))
+//                                        .foregroundColor(.cDarkGray)
+//                                        .padding()
+//                                }
+//                                .frame(maxWidth: 159, maxHeight: 57)
+//                                .background(Color.cOrange)
+//                                .clipShape(.rect(cornerRadius: 14.0))
+//                            }
+//                            .shadow(radius: 4, x: 0, y: 4)
+//                            .padding(.bottom, 7)
                             
-                            HStack (spacing: 13){
+//                            HStack (spacing: 13){
                                 NavigationLink {
                                     EtiquetteView(vm: vm)
                                         .navigationBarBackButtonHidden(true)

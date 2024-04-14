@@ -8,10 +8,7 @@
 import SwiftUI
 
 
-public let screenWidth = UIScreen.main.bounds.size.width
-public let screenHeight = UIScreen.main.bounds.size.height
-
-struct FoodView: View {
+struct DrinkView: View {
     @ObservedObject var vm: ViewModel
     @State private var selection = Category.Popular
 
@@ -21,8 +18,8 @@ struct FoodView: View {
         case Regional
     }
     
-    public var foodRed: Color {
-        Color(red:247/255, green:64/255, blue:64/255)
+    public var drinkOrange: Color {
+        Color(red:255/255, green:122/255, blue:0/255)
     }
     
     
@@ -50,8 +47,8 @@ struct FoodView: View {
                     
 
                         VStack (alignment: .leading){
-                            Text("Food")
-                                .foregroundColor(Color(red: 0.97, green: 0.25, blue: 0.25))
+                            Text("Drink")
+                                .foregroundColor(drinkOrange)
                                 .font(Font.custom("Quicksand-SemiBold", size: 32))
                                 .padding(.leading, 32)
 
@@ -68,7 +65,7 @@ struct FoodView: View {
                                     if selection == .Popular {
                                         Text("Popular")
                                             .font(Font.custom("Quicksand-Semibold", size: 16))
-                                            .foregroundColor(foodRed)
+                                            .foregroundColor(drinkOrange)
                                             .underline()
                                             .padding(.leading, 23)
                                     } else {
@@ -85,7 +82,7 @@ struct FoodView: View {
                                     if selection == .Seasonal {
                                         Text("Seasonal")
                                             .font(Font.custom("Quicksand-Semibold", size: 16))
-                                            .foregroundColor(foodRed)
+                                            .foregroundColor(drinkOrange)
                                             .underline()
                                             .padding(.leading, 23)
                                     } else {
@@ -101,7 +98,7 @@ struct FoodView: View {
                                     if selection == .Regional {
                                         Text("Regional")
                                             .font(Font.custom("Quicksand-Semibold", size: 16))
-                                            .foregroundColor(foodRed)
+                                            .foregroundColor(drinkOrange)
                                             .underline()
                                             .padding(.leading, 23)
                                     } else {
@@ -120,11 +117,11 @@ struct FoodView: View {
                                     VStack(alignment:.leading){
                                     switch selection {
                                     case .Popular:
-                                        FoodPopularView()
+                                        DrinkPopularView()
                                     case .Seasonal:
-                                        FoodSeasonalView()
+                                        DrinkSeasonalView()
                                     case .Regional:
-                                        FoodRegionalView()
+                                        DrinkRegionalView()
                                     }
                                 }
                             }
@@ -143,7 +140,7 @@ struct FoodView: View {
     }
 }
 
-struct FoodPopularView: View {
+struct DrinkPopularView: View {
     var body: some View {
         ScrollView(.horizontal) {
             HStack {
@@ -263,7 +260,7 @@ struct FoodPopularView: View {
     }
 }
 
-struct FoodSeasonalView: View {
+struct DrinkSeasonalView: View {
     var body: some View {
         ScrollView(.horizontal) {
             HStack {
@@ -383,7 +380,7 @@ struct FoodSeasonalView: View {
     }
 }
 
-struct FoodRegionalView: View {
+struct DrinkRegionalView: View {
     var body: some View {
         ScrollView(.horizontal) {
             HStack {
@@ -506,5 +503,5 @@ struct FoodRegionalView: View {
 
 
 #Preview {
-    FoodView(vm: ViewModel())
+    DrinkView(vm: ViewModel())
 }
