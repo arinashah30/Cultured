@@ -100,11 +100,12 @@ struct SingleDance: View {
                 Text(DanceName).font(Font.custom("Quicksand-medium",size: 24)).padding(.vertical, 10)
                 Text(DanceDescription).font(Font.custom("Quicksand-regular",size: 20))
             }.padding(.trailing, 10)
+                .foregroundColor(Color.cLightGray)
         }.onAppear {
             vm.getImage(imageName: DanceImage) { image in
                 uiImage = image
             }
-        }.frame(width: 321, height: 185).background(Color.cLightGray).clipShape(RoundedRectangle(cornerRadius: 14)).shadow(color: Color.black.opacity(0.2), radius: 1, x: 0, y: 3)
+        }.frame(width: 321, height: 185).background(Color("cBarColor")).clipShape(RoundedRectangle(cornerRadius: 14)).shadow(color: Color.black.opacity(0.2), radius: 1, x: 0, y: 3)
     }
 }
 

@@ -131,7 +131,7 @@ struct ChallengeView: View {
     var body: some View {
         ZStack {
             Rectangle()
-                .fill(Color.cLightGray)
+                .fill(Color.cPopover)
                 .frame(width:354, height: 68)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
             HStack{
@@ -143,12 +143,12 @@ struct ChallengeView: View {
                 Spacer()
                 ZStack{
                     Rectangle()
-                        .fill(Color("cBarColor"))
+                        .foregroundColor(status == "Completed" ? Color.cGreen : Color.cOrange)
                         .frame(width: 110, height: 33)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                     Text(status)
                         .font(.system(size: 20))
-                        .foregroundColor(Color.cDarkGray)
+                        .foregroundColor(Color.cDarkGrayConstant)
                 }
             }
             .frame(width:330, height: 68)

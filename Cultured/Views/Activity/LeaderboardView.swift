@@ -20,7 +20,7 @@ struct LeaderboardEntry: View {
         ZStack {
             Rectangle()
                 .foregroundColor(.clear)
-                .background(Color.cLightGray)
+                .background(Color.cPopover)
                 .cornerRadius(20)
             HStack {
                 Text("\(rank)")
@@ -88,7 +88,7 @@ struct LeaderboardView: View {
                         Text("2")
                             .font(Font.custom("Quicksand", size:40)
                                 .weight(.bold))
-                            .foregroundColor(.cDarkGray)
+                            .foregroundColor(.cDarkGrayConstant)
                     }
                     
                 }
@@ -110,7 +110,7 @@ struct LeaderboardView: View {
                         Text("1")
                             .font(Font.custom("Quicksand", size:64)
                                 .weight(.medium))
-                            .foregroundColor(.cDarkGray)
+                            .foregroundColor(.cDarkGrayConstant)
                     }
                     
                 }
@@ -132,7 +132,7 @@ struct LeaderboardView: View {
                         Text("3")
                             .font(Font.custom("Quicksand", size:40)
                                 .weight(.bold))
-                            .foregroundColor(.cDarkGray)
+                            .foregroundColor(.cDarkGrayConstant)
                         
                     }
             

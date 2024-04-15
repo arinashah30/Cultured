@@ -19,7 +19,7 @@ struct BackButton: View {
                     .frame(width: 50, height: 50)
                     .padding(.top, 50)
                     .padding(.leading, 20)
-                    .foregroundColor(Color.white.opacity(0.8))
+                    .foregroundColor(Color.cPopover.opacity(0.8))
                 Image("Arrow")
                     .padding(.top, 50)
                     .padding(.leading, 18)

@@ -36,7 +36,7 @@ struct EtiquetteView: View {
                 Rectangle()
                     .frame(width: 395, height: 600)
                     .clipShape(.rect(cornerRadius: 40))
-                    .foregroundColor(.white)
+                    .foregroundColor(.cPopover)
                 VStack (alignment: .leading){
                     Text("Etiquette")
                         .foregroundColor(etiquetteOrange)
@@ -149,7 +149,7 @@ struct EtiquetteView: View {
                                     .lineLimit(10)
                                     .padding(.top, 20)
                                     .padding([.leading, .trailing], 30)
-                                    .foregroundColor(.cDarkGray)
+                                    .foregroundColor(.cDarkGrayConstant)
                                     .font(Font.custom("Quicksand-SemiBold", size: 20))
                             }
                             .padding(.top, 20)
@@ -189,7 +189,7 @@ struct EtiquetteView: View {
                                     .lineLimit(10)
                                     .padding(.top, 20)
                                     .padding([.leading, .trailing], 30)
-                                    .foregroundColor(.cDarkGray)
+                                    .foregroundColor(.cDarkGrayConstant)
                                     .font(Font.custom("Quicksand-SemiBold", size: 20))
                             }
                             .padding(.top, 20)
@@ -229,7 +229,7 @@ struct EtiquetteView: View {
                                     .lineLimit(10)
                                     .padding(.top, 20)
                                     .padding([.leading, .trailing], 30)
-                                    .foregroundColor(.cDarkGray)
+                                    .foregroundColor(.cDarkGrayConstant)
                                     .font(Font.custom("Quicksand-SemiBold", size: 20))
                             }
                             .padding(.top, 20)

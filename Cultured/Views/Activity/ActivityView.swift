@@ -81,7 +81,7 @@ struct ActivityView: View {
                             Spacer()
                         }
                         .padding()
-                        .background(lightOrange)
+                        .background(.cPopover)
                         .clipShape(RoundedRectangle(cornerRadius: 14))
                     
                     
@@ -96,13 +96,13 @@ struct ActivityView: View {
                             VStack {
                                 Text("Current Streak")
                                     .font(.system(size: 20))
-                                    .foregroundColor(.black)
+                                    .foregroundColor(.cDarkGray)
                                 Image("Streak")
                                     .resizable()
                                     .frame(width: 60, height: 70)
                                 Text("\(vm.current_user?.streak ?? 0) Days")
                                     .font(Font.custom("Quicksand-SemiBold", size: 32))
-                                    .foregroundColor(.black)
+                                    .foregroundColor(.cDarkGray)
                             }
                             
                         }
@@ -114,7 +114,7 @@ struct ActivityView: View {
                             VStack {
                                 Text("All Time Record")
                                     .font(.system(size: 20))
-                                    .foregroundColor(.black)
+                                    .foregroundColor(.cDarkGray)
                                 VStack {
                                     Image("Streak")
                                         .resizable()
@@ -132,11 +132,11 @@ struct ActivityView: View {
                                 Text("\(vm.current_user?.streakRecord ?? 0) Days")
                                 //Text("49 Days")
                                     .font(Font.custom("Quicksand-SemiBold", size: 32))
-                                    .foregroundColor(.black)
+                                    .foregroundColor(.cDarkGray)
                             }
                         }
                     }
-                    .foregroundColor(lightOrange)
+                    .foregroundColor(.cPopover)
                     .padding(.top, -14)
                     Text("Points")
                         .font(Font.custom("Quicksand-Medium", size: 24))
@@ -144,7 +144,7 @@ struct ActivityView: View {
                         .padding(.bottom, 10)
                     ZStack {
                         Rectangle()
-                            .foregroundColor(lightOrange)
+                            .foregroundColor(.cPopover)
                             .frame(width: 361, height: 70)
                             .clipShape(.rect(cornerRadius: 14))
                             .padding(.top, -14)
@@ -152,12 +152,12 @@ struct ActivityView: View {
                             HStack {
                                 Text("Total")
                                     .font(Font.custom("Quicksand-SemiBold", size: 32))
-                                    .foregroundColor(.black)
+                                    .foregroundColor(.cDarkGray)
                                     //.padding(.trailing, 60)
                                 Spacer()
                                 Text("\(vm.current_user?.points ?? 0)")
                                     .font(Font.custom("Quicksand-SemiBold", size: 32))
-                                    .foregroundColor(.black)
+                                    .foregroundColor(.cDarkGray)
                                 Image("StarBadge")
                             }
                             .padding()

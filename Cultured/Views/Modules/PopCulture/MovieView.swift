@@ -15,9 +15,12 @@ struct MovieView: View {
     var body: some View {
         ZStack() {
             VStack() {
-                Image("MovieBg")
-                    .resizable()
-                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.37)
+                ZStack {
+                    BackButton()
+                    Image("MovieBg")
+                        .resizable()
+                        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.37)
+                }
                 
                 Spacer()
                     .frame(height: UIScreen.main.bounds.height * 0.67)
@@ -42,7 +45,7 @@ struct MovieView: View {
                     Text("Actor Spotlight")
                         .frame(maxWidth: UIScreen.main.bounds.width * (8/9), alignment: .leading)
                         .font(Font.custom("Quicksand-Mediium", size: 24))
-                        .foregroundColor(Color(red: 64/255, green: 64/255, blue: 64/255))
+                        .foregroundColor(.cDarkGray)
                     
                     VStack {
                         if viewModel.actors.isEmpty {
@@ -74,6 +77,7 @@ struct MovieView: View {
                                                 .lineLimit(6)
                                                 .minimumScaleFactor(0.8)
                                                 .multilineTextAlignment(.center)
+                                                .foregroundColor(Color.cDarkGray)
                                         }
                                     }
                                 }
@@ -87,7 +91,7 @@ struct MovieView: View {
                     Text("In Theaters")
                         .frame(maxWidth: UIScreen.main.bounds.width * (8/9), alignment: .leading)
                         .font(Font.custom("Quicksand-Mediium", size: 24))
-                        .foregroundColor(Color(red: 64/255, green: 64/255, blue: 64/255))
+                        .foregroundColor(Color.cDarkGray)
                     
                     VStack {
                         if viewModel.movies.isEmpty {
@@ -119,6 +123,7 @@ struct MovieView: View {
                                                 .lineLimit(6)
                                                 .minimumScaleFactor(0.8)
                                                 .multilineTextAlignment(.center)
+                                                .foregroundColor(Color.cDarkGray)
                                         }
                                     }
                                 }
@@ -131,7 +136,7 @@ struct MovieView: View {
                         viewModel.loadActors()
                     }
                 }
-                .background(Color.white)
+                .background(Color.cPopover)
                 .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
             }
         }

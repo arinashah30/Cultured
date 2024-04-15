@@ -80,7 +80,7 @@ struct QuestionFailView: View {
                             .font(Font.custom("Quicksand-semibold",size: 24))
                         Text("Correct Answer: \(vm.get_current_question().answers[ vm.get_current_question().correctAnswer])")
                             .font(Font.custom("Quicksand-medium",size: 16))
-                            .foregroundColor(Color(red: 64/255, green: 64/255, blue: 64/255))
+                            //.foregroundColor(Color(red: 64/255, green: 64/255, blue: 64/255))
                         Text("\(vm.get_current_question().correctAnswerDescription)")
                             .padding(.vertical, 20).font(.system(size: 14))
                         
