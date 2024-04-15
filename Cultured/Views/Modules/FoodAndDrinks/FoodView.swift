@@ -57,7 +57,7 @@ struct FoodView: View {
                                 .font(Font.custom("Quicksand-SemiBold", size: 32))
                                 .padding(.leading, 32)
 
-                            Text("Mexico")
+                            Text(vm.current_user?.country ?? "Mexico")
                                 .foregroundColor(.cMedGray)
                                 .padding(.leading, 32)
                             
