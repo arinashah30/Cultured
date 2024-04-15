@@ -28,6 +28,7 @@
 		48ACC9842BC5A6E400AEC832 /* DynamicNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48ACC9832BC5A6E400AEC832 /* DynamicNavigationView.swift */; };
 		48ACC9872BC5DEDA00AEC832 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 48ACC9862BC5DEDA00AEC832 /* OrderedCollections */; };
 		48ACC98A2BCC879600AEC832 /* ActivityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48ACC9892BCC879600AEC832 /* ActivityType.swift */; };
+		48ACC98C2BCC994B00AEC832 /* SplashScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48ACC98B2BCC994B00AEC832 /* SplashScreen.swift */; };
 		59167BFD2BB7E1D7006C02C1 /* DanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59167BFC2BB7E1D7006C02C1 /* DanceView.swift */; };
 		663062F52B7BFD3500702E04 /* ARLandmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663062F42B7BFD3500702E04 /* ARLandmark.swift */; };
 		665997482B90EDCD00247314 /* TextBoxEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665997472B90EDCD00247314 /* TextBoxEntity.swift */; };
@@ -137,6 +138,7 @@
 		48ACC9812BBF6B0B00AEC832 /* ProgressButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressButtonView.swift; sourceTree = "<group>"; };
 		48ACC9832BC5A6E400AEC832 /* DynamicNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicNavigationView.swift; sourceTree = "<group>"; };
 		48ACC9892BCC879600AEC832 /* ActivityType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityType.swift; sourceTree = "<group>"; };
+		48ACC98B2BCC994B00AEC832 /* SplashScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreen.swift; sourceTree = "<group>"; };
 		59167BFC2BB7E1D7006C02C1 /* DanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DanceView.swift; sourceTree = "<group>"; };
 		663062F42B7BFD3500702E04 /* ARLandmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARLandmark.swift; sourceTree = "<group>"; };
 		665997472B90EDCD00247314 /* TextBoxEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBoxEntity.swift; sourceTree = "<group>"; };
@@ -363,6 +365,7 @@
 				7C9E14682BBF6353003BC7B4 /* LandmarksView.swift */,
 				CA64398D2B857BF200181C5F /* PlacesSectionView.swift */,
 				7CE5D3EE2BB5D2ED00EE0E14 /* BackButton.swift */,
+				48ACC98B2BCC994B00AEC832 /* SplashScreen.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -651,6 +654,7 @@
 				7C3DE01F2BC9FA2B00D9DD46 /* ChangeCountryView.swift in Sources */,
 				66FB6A042B72A1480066B826 /* SignUpView.swift in Sources */,
 				666A71812BBF2D1E005A849A /* Sports.swift in Sources */,
+				48ACC98C2BCC994B00AEC832 /* SplashScreen.swift in Sources */,
 				66FB69F32B72A0B30066B826 /* Module.swift in Sources */,
 				CA7570192B7C3B4000240F06 /* PopCultureSectionView.swift in Sources */,
 				66FB6A1B2B72A26E0066B826 /* Badge.swift in Sources */,
@@ -854,9 +858,10 @@
 				DEVELOPMENT_TEAM = W25VYB4Y9F;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Cultured/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "AR Tours need camera access.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = arkit;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -890,7 +895,7 @@
 				INFOPLIST_FILE = Cultured/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "AR Tours need camera access.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = arkit;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

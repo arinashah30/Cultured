@@ -210,7 +210,7 @@ struct ChangeCountryView: View {
                     }
                     
                     Button {
-                        vm.setCurrentCountry(userID: vm.current_user!.id, countryName: selectedOption ?? "Mexico", completion: {_ in})
+                        vm.setCurrentCountry(userID: vm.current_user!.id, countryName: selectedOption?.replacingOccurrences(of: "United Arab Emirates", with: "UnitedStates") ?? "Mexico", completion: {_ in})
                         popUpOpen = false
                     } label: {
                         if selectedOption != nil {
