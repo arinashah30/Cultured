@@ -202,7 +202,7 @@ struct FoodPopularView: View {
                     .frame(width: screenWidth * 0.5)
                 }
                 .frame(width: screenWidth * 0.8, height: screenHeight * 1/9)
-                .background(Color.cLightGray)
+                .background(Color("cBarColor"))
                 .cornerRadius(14)
                 .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
                 Spacer()
@@ -228,7 +228,7 @@ struct FoodPopularView: View {
                     //                                        .padding(.leading, 10)
                 }
                 .frame(width: screenWidth * 0.8, height: screenHeight * 1/9)
-                .background(Color.cLightGray)
+                .background(Color("cBarColor"))
                 .cornerRadius(14)
                 .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
                 Spacer()
@@ -254,7 +254,7 @@ struct FoodPopularView: View {
                     //                                        .padding(.leading, 10)
                 }
                 .frame(width: screenWidth * 0.8, height: screenHeight * 1/9)
-                .background(Color.cLightGray)
+                .background(Color("cBarColor"))
                 .cornerRadius(14)
                 .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
                 Spacer()
@@ -322,7 +322,7 @@ struct FoodSeasonalView: View {
                     .frame(width: screenWidth * 0.5)
                 }
                 .frame(width: screenWidth * 0.8, height: screenHeight * 1/9)
-                .background(Color.cLightGray)
+                .background(Color("cBarColor"))
                 .cornerRadius(14)
                 .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
                 Spacer()
@@ -348,7 +348,7 @@ struct FoodSeasonalView: View {
                     //                                        .padding(.leading, 10)
                 }
                 .frame(width: screenWidth * 0.8, height: screenHeight * 1/9)
-                .background(Color.cLightGray)
+                .background(Color("cBarColor"))
                 .cornerRadius(14)
                 .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
                 Spacer()
@@ -374,7 +374,7 @@ struct FoodSeasonalView: View {
                     //                                        .padding(.leading, 10)
                 }
                 .frame(width: screenWidth * 0.8, height: screenHeight * 1/9)
-                .background(Color.cLightGray)
+                .background(Color("cBarColor"))
                 .cornerRadius(14)
                 .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
                 Spacer()
@@ -442,7 +442,7 @@ struct FoodRegionalView: View {
                     .frame(width: screenWidth * 0.5)
                 }
                 .frame(width: screenWidth * 0.8, height: screenHeight * 1/9)
-                .background(Color.cLightGray)
+                .background(Color("cBarColor"))
                 .cornerRadius(14)
                 .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
                 Spacer()
@@ -468,7 +468,7 @@ struct FoodRegionalView: View {
                     //                                        .padding(.leading, 10)
                 }
                 .frame(width: screenWidth * 0.8, height: screenHeight * 1/9)
-                .background(Color.cLightGray)
+                .background(Color("cBarColor"))
                 .cornerRadius(14)
                 .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
                 Spacer()
@@ -494,7 +494,7 @@ struct FoodRegionalView: View {
                     //                                        .padding(.leading, 10)
                 }
                 .frame(width: screenWidth * 0.8, height: screenHeight * 1/9)
-                .background(Color.cLightGray)
+                .background(Color("cBarColor"))
                 .cornerRadius(14)
                 .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
                 Spacer()

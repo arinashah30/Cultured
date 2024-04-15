@@ -42,7 +42,7 @@ struct DrinkView: View {
                     Rectangle()
                         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 2 / 3)
                         .clipShape(.rect(cornerRadius: 40))
-                        .foregroundColor(.white)
+                        .foregroundColor(Color.cPopover)
                         .offset(x:-3)
                     
 
@@ -199,7 +199,7 @@ struct DrinkPopularView: View {
                     .frame(width: screenWidth * 0.5)
                 }
                 .frame(width: screenWidth * 0.8, height: screenHeight * 1/9)
-                .background(Color.cLightGray)
+                .background(Color("cBarColor"))
                 .cornerRadius(14)
                 .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
                 Spacer()
@@ -225,7 +225,7 @@ struct DrinkPopularView: View {
                     //                                        .padding(.leading, 10)
                 }
                 .frame(width: screenWidth * 0.8, height: screenHeight * 1/9)
-                .background(Color.cLightGray)
+                .background(Color("cBarColor"))
                 .cornerRadius(14)
                 .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
                 Spacer()
@@ -251,7 +251,7 @@ struct DrinkPopularView: View {
                     //                                        .padding(.leading, 10)
                 }
                 .frame(width: screenWidth * 0.8, height: screenHeight * 1/9)
-                .background(Color.cLightGray)
+                .background(Color("cBarColor"))
                 .cornerRadius(14)
                 .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
                 Spacer()
@@ -319,7 +319,7 @@ struct DrinkSeasonalView: View {
                     .frame(width: screenWidth * 0.5)
                 }
                 .frame(width: screenWidth * 0.8, height: screenHeight * 1/9)
-                .background(Color.cLightGray)
+                .background(Color("cBarColor"))
                 .cornerRadius(14)
                 .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
                 Spacer()
@@ -345,7 +345,7 @@ struct DrinkSeasonalView: View {
                     //                                        .padding(.leading, 10)
                 }
                 .frame(width: screenWidth * 0.8, height: screenHeight * 1/9)
-                .background(Color.cLightGray)
+                .background(Color("cBarColor"))
                 .cornerRadius(14)
                 .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
                 Spacer()
@@ -371,7 +371,7 @@ struct DrinkSeasonalView: View {
                     //                                        .padding(.leading, 10)
                 }
                 .frame(width: screenWidth * 0.8, height: screenHeight * 1/9)
-                .background(Color.cLightGray)
+                .background(Color("cBarColor"))
                 .cornerRadius(14)
                 .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
                 Spacer()
@@ -439,7 +439,7 @@ struct DrinkRegionalView: View {
                     .frame(width: screenWidth * 0.5)
                 }
                 .frame(width: screenWidth * 0.8, height: screenHeight * 1/9)
-                .background(Color.cLightGray)
+                .background(Color("cBarColor"))
                 .cornerRadius(14)
                 .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
                 Spacer()
@@ -465,7 +465,7 @@ struct DrinkRegionalView: View {
                     //                                        .padding(.leading, 10)
                 }
                 .frame(width: screenWidth * 0.8, height: screenHeight * 1/9)
-                .background(Color.cLightGray)
+                .background(Color("cBarColor"))
                 .cornerRadius(14)
                 .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
                 Spacer()
@@ -491,7 +491,7 @@ struct DrinkRegionalView: View {
                     //                                        .padding(.leading, 10)
                 }
                 .frame(width: screenWidth * 0.8, height: screenHeight * 1/9)
-                .background(Color.cLightGray)
+                .background(Color("cBarColor"))
                 .cornerRadius(14)
                 .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
                 Spacer()
