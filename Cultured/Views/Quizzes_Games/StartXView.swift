@@ -24,7 +24,7 @@ struct StartXView: View {
     
     @State private var selectedCategory: String = ""
     let categoryColors = [Color("Category1"), Color("Category2"), Color("Category3"), Color("Category4")]
-    let buttonColors: [Color] = [Color(red: 252/255, green: 179/255, blue: 179/255), Color(red: 255/255, green: 219/255, blue: 165/255), Color(red: 171/255, green: 232/255, blue: 186/255), Color(red: 153/255, green: 194/255, blue: 223/255)]
+    let buttonColors: [Color] = [Color.cRed, Color.cOrange, Color.cGreen, Color.cBlue]
     
     let buttonWidth: CGFloat = 156
     let buttonHeight: CGFloat = 57
@@ -68,7 +68,7 @@ struct StartXView: View {
                     Rectangle()
                         .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height * 0.35)
                         .clipShape(.rect(cornerRadius: 40))
-                        .foregroundColor(.white)
+                        .foregroundColor(.cPopover)
                     VStack (alignment: .leading){
                         Text(gameName.replacingOccurrences(of: "WordGuessing", with: "Word Guessing"))
                             .foregroundColor(.cDarkGray)

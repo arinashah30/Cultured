@@ -85,6 +85,8 @@ struct ConnectionsGameView: View {
                     .font(.system(size: 16))
                     .foregroundStyle(.white)
             }
+            
+            Spacer()
         }
     }
     
@@ -249,7 +251,7 @@ struct OptionView: View {
     var body: some View {
             ZStack {
                 RoundedRectangle(cornerRadius: 10.0)
-                    .foregroundColor(option.isSelected ? .black : .gray)
+                    .foregroundColor(option.isSelected ?  .cDarkGray : .cMedGray)
                     .opacity(option.isSelected ? 0.6 : 0.2)
                     .frame(width: 85, height: 65)
 
@@ -257,7 +259,7 @@ struct OptionView: View {
                     .font(.system(size: 16))
                     .minimumScaleFactor(0.01)
                     .aspectRatio(contentMode: .fit)
-                    .foregroundStyle(option.isSelected ? .white : .black)
+                    .foregroundStyle(option.isSelected ? .cLightGray : .cDarkGray)
                     .padding(7)
             }
     }

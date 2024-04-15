@@ -31,7 +31,7 @@ struct FoodView: View {
                     Rectangle()
                         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 2 / 3)
                         .clipShape(.rect(cornerRadius: 40))
-                        .foregroundColor(.white)
+                        .foregroundColor(Color.cPopover)
                     
                     ScrollView(.vertical) {
                         VStack (alignment: .leading){
@@ -100,7 +100,7 @@ struct FoodView: View {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 14.0)
                                         .frame(width: 0.8 * UIScreen.main.bounds.width)
-                                        .foregroundColor(.cLightGray)
+                                        .foregroundColor(Color("cBarColor"))
                                     HStack {
                                         Image("Drink")
                                             .clipShape(RoundedRectangle(cornerRadius: 12.0))
@@ -119,7 +119,7 @@ struct FoodView: View {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 14.0)
                                         .frame(width: 0.8 * UIScreen.main.bounds.width)
-                                        .foregroundColor(.cLightGray)
+                                        .foregroundColor(Color("cBarColor"))
                                     HStack {
                                         Image("Drink")
                                             .clipShape(RoundedRectangle(cornerRadius: 12.0))
@@ -138,7 +138,7 @@ struct FoodView: View {
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 14.0)
                                         .frame(width: 0.8 * UIScreen.main.bounds.width)
-                                        .foregroundColor(.cLightGray)
+                                        .foregroundColor(Color("cBarColor"))
                                     HStack {
                                         Image("Drink")
                                             .clipShape(RoundedRectangle(cornerRadius: 12.0))

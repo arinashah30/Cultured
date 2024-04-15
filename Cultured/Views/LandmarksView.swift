@@ -29,9 +29,10 @@ struct LandmarksView: View {
             
             ZStack (alignment: .topLeading){
                 Rectangle()
-                    .frame(width: 395, height: 400)
+                    .frame(width: 395)
+                    .frame(idealHeight: 600, maxHeight: .infinity)
                     .clipShape(.rect(cornerRadius: 40))
-                    .foregroundColor(.white)
+                    .foregroundColor(.cPopover)
                     .fixedSize(horizontal: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/, vertical: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
                 VStack (alignment: .leading){
                     Text("Landmarks")
@@ -102,7 +103,7 @@ struct LandmarksView: View {
                 }
                 .padding(.top, 30)
                 .padding(.leading, 40)
-            }
+            }.edgesIgnoringSafeArea(.bottom)
         }
         .padding(.top, -50)
     }

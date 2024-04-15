@@ -34,7 +34,7 @@ struct QuestionView: View {
                 VStack{
                     
                     RoundedRectangle(cornerRadius: 40)
-                        .fill(Color.white)
+                        .fill(Color.cPopover)
                         .frame(width: UIScreen.main.bounds.width, height: 2*UIScreen.main.bounds.height / 3)
                         .offset(y: UIScreen.main.bounds.height / 10)
                 }
@@ -98,7 +98,7 @@ struct QuestionView: View {
                         Text("Submit")
                             .foregroundColor(.red)
                             .padding()
-                            .background(Color.white)
+                            .background(Color.cPopover)
                             .frame(width: buttonWidth, height: buttonHeight)
                             .overlay(
                                 RoundedRectangle(cornerRadius:buttonHeight / 2)

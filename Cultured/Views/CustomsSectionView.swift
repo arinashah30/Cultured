@@ -28,7 +28,7 @@ struct CustomsSectionView: View {
                         Rectangle()
                             .frame(width: 395, height: 405)
                             .clipShape(.rect(cornerRadius: 40))
-                            .foregroundColor(.white)
+                            .foregroundColor(.cPopover)
                         VStack (alignment: .leading){
                             Text("Customs")
                                 .foregroundColor(.cDarkGray)
@@ -45,7 +45,7 @@ struct CustomsSectionView: View {
                                 } label: {
                                     Text("Tradition")
                                         .font(.system(size: 20))
-                                        .foregroundColor(.cDarkGray)
+                                        .foregroundColor(.cDarkGrayConstant)
                                         .padding()
                                 }
                                 .frame(maxWidth: 159, maxHeight: 57)
@@ -57,7 +57,7 @@ struct CustomsSectionView: View {
                                 } label: {
                                     Text("Holiday")
                                         .font(.system(size: 20))
-                                        .foregroundColor(.cDarkGray)
+                                        .foregroundColor(.cDarkGrayConstant)
                                         .padding()
                                 }
                                 .frame(maxWidth: 159, maxHeight: 57)
@@ -75,7 +75,7 @@ struct CustomsSectionView: View {
                                 } label: {
                                     Text("Etiquette")
                                         .font(.system(size: 20))
-                                        .foregroundColor(.cDarkGray)
+                                        .foregroundColor(.cDarkGrayConstant)
                                         .padding()
                                 }
                                 .frame(maxWidth: 159, maxHeight: 57)

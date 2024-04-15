@@ -50,7 +50,7 @@ struct LogInView: View {
                             .resizable()
                             .frame(width:21, height:17)
                             .padding([.leading, .trailing], 16)
-                        TextField("", text: $email, prompt: Text("Email Address")                .foregroundColor(.cMedGray))
+                        TextField("", text: $email, prompt: Text("Email Address")                .foregroundColor(.cMedGray)).foregroundColor(.black)
                             .textInputAutocapitalization(.never)
                             .textContentType(.emailAddress)
                     }

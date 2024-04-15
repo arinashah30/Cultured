@@ -20,6 +20,7 @@ struct ActivityType: View {
                     Text(segment.rawValue).tag(segment)
                 }
             }
+            .foregroundColor(Color.cOrange)
             .pickerStyle(SegmentedPickerStyle())
             .padding()
 
@@ -39,7 +40,21 @@ struct ActivityType: View {
                 print("USERS \(users)")
                 self.users = users
             })
+           
         })
+        .onAppear {
+            UISegmentedControl.appearance().backgroundColor = UIColor(Color.cOrange)
+            UISegmentedControl.appearance().selectedSegmentTintColor = .white
+            UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.black], for: .selected)
+            UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.black], for: .normal)
+        }
+        
+//        init() {
+//            UISegmentedControl.appearance().selectedSegmentTintColor = .blue
+//            UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.white], for: .selected)
+//            UISegmentedControl.appearance().setTitleTextAttributes([.foregroundColor: UIColor.blue], for: .normal)
+//        }
+
     }
 }
 
