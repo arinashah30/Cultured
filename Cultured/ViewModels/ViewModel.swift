@@ -211,8 +211,11 @@ class ViewModel: ObservableObject {
     }
     
     func getInfoFood(countryName: String, completion: @escaping (Food) -> Void) {
-                self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("FOOD").getDocument { document, error in
+        print("IN GET INFO FOOD")
+        var country = countryName.uppercased()
+                self.db.collection("COUNTRIES").document(country).collection("MODULES").document("FOOD").getDocument { document, error in
                     if let err = error {
+                        print("Error getting doc in food")
                         print(err.localizedDescription)
                         return
                     } else {
@@ -224,8 +227,13 @@ class ViewModel: ObservableObject {
                                 
                                 let food = Food(regional: regional, seasonal: seasonal)
                                 //                        print (info)
+                                print("food in VM \(food)")
                                 completion(food)
+                            } else {
+                                print("error getting food doc data")
                             }
+                        } else {
+                            print("error getting food doc")
                         }
                     }
                 }
