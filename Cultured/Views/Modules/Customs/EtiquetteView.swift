@@ -16,6 +16,7 @@ private struct Facts: Identifiable {
 struct EtiquetteView: View {
     @ObservedObject var vm: ViewModel
     @State private var selection = Tabs.Social
+    @State var etiquette = Etiquette()
     public var etiquetteOrange: Color {
         Color(red:255/255, green:122/255, blue:0/255)
     }
@@ -41,73 +42,74 @@ struct EtiquetteView: View {
                     Text("Etiquette")
                         .foregroundColor(etiquetteOrange)
                         .font(Font.custom("Quicksand-SemiBold", size: 32))
-                    Text("Mexico")
+                    Text(vm.current_user?.country ?? "Mexico")
                         .foregroundColor(.cMedGray)
                     
-                    HStack {
-                        Button {
-                            selection = .Social
-                        } label: {
-                            if selection == .Social {
-                                Text("Social")
-                                    .font(Font.custom("Quicksand-Semibold", size: 16))
-                                    .foregroundColor(etiquetteOrange)
-                                    .underline()
-                                    .padding(.leading, 31)
-                            } else {
-                                Text("Social")
-                                    .font(Font.custom("Quicksand-Semibold", size: 16))
-                                    .foregroundColor(.cMedGray)
-                                    .padding(.leading, 31)
-                            }
-                        }
-                        
-                        Button {
-                            selection = .Meal
-                        } label: {
-                            if selection == .Meal {
-                                Text("Meal")
-                                    .font(Font.custom("Quicksand-Semibold", size: 16))
-                                    .foregroundColor(etiquetteOrange)
-                                    .underline()
-                                    .padding(.leading, 42)
-                            } else {
-                                Text("Meal")
-                                    .font(Font.custom("Quicksand-Semibold", size: 16))
-                                    .foregroundColor(.cMedGray)
-                                    .padding(.leading, 42)
-                            }
-                        }
-                        Button {
-                            selection = .Public
-                        } label: {
-                            if selection == .Public {
-                                Text("Public")
-                                    .font(Font.custom("Quicksand-Semibold", size: 16))
-                                    .foregroundColor(etiquetteOrange)
-                                    .underline()
-                                    .padding(.leading, 42)
-                            } else {
-                                Text("Public")
-                                    .font(Font.custom("Quicksand-Semibold", size: 16))
-                                    .foregroundColor(.cMedGray)
-                                    .padding(.leading, 42)
-                            }
-                        }
-                                
-                    }
-//                    .padding(.bottom, 10)
-                    .padding(.top, 0)
+                    //                    HStack {
+                    //                        Button {
+                    //                            selection = .Social
+                    //                        } label: {
+                    //                            if selection == .Social {
+                    //                                Text("Social")
+                    //                                    .font(Font.custom("Quicksand-Semibold", size: 16))
+                    //                                    .foregroundColor(etiquetteOrange)
+                    //                                    .underline()
+                    //                                    .padding(.leading, 31)
+                    //                            } else {
+                    //                                Text("Social")
+                    //                                    .font(Font.custom("Quicksand-Semibold", size: 16))
+                    //                                    .foregroundColor(.cMedGray)
+                    //                                    .padding(.leading, 31)
+                    //                            }
+                    //                        }
+                    //
+                    //                        Button {
+                    //                            selection = .Meal
+                    //                        } label: {
+                    //                            if selection == .Meal {
+                    //                                Text("Meal")
+                    //                                    .font(Font.custom("Quicksand-Semibold", size: 16))
+                    //                                    .foregroundColor(etiquetteOrange)
+                    //                                    .underline()
+                    //                                    .padding(.leading, 42)
+                    //                            } else {
+                    //                                Text("Meal")
+                    //                                    .font(Font.custom("Quicksand-Semibold", size: 16))
+                    //                                    .foregroundColor(.cMedGray)
+                    //                                    .padding(.leading, 42)
+                    //                            }
+                    //                        }
+                    //                        Button {
+                    //                            selection = .Public
+                    //                        } label: {
+                    //                            if selection == .Public {
+                    //                                Text("Public")
+                    //                                    .font(Font.custom("Quicksand-Semibold", size: 16))
+                    //                                    .foregroundColor(etiquetteOrange)
+                    //                                    .underline()
+                    //                                    .padding(.leading, 42)
+                    //                            } else {
+                    //                                Text("Public")
+                    //                                    .font(Font.custom("Quicksand-Semibold", size: 16))
+                    //                                    .foregroundColor(.cMedGray)
+                    //                                    .padding(.leading, 42)
+                    //                            }
+                    //                        }
+                    //
+                    //                    }
+                    //                    .padding(.bottom, 10)
+                    //                    .padding(.top, 0)
                     
-                    switch selection {
-                    case .Social:
-                        EtiquetteSocialView()
-                    case .Meal:
-                        EtiquetteMealView()
-                    case .Public:
-                        EtiquettePublicView()
-                    }
+                    //                    switch selection {
+                    //                    case .Social:
+                    //                        EtiquetteSocialView()
+                    //                    case .Meal:
+                    //                        EtiquetteMealView()
+                    //                    case .Public:
+                    //                        EtiquettePublicView()
+                    //                    }
                     
+                    EtiquetteSubView(facts: $etiquette.etiquetteMap)
                     
                     
                 }
@@ -117,6 +119,10 @@ struct EtiquetteView: View {
                 
                 
             }
+        }.onAppear {
+            vm.getInfoEtiquettes(countryName: vm.current_user?.country ?? "Mexico") { etiquette in
+                self.etiquette = etiquette
+            }
         }
     }
     private enum Tabs: Hashable {
@@ -125,109 +131,32 @@ struct EtiquetteView: View {
         case Social
     }
     
-    struct EtiquetteSocialView: View {
-        private let facts : [Facts] = [
-            Facts(name: "Tipping is customary in Mexico, especially in restaurants. A tip of around 10-15% is typical, unless a service charge is already included.", image: Image("CardPicture")),
-            Facts(name: "Fact 2", image: Image("CardPicture")),
-            Facts(name: "Fact 3", image: Image("CardPicture")),
-            Facts(name: "Fact 4", image: Image("CardPicture")),
-            Facts(name: "Fact 5", image: Image("CardPicture"))
-        ]
+    
+    struct EtiquetteSubView: View {
+        @Binding var facts: [String : String]
         var body: some View{
             VStack {
                 TabView {
-                    ForEach(facts) { Facts in
+                    ForEach(Array(facts.keys), id: \.self) { fact in
                         ZStack (alignment: .top){
                             RoundedRectangle(cornerRadius: 20)
                                 .foregroundColor(.enterButton)
                             VStack {
-                                Facts.image
+                                Image("Drink")
                                     .resizable()
                                     .frame(width: 250.0, height: 100)
                                     .cornerRadius(20)
-                                Text(Facts.name)
+                                Text(fact)
                                     .lineLimit(10)
                                     .padding(.top, 20)
                                     .padding([.leading, .trailing], 30)
                                     .foregroundColor(.cDarkGrayConstant)
                                     .font(Font.custom("Quicksand-SemiBold", size: 20))
-                            }
-                            .padding(.top, 20)
-                        }.frame(width: 300, height: 450)
-                        
-                    }
-                    
-                }
-                .tabViewStyle(.page)
-                .indexViewStyle(.page(backgroundDisplayMode: .interactive))
-            }
-            .frame(width: 320, height: 450)
-        }
-    }
-    
-    struct EtiquetteMealView: View {
-        private let facts : [Facts] = [
-            Facts(name: "Tipping is customary in Mexico, especially in restaurants. A tip of around 10-15% is typical, unless a service charge is already included.", image: Image("CardPicture")),
-            Facts(name: "Fact 2", image: Image("CardPicture")),
-            Facts(name: "Fact 3", image: Image("CardPicture")),
-            Facts(name: "Fact 4", image: Image("CardPicture")),
-            Facts(name: "Fact 5", image: Image("CardPicture"))
-        ]
-        var body: some View{
-            VStack {
-                TabView {
-                    ForEach(facts) { Facts in
-                        ZStack (alignment: .top){
-                            RoundedRectangle(cornerRadius: 20)
-                                .foregroundColor(.enterButton)
-                            VStack {
-                                Facts.image
-                                    .resizable()
-                                    .frame(width: 250.0, height: 100)
-                                    .cornerRadius(20)
-                                Text(Facts.name)
-                                    .lineLimit(10)
-                                    .padding(.top, 20)
-                                    .padding([.leading, .trailing], 30)
-                                    .foregroundColor(.cDarkGrayConstant)
-                                    .font(Font.custom("Quicksand-SemiBold", size: 20))
-                            }
-                            .padding(.top, 20)
-                        }.frame(width: 300, height: 450)
-                        
-                    }
-                    
-                }
-                .tabViewStyle(.page)
-                .indexViewStyle(.page(backgroundDisplayMode: .interactive))
-            }
-            .frame(width: 320, height: 450)
-        }
-    }
-    
-    struct EtiquettePublicView: View {
-        private let facts : [Facts] = [
-            Facts(name: "Tipping is customary in Mexico, especially in restaurants. A tip of around 10-15% is typical, unless a service charge is already included.", image: Image("CardPicture")),
-            Facts(name: "Fact 2", image: Image("CardPicture")),
-            Facts(name: "Fact 3", image: Image("CardPicture")),
-            Facts(name: "Fact 4", image: Image("CardPicture")),
-            Facts(name: "Fact 5", image: Image("CardPicture"))
-        ]
-        var body: some View{
-            VStack {
-                TabView {
-                    ForEach(facts) { Facts in
-                        ZStack (alignment: .top){
-                            RoundedRectangle(cornerRadius: 20)
-                                .foregroundColor(.enterButton)
-                            VStack {
-                                Facts.image
-                                    .resizable()
-                                    .frame(width: 250.0, height: 100)
-                                    .cornerRadius(20)
-                                Text(Facts.name)
-                                    .lineLimit(10)
-                                    .padding(.top, 20)
+                            
+                                Text(facts[fact] ?? "Description")
+                                    .minimumScaleFactor(0.3)
+                                    //.lineLimit(10)
+                                    .padding(.vertical, 20)
                                     .padding([.leading, .trailing], 30)
                                     .foregroundColor(.cDarkGrayConstant)
                                     .font(Font.custom("Quicksand-SemiBold", size: 20))
