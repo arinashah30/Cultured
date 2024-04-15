@@ -77,7 +77,7 @@ struct SelfProfileView: View {
                 }
                 .onAppear {
                     print("avim : \(avatarImage)")
-                    avatarImage = URL(string: vm.current_user!.profilePicture)
+                    avatarImage = URL(string: vm.current_user?.profilePicture ?? "")
                 }
                 Spacer(minLength: 20)
                 

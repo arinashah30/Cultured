@@ -4,27 +4,12 @@
 <dict>
 	<key>UILaunchScreen</key>
 	<dict>
-		<key>UILaunchScreen</key>
-		<dict>
-			<key>UIColorName</key>
-			<string>gradient3</string>
-			<key>UIImageName</key>
-			<string>splashpage</string>
-		</dict>
 		<key>UIColorName</key>
-		<string>gradient3</string>
-		<key>UIImageRespectsSafeAreaInsets</key>
-		<false/>
+		<string>Gradient3</string>
 		<key>UIImageName</key>
-		<string>splashpage</string>
+		<string>splash</string>
+		<key>UILaunchScreen</key>
+		<dict/>
 	</dict>
-	<key>UIAppFonts</key>
-	<array>
-		<string>Quicksand-Bold.ttf</string>
-		<string>Quicksand-Medium.ttf</string>
-		<string>Quicksand-Regular.ttf</string>
-		<string>Quicksand-SemiBold.ttf</string>
-		<string>Quicksand-Light.ttf</string>
-	</array>
 </dict>
 </plist>

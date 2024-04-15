@@ -47,8 +47,12 @@ class ViewModel: ObservableObject {
     }
     
     func configure() {
-            onSetupCompleted?(self)
-        }
+        self.onSetupCompleted?(self)
+//        self.setCurrentUser(userId: auth.currentUser?.displayName ?? "") { user in
+//            self.onSetupCompleted?(self)
+//            UserDefaults.standard.setValue(true, forKey: "log_Status")
+//        }
+    }
     
     /*
      ----------------------------------------------------------------------------------------------
@@ -1022,6 +1026,12 @@ class ViewModel: ObservableObject {
                         completion(false)
                     } else {
                         self.current_user?.country = countryName
+                        self.quizViewModel!.load_quizzes() { result in
+                        }
+                        self.wordGuessingViewModel!.load_word_guessings() { result in
+                        }
+                        self.connectionsViewModel!.load_connections() { result in
+                        }
                         completion(true)
                     }
                 }

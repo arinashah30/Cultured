@@ -22,29 +22,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AppCheck.setAppCheckProviderFactory(providerFactory)
         
         FirebaseApp.configure()
-        // Create the SwiftUI view that provides the window contents.
-        //let contentView = ContentView()
-//        var contentView = MainView(vm: ViewModel())
-        let vm = ViewModel()
-        
-        
-        vm.onSetupCompleted = { vm in
-            print("IN VIEW MODEL")
-            
-            DispatchQueue.main.async {
-                let contentView = ContentView(vm: vm)
+
+                // Set up the window and initial view controller
                 let window = UIWindow(frame: UIScreen.main.bounds)
-                window.rootViewController = UIHostingController(rootView: contentView)
+        let loadingView = UIHostingController(rootView: Image("backgroundtosplash").resizable().ignoresSafeArea(.all).scaledToFill())
+                window.rootViewController = loadingView
                 self.window = window
                 window.makeKeyAndVisible()
-            }
-        }
-        
 
-        // Use a UIHostingController as window root view controller.
-        vm.configure()
-        
-        return true
+                // Create the ViewModel and configure it
+                let vm = ViewModel()
+                vm.onSetupCompleted = { vm in
+                    DispatchQueue.main.async {
+                        let contentView = ContentView(vm: vm)
+                        window.rootViewController = UIHostingController(rootView: contentView)
+                    }
+                }
+
+                // Set current user and configure ViewModel
+                vm.setCurrentUser(userId: vm.auth.currentUser?.displayName ?? "") { _ in
+                    vm.configure()
+                }
+
+                return true
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

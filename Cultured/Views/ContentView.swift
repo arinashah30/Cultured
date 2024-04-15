@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @ObservedObject var vm: ViewModel
     @AppStorage("log_Status") var logStatus = false
-    @State var isActive: Bool = false
+    @State var isActive: Bool = true
     
     var body: some View {
         ZStack {
@@ -25,16 +25,18 @@ struct ContentView: View {
                     }
                 }
             } else {
-                Image("splashpage").resizable()
+                Image("splash").resizable()
                     .background(Color(red: 255.0, green: 241.0, blue: 220.0)).ignoresSafeArea(.all)
             }
-        }.onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
-                withAnimation {
-                    self.isActive = true
-                }
-            }
         }
+        
+//        .onAppear {
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                withAnimation {
+//                    self.isActive = true
+//                }
+//            }
+//        }
         
         
     }
