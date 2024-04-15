@@ -10,7 +10,6 @@ import SwiftUI
 struct ConnectionsGameView: View {
     @Environment(\.presentationMode) var presentationMode
     @ObservedObject var vm: ConnectionsViewModel
-    @State var one_away: Bool = false
     @State var already_guessed: Bool = false
     @State var goHome: Bool = false
     var colors: [Color] = [.red, .orange, .green, .blue]
@@ -44,16 +43,16 @@ struct ConnectionsGameView: View {
         ZStack {
             HStack {
                 BackButton()
-                    .offset(x:UIScreen.main.bounds.size.width/100, y:UIScreen.main.bounds.size.height/50)
+                    .offset(x:UIScreen.main.bounds.size.width/100, y:UIScreen.main.bounds.size.height/100)
                 
                 Spacer()
             }
             
-            if one_away {
+            if vm.one_away {
                 temp_alert_one_away
             }
-            
-            if already_guessed {
+                    
+            if vm.already_guessed {
                 temp_alert_already_guessed
             }
         }
@@ -86,6 +85,8 @@ struct ConnectionsGameView: View {
                     .font(.system(size: 16))
                     .foregroundStyle(.white)
             }
+            
+            Spacer()
         }
     }
     
@@ -205,35 +206,25 @@ struct ConnectionsGameView: View {
     }
     
     var submit: some View {
-            Button(action: {
-                vm.submit() {}
+        Button(action: {
+            vm.submit() {}
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    vm.reset_alerts()
+                }
+        }) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 30.0)
+                    .frame(width: 180, height: 50)
+                    .foregroundStyle(.orange)
+                    .opacity(vm.selection.count < 4 ? 0.4 : 0.4)
                 
-                if vm.one_away == true {
-                    one_away = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                        self.one_away = false
-                    }
-                } else if vm.already_guessed == true {
-                    already_guessed = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                        self.already_guessed = false
-                    }
-                }
-                vm.reset_alerts()
-            }) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 30.0)
-                        .frame(width: 180, height: 50)
-                        .foregroundStyle(.orange)
-                        .opacity(vm.selection.count < 4 ? 0.4 : 0.4)
-                    
-                    Text("Submit")
-                    
-                        .font(.system(size: 20))
-                        .foregroundStyle(.black)
-                }
+                Text("Submit")
+                
+                    .font(.system(size: 20))
+                    .foregroundStyle(.black)
             }
         }
+    }
     
     var back_home: some View {
             Button(action: {
@@ -260,7 +251,7 @@ struct OptionView: View {
     var body: some View {
             ZStack {
                 RoundedRectangle(cornerRadius: 10.0)
-                    .foregroundColor(option.isSelected ? .black : .gray)
+                    .foregroundColor(option.isSelected ?  .cDarkGray : .cMedGray)
                     .opacity(option.isSelected ? 0.6 : 0.2)
                     .frame(width: 85, height: 65)
 
@@ -268,7 +259,7 @@ struct OptionView: View {
                     .font(.system(size: 16))
                     .minimumScaleFactor(0.01)
                     .aspectRatio(contentMode: .fit)
-                    .foregroundStyle(option.isSelected ? .white : .black)
+                    .foregroundStyle(option.isSelected ? .cLightGray : .cDarkGray)
                     .padding(7)
             }
     }

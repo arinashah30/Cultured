@@ -8,8 +8,11 @@
 import SwiftUI
 
 struct DanceView: View {
+    @ObservedObject var vm: ViewModel
+    @State var danceDict: [String:String] = [:]
+    
     var body: some View {
-        ZStack {
+        ZStack(){
             // the background image
             VStack{
                 Image("Dance")
@@ -20,11 +23,12 @@ struct DanceView: View {
                     .offset(y:-UIScreen.main.bounds.width/2)
                 //                .opacity(0.5)
             }
+        
             
             VStack{
                 
                 RoundedRectangle(cornerRadius: 40)
-                    .fill(Color.white)
+                    .fill(Color.cPopover)
                     .frame(width: UIScreen.main.bounds.width, height: 2*UIScreen.main.bounds.height / 3)
                     .offset(y: UIScreen.main.bounds.height / 7)
             }
@@ -51,18 +55,21 @@ struct DanceView: View {
                     
                         ScrollView {
                             VStack (spacing: 20) {
-                                SingleDance(DanceName: "Mexican Hat Dance", DanceDescription: "Insert dance for appropriate seasonal celebration.", DanceImage: "DanceImage1");
-                                
-                                SingleDance(DanceName: "Other Dance", DanceDescription: "Insert dance information here.", DanceImage: "OtherDance");
-                                
-                                SingleDance(DanceName: "Other Dance", DanceDescription: "Insert dance information here.", DanceImage: "OtherDance");
-                                
-                                SingleDance(DanceName: "Other Dance", DanceDescription: "Insert dance information here.", DanceImage: "OtherDance");
+                                ForEach(Array(danceDict.keys.sorted().enumerated()), id: \.element) { index, danceName in
+                                    SingleDance(vm: vm, DanceName: danceName, DanceDescription: danceDict[danceName] ?? "", DanceImage: "\(vm.get_current_country().lowercased())_dance_\(index+1)");
+                                }
                             }
                         }.padding(.bottom, 70)
+                        .scrollIndicators(.hidden)
                 }
             }.offset(y:UIScreen.main.bounds.height/4.5).padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 40))
             
+        }
+        .onAppear {
+            vm.getInfoDance(countryName: vm.get_current_country().uppercased()) { dance in
+                danceDict = dance.danceDictionary
+                print(dance.danceDictionary)
+            }
         }
         .navigationBarBackButtonHidden()
         .padding(.bottom, 100)
@@ -72,24 +79,38 @@ struct DanceView: View {
 
 
 struct SingleDance: View {
+    var vm: ViewModel
     var DanceName: String;
     var DanceDescription: String;
     var DanceImage: String;
+    @State var uiImage: UIImage? = nil
     
     var body: some View {
         HStack (alignment: .top) {
-            Image(DanceImage).resizable().clipShape(RoundedRectangle(cornerRadius: 14)).frame(width: 145)
+            if let uiImage = uiImage {
+                Image(uiImage: uiImage).resizable().clipShape(RoundedRectangle(cornerRadius: 14)).frame(width: 145)
+            } else {
+                // Placeholder image or loading indicator
+                ProgressView()
+                    .frame(width: 145, height: 185)
+            }
+
             Spacer()
             VStack (alignment: .leading, spacing: 0) {
                 Text(DanceName).font(Font.custom("Quicksand-medium",size: 24)).padding(.vertical, 10)
                 Text(DanceDescription).font(Font.custom("Quicksand-regular",size: 20))
             }.padding(.trailing, 10)
-        }.frame(width: 321, height: 185).background(Color.cLightGray).clipShape(RoundedRectangle(cornerRadius: 14)).shadow(color: Color.black.opacity(0.2), radius: 1, x: 0, y: 3)
+                .foregroundColor(Color.cLightGray)
+        }.onAppear {
+            vm.getImage(imageName: DanceImage) { image in
+                uiImage = image
+            }
+        }.frame(width: 321, height: 185).background(Color("cBarColor")).clipShape(RoundedRectangle(cornerRadius: 14)).shadow(color: Color.black.opacity(0.2), radius: 1, x: 0, y: 3)
     }
 }
 
 
 
 #Preview {
-    DanceView()
+    DanceView(vm: ViewModel())
 }

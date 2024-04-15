@@ -16,7 +16,7 @@ struct WordGuessingResultsView: View {
         ZStack {
             Color.black.opacity(0.4).edgesIgnoringSafeArea(.all)
             RoundedRectangle(cornerRadius: 14.0)
-                .foregroundColor(.white)
+                .foregroundColor(.cPopover)
                 .frame(width: 304, height: 550)
             
 
@@ -58,17 +58,17 @@ struct WordGuessingResultsView: View {
                     VStack {
                         Text(String(vm.current_word_guessing_game?.totalPoints ?? 0))
                             .font(Font.custom("Quicksand-Bold", size: 22))
-                            .foregroundColor(.black)
+                            .foregroundColor(.primary)
                         Text("points")
-                            .foregroundColor(Color.black.opacity(0.5))
+                            .foregroundColor(Color.primary.opacity(0.5))
                     }
                     VStack {
                         
                         Text(String(vm.getWinPercent()) + "%")
                             .font(Font.custom("Quicksand-Bold", size: 22))
-                            .foregroundColor(.black)
+                            .foregroundColor(.primary)
                         Text("Win %")
-                            .foregroundColor(Color.black.opacity(0.5))
+                            .foregroundColor(Color.primary.opacity(0.5))
                     }
                     Spacer()
                 }
@@ -76,7 +76,7 @@ struct WordGuessingResultsView: View {
                 HStack(spacing: 35) {
                     Spacer()
                     Text("Hints Used By Everyone")
-                        .foregroundColor(.black.opacity(0.8))
+                        .foregroundColor(.primary.opacity(0.8))
                     Spacer()
                 }
                 
@@ -86,7 +86,7 @@ struct WordGuessingResultsView: View {
                     ForEach(0..<9, id: \.self) { (index: Int) in
                         VStack() {
                             Text(String(vm.current_word_guessing_game!.stats[index]))
-                                .foregroundColor(Color.black.opacity(0.35))
+                                .foregroundColor(Color.primary.opacity(0.35))
                             if vm.current_word_guessing_game!.current == index && vm.current_word_guessing_game!.hasWon {
                                 Rectangle()
                                     .frame(width: 25, height: 190 * CGFloat(adjustedStats[index]))
@@ -94,7 +94,7 @@ struct WordGuessingResultsView: View {
                             } else {
                                 Rectangle()
                                     .frame(width: 25, height: 200 * CGFloat(adjustedStats[index]))
-                                    .foregroundColor(Color.black.opacity(0.15))
+                                    .foregroundColor(Color.primary.opacity(0.15))
                             }
                             Text(String(index + 1))
                                 .foregroundColor(Color.black.opacity(0.5))
@@ -111,7 +111,7 @@ struct WordGuessingResultsView: View {
                     }) {
                         Text("Back to Home")
                             .font(Font.custom("Quicksand-Medium", size: 17))
-                            .foregroundColor(.black.opacity(0.5))
+                            .foregroundColor(.primary.opacity(0.5))
                     }.navigationDestination(isPresented: $goHome, destination: {HomeView(vm: vm.viewModel)})
                     Spacer()
                 }

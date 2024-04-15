@@ -50,7 +50,7 @@ struct HomeView: View {
                 .padding(.top, 10)
                 
                 
-                Text("Welcome to Mexico")
+                Text("Welcome to \(vm.get_current_country())")
                     .font(Font.custom("Quicksand-Semibold", size: 32))
                     .foregroundColor(.cDarkGray)
                     .padding(.leading, 10)
@@ -58,7 +58,7 @@ struct HomeView: View {
                 Button {
                     popUpOpen = true
                 } label: {
-                    Text("change destination")
+                    Text("Change Destination")
                         .font(.system(size: 16))
                         .foregroundColor(.cMedGray)
                         .padding(.bottom, 5)
@@ -289,7 +289,12 @@ struct HomeView: View {
             .navigationBarBackButtonHidden()
             .onAppear() {
                 points = vm.current_user?.points ?? 0
-                streak = vm.current_user?.streak ?? 0
+                vm.checkIfStreakIsIntact(userID: vm.current_user?.id ?? "") { _ in
+                    streak = vm.current_user?.streak ?? 0
+                    vm.updateLastLoggedOn(userID: vm.current_user?.id ?? "") { _ in
+                        
+                    }
+                }
                 badges = vm.current_user?.badges.count ?? 0
                 vm.quizViewModel!.load_quizzes() { result in
                 }

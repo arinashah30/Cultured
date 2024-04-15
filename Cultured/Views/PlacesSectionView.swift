@@ -27,7 +27,7 @@ struct PlacesSectionView: View {
                         Rectangle()
                             .frame(width: 395, height: 310)
                             .clipShape(.rect(cornerRadius: 40))
-                            .foregroundColor(.white)
+                            .foregroundColor(.cPopover)
                         VStack (alignment: .leading){
                             Text("Places")
                                 .foregroundColor(.cDarkGray)
@@ -46,7 +46,7 @@ struct PlacesSectionView: View {
                                 } label: {
                                     Text("Landmarks")
                                         .font(.system(size: 20))
-                                        .foregroundColor(.cDarkGray)
+                                        .foregroundColor(.cDarkGrayConstant)
                                         .padding()
                                 }
                                 .frame(maxWidth: 159, maxHeight: 57)
@@ -58,7 +58,7 @@ struct PlacesSectionView: View {
                                 } label: {
                                     Text("Major Cities")
                                         .font(.system(size: 20))
-                                        .foregroundColor(.cDarkGray)
+                                        .foregroundColor(.cDarkGrayConstant)
                                         .padding()
                                 }
                                 .frame(maxWidth: 159, maxHeight: 57)

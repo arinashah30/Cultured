@@ -28,7 +28,7 @@ struct CustomsSectionView: View {
                         Rectangle()
                             .frame(width: screenWidth, height: screenHeight * 0.4)
                             .clipShape(.rect(cornerRadius: 40))
-                            .foregroundColor(.white)
+                            .foregroundColor(.cPopover)
                         VStack (alignment: .leading){
                             Text("Customs")
                                 .foregroundColor(.cDarkGray)
@@ -47,7 +47,7 @@ struct CustomsSectionView: View {
                                 } label: {
                                     Text("Traditions")
                                         .font(.system(size: 20))
-                                        .foregroundColor(.cDarkGray)
+                                        .foregroundColor(.cDarkGrayConstant)
                                         .padding()
                                 }
                                 .frame(maxWidth: 159, maxHeight: 57)
@@ -59,7 +59,7 @@ struct CustomsSectionView: View {
 //                                } label: {
 //                                    Text("Holiday")
 //                                        .font(.system(size: 20))
-//                                        .foregroundColor(.cDarkGray)
+//                                        .foregroundColor(.cDarkGrayConstant)
 //                                        .padding()
 //                                }
 //                                .frame(maxWidth: 159, maxHeight: 57)
@@ -77,7 +77,7 @@ struct CustomsSectionView: View {
                                 } label: {
                                     Text("Etiquette")
                                         .font(.system(size: 20))
-                                        .foregroundColor(.cDarkGray)
+                                        .foregroundColor(.cDarkGrayConstant)
                                         .padding()
                                 }
                                 .frame(maxWidth: 159, maxHeight: 57)

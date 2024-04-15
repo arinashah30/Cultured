@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -18,6 +18,8 @@
 		480F22062B7C1F9000CB5632 /* QuizViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F22052B7C1F9000CB5632 /* QuizViewModel.swift */; };
 		480F22082B7C1F9C00CB5632 /* WordGuessingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F22072B7C1F9C00CB5632 /* WordGuessingViewModel.swift */; };
 		480F220A2B7C1FA900CB5632 /* ConnectionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 480F22092B7C1FA900CB5632 /* ConnectionsViewModel.swift */; };
+		482153622BA11A4E000C02FB /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482153612BA11A4E000C02FB /* MapView.swift */; };
+		482153642BB739FA000C02FB /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482153632BB739FA000C02FB /* Location.swift */; };
 		48A11D722B9B63220061ED6A /* QuestionSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A11D6F2B9B63220061ED6A /* QuestionSuccessView.swift */; };
 		48A11D732B9B63220061ED6A /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A11D702B9B63220061ED6A /* ProgressBar.swift */; };
 		48A11D742B9B63220061ED6A /* QuestionFailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A11D712B9B63220061ED6A /* QuestionFailView.swift */; };
@@ -25,6 +27,7 @@
 		48ACC9822BBF6B0B00AEC832 /* ProgressButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48ACC9812BBF6B0B00AEC832 /* ProgressButtonView.swift */; };
 		48ACC9842BC5A6E400AEC832 /* DynamicNavigationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48ACC9832BC5A6E400AEC832 /* DynamicNavigationView.swift */; };
 		48ACC9872BC5DEDA00AEC832 /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 48ACC9862BC5DEDA00AEC832 /* OrderedCollections */; };
+		48ACC98A2BCC879600AEC832 /* ActivityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48ACC9892BCC879600AEC832 /* ActivityType.swift */; };
 		59167BFD2BB7E1D7006C02C1 /* DanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59167BFC2BB7E1D7006C02C1 /* DanceView.swift */; };
 		663062F52B7BFD3500702E04 /* ARLandmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663062F42B7BFD3500702E04 /* ARLandmark.swift */; };
 		665997482B90EDCD00247314 /* TextBoxEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 665997472B90EDCD00247314 /* TextBoxEntity.swift */; };
@@ -126,12 +129,15 @@
 		480F22052B7C1F9000CB5632 /* QuizViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizViewModel.swift; sourceTree = "<group>"; };
 		480F22072B7C1F9C00CB5632 /* WordGuessingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordGuessingViewModel.swift; sourceTree = "<group>"; };
 		480F22092B7C1FA900CB5632 /* ConnectionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionsViewModel.swift; sourceTree = "<group>"; };
+		482153612BA11A4E000C02FB /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		482153632BB739FA000C02FB /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		48A11D6F2B9B63220061ED6A /* QuestionSuccessView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionSuccessView.swift; sourceTree = "<group>"; };
 		48A11D702B9B63220061ED6A /* ProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		48A11D712B9B63220061ED6A /* QuestionFailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuestionFailView.swift; sourceTree = "<group>"; };
 		48ACC97F2BBF6AF800AEC832 /* StartXView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartXView.swift; sourceTree = "<group>"; };
 		48ACC9812BBF6B0B00AEC832 /* ProgressButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressButtonView.swift; sourceTree = "<group>"; };
 		48ACC9832BC5A6E400AEC832 /* DynamicNavigationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicNavigationView.swift; sourceTree = "<group>"; };
+		48ACC9892BCC879600AEC832 /* ActivityType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityType.swift; sourceTree = "<group>"; };
 		59167BFC2BB7E1D7006C02C1 /* DanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DanceView.swift; sourceTree = "<group>"; };
 		663062F42B7BFD3500702E04 /* ARLandmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARLandmark.swift; sourceTree = "<group>"; };
 		665997472B90EDCD00247314 /* TextBoxEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBoxEntity.swift; sourceTree = "<group>"; };
@@ -320,6 +326,7 @@
 				480F21F62B7596BA00CB5632 /* QuizQuestion.swift */,
 				480F21F82B75A29500CB5632 /* Connections.swift */,
 				480F21FA2B75A54700CB5632 /* WordGuessing.swift */,
+				482153632BB739FA000C02FB /* Location.swift */,
 				8493479A2BC081EE000EC3F4 /* Movie.swift */,
 			);
 			path = Models;
@@ -367,6 +374,7 @@
 			children = (
 				66FB69F92B72A1140066B826 /* ActivityView.swift */,
 				66FB69FB2B72A11D0066B826 /* LeaderboardView.swift */,
+				48ACC9892BCC879600AEC832 /* ActivityType.swift */,
 			);
 			path = Activity;
 			sourceTree = "<group>";
@@ -387,6 +395,7 @@
 			children = (
 				66FB6A062B72A15B0066B826 /* SelfProfileView.swift */,
 				66FB6A082B72A1620066B826 /* EditSelfProfileView.swift */,
+				482153612BA11A4E000C02FB /* MapView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -568,7 +577,7 @@
 				};
 			};
 			buildConfigurationList = 66FB69BE2B72A06D0066B826 /* Build configuration list for PBXProject "Cultured" */;
-			compatibilityVersion = "Xcode 14.0";
+			compatibilityVersion = "Xcode 15.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -658,6 +667,7 @@
 				C4C2FF492BC08E2E00DCDE7E /* EtiquetteView.swift in Sources */,
 				48A11D722B9B63220061ED6A /* QuestionSuccessView.swift in Sources */,
 				66FB69D82B72A08F0066B826 /* ViewModel.swift in Sources */,
+				482153642BB739FA000C02FB /* Location.swift in Sources */,
 				665997482B90EDCD00247314 /* TextBoxEntity.swift in Sources */,
 				CA64398C2B857B0900181C5F /* CustomsSectionView.swift in Sources */,
 				7C864BBE2BC9A5AF0052502B /* CountrySetView.swift in Sources */,
@@ -665,6 +675,7 @@
 				7CE5D3EF2BB5D2ED00EE0E14 /* BackButton.swift in Sources */,
 				48ACC9822BBF6B0B00AEC832 /* ProgressButtonView.swift in Sources */,
 				66FB6A132B72A2150066B826 /* StartConnectionsView.swift in Sources */,
+				482153622BA11A4E000C02FB /* MapView.swift in Sources */,
 				8493479B2BC081EE000EC3F4 /* Movie.swift in Sources */,
 				666A717D2BBF2D1E005A849A /* Dance.swift in Sources */,
 				66FB6A0E2B72A1830066B826 /* ResultsView.swift in Sources */,
@@ -686,6 +697,7 @@
 				48A11D732B9B63220061ED6A /* ProgressBar.swift in Sources */,
 				66FB6A022B72A1400066B826 /* LogInView.swift in Sources */,
 				66FB69F52B72A0B90066B826 /* Country.swift in Sources */,
+				48ACC98A2BCC879600AEC832 /* ActivityType.swift in Sources */,
 				66FB6A222B72A2FD0066B826 /* HolidaysView.swift in Sources */,
 				849347992BB75365000EC3F4 /* MovieView.swift in Sources */,
 				66FB6A092B72A1620066B826 /* EditSelfProfileView.swift in Sources */,

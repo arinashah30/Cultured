@@ -24,6 +24,7 @@ struct WordGuessingView: View {
                     HStack {
                         BackButton()
                             .offset(x:UIScreen.main.bounds.size.width/100, y:UIScreen.main.bounds.size.height/50)
+                        Spacer()
                     }
                     Spacer(minLength: 15)
                     HStack{
@@ -113,15 +114,12 @@ struct WordGuessingView: View {
                         .padding()
                 }
             }
-//            .onReceive(vm.current_word_guessing_game.hasWon) { newHasWon in
-//                        self.localHasWon = newHasWon
-//                    }
             .popup(isPresented: $localHasWon) {
                 ZStack {
                     WordGuessingResultsView(vm: vm)
                 }
             }
-            .navigationBarBackButtonHidden()
+            .navigationBarBackButtonHidden(true)
         }
     }
 }

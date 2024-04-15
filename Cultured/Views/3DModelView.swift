@@ -61,7 +61,7 @@ struct _DModelView : View {
         if showingInfoBubbleAlert {
             ZStack {
                 RoundedRectangle(cornerRadius: 17)
-                    .fill(Color.cDarkGray)
+                    .fill(Color.cDarkGrayConstant)
                     .frame(width: UIScreen.main.bounds.width * 0.9, height: 200)
                 
                 

@@ -26,7 +26,7 @@ struct FoodCategorySectionView: View {
                         Rectangle()
                             .frame(width: UIScreen.main.bounds.width, height: 350)
                             .clipShape(.rect(cornerRadius: 40))
-                            .foregroundColor(.white)
+                            .foregroundColor(.cPopover)
                         VStack (alignment: .leading){
                             Text("Food")
                                 .foregroundColor(.cDarkGray)
@@ -45,7 +45,7 @@ struct FoodCategorySectionView: View {
                                 } label: {
                                     Text("Food")
                                         .font(.system(size: 20))
-                                        .foregroundColor(.cDarkGray)
+                                        .foregroundColor(.cDarkGrayConstant)
                                         .padding()
                                 }
                                 .frame(maxWidth: 159, maxHeight: 57)
@@ -59,7 +59,7 @@ struct FoodCategorySectionView: View {
                                 } label: {
                                     Text("Drink")
                                         .font(.system(size: 20))
-                                        .foregroundColor(.cDarkGray)
+                                        .foregroundColor(.cDarkGrayConstant)
                                         .padding()
                                 }
                                 .frame(maxWidth: 159, maxHeight: 57)

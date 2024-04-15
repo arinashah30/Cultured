@@ -26,14 +26,20 @@ extension Color {
     public static var cRed: Color {
         Color(red:252/255, green:179/255, blue:179/255)
     }
+    /*
     public static var cDarkGray: Color {
         Color(red:64/255, green:64/255, blue:64/255)
     }
+     */
+    /*
     public static var cMedGray: Color {
         Color(red:148/255, green:148/255, blue:148/255)
     }
+     */
+    /*
     public static var cLightGray: Color {
         Color(red:246/255, green:246/255, blue:246/255)
     }
+     */
     
 }

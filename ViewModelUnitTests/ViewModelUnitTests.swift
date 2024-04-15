@@ -875,5 +875,18 @@ func testGetInfoFood() {
           }
       }
     }
+    func testGetCompletedCountries() {
+        let expectation = self.expectation(description: "getCompletedCountries")
+        vm.getCompletedCountries(userID: "Rik Roy") { countries in
+            print("whaaa")
+            print(countries)
+            expectation.fulfill()
+        }
+        waitForExpectations(timeout: 5) { error in
+            if let error = error {
+                XCTFail("waitForExpectations error: \(error)")
+            }
+        }
+    }
 }
 

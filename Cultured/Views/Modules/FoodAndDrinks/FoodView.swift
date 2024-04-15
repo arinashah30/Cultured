@@ -45,7 +45,7 @@ struct FoodView: View {
                     Rectangle()
                         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 2 / 3)
                         .clipShape(.rect(cornerRadius: 40))
-                        .foregroundColor(.white)
+                        .foregroundColor(Color.cPopover)
                         .offset(x:-3)
                     
 

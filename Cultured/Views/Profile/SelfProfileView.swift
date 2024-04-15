@@ -6,12 +6,28 @@
 //
 
 import SwiftUI
+import MapKit
+import PhotosUI
 
 struct SelfProfileView: View {
     @ObservedObject var vm: ViewModel
+    @State var showFullMap = false
+    @State var completedCountries: [String] = []
+    
+    @State private var isPickerPresented = false
+    @State private var avatarItem: PhotosPickerItem?
+    @State private var avatarImage: URL?
+    
+    init(avatarItem: PhotosPickerItem? = nil, vm: ViewModel, avatarImage: String? = nil) {
+        self.vm = vm
+        self.avatarImage = URL(string: avatarImage ?? "")
+        print(avatarImage)
+    }
+    
     var body: some View {
         NavigationStack {
-            VStack {
+            ScrollView {
+                
                 //Settings bar
                 HStack {
                     Spacer()
@@ -29,40 +45,51 @@ struct SelfProfileView: View {
                 }
                 
                 //Prof pic/placeholder with edit button
-                ZStack{
-                    Image("BlankUser")
-                        .resizable()
-                        .frame(width: 156, height: 156)
-                        .background(Color(red:217/255, green: 217/255, blue: 217/255))
-                        .background(Color.cLightGray)
-                        .clipShape(Circle())
-                    VStack {
-                        Spacer()
-                        HStack {
-                            Spacer()
-                            Circle()
-                                .fill(Color.cMedGray)
-                                .frame(width: 44, height: 45)
-                                .overlay(
-                                    Image(systemName: "pencil")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .foregroundColor(.white)
-                                        .padding(10)
-                                )
-                                .offset(x: -115, y: -33)//this is hardcoded couldnt figure out a better way to do it
+                VStack {
+                    AsyncImage(url: avatarImage) { image in
+                        image
+                            .resizable()
+                            .frame(width: 156, height: 156)
+                            .background(Color(red:217/255, green: 217/255, blue: 217/255))
+                            .background(Color.cLightGray)
+                            .clipShape(Circle())
+                    } placeholder: {
+                        ProgressView()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 120, height: 120)
+                            .clipShape(.circle)
+                    }
+                    PhotosPicker("Edit Profile Picture", selection: $avatarItem, matching: .images).foregroundColor(.blue).font(.system(size: 13))
+                }
+                .onChange(of: avatarItem) {
+                    Task {
+                        if let data = try? await avatarItem?.loadTransferable(type: Data.self) {
+                            if let uiImage = UIImage(data: data) {
+                                vm.updateProfilePic(userID: vm.current_user?.id ?? "", image: uiImage) { image in
+                                    avatarImage = image
+                                    
+                                }
+                                return
+                            }
                         }
+                        print("Could not load transferable from selected item")
                     }
                 }
-                VStack{
-                    Text("\(vm.current_user?.name ?? "No user")")
-                        .font(Font.custom("Quicksand-Semibold", size: 32))
-                        .foregroundColor(.cDarkGray)
-                    
-                    Text("\(vm.current_user?.id ?? "No user")")
-                        .font(.system(size: 20))
-                        .foregroundColor(.cMedGray)
+                .onAppear {
+                    print("avim : \(avatarImage)")
+                    avatarImage = URL(string: vm.current_user!.profilePicture)
                 }
+                Spacer(minLength: 20)
+                
+                
+                Text("\(vm.current_user?.name ?? "No Username")")
+                    .font(Font.custom("Quicksand-Semibold", size: 32))
+                    .foregroundColor(.cDarkGray)
+                Text("\(vm.current_user?.id ?? "No id")")
+                    .font(.system(size: 20))
+                    .foregroundColor(.cMedGray)
+                
+                
                 Text("My Challenges")
                     .font(Font.custom("Quicksand", size:24))
                     .foregroundColor(.cDarkGray)
@@ -70,69 +97,65 @@ struct SelfProfileView: View {
                     .multilineTextAlignment(.leading)
                     .padding([.top, .leading], 15)
                 
-                Image("PlaceHolderMap")
-                    .resizable()
-                    .frame(width: 354, height: 175)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                Button(action: {
+                    self.showFullMap.toggle()
+                }, label: {
+                    MapView(vm: vm, showFullMap: $showFullMap, completedCountries: $completedCountries)
+                        .frame(width:354 ,height: 175)
+                        .cornerRadius(20)
+                        .padding(.bottom, 10)
+                })
+                .fullScreenCover(isPresented: $showFullMap, content: {
+                    MapView(vm: vm, showFullMap: $showFullMap, completedCountries: $completedCountries)
+                })
                 Spacer()
-                //My Challenges
-                ZStack {
-                    Rectangle()
-                        .fill(Color.cLightGray)
-                        .frame(width:354, height: 68)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                    HStack{
-                        Image("MXFlag")
-                            .resizable()
-                            .frame(width: 51.4, height: 39.8)
-                        Text("Mexico")
-                            .font(.system(size: 20))
-                            .foregroundColor(Color.cDarkGray)
-                        Spacer()
-                        ZStack{
-                            Rectangle()
-                                .fill(Color.cOrange)
-                                .frame(width: 110, height: 33)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                            Text("In Progress")
-                                .font(.system(size: 20))
-                                .foregroundColor(Color.cDarkGray)
-                        }
-                    }
-                    .frame(width:330, height: 68)
-                    
+                ChallengeView(country: vm.current_user?.country ?? "Mexico", status: "In Progress")
+                ForEach(completedCountries, id: \.self) { country in
+                    ChallengeView(country: country, status: "Completed")
                 }
-                // Second Challenges
-                ZStack {
-                    Rectangle()
-                        .fill(Color.cLightGray)
-                        .frame(width:354, height: 68)
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                    HStack{
-                        Image("USFlag")
-                            .resizable()
-                            .frame(width: 51.4, height: 39.8)
-                        Text("United States")
-                            .font(.system(size: 20))
-                            .foregroundColor(Color.cDarkGray)
-                        Spacer()
-                        ZStack{
-                            Rectangle()
-                                .fill(Color.cOrange)
-                                .frame(width: 110, height: 33)
-                                .clipShape(RoundedRectangle(cornerRadius: 10))
-                            Text("In Progress")
-                                .font(.system(size: 20))
-                                .foregroundColor(Color.cDarkGray)
-                        }
-                    }
-                    .frame(width:330, height: 68)
-                    
-                }
+                
+                
+            }
+        }.onAppear {
+            vm.getCompletedCountries(userID: vm.current_user?.id ?? "") { countries in
+                completedCountries = countries
             }
         }
     }
 }
+
+struct ChallengeView: View {
+    var country: String
+    var status: String
+    
+    var body: some View {
+        ZStack {
+            Rectangle()
+                .fill(Color.cPopover)
+                .frame(width:354, height: 68)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+            HStack{
+                Text(countryflags[country] ?? "🇲🇽")
+                    .font(.system(size: 50))
+                Text(country)
+                    .font(.system(size: 20))
+                    .foregroundColor(Color.cDarkGray)
+                Spacer()
+                ZStack{
+                    Rectangle()
+                        .foregroundColor(status == "Completed" ? Color.cGreen : Color.cOrange)
+                        .frame(width: 110, height: 33)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                    Text(status)
+                        .font(.system(size: 20))
+                        .foregroundColor(Color.cDarkGrayConstant)
+                }
+            }
+            .frame(width:330, height: 68)
+        }
+    }
+}
+
 
 #Preview {
     SelfProfileView(vm: ViewModel())

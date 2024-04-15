@@ -44,7 +44,7 @@ struct QuestionFailView: View {
                 VStack{
                     
                     RoundedRectangle(cornerRadius: 40)
-                        .fill(Color.white)
+                        .fill(Color.cPopover)
                         .frame(width: UIScreen.main.bounds.width, height: 2*UIScreen.main.bounds.height / 3)
                         .offset(y: UIScreen.main.bounds.height / 10)
                 }
@@ -57,6 +57,7 @@ struct QuestionFailView: View {
                         Text("Quiz")
                             .foregroundColor(colorRed)
                             .font(Font.custom("Quicksand-semibold",size: 32))
+                            .padding(.top, UIScreen.main.bounds.size.height * 0.03)
                         HStack{
                             Text("\(vm.viewModel.get_current_country()) - \(vm.get_current_category())")
                                 .font(.system(size: 16))
@@ -79,7 +80,7 @@ struct QuestionFailView: View {
                             .font(Font.custom("Quicksand-semibold",size: 24))
                         Text("Correct Answer: \(vm.get_current_question().answers[ vm.get_current_question().correctAnswer])")
                             .font(Font.custom("Quicksand-medium",size: 16))
-                            .foregroundColor(Color(red: 64/255, green: 64/255, blue: 64/255))
+                            //.foregroundColor(Color(red: 64/255, green: 64/255, blue: 64/255))
                         Text("\(vm.get_current_question().correctAnswerDescription)")
                             .padding(.vertical, 20).font(.system(size: 14))
                         
@@ -109,7 +110,7 @@ struct QuestionFailView: View {
                             Text("Next")
                                 .foregroundColor(colorRed)
                                 .padding()
-                                .background(Color.white)
+                                .background(Color.cPopover)
                                 .frame(width: buttonWidth, height: buttonHeight)
                                 .overlay(
                                     RoundedRectangle(cornerRadius:buttonHeight / 2)
@@ -117,6 +118,8 @@ struct QuestionFailView: View {
                                 )
                                 .font(.system(size:20))
                                 .fontWeight(.bold)
+                                .padding(.top, UIScreen.main.bounds.size.height * 0.02)
+                                .padding(.bottom, UIScreen.main.bounds.size.height / 20)
                         }.navigationDestination(isPresented: $next) {
                             if vm.move_to_results() {
                                 ResultsView(vm: vm)
@@ -131,7 +134,7 @@ struct QuestionFailView: View {
                 
             }
             //.navigationBarBackButtonHidden()
-            .padding(.bottom, 100)
+            .padding(.bottom, UIScreen.main.bounds.size.height / 6)
             
         }
     }

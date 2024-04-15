@@ -26,7 +26,7 @@ struct PopCultureSectionView: View {
                         Rectangle()
                             .frame(width: 395, height: 405)
                             .clipShape(.rect(cornerRadius: 40))
-                            .foregroundColor(.white)
+                            .foregroundColor(.cPopover)
                         VStack (alignment: .leading){
                             Text("Pop Culture")
                                 .foregroundColor(.cDarkGray)
@@ -45,7 +45,7 @@ struct PopCultureSectionView: View {
                                 } label: {
                                     Text("Music")
                                         .font(.system(size: 20))
-                                        .foregroundColor(.cDarkGray)
+                                        .foregroundColor(.cDarkGrayConstant)
                                         .padding()
                                 }
                                 .frame(maxWidth: 159, maxHeight: 57)
@@ -53,12 +53,14 @@ struct PopCultureSectionView: View {
                                 .clipShape(.rect(cornerRadius: 14.0))
                                 
                                 
-                                Button {
-                                    
+                                NavigationLink {
+                                    DanceView(vm: vm)
+                                        .navigationBarBackButtonHidden(true)
+                                        .toolbar(.hidden, for: .tabBar)
                                 } label: {
                                     Text("Dance")
                                         .font(.system(size: 20))
-                                        .foregroundColor(.cDarkGray)
+                                        .foregroundColor(.cDarkGrayConstant)
                                         .padding()
                                 }
                                 .frame(maxWidth: 159, maxHeight: 57)
@@ -74,7 +76,7 @@ struct PopCultureSectionView: View {
                                 } label: {
                                     Text("Sports")
                                         .font(.system(size: 20))
-                                        .foregroundColor(.cDarkGray)
+                                        .foregroundColor(.cDarkGrayConstant)
                                         .padding()
                                 }
                                 .frame(maxWidth: 159, maxHeight: 57)
@@ -84,7 +86,7 @@ struct PopCultureSectionView: View {
                                 NavigationLink(destination: MovieView(), label: {
                                     Text("Movies/TV")
                                         .font(.system(size: 20))
-                                        .foregroundColor(.cDarkGray)
+                                        .foregroundColor(.cDarkGrayConstant)
                                         .padding()
                                 }).frame(maxWidth: 159, maxHeight: 57)
                                     .background(Color.cBlue)
