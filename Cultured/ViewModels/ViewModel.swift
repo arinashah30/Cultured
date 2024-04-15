@@ -313,7 +313,8 @@ class ViewModel: ObservableObject {
       }
 
   func getInfoEtiquettes(countryName: String, completion: @escaping (Etiquette) -> Void) {
-        self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("ETIQUETTE").getDocument { document, error in
+      var country = countryName.uppercased()
+        self.db.collection("COUNTRIES").document(country).collection("MODULES").document("ETIQUETTE").getDocument { document, error in
             if let error = error {
                 print(error.localizedDescription)
                 completion(Etiquette())
@@ -392,7 +393,8 @@ class ViewModel: ObservableObject {
     }
   
     func getInfoTraditions(countryName: String, completion: @escaping (Traditions) -> Void) {
-        self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("TRADITIONS").getDocument { document, error in
+        var country = countryName.uppercased()
+        self.db.collection("COUNTRIES").document(country).collection("MODULES").document("TRADITIONS").getDocument { document, error in
             if let error = error {
                 print(error.localizedDescription)
                 completion(Traditions())
