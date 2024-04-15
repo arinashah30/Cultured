@@ -24,7 +24,7 @@ struct StartXView: View {
     
     @State private var selectedCategory: String = ""
     let categoryColors = [Color("Category1"), Color("Category2"), Color("Category3"), Color("Category4")]
-    let buttonColors: [Color] = [Color.cRed, Color.cOrange, Color.cGreen, Color.cBlue]
+    let buttonColors: [Color] = [Color(red: 252/255, green: 179/255, blue: 179/255), Color(red: 255/255, green: 219/255, blue: 165/255), Color(red: 171/255, green: 232/255, blue: 186/255), Color(red: 153/255, green: 194/255, blue: 223/255)]
     
     let buttonWidth: CGFloat = 156
     let buttonHeight: CGFloat = 57
@@ -68,18 +68,22 @@ struct StartXView: View {
                     Rectangle()
                         .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height * 0.35)
                         .clipShape(.rect(cornerRadius: 40))
-                        .foregroundColor(.cPopover)
-                    VStack (alignment: .leading){
-                        Text(gameName.replacingOccurrences(of: "WordGuessing", with: "Word Guessing"))
-                            .foregroundColor(.cDarkGray)
-                            .font(Font.custom("Quicksand-SemiBold", size: 32))
-                        Text(vm.get_current_country())
-                            .foregroundColor(.cMedGray)
-                        Text("Select Category")
-                            .font(Font.custom("Quicksand-Medium", size: 20))
-                            .foregroundColor(.cDarkGray)
-                            .padding(.top, 20)
-                        HStack(alignment: .center, spacing: 20) {
+                        .foregroundColor(.white)
+                    VStack(alignment: .leading) {
+                        VStack (alignment: .leading){
+                            Text(gameName)
+                                .foregroundColor(.cDarkGray)
+                                .font(Font.custom("Quicksand-SemiBold", size: 32))
+                            Text(vm.get_current_country())
+                                .foregroundColor(.cMedGray)
+                            Text("Select Category")
+                                .font(Font.custom("Quicksand-Medium", size: 20))
+                                .foregroundColor(.cDarkGray)
+                                .padding(.top, 20)
+                        }
+                        .padding(.leading, 35)
+                        
+                        HStack(alignment: .center, spacing: UIScreen.main.bounds.width * 0.05) {
                             Button {
                                 setupActivity(category: 0)
                             } label: {
