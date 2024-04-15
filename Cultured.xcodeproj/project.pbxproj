@@ -83,6 +83,7 @@
 		66FB6A272B72A4F00066B826 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 66FB6A262B72A4F00066B826 /* FirebaseFirestore */; };
 		66FB6A292B72A5020066B826 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 66FB6A282B72A5020066B826 /* FirebaseStorage */; };
 		66FE49432B7571610053D229 /* 3DModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66FE49422B7571610053D229 /* 3DModelView.swift */; };
+		7C01F4A52BCC951300864C7B /* DrinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C01F4A42BCC951300864C7B /* DrinkView.swift */; };
 		7C1B20F32B7BFF41008E0244 /* UIColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1B20F22B7BFF41008E0244 /* UIColors.swift */; };
 		7C1B20FE2B7C00A0008E0244 /* Quicksand-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B20F92B7C00A0008E0244 /* Quicksand-Bold.ttf */; };
 		7C1B20FF2B7C00A0008E0244 /* Quicksand-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B20FA2B7C00A0008E0244 /* Quicksand-Medium.ttf */; };
@@ -179,6 +180,7 @@
 		66FB6A1F2B72A2F00066B826 /* TraditionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TraditionsView.swift; sourceTree = "<group>"; };
 		66FB6A212B72A2FD0066B826 /* HolidaysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolidaysView.swift; sourceTree = "<group>"; };
 		66FE49422B7571610053D229 /* 3DModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = 3DModelView.swift; sourceTree = "<group>"; };
+		7C01F4A42BCC951300864C7B /* DrinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrinkView.swift; sourceTree = "<group>"; };
 		7C1B20F22B7BFF41008E0244 /* UIColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColors.swift; sourceTree = "<group>"; };
 		7C1B20F62B7C002C008E0244 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		7C1B20F92B7C00A0008E0244 /* Quicksand-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Bold.ttf"; sourceTree = "<group>"; };
@@ -494,6 +496,7 @@
 			isa = PBXGroup;
 			children = (
 				CA0D9D512BBCC5F2006C7C2A /* FoodView.swift */,
+				7C01F4A42BCC951300864C7B /* DrinkView.swift */,
 			);
 			path = FoodAndDrinks;
 			sourceTree = "<group>";
@@ -684,6 +687,7 @@
 				66FB69FA2B72A1140066B826 /* ActivityView.swift in Sources */,
 				66FB6A1E2B72A2DF0066B826 /* MusicView.swift in Sources */,
 				48ACC9802BBF6AF800AEC832 /* StartXView.swift in Sources */,
+				7C01F4A52BCC951300864C7B /* DrinkView.swift in Sources */,
 				66FB6A0C2B72A17C0066B826 /* QuestionView.swift in Sources */,
 				480F220A2B7C1FA900CB5632 /* ConnectionsViewModel.swift in Sources */,
 				666A717E2BBF2D1E005A849A /* Etiquette.swift in Sources */,
