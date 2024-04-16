@@ -12,6 +12,10 @@ struct TraditionsView: View {
     @ObservedObject var vm: ViewModel
     @State private var selection = Category.Spring
     @State var traditions = Traditions()
+    @State var popup: Bool = false
+    @State var popupTitle: String = "Title"
+    @State var popupDescription: String = "Description"
+    @State var popupImage: String = "Drink"
     
     private enum Category: Hashable {
         case Spring
@@ -130,7 +134,7 @@ struct TraditionsView: View {
                         
                         ScrollView(.vertical) {
                             VStack(alignment:.leading){
-                                TraditionsSeasonView(traditions: $traditions.traditionsDictionary)
+                                TraditionsSeasonView(traditions: $traditions.traditionsDictionary, popup: $popup, popupTitle: $popupTitle, popupDescription: $popupDescription, popupImage: $popupImage)
                                 //                                    switch selection {
                                 //                                    case .Spring:
                                 //                                        TraditionsSeasonView(traditions: traditions)
@@ -160,6 +164,10 @@ struct TraditionsView: View {
             vm.getInfoTraditions(countryName: vm.current_user?.country ?? "Mexico") { trads in
                 self.traditions = trads
             }
+        }.popup(isPresented: $popup) {
+            ZStack {
+                DetailView(image: $popupImage, title: $popupTitle, description: $popupDescription)
+            }
         }
     }
 }
@@ -168,35 +176,53 @@ struct TraditionsCardView: View {
     var imagename: String = "Drink"
     var name: String = "Tradition"
     var description : String = "Short description of item."
+    @Binding var popup: Bool
+    @Binding var popupTitle: String
+    @Binding var popupDescription: String
+    @Binding var popupImage: String
+
+    
     var body: some View {
-        HStack {
-            Spacer()
+        Button(action: {
+            popupTitle = name
+            popupDescription = description
+            popupImage = imagename
+            popup = true
+        }) {
             HStack {
-                Image(imagename)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: screenHeight * 0.1, height: screenHeight * 0.1)
-                    .cornerRadius(20)
-                VStack(alignment: .leading) {
-                    Text(name)
-                        .font(.system(size: 20))
-                    Text(description)
-                        .font(.system(size: 16))
-                        .foregroundColor(.cDarkGray)
+                Spacer()
+                HStack {
+                    Image(imagename)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: screenHeight * 0.1, height: screenHeight * 0.1)
+                        .cornerRadius(20)
+                    VStack(alignment: .leading) {
+                        Text(name)
+                            .font(.system(size: 20))
+                        Text(description)
+                            .font(.system(size: 16))
+                            .multilineTextAlignment(.leading)
+                            .foregroundColor(.cDarkGray)
+                    }
+                    .frame(width: screenWidth * 0.5)
                 }
-                .frame(width: screenWidth * 0.5)
+                .frame(width: screenWidth * 0.8, height: screenHeight * 1/9)
+                .background(Color("cBarColor"))
+                .cornerRadius(14)
+                .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
+                Spacer()
             }
-            .frame(width: screenWidth * 0.8, height: screenHeight * 1/9)
-            .background(Color("cBarColor"))
-            .cornerRadius(14)
-            .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
-            Spacer()
-        }
+            }
     }
 }
 
 struct TraditionsSeasonView: View {
     @Binding var traditions: [String : String]
+    @Binding var popup: Bool
+    @Binding var popupTitle: String
+    @Binding var popupDescription: String
+    @Binding var popupImage: String
     var body: some View {
         ScrollView(.horizontal) {
             HStack {
@@ -236,7 +262,7 @@ struct TraditionsSeasonView: View {
             .padding(.leading, 32)
         
         ForEach(Array(traditions.keys), id: \.self) { fooditem in
-            TraditionsCardView(name: fooditem, description: traditions[fooditem] ?? "Description")
+            TraditionsCardView(name: fooditem, description: traditions[fooditem] ?? "Description", popup: $popup, popupTitle: $popupTitle, popupDescription: $popupDescription, popupImage: $popupImage)
         }
     }
 }
