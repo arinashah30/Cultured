@@ -73,8 +73,10 @@ struct PopCultureSectionView: View {
                             .padding(.bottom, 8)
                             
                             HStack (spacing: 13){
-                                Button {
-                                    
+                                NavigationLink {
+                                    SportsView(vm: vm)
+                                        .navigationBarBackButtonHidden(true)
+                                        .toolbar(.hidden, for: .tabBar)
                                 } label: {
                                     Text("Sports")
                                         .font(.system(size: 20))
