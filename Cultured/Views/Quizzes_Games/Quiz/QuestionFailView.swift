@@ -32,7 +32,7 @@ struct QuestionFailView: View {
             ZStack {
                 // the background image
                 VStack{
-                    Image("quizQuestionPicture")
+                    Image(uiImage: UIImage(data: Data(base64Encoded: vm.current_quiz!.image.components(separatedBy: ",")[1], options: .ignoreUnknownCharacters)!)!)
                         .resizable()
                         .scaledToFill()
                         .edgesIgnoringSafeArea(.all)

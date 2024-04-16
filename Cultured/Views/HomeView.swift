@@ -351,8 +351,7 @@ struct HomeView: View {
                 
             }
             .navigationBarBackButtonHidden()
-            .onChange(of: vm.current_user?.country, initial: true) {
-                print("yuhhhh")
+            .onAppear() {
                 points = vm.current_user?.points ?? 0
                 vm.checkIfStreakIsIntact(userID: vm.current_user?.id ?? "") { _ in
                     streak = vm.current_user?.streak ?? 0
@@ -367,6 +366,8 @@ struct HomeView: View {
                 }
                 vm.connectionsViewModel!.load_connections() { result in
                 }
+            }
+            .onChange(of: vm.current_user?.country, initial: true) {
                 vm.getImage(imageName: "\(vm.get_current_country().lowercased())_quiz_home") { image in
                     quizImage = image
                 }

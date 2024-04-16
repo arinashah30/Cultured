@@ -17,7 +17,7 @@ struct StartQuizView: View {
     let categories: [String] = ["Pop Culture", "Food", "Customs", "Places"]
     
     var body: some View {
-        StartXView(vm: vm, gameName: "Quiz", countryName: vm.get_current_country(), backgroundImage: backgroundImage, categories: categories)
+        StartXView(vm: vm, gameName: "Quiz", countryName: vm.get_current_country(), categories: categories)
     }
 }
 

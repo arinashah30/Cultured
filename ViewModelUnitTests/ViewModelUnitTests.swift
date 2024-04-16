@@ -125,7 +125,7 @@ final class ViewModelUnitTests: XCTestCase {
                                          correctAnswer: 3,
                                          correctAnswerDescription: "The French Open is one of the tennis world's four Grand Slam tournaments, attracting global attention to France's sporting excellence.")
         let quizQuestionArray = [quizQuestion1, quizQuestion2, quizQuestion3, quizQuestion4, quizQuestion5]
-        let quiz1 = Quiz(title: "FranceCultureQuiz", questions: quizQuestionArray)
+        let quiz1 = Quiz(title: "MexicoFoodQuiz", questions: quizQuestionArray)
         vm.createNewQuiz(quiz: quiz1)
 
 //        let quizQuestion3 = QuizQuestion(question: "How many cups of coffee are consumed everyday in the US",
