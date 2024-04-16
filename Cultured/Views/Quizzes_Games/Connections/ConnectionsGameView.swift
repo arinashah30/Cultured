@@ -43,7 +43,7 @@ struct ConnectionsGameView: View {
         ZStack {
             HStack {
                 BackButton()
-                    .offset(x:UIScreen.main.bounds.size.width/100, y:UIScreen.main.bounds.size.height/100)
+                    .position(x:UIScreen.main.bounds.size.width/10, y:UIScreen.main.bounds.size.height/250)
                 
                 Spacer()
             }
@@ -63,7 +63,7 @@ struct ConnectionsGameView: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 30.0)
                     .frame(width: 200, height: 45)
-                    .foregroundStyle(.black)
+                    .foregroundStyle(Color.cPopover)
                     .opacity(0.6)
                 
                 Text("One word away...")
@@ -150,13 +150,13 @@ struct ConnectionsGameView: View {
                             ForEach(vm.mistake_history_keys[index].indices, id: \.self) { item in
                                 ZStack {
                                     RoundedRectangle(cornerRadius: 10.0)
-                                        .foregroundStyle(.black)
-                                        .opacity(0.6)
+                                        .foregroundStyle(.cDarkGray)
+                                        .opacity(1)
                                         .frame(width: vm.mistake_history[vm.mistake_history_keys.reversed()[index]]! ? 72 : 82, height: 50)
                                     
                                     Text(vm.mistake_history_keys.reversed()[index][item].content)
                                         .padding(5)
-                                        .foregroundStyle(.white)
+                                        .foregroundStyle(.cDarkGrayReverse)
                                         .font(.system(size: 16))
                                         .minimumScaleFactor(0.01)
                                         .aspectRatio(contentMode: .fit)
@@ -165,19 +165,20 @@ struct ConnectionsGameView: View {
                             
                             if vm.mistake_history[vm.mistake_history_keys.reversed()[index]]! {
                                 ZStack {
+                                    RoundedRectangle(cornerRadius: 5.0)
+                                        .stroke(.cDarkGray, lineWidth: 2)
+                                        .foregroundStyle(.white)
+                                        .frame(width: 30, height: 46)
+                                        .background(.cPopover)
+                                    
                                     Triangle()
                                         .fill(Color.orange)
                                         .opacity(0.5)
                                         .frame(width: 28, height: 44)
                                     
-                                    RoundedRectangle(cornerRadius: 5.0)
-                                        .stroke(.black, lineWidth: 2)
-                                        .foregroundStyle(.white)
-                                        .frame(width: 30, height: 46)
-                                    
                                     Text("1")
                                         .padding(5)
-                                        .foregroundStyle(.black)
+                                        .foregroundStyle(.cDarkGray)
                                         .font(.system(size: 25))
                                         .minimumScaleFactor(0.01)
                                         .aspectRatio(contentMode: .fit)
