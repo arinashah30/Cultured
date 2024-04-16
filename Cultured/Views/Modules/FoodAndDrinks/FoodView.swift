@@ -178,6 +178,7 @@ struct FoodView: View {
                     Spacer()
                     HStack {
                         if let uiImage = uiImage {
+                   
                             Image(uiImage: uiImage)
                                 .resizable()
                                 .scaledToFill()
@@ -208,6 +209,7 @@ struct FoodView: View {
                 }.onAppear {
                     vm.getImage(imageName: imagename) { image in
                         uiImage = image
+                        print("image: \(uiImage)")
                     }
                 }
 
@@ -224,10 +226,12 @@ struct FoodView: View {
             VStack {
                 
                 if let uiImage = uiImage {
-                    Image(imagename)
+                    Image(uiImage: uiImage)
                         .resizable()
-                        .scaledToFit()
-                        .clipShape(RoundedRectangle(cornerRadius: 20.0))
+                        .scaledToFill()
+                        .frame(width: 150, height: 200)
+                        .clipped()
+                        .cornerRadius(20)
                 } else {
                     // Placeholder image or loading indicator
                     ProgressView()
@@ -238,6 +242,7 @@ struct FoodView: View {
             }.onAppear {
                 vm.getImage(imageName: imagename) { image in
                     uiImage = image
+                    print("tab image: \(uiImage)")
                 }
             }
         }
