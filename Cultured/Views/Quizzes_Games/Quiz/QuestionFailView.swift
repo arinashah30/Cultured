@@ -42,14 +42,14 @@ struct QuestionFailView: View {
                 }
                 
                 BackButton()
-                    .position(x:UIScreen.main.bounds.size.width * 1.1 / 12, y:-UIScreen.main.bounds.size.height * 0.0001)
+                    .position(x:UIScreen.main.bounds.size.width / 10, y:-UIScreen.main.bounds.size.height / 10000)
 //                    .position(x:UIScreen.main.bounds.size.width/10, y:UIScreen.main.bounds.size.height/250)
                 
                 VStack{
                     
                     RoundedRectangle(cornerRadius: 40)
                         .fill(Color.cPopover)
-                        .frame(width: UIScreen.main.bounds.width, height: 2*UIScreen.main.bounds.height / 3)
+                        .frame(width: UIScreen.main.bounds.width, height: 3*UIScreen.main.bounds.height / 4)
                         .offset(y: UIScreen.main.bounds.height / 10)
                 }
                 
@@ -61,8 +61,8 @@ struct QuestionFailView: View {
                         Text("Quiz")
                             .foregroundColor(colorRed)
                             .font(Font.custom("Quicksand-semibold",size: 32))
-                            .offset(y:UIScreen.main.bounds.size.height/64)
-                            .padding(.bottom, UIScreen.main.bounds.size.height * 0.013)
+                            .offset(y:UIScreen.main.bounds.size.height/72)
+                            .padding(.bottom, UIScreen.main.bounds.size.height * 0.01)
                         HStack{
                             Text("\(vm.viewModel.get_current_country()) - \(vm.get_current_category())")
                                 .font(.system(size: 14))
