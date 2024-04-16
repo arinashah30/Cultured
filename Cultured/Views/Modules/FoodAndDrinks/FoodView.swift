@@ -16,7 +16,7 @@ struct FoodView: View {
     @State private var selection = Category.Seasonal
     @State var food: Food = Food()
     
-
+    
     private enum Category: Hashable {
         //case Popular
         case Seasonal
@@ -37,7 +37,7 @@ struct FoodView: View {
                 .ignoresSafeArea()
                 .offset(y:-60)
                 .background(.blue)
-                
+            
             
             BackButton()
             
@@ -50,87 +50,71 @@ struct FoodView: View {
                         .foregroundColor(Color.cPopover)
                         .offset(x:-3)
                     
-
-                        VStack (alignment: .leading){
-                            Text("Food")
-                                .foregroundColor(Color(red: 0.97, green: 0.25, blue: 0.25))
-                                .font(Font.custom("Quicksand-SemiBold", size: 32))
-                                .padding(.leading, 32)
-
-                            Text(vm.current_user?.country ?? "Mexico")
-                                .foregroundColor(.cMedGray)
-                                .padding(.leading, 32)
+                    
+                    VStack (alignment: .leading){
+                        Text("Food")
+                            .foregroundColor(Color(red: 0.97, green: 0.25, blue: 0.25))
+                            .font(Font.custom("Quicksand-SemiBold", size: 32))
+                            .padding(.leading, 32)
+                        
+                        Text(vm.current_user?.country ?? "Mexico")
+                            .foregroundColor(.cMedGray)
+                            .padding(.leading, 32)
+                        
+                        
+                        HStack {
+                            Spacer()
                             
-                            
-                            HStack {
-                                Spacer()
-//                                Button {
-//                                    selection = .Popular
-//                                } label: {
-//                                    if selection == .Popular {
-//                                        Text("Popular")
-//                                            .font(Font.custom("Quicksand-Semibold", size: 16))
-//                                            .foregroundColor(foodRed)
-//                                            .underline()
-//                                            .padding(.leading, 23)
-//                                    } else {
-//                                        Text("Popular")
-//                                            .font(Font.custom("Quicksand-Semibold", size: 16))
-//                                            .foregroundColor(.cMedGray)
-//                                            .padding(.leading, 23)
-//                                    }
-//                                }
-                                
-                                Button {
-                                    selection = .Seasonal
-                                } label: {
-                                    if selection == .Seasonal {
-                                        Text("Seasonal")
-                                            .font(Font.custom("Quicksand-Semibold", size: 16))
-                                            .foregroundColor(foodRed)
-                                            .underline()
-//                                            .padding(.leading, 23)
-                                    } else {
-                                        Text("Seasonal")
-                                            .font(Font.custom("Quicksand-Semibold", size: 16))
-                                            .foregroundColor(.cMedGray)
-//                                            .padding(.leading, 23)
-                                    }
-                                }
-                                Button {
-                                    selection = .Regional
-                                } label: {
-                                    if selection == .Regional {
-                                        Text("Regional")
-                                            .font(Font.custom("Quicksand-Semibold", size: 16))
-                                            .foregroundColor(foodRed)
-                                            .underline()
-                                            .padding(.leading, 23)
-                                    } else {
-                                        Text("Regional")
-                                            .font(Font.custom("Quicksand-Semibold", size: 16))
-                                            .foregroundColor(.cMedGray)
-                                            .padding(.leading, 23)
-                                    }
-                                }
-                                Spacer()
-                            }
-                            .padding(.bottom, 10)
-                            .padding(.top,1)
- 
-                                ScrollView(.vertical) {
-                                    VStack(alignment:.leading){
-                                    switch selection {
-//                                    case .Popular:
-//                                        FoodPopularView()
-                                    case .Seasonal:
-                                        FoodSubsectionView(fooditems: $food.seasonal)
-                                    case .Regional:
-                                        FoodSubsectionView(fooditems: $food.regional)
-                                    }
+                            Button {
+                                selection = .Seasonal
+                            } label: {
+                                if selection == .Seasonal {
+                                    Text("Seasonal")
+                                        .font(Font.custom("Quicksand-Semibold", size: 16))
+                                        .foregroundColor(foodRed)
+                                        .underline()
+                                    //                                            .padding(.leading, 23)
+                                } else {
+                                    Text("Seasonal")
+                                        .font(Font.custom("Quicksand-Semibold", size: 16))
+                                        .foregroundColor(.cMedGray)
+                                    //                                            .padding(.leading, 23)
                                 }
                             }
-                                .padding(.bottom, 30)
+                            Button {
+                                selection = .Regional
+                            } label: {
+                                if selection == .Regional {
+                                    Text("Regional")
+                                        .font(Font.custom("Quicksand-Semibold", size: 16))
+                                        .foregroundColor(foodRed)
+                                        .underline()
+                                        .padding(.leading, 23)
+                                } else {
+                                    Text("Regional")
+                                        .font(Font.custom("Quicksand-Semibold", size: 16))
+                                        .foregroundColor(.cMedGray)
+                                        .padding(.leading, 23)
+                                }
+                            }
+                            Spacer()
+                        }
+                        .padding(.bottom, 10)
+                        .padding(.top,1)
+                        
+                        ScrollView(.vertical) {
+                            VStack(alignment:.leading){
+                                switch selection {
+                                    //                                    case .Popular:
+                                    //                                        FoodPopularView()
+                                case .Seasonal:
+                                    FoodSubsectionView(fooditems: $food.seasonal)
+                                case .Regional:
+                                    FoodSubsectionView(fooditems: $food.regional)
+                                }
+                            }
+                        }
+                        .padding(.bottom, 30)
                         
                     }
                     .padding(.top, 30)
