@@ -60,91 +60,9 @@ struct TraditionsView: View {
                             .foregroundColor(.cMedGray)
                             .padding(.leading, 32)
                         
-                        
-//                        HStack {
-//                            Spacer()
-//                            Button {
-//                                selection = .Spring
-//                            } label: {
-//                                if selection == .Spring {
-//                                    Text("Spring")
-//                                        .font(Font.custom("Quicksand-Semibold", size: 16))
-//                                        .foregroundColor(traditionsRed)
-//                                        .underline()
-//                                } else {
-//                                    Text("Spring")
-//                                        .font(Font.custom("Quicksand-Semibold", size: 16))
-//                                        .foregroundColor(.cMedGray)
-//                                }
-//                            }
-//                            
-//                            Button {
-//                                selection = .Summer
-//                            } label: {
-//                                if selection == .Summer {
-//                                    Text("Summer")
-//                                        .font(Font.custom("Quicksand-Semibold", size: 16))
-//                                        .foregroundColor(traditionsRed)
-//                                        .underline()
-//                                        .padding(.leading, 23)
-//                                } else {
-//                                    Text("Summer")
-//                                        .font(Font.custom("Quicksand-Semibold", size: 16))
-//                                        .foregroundColor(.cMedGray)
-//                                        .padding(.leading, 23)
-//                                }
-//                            }
-//                            Button {
-//                                selection = .Fall
-//                            } label: {
-//                                if selection == .Fall {
-//                                    Text("Fall")
-//                                        .font(Font.custom("Quicksand-Semibold", size: 16))
-//                                        .foregroundColor(traditionsRed)
-//                                        .underline()
-//                                        .padding(.leading, 23)
-//                                } else {
-//                                    Text("Fall")
-//                                        .font(Font.custom("Quicksand-Semibold", size: 16))
-//                                        .foregroundColor(.cMedGray)
-//                                        .padding(.leading, 23)
-//                                }
-//                            }
-//                            
-//                            Button {
-//                                selection = .Winter
-//                            } label: {
-//                                if selection == .Winter {
-//                                    Text("Winter")
-//                                        .font(Font.custom("Quicksand-Semibold", size: 16))
-//                                        .foregroundColor(traditionsRed)
-//                                        .underline()
-//                                        .padding(.leading, 23)
-//                                } else {
-//                                    Text("Winter")
-//                                        .font(Font.custom("Quicksand-Semibold", size: 16))
-//                                        .foregroundColor(.cMedGray)
-//                                        .padding(.leading, 23)
-//                                }
-//                            }
-//                            Spacer()
-//                        }
-//                        .padding(.bottom, 15)
-//                        .padding(.top,1)
-                        
                         ScrollView(.vertical) {
                             VStack(alignment:.leading){
                                 TraditionsSeasonView(traditions: $traditions.traditionsDictionary, popup: $popup, popupTitle: $popupTitle, popupDescription: $popupDescription, popupImage: $popupImage)
-                                //                                    switch selection {
-                                //                                    case .Spring:
-                                //                                        TraditionsSeasonView(traditions: traditions)
-                                //                                    case .Summer:
-                                //                                        TraditionsSeasonView()
-                                //                                    case .Fall:
-                                //                                        TraditionsSeasonView()
-                                //                                    case .Winter:
-                                //                                        TraditionsSeasonView()
-                                //                                    }
                                 
                             }
                         }
@@ -224,38 +142,6 @@ struct TraditionsSeasonView: View {
     @Binding var popupDescription: String
     @Binding var popupImage: String
     var body: some View {
-        ScrollView(.horizontal) {
-            HStack {
-                Spacer(minLength: 15)
-                VStack {
-                    Image("Horchata")
-                        .clipShape(RoundedRectangle(cornerRadius: 20.0))
-                    Text("Horchata")
-                }
-                
-                VStack {
-                    Image("Mangonada")
-                        .clipShape(RoundedRectangle(cornerRadius: 20.0))
-                    Text("Mangonada")
-                }
-                
-                VStack {
-                    Image("Horchata")
-                        .clipShape(RoundedRectangle(cornerRadius: 20.0))
-                    Text("Horchata")
-                }
-                
-                VStack {
-                    Image("Mangonada")
-                        .clipShape(RoundedRectangle(cornerRadius: 20.0))
-                    Text("Mangonada")
-                }
-                Spacer(minLength: 15)
-            }
-            .padding(.bottom, 20)
-        }
-        .scrollIndicators(.hidden)
-        
         Text("All Items")
             .font(Font.custom("Quicksand-Medium", size: 24))
             .foregroundColor(.cDarkGray)

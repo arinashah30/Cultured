@@ -240,7 +240,8 @@ class ViewModel: ObservableObject {
             }
     
     func getInfoTvMovie(countryName: String, completion: @escaping (TvMovie) -> Void) {
-                self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("TVMOVIE").getDocument { document, error in
+        var country = countryName.uppercased()
+                self.db.collection("COUNTRIES").document(country).collection("MODULES").document("TVMOVIE").getDocument { document, error in
                         if let err = error {
                             print(err.localizedDescription)
                             return
