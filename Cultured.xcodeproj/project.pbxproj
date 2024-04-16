@@ -92,6 +92,7 @@
 		7C1B21002B7C00A0008E0244 /* Quicksand-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B20FB2B7C00A0008E0244 /* Quicksand-Regular.ttf */; };
 		7C1B21012B7C00A0008E0244 /* Quicksand-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B20FC2B7C00A0008E0244 /* Quicksand-SemiBold.ttf */; };
 		7C1B21022B7C00A0008E0244 /* Quicksand-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C1B20FD2B7C00A0008E0244 /* Quicksand-Light.ttf */; };
+		7C1B89F02BCDBC0B007B92FE /* SportsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1B89EF2BCDBC0B007B92FE /* SportsView.swift */; };
 		7C3DE01F2BC9FA2B00D9DD46 /* ChangeCountryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C3DE01E2BC9FA2B00D9DD46 /* ChangeCountryView.swift */; };
 		7C864BBE2BC9A5AF0052502B /* CountrySetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C864BBD2BC9A5AF0052502B /* CountrySetView.swift */; };
 		7C9E14692BBF6353003BC7B4 /* LandmarksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9E14682BBF6353003BC7B4 /* LandmarksView.swift */; };
@@ -192,6 +193,7 @@
 		7C1B20FB2B7C00A0008E0244 /* Quicksand-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Regular.ttf"; sourceTree = "<group>"; };
 		7C1B20FC2B7C00A0008E0244 /* Quicksand-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-SemiBold.ttf"; sourceTree = "<group>"; };
 		7C1B20FD2B7C00A0008E0244 /* Quicksand-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Quicksand-Light.ttf"; sourceTree = "<group>"; };
+		7C1B89EF2BCDBC0B007B92FE /* SportsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportsView.swift; sourceTree = "<group>"; };
 		7C3DE01E2BC9FA2B00D9DD46 /* ChangeCountryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeCountryView.swift; sourceTree = "<group>"; };
 		7C864BBD2BC9A5AF0052502B /* CountrySetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountrySetView.swift; sourceTree = "<group>"; };
 		7C9E14682BBF6353003BC7B4 /* LandmarksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandmarksView.swift; sourceTree = "<group>"; };
@@ -457,6 +459,7 @@
 				66FB6A1D2B72A2DF0066B826 /* MusicView.swift */,
 				849347982BB75365000EC3F4 /* MovieView.swift */,
 				59167BFC2BB7E1D7006C02C1 /* DanceView.swift */,
+				7C1B89EF2BCDBC0B007B92FE /* SportsView.swift */,
 			);
 			path = PopCulture;
 			sourceTree = "<group>";
@@ -709,6 +712,7 @@
 				849347992BB75365000EC3F4 /* MovieView.swift in Sources */,
 				66FB6A092B72A1620066B826 /* EditSelfProfileView.swift in Sources */,
 				480F21FB2B75A54700CB5632 /* WordGuessing.swift in Sources */,
+				7C1B89F02BCDBC0B007B92FE /* SportsView.swift in Sources */,
 				661A20042BCDF2260060B304 /* DetailView.swift in Sources */,
 				66FB69C72B72A06D0066B826 /* AppDelegate.swift in Sources */,
 				480F22002B7C19E500CB5632 /* WordGuessingView.swift in Sources */,
@@ -863,7 +867,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"Cultured/Preview Content\"";
-				DEVELOPMENT_TEAM = 5GCQR6W96Y;
+				DEVELOPMENT_TEAM = W753YZ68Z5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Cultured/Info.plist;
@@ -879,7 +883,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = jhbjh;
+				PRODUCT_BUNDLE_IDENTIFIER = "Ryan-Omeara.Cultured";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -897,7 +901,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Cultured/Preview Content\"";
-				DEVELOPMENT_TEAM = 5GCQR6W96Y;
+				DEVELOPMENT_TEAM = W753YZ68Z5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Cultured/Info.plist;
@@ -913,7 +917,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = jhbjh;
+				PRODUCT_BUNDLE_IDENTIFIER = "Ryan-Omeara.Cultured";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -928,6 +932,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5GCQR6W96Y;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = iOSClub.ViewModelUnitTests;
@@ -945,6 +950,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 5GCQR6W96Y;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = iOSClub.ViewModelUnitTests;

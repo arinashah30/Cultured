@@ -13,7 +13,7 @@ struct StartXView: View {
     
     @State var gameName: String
     @State var countryName: String
-    @State var backgroundImage: Image
+    @State var backgroundImage: Image? = nil
     @State var categories: [String]
     @State var categoryProgress: [Float] = [0.0, 0.0, 0.0, 0.0]
     
@@ -53,32 +53,41 @@ struct StartXView: View {
         NavigationStack {
             VStack {
                 ZStack (alignment: .topLeading){
-                    backgroundImage
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height * 0.47, alignment: .top)
+                    if let backgroundImage = backgroundImage {
+                        backgroundImage
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height * 0.47, alignment: .top)
+                    } else {
+                        ProgressView()
+                            .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height * 0.47, alignment: .top)
+                    }
                     
-                    
-                    BackButton()
-                        .offset(x:UIScreen.main.bounds.size.width/100, y:UIScreen.main.bounds.size.height/18)
+//                }
+                BackButton()
+                    .position(x:UIScreen.main.bounds.size.width/10, y:UIScreen.main.bounds.size.height/3.6)
+//                        .offset(x:UIScreen.main.bounds.size.width/100, y:UIScreen.main.bounds.size.height/4.6)
                     
                 }
                 
                 ZStack (alignment: .topLeading){
                     Rectangle()
-                        .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height * 0.35)
-                        .clipShape(.rect(cornerRadius: 40))
+                        .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height * 0.7, alignment: .bottom)
+                        .clipShape(RoundedRectangle(cornerRadius: 40))
                         .foregroundColor(.cPopover)
                     VStack (alignment: .leading){
-                        Text(gameName.replacingOccurrences(of: "WordGuessing", with: "Word Guessing"))
-                            .foregroundColor(.cDarkGray)
-                            .font(Font.custom("Quicksand-SemiBold", size: 32))
-                        Text(vm.get_current_country())
-                            .foregroundColor(.cMedGray)
-                        Text("Select Category")
-                            .font(Font.custom("Quicksand-Medium", size: 20))
-                            .foregroundColor(.cDarkGray)
-                            .padding(.top, 20)
+                        VStack (alignment: .leading){
+                            Text(gameName)
+                                .foregroundColor(.cDarkGray)
+                                .font(Font.custom("Quicksand-SemiBold", size: 32))
+                            Text(vm.get_current_country())
+                                .foregroundColor(.cMedGray)
+                            Text("Select Category")
+                                .font(Font.custom("Quicksand-Medium", size: 20))
+                                .foregroundColor(.cDarkGray)
+                                .padding(.top, 20)
+                        }
+                        .padding(.leading, 0.06 * UIScreen.main.bounds.size.width)
                         HStack(alignment: .center, spacing: 20) {
                             Button {
                                 setupActivity(category: 0)
@@ -129,9 +138,14 @@ struct StartXView: View {
 //                    .padding(.leading, 35)
                     .frame(alignment: .center)
                 }
+                .offset(y: UIScreen.main.bounds.size.height * 0.15)
             }
             .padding(.bottom, 200)
             .onAppear() {
+                vm.getImage(imageName: "\(vm.get_current_country().lowercased())_\(gameName.lowercased())") { image in
+                    backgroundImage = Image(uiImage:image!)
+                }
+                
                 if gameName == "WordGuessing" {
                     categoryProgress = vm.wordGuessingViewModel!.getProgress()
                 } else if gameName == "Quiz" {
@@ -145,6 +159,6 @@ struct StartXView: View {
     }
 }
 
-#Preview {
-    StartXView(vm: ViewModel(), gameName: "Game Name", countryName: "Country", backgroundImage: Image("WordGuessing"), categories: ["Pop Culture", "Food", "Customs", "Places"], categoryProgress: [0.4, 0.7, 0.2, 1.0])
-}
+//#Preview {
+//    StartXView(vm: ViewModel(), gameName: "Game Name", countryName: "Country", backgroundImage: Image("WordGuessing"), categories: ["Pop Culture", "Food", "Customs", "Places"], categoryProgress: [0.4, 0.7, 0.2, 1.0])
+//}

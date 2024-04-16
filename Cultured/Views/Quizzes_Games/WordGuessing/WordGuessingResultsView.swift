@@ -28,16 +28,7 @@ struct WordGuessingResultsView: View {
                     HStack {
                         Text("Results")
                             .font(Font.custom("Quicksand-Medium", size: 22))
-                        HStack() {
-                            Spacer()
-                            Button(action: {
-                                // action to quit
-                            }) {
-                                Text("X")
-                                    .foregroundColor(.black.opacity(0.5))
-                            }
-                        }
-                        .padding(.trailing, 25)
+                        
                     }
                     VStack(alignment: .leading, spacing: 2) {
                         Text(vm.current_word_guessing_game!.hasWon ? "You guessed it!" : "Nice try...")
@@ -86,7 +77,7 @@ struct WordGuessingResultsView: View {
                     ForEach(0..<9, id: \.self) { (index: Int) in
                         VStack() {
                             Text(String(vm.current_word_guessing_game!.stats[index]))
-                                .foregroundColor(Color.primary.opacity(0.35))
+                                .foregroundColor(.cDarkGray)
                             if vm.current_word_guessing_game!.current == index && vm.current_word_guessing_game!.hasWon {
                                 Rectangle()
                                     .frame(width: 25, height: 190 * CGFloat(adjustedStats[index]))
@@ -97,7 +88,7 @@ struct WordGuessingResultsView: View {
                                     .foregroundColor(Color.primary.opacity(0.15))
                             }
                             Text(String(index + 1))
-                                .foregroundColor(Color.black.opacity(0.5))
+                                .foregroundColor(.cDarkGray)
                         }
                         
                     }

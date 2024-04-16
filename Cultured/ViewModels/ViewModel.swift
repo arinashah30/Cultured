@@ -368,7 +368,8 @@ class ViewModel: ObservableObject {
     }
     
     func getInfoSports(countryName: String, completion: @escaping (Sports) -> Void) {
-        self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("SPORTS").getDocument { document, error in
+        var country = countryName.uppercased()
+        self.db.collection("COUNTRIES").document(country).collection("MODULES").document("SPORTS").getDocument { document, error in
             if let error = error {
                 print(error.localizedDescription)
                 completion(Sports())
@@ -670,7 +671,8 @@ class ViewModel: ObservableObject {
                                     questions: questionsArray,
                                     points: 0,
                                     currentQuestion: 0,
-                                    completed: data["completed"] as? Bool ?? false)
+                                    completed: data["completed"] as? Bool ?? false,
+                                    image: data["image"] as? String ?? "")
                     completion(quiz)
                 }
             }

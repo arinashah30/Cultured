@@ -20,7 +20,7 @@ struct FoodView: View {
     @State var popupDescription: String = "Description"
     @State var popupImage: String = "Drink"
     
-
+    
     private enum Category: Hashable {
         //case Popular
         case Seasonal
@@ -41,7 +41,7 @@ struct FoodView: View {
                 .ignoresSafeArea()
                 .offset(y:-60)
                 .background(.blue)
-                
+            
             
             BackButton()
             

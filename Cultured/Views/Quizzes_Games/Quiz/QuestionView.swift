@@ -18,11 +18,15 @@ struct QuestionView: View {
     
 
     var body: some View {
+//        BackButton()
+//            .position(x:UIScreen.main.bounds.size.width/20, y:UIScreen.main.bounds.size.height/20)
         NavigationStack {
             ZStack {
+                
+                
                 // the background image
                 VStack{
-                    Image("quizQuestionPicture")
+                    Image(uiImage: UIImage(data: Data(base64Encoded: vm.current_quiz!.image.components(separatedBy: ",")[1], options: .ignoreUnknownCharacters)!)!)
                         .resizable()
                         .scaledToFill()
                         .edgesIgnoringSafeArea(.all)
@@ -30,6 +34,10 @@ struct QuestionView: View {
                         .offset(y:-UIScreen.main.bounds.width/2)
                     //                .opacity(0.5)
                 }
+                
+                BackButton()
+//                                    .position(x:UIScreen.main.bounds.size.width/9, y:UIScreen.main.bounds.size.height/30.6)
+                    .position(x:UIScreen.main.bounds.size.width * 1.1 / 12, y:-UIScreen.main.bounds.size.height * 0.0001)
                 
                 VStack{
                     
@@ -47,7 +55,8 @@ struct QuestionView: View {
                         Text("Quiz")
                             .font(Font.custom("Quicksand-semibold",size: 32))
                             .foregroundColor(colorRed)
-                            .padding(.top, UIScreen.main.bounds.size.height * 0.02)
+                            .offset(y:UIScreen.main.bounds.size.height/56)
+                            .padding(.bottom, UIScreen.main.bounds.size.height * 0.02)
                         HStack{
                             Text("\(vm.viewModel.get_current_country()) - \(vm.get_current_category())")
                                 .font(.system(size: 16))
@@ -64,12 +73,15 @@ struct QuestionView: View {
                         //            .progressViewStyle(LinearProgressViewStyle(tint: Color.red))
                         .frame(height: 20)
                         ProgressBar(progress: progress, height:5)
-                            .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
+                        //                            .padding(EdgeInsets(top: UIScreen.main.bounds.size.height * 0.01, leading: 0, bottom: UIScreen.main.bounds.size.height * 0.005, trailing: 0))
                         
                         Text("\(vm.get_current_question().question)")
-                            .padding(.vertical, 20).font(.system(size: 20))
+                            .padding(.top, UIScreen.main.bounds.size.height * 0.015)
+                            .font(.system(size: 16))
+                            .fixedSize(horizontal: false, vertical: true) // Add this line
                         
-                        VStack(spacing: 16) {
+                        
+                        VStack(spacing: UIScreen.main.bounds.size.height * 0.015) {
                             ForEach(categories, id: \.self) { category in
                                 Button(action: {
                                     toggleCategorySelection(category)
@@ -77,7 +89,7 @@ struct QuestionView: View {
                                     Text(category)
                                         .padding()
                                         .font(.system(.body, design: .rounded)) // Use dynamic type
-                                        .minimumScaleFactor(0.5)
+                                        .minimumScaleFactor(0.4)
                                 }
                                 .frame(width: buttonWidth, height: buttonHeight)
                                 .background(buttonColor(category: category))
@@ -87,14 +99,14 @@ struct QuestionView: View {
                             
                         }
                     }
-                        Button(action: {
-                            let result = vm.check_answer(selected: selectedCategory)
-                            vm.submit_answer(selectedAnswer: selectedCategory) {
-                                if result.isSuccess {
-                                    nav = true
-                                }
+                    Button(action: {
+                        let result = vm.check_answer(selected: selectedCategory)
+                        vm.submit_answer(selectedAnswer: selectedCategory) {
+                            if result.isSuccess {
+                                nav = true
                             }
-                        }) {
+                        }
+                    }) {
                         Text("Submit")
                             .foregroundColor(.red)
                             .padding()
@@ -106,16 +118,16 @@ struct QuestionView: View {
                             )
                             .font(.system(size:20))
                             .fontWeight(.bold)
-                        }.navigationDestination(isPresented: $nav) { destinationView }
-                        .padding(.top, UIScreen.main.bounds.size.height * 0.02)
-                        .padding(.bottom, UIScreen.main.bounds.size.height / 15)
+                    }.navigationDestination(isPresented: $nav) { destinationView }
+                        .padding(.bottom, UIScreen.main.bounds.size.height * 0.07)
+                        .frame(maxHeight: 11 * UIScreen.main.bounds.size.height / 12)
                     //}.padding(.top, 20)
                     
                     
                 }.offset(y:UIScreen.main.bounds.height/7).padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 40))
                 
             }
-            //.navigationBarBackButtonHidden()
+            .navigationBarBackButtonHidden()
             .padding(.bottom, 100)
             .onAppear(perform: {
                 categories = vm.get_answer_choices()
@@ -125,7 +137,6 @@ struct QuestionView: View {
                 currentStep = vm.current_quiz!.currentQuestion + 1
                 progress = CGFloat(Float(vm.current_quiz!.currentQuestion + 1) / Float(vm.current_quiz!.questions.count))
             })
-            
         }
     }
     

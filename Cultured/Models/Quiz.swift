@@ -14,4 +14,5 @@ struct Quiz {
     var points: Int = 0
     var currentQuestion: Int = 0
     var completed: Bool = false
+    var image: String = ""
 }
