@@ -109,10 +109,6 @@ struct FoodCategorySectionView: View {
     }
 }
 
-
-
-}
-
 #Preview {
     FoodCategorySectionView(vm: ViewModel())
 }
