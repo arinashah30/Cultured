@@ -11,7 +11,12 @@ import SwiftUI
 struct TraditionsView: View {
     @ObservedObject var vm: ViewModel
     @State private var selection = Category.Spring
-
+    @State var traditions = Traditions()
+    @State var popup: Bool = false
+    @State var popupTitle: String = "Title"
+    @State var popupDescription: String = "Description"
+    @State var popupImage: String = "Drink"
+    
     private enum Category: Hashable {
         case Spring
         case Summer
@@ -41,107 +46,109 @@ struct TraditionsView: View {
                     Rectangle()
                         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 2 / 3)
                         .clipShape(.rect(cornerRadius: 40))
-                        .foregroundColor(.white)
+                        .foregroundColor(.cPopover)
                         .offset(x:-3)
                     
-
-                        VStack (alignment: .leading){
-                            Text("Traditions")
-                                .foregroundColor(Color(red: 0.97, green: 0.25, blue: 0.25))
-                                .font(Font.custom("Quicksand-SemiBold", size: 32))
-                                .padding(.leading, 32)
-
-                            Text("Mexico")
-                                .foregroundColor(.cMedGray)
-                                .padding(.leading, 32)
-                            
-                            
-                            HStack {
-                                Spacer()
-                                Button {
-                                    selection = .Spring
-                                } label: {
-                                    if selection == .Spring {
-                                        Text("Spring")
-                                            .font(Font.custom("Quicksand-Semibold", size: 16))
-                                            .foregroundColor(traditionsRed)
-                                            .underline()
-                                    } else {
-                                        Text("Spring")
-                                            .font(Font.custom("Quicksand-Semibold", size: 16))
-                                            .foregroundColor(.cMedGray)
-                                    }
-                                }
+                    
+                    VStack (alignment: .leading){
+                        Text("Traditions")
+                            .foregroundColor(Color(red: 0.97, green: 0.25, blue: 0.25))
+                            .font(Font.custom("Quicksand-SemiBold", size: 32))
+                            .padding(.leading, 32)
+                        
+                        Text(vm.current_user?.country ?? "Mexico")
+                            .foregroundColor(.cMedGray)
+                            .padding(.leading, 32)
+                        
+                        
+//                        HStack {
+//                            Spacer()
+//                            Button {
+//                                selection = .Spring
+//                            } label: {
+//                                if selection == .Spring {
+//                                    Text("Spring")
+//                                        .font(Font.custom("Quicksand-Semibold", size: 16))
+//                                        .foregroundColor(traditionsRed)
+//                                        .underline()
+//                                } else {
+//                                    Text("Spring")
+//                                        .font(Font.custom("Quicksand-Semibold", size: 16))
+//                                        .foregroundColor(.cMedGray)
+//                                }
+//                            }
+//                            
+//                            Button {
+//                                selection = .Summer
+//                            } label: {
+//                                if selection == .Summer {
+//                                    Text("Summer")
+//                                        .font(Font.custom("Quicksand-Semibold", size: 16))
+//                                        .foregroundColor(traditionsRed)
+//                                        .underline()
+//                                        .padding(.leading, 23)
+//                                } else {
+//                                    Text("Summer")
+//                                        .font(Font.custom("Quicksand-Semibold", size: 16))
+//                                        .foregroundColor(.cMedGray)
+//                                        .padding(.leading, 23)
+//                                }
+//                            }
+//                            Button {
+//                                selection = .Fall
+//                            } label: {
+//                                if selection == .Fall {
+//                                    Text("Fall")
+//                                        .font(Font.custom("Quicksand-Semibold", size: 16))
+//                                        .foregroundColor(traditionsRed)
+//                                        .underline()
+//                                        .padding(.leading, 23)
+//                                } else {
+//                                    Text("Fall")
+//                                        .font(Font.custom("Quicksand-Semibold", size: 16))
+//                                        .foregroundColor(.cMedGray)
+//                                        .padding(.leading, 23)
+//                                }
+//                            }
+//                            
+//                            Button {
+//                                selection = .Winter
+//                            } label: {
+//                                if selection == .Winter {
+//                                    Text("Winter")
+//                                        .font(Font.custom("Quicksand-Semibold", size: 16))
+//                                        .foregroundColor(traditionsRed)
+//                                        .underline()
+//                                        .padding(.leading, 23)
+//                                } else {
+//                                    Text("Winter")
+//                                        .font(Font.custom("Quicksand-Semibold", size: 16))
+//                                        .foregroundColor(.cMedGray)
+//                                        .padding(.leading, 23)
+//                                }
+//                            }
+//                            Spacer()
+//                        }
+//                        .padding(.bottom, 15)
+//                        .padding(.top,1)
+                        
+                        ScrollView(.vertical) {
+                            VStack(alignment:.leading){
+                                TraditionsSeasonView(traditions: $traditions.traditionsDictionary, popup: $popup, popupTitle: $popupTitle, popupDescription: $popupDescription, popupImage: $popupImage)
+                                //                                    switch selection {
+                                //                                    case .Spring:
+                                //                                        TraditionsSeasonView(traditions: traditions)
+                                //                                    case .Summer:
+                                //                                        TraditionsSeasonView()
+                                //                                    case .Fall:
+                                //                                        TraditionsSeasonView()
+                                //                                    case .Winter:
+                                //                                        TraditionsSeasonView()
+                                //                                    }
                                 
-                                Button {
-                                    selection = .Summer
-                                } label: {
-                                    if selection == .Summer {
-                                        Text("Summer")
-                                            .font(Font.custom("Quicksand-Semibold", size: 16))
-                                            .foregroundColor(traditionsRed)
-                                            .underline()
-                                            .padding(.leading, 23)
-                                    } else {
-                                        Text("Summer")
-                                            .font(Font.custom("Quicksand-Semibold", size: 16))
-                                            .foregroundColor(.cMedGray)
-                                            .padding(.leading, 23)
-                                    }
-                                }
-                                Button {
-                                    selection = .Fall
-                                } label: {
-                                    if selection == .Fall {
-                                        Text("Fall")
-                                            .font(Font.custom("Quicksand-Semibold", size: 16))
-                                            .foregroundColor(traditionsRed)
-                                            .underline()
-                                            .padding(.leading, 23)
-                                    } else {
-                                        Text("Fall")
-                                            .font(Font.custom("Quicksand-Semibold", size: 16))
-                                            .foregroundColor(.cMedGray)
-                                            .padding(.leading, 23)
-                                    }
-                                }
-                                
-                                Button {
-                                    selection = .Winter
-                                } label: {
-                                    if selection == .Winter {
-                                        Text("Winter")
-                                            .font(Font.custom("Quicksand-Semibold", size: 16))
-                                            .foregroundColor(traditionsRed)
-                                            .underline()
-                                            .padding(.leading, 23)
-                                    } else {
-                                        Text("Winter")
-                                            .font(Font.custom("Quicksand-Semibold", size: 16))
-                                            .foregroundColor(.cMedGray)
-                                            .padding(.leading, 23)
-                                    }
-                                }
-                                Spacer()
                             }
-                            .padding(.bottom, 15)
-                            .padding(.top,1)
- 
-                                ScrollView(.vertical) {
-                                    VStack(alignment:.leading){
-                                    switch selection {
-                                    case .Spring:
-                                        TraditionsSpringView()
-                                    case .Summer:
-                                        TraditionsSpringView()
-                                    case .Fall:
-                                        TraditionsSpringView()
-                                    case .Winter:
-                                        TraditionsSpringView()
-                                    }
-                                }
-                            }
-                                .padding(.bottom, 30)
+                        }
+                        .padding(.bottom, 30)
                         
                     }
                     .padding(.top, 30)
@@ -153,89 +160,109 @@ struct TraditionsView: View {
             .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         }
         .ignoresSafeArea()
+        .onAppear {
+            vm.getInfoTraditions(countryName: vm.current_user?.country ?? "Mexico") { trads in
+                self.traditions = trads
+            }
+        }.popup(isPresented: $popup) {
+            ZStack {
+                DetailView(image: $popupImage, title: $popupTitle, description: $popupDescription)
+            }
+        }
     }
 }
 
-struct TraditionsSpringView: View {
+struct TraditionsCardView: View {
+    var imagename: String = "Drink"
+    var name: String = "Tradition"
+    var description : String = "Short description of item."
+    @Binding var popup: Bool
+    @Binding var popupTitle: String
+    @Binding var popupDescription: String
+    @Binding var popupImage: String
+
+    
     var body: some View {
-        VStack(alignment: .center) {
-            
+        Button(action: {
+            popupTitle = name
+            popupDescription = description
+            popupImage = imagename
+            popup = true
+        }) {
             HStack {
                 Spacer()
                 HStack {
-                    Image("Drink")
+                    Image(imagename)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: screenHeight * 0.1, height: screenHeight * 0.1)
                         .cornerRadius(20)
                     VStack(alignment: .leading) {
-                        Text("Food Item")
+                        Text(name)
                             .font(.system(size: 20))
-                        Text("Short description of item.")
+                        Text(description)
                             .font(.system(size: 16))
+                            .multilineTextAlignment(.leading)
                             .foregroundColor(.cDarkGray)
                     }
-                    .frame(width: screenWidth * 0.6)
-//                    .background(.blue)
+                    .frame(width: screenWidth * 0.5)
                 }
-                .frame(width: screenWidth * 0.9, height: screenHeight * 1/9)
-                .background(Color.cLightGray)
+                .frame(width: screenWidth * 0.8, height: screenHeight * 1/9)
+                .background(Color("cBarColor"))
                 .cornerRadius(14)
                 .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
                 Spacer()
             }
-            
+            }
+    }
+}
+
+struct TraditionsSeasonView: View {
+    @Binding var traditions: [String : String]
+    @Binding var popup: Bool
+    @Binding var popupTitle: String
+    @Binding var popupDescription: String
+    @Binding var popupImage: String
+    var body: some View {
+        ScrollView(.horizontal) {
             HStack {
-                Spacer()
-                HStack {
-                    Image("Drink")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: screenHeight * 0.1, height: screenHeight * 0.1)
-                    //                                            .clipShape(RoundedRectangle(cornerRadius:20.0))
-                        .cornerRadius(20)
-                    VStack(alignment: .leading) {
-                        Text("Food Item")
-                            .font(.system(size: 20))
-                        Text("Short description of item.")
-                            .font(.system(size: 16))
-                            .foregroundColor(.cDarkGray)
-                    }
-                    .frame(width: screenWidth * 0.6)
-                    //                                        .padding(.leading, 10)
+                Spacer(minLength: 15)
+                VStack {
+                    Image("Horchata")
+                        .clipShape(RoundedRectangle(cornerRadius: 20.0))
+                    Text("Horchata")
                 }
-                .frame(width: screenWidth * 0.9, height: screenHeight * 1/9)
-                .background(Color.cLightGray)
-                .cornerRadius(14)
-                .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
-                Spacer()
-            }
-            
-            HStack {
-                Spacer()
-                HStack {
-                    Image("Drink")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: screenHeight * 0.1, height: screenHeight * 0.1)
-                    //                                            .clipShape(RoundedRectangle(cornerRadius:20.0))
-                        .cornerRadius(20)
-                    VStack(alignment: .leading) {
-                        Text("Food Item")
-                            .font(.system(size: 20))
-                        Text("Short description of item.")
-                            .font(.system(size: 16))
-                            .foregroundColor(.cDarkGray)
-                    }
-                    .frame(width: screenWidth * 0.6)
-                    //                                        .padding(.leading, 10)
+                
+                VStack {
+                    Image("Mangonada")
+                        .clipShape(RoundedRectangle(cornerRadius: 20.0))
+                    Text("Mangonada")
                 }
-                .frame(width: screenWidth * 0.9, height: screenHeight * 1/9)
-                .background(Color.cLightGray)
-                .cornerRadius(14)
-                .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
-                Spacer()
+                
+                VStack {
+                    Image("Horchata")
+                        .clipShape(RoundedRectangle(cornerRadius: 20.0))
+                    Text("Horchata")
+                }
+                
+                VStack {
+                    Image("Mangonada")
+                        .clipShape(RoundedRectangle(cornerRadius: 20.0))
+                    Text("Mangonada")
+                }
+                Spacer(minLength: 15)
             }
+            .padding(.bottom, 20)
+        }
+        .scrollIndicators(.hidden)
+        
+        Text("All Items")
+            .font(Font.custom("Quicksand-Medium", size: 24))
+            .foregroundColor(.cDarkGray)
+            .padding(.leading, 32)
+        
+        ForEach(Array(traditions.keys), id: \.self) { fooditem in
+            TraditionsCardView(name: fooditem, description: traditions[fooditem] ?? "Description", popup: $popup, popupTitle: $popupTitle, popupDescription: $popupDescription, popupImage: $popupImage)
         }
     }
 }

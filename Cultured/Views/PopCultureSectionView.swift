@@ -31,7 +31,7 @@ struct PopCultureSectionView: View {
                             Text("Pop Culture")
                                 .foregroundColor(.cDarkGray)
                                 .font(Font.custom("Quicksand-SemiBold", size: 32))
-                            Text("Mexico")
+                            Text(vm.current_user?.country ?? "Mexico")
                                 .foregroundColor(.cMedGray)
                             Text("Categories")
                                 .font(Font.custom("Quicksand-Medium", size: 24))
@@ -83,7 +83,7 @@ struct PopCultureSectionView: View {
                                 .background(Color.cGreen)
                                 .clipShape(.rect(cornerRadius: 14.0))
                                 
-                                NavigationLink(destination: MovieView(), label: {
+                                NavigationLink(destination: MovieView( vm: vm), label: {
                                     Text("Movies/TV")
                                         .font(.system(size: 20))
                                         .foregroundColor(.cDarkGrayConstant)
