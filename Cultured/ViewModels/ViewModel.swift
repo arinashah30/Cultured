@@ -670,7 +670,8 @@ class ViewModel: ObservableObject {
                                     questions: questionsArray,
                                     points: 0,
                                     currentQuestion: 0,
-                                    completed: data["completed"] as? Bool ?? false)
+                                    completed: data["completed"] as? Bool ?? false,
+                                    image: data["image"] as? String ?? "")
                     completion(quiz)
                 }
             }

@@ -214,7 +214,9 @@ struct ChangeCountryView: View {
                             .inset(by: 1)
                             .stroke(buttonRed, lineWidth: 2)
                             )
+                            
                     }
+                    .opacity(isLoading ? 0 : 1)
                     
                     Button {
                         vm.setCurrentCountry(userID: vm.current_user!.id, countryName: selectedOption?.replacingOccurrences(of: "United Arab Emirates", with: "UnitedStates") ?? "Mexico", completion: {_ in})
@@ -255,6 +257,7 @@ struct ChangeCountryView: View {
                         }
                     }
                     .disabled(selectedOption == nil)
+                    .opacity(isLoading ? 0 : 1)
                     
                 }
                 .padding([.top, .bottom], 20)
