@@ -99,11 +99,12 @@ struct FoodCategorySectionView: View {
                 .offset(y:screenHeight * 0.6)
 
             }
-            .frame(width: screenWidth, height: screenHeight)
-        }
-        .onAppear {
-            vm.getImage(imageName: "\(vm.get_current_country().lowercased())_food_home") { image in
-                uiImage = image
+            .onAppear {
+                vm.getImage(imageName: "\(vm.get_current_country().lowercased())_food_home") { image in
+                    uiImage = image
+                }
+            }
+
         }
     }
 }

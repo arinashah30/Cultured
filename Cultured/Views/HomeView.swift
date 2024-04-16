@@ -20,6 +20,7 @@ struct HomeView: View {
     @State var foodImage: UIImage? = nil
     @State var customsImage: UIImage? = nil
     @State var placesImage: UIImage? = nil
+    @State var wordGuessingImage: UIImage? = nil
 
     
     var body: some View {
@@ -145,8 +146,8 @@ struct HomeView: View {
                         .padding(.trailing, 8)
                         
                         ZStack{
-                            if let connectionsImage = connectionsImage {
-                                Image(uiImage: connectionsImage)
+                            if let wordGuessingImage = wordGuessingImage {
+                                Image(uiImage: wordGuessingImage)
                                     .resizable()
                                     .frame(width: 170, height: 125)
                             } else {
@@ -374,6 +375,9 @@ struct HomeView: View {
                 }
                 vm.getImage(imageName: "\(vm.get_current_country().lowercased())_connections_home") { image in
                     connectionsImage = image
+                }
+                vm.getImage(imageName: "\(vm.get_current_country().lowercased())_wordguessing_home") { image in
+                    wordGuessingImage = image
                 }
                 vm.getImage(imageName: "\(vm.get_current_country().lowercased())_artour_home") { image in
                     artourImage = image

@@ -10,7 +10,7 @@ import SwiftUI
 struct CustomsSectionView: View {
     @ObservedObject var vm: ViewModel
     @State var uiImage: UIImage? = nil
-
+  
     var body: some View {
         NavigationStack {
             ZStack(alignment:.topLeading){
@@ -18,9 +18,8 @@ struct CustomsSectionView: View {
                     Image(uiImage: uiImage)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
-                        .frame(width: screenWidth, height: screenHeight * 0.7)
-                        .ignoresSafeArea()
-
+                        .frame(width: screenWidth, height: screenHeight * 0.8)
+                        .offset(y:screenHeight * -0.1)
                 } else {
                     ProgressView()
                         .aspectRatio(contentMode: .fit)
@@ -60,7 +59,6 @@ struct CustomsSectionView: View {
                                 .frame(maxWidth: 159, maxHeight: 57)
                                 .background(Color.cRed)
                                 .clipShape(.rect(cornerRadius: 14.0))
-                                
                                 
                                 NavigationLink {
                                     EtiquetteView(vm: vm)
