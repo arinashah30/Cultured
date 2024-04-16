@@ -40,7 +40,6 @@ struct FoodView: View {
                 .frame(width: screenWidth, height: screenHeight * 0.5)
                 .ignoresSafeArea()
                 .offset(y:-60)
-                .background(.blue)
             
             
             BackButton()
@@ -179,9 +178,10 @@ struct FoodView: View {
                     Spacer()
                     HStack {
                         if let uiImage = uiImage {
+                   
                             Image(uiImage: uiImage)
                                 .resizable()
-                                .scaledToFit()
+                                .scaledToFill()
                                 .frame(width: screenHeight * 0.1, height: screenHeight * 0.1)
                                 .clipped()
                                 .cornerRadius(20)
@@ -209,9 +209,41 @@ struct FoodView: View {
                 }.onAppear {
                     vm.getImage(imageName: imagename) { image in
                         uiImage = image
+                        print("image: \(uiImage)")
                     }
                 }
 
+            }
+        }
+    }
+    
+    struct FoodTabView: View {
+        @ObservedObject var vm: ViewModel
+        var imagename: String
+        var name: String
+        @State var uiImage: UIImage? = nil
+        var body: some View {
+            VStack {
+                
+                if let uiImage = uiImage {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 150, height: 200)
+                        .clipped()
+                        .cornerRadius(20)
+                } else {
+                    // Placeholder image or loading indicator
+                    ProgressView()
+                        .frame(width: 145, height: 185)
+                }
+                
+                Text(name)
+            }.onAppear {
+                vm.getImage(imageName: imagename) { image in
+                    uiImage = image
+                    print("tab image: \(uiImage)")
+                }
             }
         }
     }
@@ -224,33 +256,20 @@ struct FoodView: View {
         @Binding var popupTitle: String
         @Binding var popupDescription: String
         @Binding var popupImage: String
+        
         var body: some View {
             ScrollView(.horizontal) {
                 HStack {
                     Spacer(minLength: 15)
-                    VStack {
-                        Image("Horchata")
-                            .clipShape(RoundedRectangle(cornerRadius: 20.0))
-                        Text("Horchata")
-                    }
                     
-                    VStack {
-                        Image("Mangonada")
-                            .clipShape(RoundedRectangle(cornerRadius: 20.0))
-                        Text("Mangonada")
-                    }
+                  
+                        ForEach((0..<(fooditems.count / 2)), id: \.self) { index in
+                            var fooditem = Array(fooditems.keys)[index]
+                            FoodTabView(vm: vm, imagename: "\(vm.get_current_country().lowercased())_\(type)_\(removeWhitespacesFromString(mStr: fooditem))", name: fooditem)
+                        }
                     
-                    VStack {
-                        Image("Horchata")
-                            .clipShape(RoundedRectangle(cornerRadius: 20.0))
-                        Text("Horchata")
-                    }
                     
-                    VStack {
-                        Image("Mangonada")
-                            .clipShape(RoundedRectangle(cornerRadius: 20.0))
-                        Text("Mangonada")
-                    }
+                
                     Spacer(minLength: 15)
                 }
                 .padding(.bottom, 20)
@@ -262,11 +281,18 @@ struct FoodView: View {
                 .foregroundColor(.cDarkGray)
                 .padding(.leading, 32)
             
-            ForEach(Array(fooditems.keys.sorted().enumerated()), id: \.element) { index, fooditem in
-                FoodCardView(vm: vm, imagename: "\(vm.get_current_country().lowercased())_\(type)_\(index+1)", foodname: fooditem, fooddescription: fooditems[fooditem] ?? "Description", popup: $popup, popupTitle: $popupTitle, popupDescription: $popupDescription, popupImage: $popupImage)
+            ForEach((fooditems.count / 2)..<fooditems.count, id: \.self) { index in
+                var fooditem = Array(fooditems.keys)[index]
+                FoodCardView(vm: vm, imagename: "\(vm.get_current_country().lowercased())_\(type)_\(removeWhitespacesFromString(mStr: fooditem))", foodname: fooditem, fooddescription: fooditems[fooditem] ?? "Description", popup: $popup, popupTitle: $popupTitle, popupDescription: $popupDescription, popupImage: $popupImage)
             }
         }
     }
+}
+
+func removeWhitespacesFromString(mStr: String) -> String {
+
+    let filteredChar = mStr.filter { !$0.isWhitespace }
+    return String(filteredChar).lowercased()
 }
 
 #Preview {
