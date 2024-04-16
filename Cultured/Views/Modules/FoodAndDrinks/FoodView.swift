@@ -15,6 +15,10 @@ struct FoodView: View {
     @ObservedObject var vm: ViewModel
     @State private var selection = Category.Seasonal
     @State var food: Food = Food()
+    @State var popup: Bool = false
+    @State var popupTitle: String = "Title"
+    @State var popupDescription: String = "Description"
+    @State var popupImage: String = "Drink"
     
     
     private enum Category: Hashable {
@@ -50,71 +54,87 @@ struct FoodView: View {
                         .foregroundColor(Color.cPopover)
                         .offset(x:-3)
                     
-                    
-                    VStack (alignment: .leading){
-                        Text("Food")
-                            .foregroundColor(Color(red: 0.97, green: 0.25, blue: 0.25))
-                            .font(Font.custom("Quicksand-SemiBold", size: 32))
-                            .padding(.leading, 32)
-                        
-                        Text(vm.current_user?.country ?? "Mexico")
-                            .foregroundColor(.cMedGray)
-                            .padding(.leading, 32)
-                        
-                        
-                        HStack {
-                            Spacer()
+
+                        VStack (alignment: .leading){
+                            Text("Food")
+                                .foregroundColor(Color(red: 0.97, green: 0.25, blue: 0.25))
+                                .font(Font.custom("Quicksand-SemiBold", size: 32))
+                                .padding(.leading, 32)
+
+                            Text(vm.current_user?.country ?? "Mexico")
+                                .foregroundColor(.cMedGray)
+                                .padding(.leading, 32)
                             
-                            Button {
-                                selection = .Seasonal
-                            } label: {
-                                if selection == .Seasonal {
-                                    Text("Seasonal")
-                                        .font(Font.custom("Quicksand-Semibold", size: 16))
-                                        .foregroundColor(foodRed)
-                                        .underline()
-                                    //                                            .padding(.leading, 23)
-                                } else {
-                                    Text("Seasonal")
-                                        .font(Font.custom("Quicksand-Semibold", size: 16))
-                                        .foregroundColor(.cMedGray)
-                                    //                                            .padding(.leading, 23)
+                            
+                            HStack {
+                                Spacer()
+//                                Button {
+//                                    selection = .Popular
+//                                } label: {
+//                                    if selection == .Popular {
+//                                        Text("Popular")
+//                                            .font(Font.custom("Quicksand-Semibold", size: 16))
+//                                            .foregroundColor(foodRed)
+//                                            .underline()
+//                                            .padding(.leading, 23)
+//                                    } else {
+//                                        Text("Popular")
+//                                            .font(Font.custom("Quicksand-Semibold", size: 16))
+//                                            .foregroundColor(.cMedGray)
+//                                            .padding(.leading, 23)
+//                                    }
+//                                }
+                                
+                                Button {
+                                    selection = .Seasonal
+                                } label: {
+                                    if selection == .Seasonal {
+                                        Text("Seasonal")
+                                            .font(Font.custom("Quicksand-Semibold", size: 16))
+                                            .foregroundColor(foodRed)
+                                            .underline()
+                                            .padding(.leading, 23)
+                                    } else {
+                                        Text("Seasonal")
+                                            .font(Font.custom("Quicksand-Semibold", size: 16))
+                                            .foregroundColor(.cMedGray)
+                                            .padding(.leading, 23)
+                                    }
+                                }
+                                Button {
+                                    selection = .Regional
+                                } label: {
+                                    if selection == .Regional {
+                                        Text("Regional")
+                                            .font(Font.custom("Quicksand-Semibold", size: 16))
+                                            .foregroundColor(foodRed)
+                                            .underline()
+                                            .padding(.leading, 23)
+                                    } else {
+                                        Text("Regional")
+                                            .font(Font.custom("Quicksand-Semibold", size: 16))
+                                            .foregroundColor(.cMedGray)
+                                            .padding(.leading, 23)
+                                    }
+                                }
+                                Spacer()
+                            }
+                            .padding(.bottom, 10)
+                            .padding(.top,1)
+ 
+                                ScrollView(.vertical) {
+                                    VStack(alignment:.leading){
+                                    switch selection {
+//                                    case .Popular:
+//                                        FoodPopularView()
+                                    case .Seasonal:
+                                        FoodSubsectionView(vm: vm, type: "seasonal", fooditems: $food.seasonal, popup: $popup, popupTitle: $popupTitle, popupDescription: $popupDescription, popupImage: $popupImage)
+                                    case .Regional:
+                                        FoodSubsectionView(vm: vm, type: "regional", fooditems: $food.regional, popup: $popup, popupTitle: $popupTitle, popupDescription: $popupDescription, popupImage: $popupImage)
+                                    }
                                 }
                             }
-                            Button {
-                                selection = .Regional
-                            } label: {
-                                if selection == .Regional {
-                                    Text("Regional")
-                                        .font(Font.custom("Quicksand-Semibold", size: 16))
-                                        .foregroundColor(foodRed)
-                                        .underline()
-                                        .padding(.leading, 23)
-                                } else {
-                                    Text("Regional")
-                                        .font(Font.custom("Quicksand-Semibold", size: 16))
-                                        .foregroundColor(.cMedGray)
-                                        .padding(.leading, 23)
-                                }
-                            }
-                            Spacer()
-                        }
-                        .padding(.bottom, 10)
-                        .padding(.top,1)
-                        
-                        ScrollView(.vertical) {
-                            VStack(alignment:.leading){
-                                switch selection {
-                                    //                                    case .Popular:
-                                    //                                        FoodPopularView()
-                                case .Seasonal:
-                                    FoodSubsectionView(fooditems: $food.seasonal)
-                                case .Regional:
-                                    FoodSubsectionView(fooditems: $food.regional)
-                                }
-                            }
-                        }
-                        .padding(.bottom, 30)
+                                .padding(.bottom, 30)
                         
                     }
                     .padding(.top, 30)
@@ -131,89 +151,123 @@ struct FoodView: View {
                 self.food = food
                 print("SELF FOOD \(self.food)")
             }
-        }
-    }
-}
-
-struct FoodCardView: View {
-    var imagename: String = "Drink"
-    var foodname: String = "Food Item"
-    var fooddescription : String = "Short description of item."
-    var body: some View {
-        HStack {
-            Spacer()
-            HStack {
-                Image(imagename)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: screenHeight * 0.1, height: screenHeight * 0.1)
-                    .cornerRadius(20)
-                VStack(alignment: .leading) {
-                    Text(foodname)
-                        .font(.system(size: 20))
-                    Text(fooddescription)
-                        .font(.system(size: 16))
-                        .foregroundColor(.cDarkGray)
-                }
-                .frame(width: screenWidth * 0.5)
+        }.popup(isPresented: $popup) {
+            ZStack {
+                DetailView(vm: vm, image: $popupImage, title: $popupTitle, description: $popupDescription)
             }
-            .frame(width: screenWidth * 0.8, height: screenHeight * 1/9)
-            .background(Color("cBarColor"))
-            .cornerRadius(14)
-            .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
-            Spacer()
         }
     }
-}
+    struct FoodCardView: View {
+        @ObservedObject var vm: ViewModel
+        var imagename: String = "Drink"
+        var foodname: String = "Food Item"
+        var fooddescription : String = "Short description of item."
+        @Binding var popup: Bool
+        @Binding var popupTitle: String
+        @Binding var popupDescription: String
+        @Binding var popupImage: String
+        @State var uiImage: UIImage? = nil
+        
+        var body: some View {
+            Button(action: {
+                popupTitle = foodname
+                popupDescription = fooddescription
+                popupImage = imagename
+                popup = true
+            }) {
+                HStack {
+                    Spacer()
+                    HStack {
+                        if let uiImage = uiImage {
+                            Image(uiImage: uiImage)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: screenHeight * 0.1, height: screenHeight * 0.1)
+                                .clipped()
+                                .cornerRadius(20)
+                        } else {
+                            // Placeholder image or loading indicator
+                            ProgressView()
+                                .frame(width: 145, height: 185)
+                        }
+        
+                        VStack(alignment: .leading) {
+                            Text(foodname)
+                                .font(.system(size: 20))
+                            Text(fooddescription)
+                                .font(.system(size: 16))
+                                .foregroundColor(.cDarkGray)
+                                .multilineTextAlignment(.leading)
+                        }
+                        .frame(width: screenWidth * 0.5)
+                    }
+                    .frame(width: screenWidth * 0.8, height: screenHeight * 1/9)
+                    .background(Color("cBarColor"))
+                    .cornerRadius(14)
+                    .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
+                    Spacer()
+                }.onAppear {
+                    vm.getImage(imageName: imagename) { image in
+                        uiImage = image
+                    }
+                }
 
-struct FoodSubsectionView: View {
-    @Binding var fooditems: [String : String]
-    var body: some View {
-        ScrollView(.horizontal) {
-            HStack {
-                Spacer(minLength: 15)
-                VStack {
-                    Image("Horchata")
-                        .clipShape(RoundedRectangle(cornerRadius: 20.0))
-                    Text("Horchata")
-                }
-                
-                VStack {
-                    Image("Mangonada")
-                        .clipShape(RoundedRectangle(cornerRadius: 20.0))
-                    Text("Mangonada")
-                }
-                
-                VStack {
-                    Image("Horchata")
-                        .clipShape(RoundedRectangle(cornerRadius: 20.0))
-                    Text("Horchata")
-                }
-                
-                VStack {
-                    Image("Mangonada")
-                        .clipShape(RoundedRectangle(cornerRadius: 20.0))
-                    Text("Mangonada")
-                }
-                Spacer(minLength: 15)
             }
-            .padding(.bottom, 20)
         }
-        .scrollIndicators(.hidden)
-        
-        Text("All Items")
-            .font(Font.custom("Quicksand-Medium", size: 24))
-            .foregroundColor(.cDarkGray)
-            .padding(.leading, 32)
-        
-        ForEach(Array(fooditems.keys), id: \.self) { fooditem in
-            FoodCardView(foodname: fooditem, fooddescription: fooditems[fooditem] ?? "Description")
+    }
+
+    struct FoodSubsectionView: View {
+        @ObservedObject var vm: ViewModel
+        var type: String
+        @Binding var fooditems: [String : String]
+        @Binding var popup: Bool
+        @Binding var popupTitle: String
+        @Binding var popupDescription: String
+        @Binding var popupImage: String
+        var body: some View {
+            ScrollView(.horizontal) {
+                HStack {
+                    Spacer(minLength: 15)
+                    VStack {
+                        Image("Horchata")
+                            .clipShape(RoundedRectangle(cornerRadius: 20.0))
+                        Text("Horchata")
+                    }
+                    
+                    VStack {
+                        Image("Mangonada")
+                            .clipShape(RoundedRectangle(cornerRadius: 20.0))
+                        Text("Mangonada")
+                    }
+                    
+                    VStack {
+                        Image("Horchata")
+                            .clipShape(RoundedRectangle(cornerRadius: 20.0))
+                        Text("Horchata")
+                    }
+                    
+                    VStack {
+                        Image("Mangonada")
+                            .clipShape(RoundedRectangle(cornerRadius: 20.0))
+                        Text("Mangonada")
+                    }
+                    Spacer(minLength: 15)
+                }
+                .padding(.bottom, 20)
+            }
+            .scrollIndicators(.hidden)
+            
+            Text("All Items")
+                .font(Font.custom("Quicksand-Medium", size: 24))
+                .foregroundColor(.cDarkGray)
+                .padding(.leading, 32)
+            
+            ForEach(Array(fooditems.keys.sorted().enumerated()), id: \.element) { index, fooditem in
+                FoodCardView(vm: vm, imagename: "\(vm.get_current_country().lowercased())_\(type)_\(index+1)", foodname: fooditem, fooddescription: fooditems[fooditem] ?? "Description", popup: $popup, popupTitle: $popupTitle, popupDescription: $popupDescription, popupImage: $popupImage)
+            }
         }
     }
 }
-
-
-
 
 #Preview {
     FoodView(vm: ViewModel())

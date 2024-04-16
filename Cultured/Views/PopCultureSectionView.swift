@@ -9,6 +9,8 @@ import SwiftUI
 
 struct PopCultureSectionView: View {
     @ObservedObject var vm: ViewModel
+    @State var actors: [String] = []
+    @State var classicmovies: [String] = []
 
     var body: some View {
         NavigationStack {
@@ -31,7 +33,7 @@ struct PopCultureSectionView: View {
                             Text("Pop Culture")
                                 .foregroundColor(.cDarkGray)
                                 .font(Font.custom("Quicksand-SemiBold", size: 32))
-                            Text("Mexico")
+                            Text(vm.current_user?.country ?? "Mexico")
                                 .foregroundColor(.cMedGray)
                             Text("Categories")
                                 .font(Font.custom("Quicksand-Medium", size: 24))
@@ -85,7 +87,7 @@ struct PopCultureSectionView: View {
                                 .background(Color.cGreen)
                                 .clipShape(.rect(cornerRadius: 14.0))
                                 
-                                NavigationLink(destination: MovieView(), label: {
+                                NavigationLink(destination: MovieView( actors: actors, classicMovies: classicmovies, vm: vm), label: {
                                     Text("Movies/TV")
                                         .font(.system(size: 20))
                                         .foregroundColor(.cDarkGrayConstant)
@@ -116,6 +118,11 @@ struct PopCultureSectionView: View {
                 .padding(.leading, 2)
             }
             .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        }.onAppear {
+            vm.getInfoTvMovie(countryName: vm.current_user?.country ?? "Mexico") { movies in
+                actors = movies.actors
+                classicmovies = movies.classics
+            }
         }
     }
 }

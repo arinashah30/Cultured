@@ -60,13 +60,15 @@ class QuizViewModel: ObservableObject {
     }
     
     func start_quiz(category: String, completion: @escaping () -> ()) {
-        current_quiz = quizzes["\(viewModel.current_user!.country)\(category)Quiz"]
-        if current_quiz!.currentQuestion == 0 {
-            viewModel.addOnGoingActivity(userID: viewModel.current_user!.id, numQuestions: current_quiz!.questions.count, titleOfActivity: current_quiz!.title, typeOfActivity: "quiz", completion: { _ in
+        if (quizzes["\(viewModel.current_user!.country)\(category)Quiz"] != nil && !quizzes["\(viewModel.current_user!.country)\(category)Quiz"]!.title.isEmpty) {
+            current_quiz = quizzes["\(viewModel.current_user!.country)\(category)Quiz"]
+            if current_quiz!.currentQuestion == 0 {
+                viewModel.addOnGoingActivity(userID: viewModel.current_user!.id, numQuestions: current_quiz!.questions.count, titleOfActivity: current_quiz!.title, typeOfActivity: "quiz", completion: { _ in
+                    completion()
+                })
+            } else {
                 completion()
-            })
-        } else {
-            completion()
+            }
         }
     }
     

@@ -19,6 +19,8 @@ struct ResultsView: View {
     
     var body: some View {
         VStack(alignment: .center) {
+            BackButton()
+                .position(x:UIScreen.main.bounds.size.width/10, y:UIScreen.main.bounds.size.height/250)
             Text("Results")
                 .font(Font.custom("Quicksand-SemiBold", size: 32))
                 .foregroundColor(.red)
@@ -52,10 +54,7 @@ struct ResultsView: View {
                         .font(Font.custom("Quicksand-SemiBold", size: 80))
                         .foregroundColor(Color.red)
                 }
-                .padding()
                 .padding(.bottom, 100)
-                
-                Spacer()
                 
                 VStack {
                     Text("You answered \(vm.current_quiz!.points / 10) out of \(vm.current_quiz!.questions.count)" as String)
@@ -120,6 +119,7 @@ struct ResultsView: View {
                 }
             }
         }
+        .navigationBarBackButtonHidden(true)
     }
     
     

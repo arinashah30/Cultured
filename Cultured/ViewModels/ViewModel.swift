@@ -240,7 +240,8 @@ class ViewModel: ObservableObject {
             }
     
     func getInfoTvMovie(countryName: String, completion: @escaping (TvMovie) -> Void) {
-                self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("TVMOVIE").getDocument { document, error in
+        var country = countryName.uppercased()
+                self.db.collection("COUNTRIES").document(country).collection("MODULES").document("TVMOVIE").getDocument { document, error in
                         if let err = error {
                             print(err.localizedDescription)
                             return
@@ -287,7 +288,8 @@ class ViewModel: ObservableObject {
     }
     
     func getInfoLandmarks(countryName: String, completion: @escaping (Landmarks) -> Void) {
-          self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("LANDMARKS").getDocument { document, error in
+        var country = countryName.uppercased()
+          self.db.collection("COUNTRIES").document(country).collection("MODULES").document("LANDMARKS").getDocument { document, error in
               if let error = error {
                   print(error.localizedDescription)
                   completion(Landmarks())
@@ -313,7 +315,8 @@ class ViewModel: ObservableObject {
       }
 
   func getInfoEtiquettes(countryName: String, completion: @escaping (Etiquette) -> Void) {
-        self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("ETIQUETTE").getDocument { document, error in
+      var country = countryName.uppercased()
+        self.db.collection("COUNTRIES").document(country).collection("MODULES").document("ETIQUETTE").getDocument { document, error in
             if let error = error {
                 print(error.localizedDescription)
                 completion(Etiquette())
@@ -393,7 +396,8 @@ class ViewModel: ObservableObject {
     }
   
     func getInfoTraditions(countryName: String, completion: @escaping (Traditions) -> Void) {
-        self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("TRADITIONS").getDocument { document, error in
+        var country = countryName.uppercased()
+        self.db.collection("COUNTRIES").document(country).collection("MODULES").document("TRADITIONS").getDocument { document, error in
             if let error = error {
                 print(error.localizedDescription)
                 completion(Traditions())
@@ -667,7 +671,8 @@ class ViewModel: ObservableObject {
                                     questions: questionsArray,
                                     points: 0,
                                     currentQuestion: 0,
-                                    completed: data["completed"] as? Bool ?? false)
+                                    completed: data["completed"] as? Bool ?? false,
+                                    image: data["image"] as? String ?? "")
                     completion(quiz)
                 }
             }
@@ -897,6 +902,8 @@ class ViewModel: ObservableObject {
                         
                         let calendar = Calendar.current
                         let components = calendar.dateComponents([.day], from: last_date, to: curr_date)
+                        let nextDay = calendar.date(byAdding: .day, value: 1, to: last_date)
+                        var isNextDay = calendar.isDate(nextDay ?? Date(), inSameDayAs: curr_date)
                         
                         if let daysSinceLastLoggedOn = components.day {
                             //Update Streak to 0 if more than 1 day passed since last login
@@ -912,7 +919,7 @@ class ViewModel: ObservableObject {
                                 }
                                 return
                             // Increment Streak by 1 if last login was yesterday
-                            } else if daysSinceLastLoggedOn == 1 {
+                            } else if daysSinceLastLoggedOn == 1 || isNextDay {
                                 self.db.collection("USERS").document(userID).updateData(["streak": FieldValue.increment(Int64(1))]) { error in
                                     if let error = error {
                                         print("Error updating document: \(error)")
@@ -1511,14 +1518,14 @@ class ViewModel: ObservableObject {
      -----------------------------------------------------------------------------------------------
      */
     
-    func getLeaderBoardInfo(completion: @escaping([Int: (String, Int, Int, Int, UIImage)]) -> Void) {
+    func getLeaderBoardInfo(completion: @escaping([Int: (String, Int, Int, Int, UIImage, String)]) -> Void) {
         let usersCollectionReference = db.collection("USERS")
         usersCollectionReference.whereField("points", isGreaterThan: 0).order(by: "points", descending: true).limit(to: 20).getDocuments { (querySnapshot, error) in
             if let error = error {
                 print("Error getting Documents \(error)")
                 completion([:])
             } else {
-                var topUsers: [Int: (String, Int, Int, Int, UIImage)] = [:]
+                var topUsers: [Int: (String, Int, Int, Int, UIImage, String)] = [:]
                 print(topUsers.count)
                 var i = 1
                 for document in querySnapshot!.documents {
@@ -1530,8 +1537,15 @@ class ViewModel: ObservableObject {
                     let profilePicture = (data["profilePicture"] as? String ?? "https://static-00.iconduck.com/assets.00/person-crop-circle-icon-256x256-02mzjh1k.png")
                     
                     let currI = i
-                    self.getProfilePic(userID: id) { image in
-                        topUsers.updateValue((id, points, streak, badges, image!), forKey: currI)
+                    //topUsers.updateValue((id, points, streak, badges, UIImage()), forKey: currI)
+                    
+                    self.getImageFromURL(urlString: "https://static-00.iconduck.com/assets.00/person-crop-circle-icon-256x256-02mzjh1k.png") { image in
+                        topUsers.updateValue((id, points, streak, badges, image!, "https://static-00.iconduck.com/assets.00/person-crop-circle-icon-256x256-02mzjh1k.png"), forKey: currI)
+                        completion(topUsers)
+                    }
+                    
+                    self.getImageFromURL(urlString: profilePicture) { image in
+                        topUsers.updateValue((id, points, streak, badges, image!, profilePicture), forKey: currI)
                         completion(topUsers)
                     }
                     // Add the user ID and streak to the topUsers dictionary

@@ -13,6 +13,7 @@ struct ChangeCountryView: View {
     @ObservedObject var vm: ViewModel
     @State private var selectedOption: String?
     @Binding var popUpOpen: Bool
+    @State private var isLoading = false
     
 
     public var buttonRed: Color {
@@ -26,6 +27,12 @@ struct ChangeCountryView: View {
     var body: some View {
         ZStack (alignment:.top){
             VStack{
+                if isLoading {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .padding()
+                }
+                
                 Text("Choose Destination")
                     .font(Font.custom("Quicksand-Bold", size: 26))
                     .foregroundColor(.cDarkGray)
@@ -207,11 +214,19 @@ struct ChangeCountryView: View {
                             .inset(by: 1)
                             .stroke(buttonRed, lineWidth: 2)
                             )
+                            
                     }
+                    .opacity(isLoading ? 0 : 1)
                     
                     Button {
                         vm.setCurrentCountry(userID: vm.current_user!.id, countryName: selectedOption?.replacingOccurrences(of: "United Arab Emirates", with: "UnitedStates") ?? "Mexico", completion: {_ in})
-                        popUpOpen = false
+                        isLoading = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                            // Set dataFetchComplete to true after 3 seconds
+                            isLoading = false
+                            popUpOpen = false
+                        }
+                        
                     } label: {
                         if selectedOption != nil {
                             Text("Start Learning")
@@ -242,6 +257,7 @@ struct ChangeCountryView: View {
                         }
                     }
                     .disabled(selectedOption == nil)
+                    .opacity(isLoading ? 0 : 1)
                     
                 }
                 .padding([.top, .bottom], 20)

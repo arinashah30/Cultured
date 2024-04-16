@@ -41,8 +41,8 @@ struct DanceView: View {
                     Text("Dance")
                         .font(Font.custom("Quicksand-semibold",size: 32))
                         .foregroundColor(Color.cDarkOrange)
-                    
-                    Text("Mexico")
+
+                    Text(vm.current_user?.country ?? "Mexico")
                         .font(.system(size: 16))
                         .foregroundColor(
                             Color(red: 157/255, green: 157/255, blue: 157/255))
@@ -88,7 +88,7 @@ struct SingleDance: View {
     var body: some View {
         HStack (alignment: .top) {
             if let uiImage = uiImage {
-                Image(uiImage: uiImage).resizable().clipShape(RoundedRectangle(cornerRadius: 14)).frame(width: 145)
+                Image(uiImage: uiImage).resizable().aspectRatio(contentMode: .fit).clipShape(RoundedRectangle(cornerRadius: 14)).frame(width: 145)
             } else {
                 // Placeholder image or loading indicator
                 ProgressView()
@@ -100,7 +100,7 @@ struct SingleDance: View {
                 Text(DanceName).font(Font.custom("Quicksand-medium",size: 24)).padding(.vertical, 10)
                 Text(DanceDescription).font(Font.custom("Quicksand-regular",size: 20))
             }.padding(.trailing, 10)
-                .foregroundColor(Color.cLightGray)
+                .foregroundColor(Color.cDarkGray)
         }.onAppear {
             vm.getImage(imageName: DanceImage) { image in
                 uiImage = image
