@@ -81,7 +81,7 @@ struct ActivityView: View {
                             Spacer()
                         }
                         .padding()
-                        .background(.cPopover)
+                        .background(.cBar)
                         .clipShape(RoundedRectangle(cornerRadius: 14))
                     
                     
@@ -93,6 +93,7 @@ struct ActivityView: View {
                             Rectangle()
                                 .frame(width: 177, height: 188)
                                 .clipShape(.rect(cornerRadius: 14))
+                                .foregroundColor(.cBar)
                             VStack {
                                 Text("Current Streak")
                                     .font(.system(size: 20))
@@ -111,6 +112,7 @@ struct ActivityView: View {
                             Rectangle()
                                 .frame(width: 177, height: 188)
                                 .clipShape(.rect(cornerRadius: 14))
+                                .foregroundColor(.cBar)
                             VStack {
                                 Text("All Time Record")
                                     .font(.system(size: 20))
@@ -144,7 +146,7 @@ struct ActivityView: View {
                         .padding(.bottom, 10)
                     ZStack {
                         Rectangle()
-                            .foregroundColor(.cPopover)
+                            .foregroundColor(.cBar)
                             .frame(width: 361, height: 70)
                             .clipShape(.rect(cornerRadius: 14))
                             .padding(.top, -14)
