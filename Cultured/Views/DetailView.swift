@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct DetailView: View {
+    @ObservedObject var vm: ViewModel
     @Binding var image: String
     @Binding var title: String
     @Binding var description: String
+    @State var uiImage: UIImage? = nil
     //var color: Color = Color.cBar
     var body: some View {
         ZStack {
@@ -25,11 +27,22 @@ struct DetailView: View {
                 .frame(width: 304, height: 550)
             
             VStack(alignment: .center) {
-                Image(image).resizable().frame(width: 304, height: 100).scaledToFill().clipShape(RoundedRectangle(cornerRadius: 10))
+                if let uiImage = uiImage {
+                    Image(uiImage: uiImage).resizable().scaledToFill().frame(width: 304, height: 200).clipShape(RoundedRectangle(cornerRadius: 10))
+                } else {
+                    // Placeholder image or loading indicator
+                    ProgressView()
+                        .frame(width: 304, height: 100)
+                }
+                
                 Text(title).font(Font.custom("Quicksand-Bold", size: 35)).multilineTextAlignment(.center).padding().background(Color.cPopover)
                 Text(description).padding().font(Font.custom("Quicksand-Medium", size: 25)).minimumScaleFactor(0.3)
                 Spacer()
             }.frame(width: 304, height: 550)
+        }.onAppear {
+            vm.getImage(imageName: image) { img in
+                uiImage = img
+            }
         }
     }
 }

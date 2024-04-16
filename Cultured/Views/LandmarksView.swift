@@ -119,7 +119,7 @@ struct LandmarksView: View {
         }
         .popup(isPresented: $popup) {
             ZStack {
-                DetailView(image: $popupImage, title: $popupTitle, description: $popupDescription)
+                DetailView(vm: vm, image: $popupImage, title: $popupTitle, description: $popupDescription)
             }
         }
 
