@@ -13,6 +13,13 @@ struct HomeView: View {
     @State var streak: Int = 0
     @State var badges: Int = 0
     @State var popUpOpen: Bool = false
+    @State var quizImage: UIImage? = nil
+    @State var connectionsImage: UIImage? = nil
+    @State var artourImage: UIImage? = nil
+    @State var popCultureImage: UIImage? = nil
+    @State var foodImage: UIImage? = nil
+    @State var customsImage: UIImage? = nil
+    @State var placesImage: UIImage? = nil
 
     
     var body: some View {
@@ -75,9 +82,15 @@ struct HomeView: View {
                         Spacer(minLength: 10)
                         
                         ZStack{
-                            Image("HomeQuiz")
-                                .resizable()
-                                .frame(width: 125, height: 125)
+                            if let quizImage = quizImage {
+                                Image(uiImage: quizImage)
+                                    .resizable()
+                                    .frame(width: 125, height: 125)
+                            } else {
+                                // Placeholder image or loading indicator
+                                ProgressView()
+                                    .frame(width: 125, height: 125)
+                            }
                             Text("Quiz")
                                 .foregroundColor(.white)
                                 .font(.system(size: 20))
@@ -101,9 +114,15 @@ struct HomeView: View {
                         
                         
                         ZStack{
-                            Image("HomeConnections")
-                                .resizable()
-                                .frame(width: 170, height: 125)
+                            if let connectionsImage = connectionsImage {
+                                Image(uiImage: connectionsImage)
+                                    .resizable()
+                                    .frame(width: 170, height: 125)
+                            } else {
+                                // Placeholder image or loading indicator
+                                ProgressView()
+                                    .frame(width: 170, height: 125)
+                            }
                             Text("Connections")
                                 .foregroundColor(.white)
                                 .font(.system(size: 20))
@@ -126,9 +145,15 @@ struct HomeView: View {
                         .padding(.trailing, 8)
                         
                         ZStack{
-                            Image("Home20Questions")
-                                .resizable()
-                                .frame(width: 170, height: 125)
+                            if let connectionsImage = connectionsImage {
+                                Image(uiImage: connectionsImage)
+                                    .resizable()
+                                    .frame(width: 170, height: 125)
+                            } else {
+                                // Placeholder image or loading indicator
+                                ProgressView()
+                                    .frame(width: 170, height: 125)
+                            }
                             Text("Word Guessing")
                                 .foregroundColor(.white)
                                 .font(.system(size: 20))
@@ -165,10 +190,17 @@ struct HomeView: View {
                 HStack {
                     Spacer()
                     ZStack{
-                        Image("HomeARTour")
-                            .resizable()
-                            .frame(width: 360, height: 135)
-                        Text("Walk the streets of Mexico right where you are.")
+                        if let artourImage = artourImage {
+                            Image(uiImage: artourImage)
+                                .resizable()
+                                .frame(width: 360, height: 135)
+                        } else {
+                            // Placeholder image or loading indicator
+                            ProgressView()
+                                .frame(width: 360, height: 135)
+                        }
+
+                        Text("Walk the streets of \(vm.get_current_country()) right where you are.")
                             .foregroundColor(.white)
                             .frame(width:240)
                             .multilineTextAlignment(.center)
@@ -210,9 +242,17 @@ struct HomeView: View {
                                 .toolbar(.hidden, for: .tabBar)
                         } label: {
                             ZStack{
-                                Image("PopCultureIcon")
-                                    .resizable()
-                                    .frame(width: 150, height: 207)
+                                if let popCultureImage = popCultureImage {
+                                    Image(uiImage: popCultureImage)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 150, height: 207)
+                                        
+                                } else {
+                                    // Placeholder image or loading indicator
+                                    ProgressView()
+                                        .frame(width: 150, height: 207)
+                                }
                                 Text("Pop Culture")
                                     .foregroundColor(.white)
                                     .multilineTextAlignment(.leading)
@@ -229,9 +269,17 @@ struct HomeView: View {
                                 .toolbar(.hidden, for: .tabBar)
                         } label: {
                             ZStack{
-                                Image("FoodIcon")
-                                    .resizable()
-                                    .frame(width: 150, height: 207)
+                                if let foodImage = foodImage {
+                                    Image(uiImage: foodImage)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 150, height: 207)
+                                        
+                                } else {
+                                    // Placeholder image or loading indicator
+                                    ProgressView()
+                                        .frame(width: 150, height: 207)
+                                }
                                 Text("Food")
                                     .foregroundColor(.white)
                                     .multilineTextAlignment(.leading)
@@ -248,9 +296,17 @@ struct HomeView: View {
                                 .toolbar(.hidden, for: .tabBar)
                         } label: {
                             ZStack{
-                                Image("CustomsIcon")
-                                    .resizable()
-                                    .frame(width: 150, height: 207)
+                                if let customsImage = customsImage {
+                                    Image(uiImage: customsImage)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 150, height: 207)
+                                        
+                                } else {
+                                    // Placeholder image or loading indicator
+                                    ProgressView()
+                                        .frame(width: 150, height: 207)
+                                }
                                 Text("Customs")
                                     .foregroundColor(.white)
                                     .multilineTextAlignment(.leading)
@@ -267,9 +323,17 @@ struct HomeView: View {
                                 .toolbar(.hidden, for: .tabBar)
                         } label: {
                             ZStack{
-                                Image("Places")
-                                    .resizable()
-                                    .frame(width: 150, height: 207)
+                                if let placesImage = placesImage {
+                                    Image(uiImage: placesImage)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 150, height: 207)
+                                        
+                                } else {
+                                    // Placeholder image or loading indicator
+                                    ProgressView()
+                                        .frame(width: 150, height: 207)
+                                }
                                 Text("Places")
                                     .foregroundColor(.white)
                                     .multilineTextAlignment(.leading)
@@ -287,7 +351,8 @@ struct HomeView: View {
                 
             }
             .navigationBarBackButtonHidden()
-            .onAppear() {
+            .onChange(of: vm.current_user?.country, initial: true) {
+                print("yuhhhh")
                 points = vm.current_user?.points ?? 0
                 vm.checkIfStreakIsIntact(userID: vm.current_user?.id ?? "") { _ in
                     streak = vm.current_user?.streak ?? 0
@@ -302,6 +367,28 @@ struct HomeView: View {
                 }
                 vm.connectionsViewModel!.load_connections() { result in
                 }
+                vm.getImage(imageName: "\(vm.get_current_country().lowercased())_quiz_home") { image in
+                    quizImage = image
+                }
+                vm.getImage(imageName: "\(vm.get_current_country().lowercased())_connections_home") { image in
+                    connectionsImage = image
+                }
+                vm.getImage(imageName: "\(vm.get_current_country().lowercased())_artour_home") { image in
+                    artourImage = image
+                }
+                vm.getImage(imageName: "\(vm.get_current_country().lowercased())_popculture_home") { image in
+                    popCultureImage = image
+                }
+                vm.getImage(imageName: "\(vm.get_current_country().lowercased())_food_home") { image in
+                    foodImage = image
+                }
+                vm.getImage(imageName: "\(vm.get_current_country().lowercased())_customs_home") { image in
+                    customsImage = image
+                }
+                vm.getImage(imageName: "\(vm.get_current_country().lowercased())_places_home") { image in
+                    placesImage = image
+                }
+                
             }
                 if popUpOpen {
                     Color.gray.opacity(0.7)

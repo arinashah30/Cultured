@@ -896,6 +896,8 @@ class ViewModel: ObservableObject {
                         
                         let calendar = Calendar.current
                         let components = calendar.dateComponents([.day], from: last_date, to: curr_date)
+                        let nextDay = calendar.date(byAdding: .day, value: 1, to: last_date)
+                        var isNextDay = calendar.isDate(nextDay ?? Date(), inSameDayAs: curr_date)
                         
                         if let daysSinceLastLoggedOn = components.day {
                             //Update Streak to 0 if more than 1 day passed since last login
@@ -911,7 +913,7 @@ class ViewModel: ObservableObject {
                                 }
                                 return
                             // Increment Streak by 1 if last login was yesterday
-                            } else if daysSinceLastLoggedOn == 1 {
+                            } else if daysSinceLastLoggedOn == 1 || isNextDay {
                                 self.db.collection("USERS").document(userID).updateData(["streak": FieldValue.increment(Int64(1))]) { error in
                                     if let error = error {
                                         print("Error updating document: \(error)")
