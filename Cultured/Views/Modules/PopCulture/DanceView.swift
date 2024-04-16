@@ -12,41 +12,30 @@ struct DanceView: View {
     @State var danceDict: [String:String] = [:]
     
     var body: some View {
-        ZStack(){
+        ZStack(alignment:.topLeading){
             // the background image
-            VStack{
                 Image("Dance")
                     .resizable()
-                    .scaledToFill()
-                    .edgesIgnoringSafeArea(.all)
-                    .frame(width:UIScreen.main.bounds.width, height: 2*UIScreen.main.bounds.width/3)
-                    .offset(y:-UIScreen.main.bounds.width/2)
-                //                .opacity(0.5)
-            }
-        
+                    .scaledToFit()
+                    .ignoresSafeArea()
+                    .frame(width:screenWidth, height: screenHeight * 2/3)
+                    .offset(y:-screenHeight * 0.1)
             
-            VStack{
-                
-                RoundedRectangle(cornerRadius: 40)
-                    .fill(Color.cPopover)
-                    .frame(width: UIScreen.main.bounds.width, height: 2*UIScreen.main.bounds.height / 3)
-                    .offset(y: UIScreen.main.bounds.height / 7)
-            }
-            
+            BackButton()
+                .offset(x:10,y:30)
             
             // the quiz
             
-            VStack {
-                VStack(alignment: .leading) {
+            VStack(alignment:.leading) {
                     Text("Dance")
                         .font(Font.custom("Quicksand-semibold",size: 32))
                         .foregroundColor(Color.cDarkOrange)
-
-                    Text(vm.current_user?.country ?? "Mexico")
+                        .padding(.top,30)
+                  
+                    Text(vm.get_current_country())
                         .font(.system(size: 16))
                         .foregroundColor(
                             Color(red: 157/255, green: 157/255, blue: 157/255))
-                    
                     
                     
                     Text("Traditional")
@@ -60,9 +49,14 @@ struct DanceView: View {
                                 }
                             }
                         }.padding(.bottom, 70)
+//                        .padding(.leading)
                         .scrollIndicators(.hidden)
-                }
-            }.offset(y:UIScreen.main.bounds.height/4.5).padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 40))
+            }
+            .frame(width:screenWidth, height:screenHeight)
+            .background(.cPopover)
+            .clipShape(RoundedRectangle(cornerRadius:50))
+            .offset(y:screenHeight * 0.3)
+
             
         }
         .onAppear {
@@ -71,9 +65,6 @@ struct DanceView: View {
                 print(dance.danceDictionary)
             }
         }
-        .navigationBarBackButtonHidden()
-        .padding(.bottom, 100)
-        
     }
 }
 
@@ -88,7 +79,13 @@ struct SingleDance: View {
     var body: some View {
         HStack (alignment: .top) {
             if let uiImage = uiImage {
-                Image(uiImage: uiImage).resizable().aspectRatio(contentMode: .fit).clipShape(RoundedRectangle(cornerRadius: 14)).frame(width: 145)
+                Image(uiImage: uiImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: screenWidth * 0.3, height: screenHeight * 0.2)
+                    .clipped()
+                    .clipShape(RoundedRectangle(cornerRadius: 14))
+
             } else {
                 // Placeholder image or loading indicator
                 ProgressView()
@@ -105,7 +102,7 @@ struct SingleDance: View {
             vm.getImage(imageName: DanceImage) { image in
                 uiImage = image
             }
-        }.frame(width: 321, height: 185).background(Color("cBarColor")).clipShape(RoundedRectangle(cornerRadius: 14)).shadow(color: Color.black.opacity(0.2), radius: 1, x: 0, y: 3)
+        }.frame(width: screenWidth * 0.8, height: screenHeight * 0.2).background(Color("cBarColor")).clipShape(RoundedRectangle(cornerRadius: 14)).shadow(color: Color.black.opacity(0.2), radius: 1, x: 0, y: 3)
     }
 }
 
