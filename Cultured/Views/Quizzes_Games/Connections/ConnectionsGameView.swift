@@ -13,13 +13,14 @@ struct ConnectionsGameView: View {
     @State var already_guessed: Bool = false
     @State var goHome: Bool = false
     var colors: [Color] = [.red, .orange, .green, .blue]
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
             VStack {
                 back
+                    .padding(.bottom, 20)
                 
                 answers
-                    .padding(.horizontal)
                 
                 options
                     .padding(.horizontal)
@@ -34,26 +35,32 @@ struct ConnectionsGameView: View {
                 
                 history
                 
-                Spacer()
             }
+            .toolbar(.hidden, for: .tabBar)
             .navigationBarBackButtonHidden()
     }
     
     var back: some View {
         ZStack {
             HStack {
+                
                 BackButton()
-                    .position(x:UIScreen.main.bounds.size.width/10, y:UIScreen.main.bounds.size.height/250)
+                    //.position(x:UIScreen.main.bounds.size.width/10, y:UIScreen.main.bounds.size.height/250)
                 
                 Spacer()
-            }
-            
-            if vm.one_away {
-                temp_alert_one_away
-            }
-                    
-            if vm.already_guessed {
-                temp_alert_already_guessed
+                
+                if vm.one_away {
+                    temp_alert_one_away
+                }
+                
+                if vm.already_guessed {
+                    temp_alert_already_guessed
+                }
+                
+                Spacer()
+                
+                BackButton()
+                    .hidden()
             }
         }
     }
@@ -63,7 +70,7 @@ struct ConnectionsGameView: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 30.0)
                     .frame(width: 200, height: 45)
-                    .foregroundStyle(Color.cPopover)
+                    .foregroundStyle(Color.cDarkGray)
                     .opacity(0.6)
                 
                 Text("One word away...")
@@ -78,7 +85,7 @@ struct ConnectionsGameView: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 30.0)
                     .frame(width: 200, height: 45)
-                    .foregroundStyle(.black)
+                    .foregroundStyle(.cDarkGray)
                     .opacity(0.6)
                 
                 Text("Already guessed!")
@@ -86,7 +93,7 @@ struct ConnectionsGameView: View {
                     .foregroundStyle(.white)
             }
             
-            Spacer()
+            //Spacer()
         }
     }
     
@@ -96,7 +103,7 @@ struct ConnectionsGameView: View {
                 RoundedRectangle(cornerRadius: 10.0)
                     .foregroundColor(colors[index])
                     .opacity(0.4)
-                    .frame(height: 65)
+                    .frame(width: UIScreen.main.bounds.size.width - 40, height: 65)
                 
                 VStack {
                     Text((vm.correct_history[vm.correct_history_keys[index]]![0].category))
@@ -152,14 +159,16 @@ struct ConnectionsGameView: View {
                                     RoundedRectangle(cornerRadius: 10.0)
                                         .foregroundStyle(.cDarkGray)
                                         .opacity(1)
-                                        .frame(width: vm.mistake_history[vm.mistake_history_keys.reversed()[index]]! ? 72 : 82, height: 50)
+                                        .frame(width: vm.mistake_history[vm.mistake_history_keys.reversed()[index]]! ? UIScreen.main.bounds.size.width * 0.2 : UIScreen.main.bounds.size.width * 0.22, height: 50)
+                                        .padding(.all, vm.mistake_history[vm.mistake_history_keys.reversed()[index]]! ? 1 : 2)
                                     
                                     Text(vm.mistake_history_keys.reversed()[index][item].content)
-                                        .padding(5)
+                                        .padding(.all, 1)
                                         .foregroundStyle(.cDarkGrayReverse)
                                         .font(.system(size: 16))
                                         .minimumScaleFactor(0.01)
                                         .aspectRatio(contentMode: .fit)
+                                        .frame(maxWidth: UIScreen.main.bounds.size.width * 0.18)
                                 }
                             }
                             
@@ -193,6 +202,7 @@ struct ConnectionsGameView: View {
             }
         }
         .listStyle(.plain)
+        //.frame(minHeight: 300.0)
     }
     
     struct Triangle: Shape {
@@ -229,7 +239,7 @@ struct ConnectionsGameView: View {
     
     var back_home: some View {
             Button(action: {
-                goHome = true
+                dismiss()
             }) {
                 ZStack {
                     RoundedRectangle(cornerRadius: 30.0)
@@ -241,7 +251,7 @@ struct ConnectionsGameView: View {
                         .font(.system(size: 20))
                         .foregroundStyle(.black)
                 }
-            }.navigationDestination(isPresented: $goHome, destination: {HomeView(vm: vm.viewModel)})
+            }
         }
 }
 
