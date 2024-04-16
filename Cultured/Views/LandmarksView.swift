@@ -143,8 +143,10 @@ struct LandmarksSubView: View {
         Text("Top Attractions")
             .font(Font.custom("Quicksand-Medium", size: 24))
             .padding(.top, 10)
-        ForEach(Array(landmarks.keys), id: \.self) { landmark in
-            LandmarkSingleView(name: landmark, description: landmarks[landmark] ?? "Description",popup: $popup, popupTitle: $popupTitle, popupDescription: $popupDescription, popupImage: $popupImage)
+        ScrollView {
+            ForEach(Array(landmarks.keys), id: \.self) { landmark in
+                LandmarkSingleView(name: landmark, description: landmarks[landmark] ?? "Description",popup: $popup, popupTitle: $popupTitle, popupDescription: $popupDescription, popupImage: $popupImage)
+            }
         }
     }
 }
