@@ -21,27 +21,18 @@ struct MusicView: View {
     
     var body: some View {
         
-        ZStack{
+        ZStack(alignment:.topLeading){
+            
+            Image("MusicImage")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: screenWidth, height: screenHeight * 0.4)
+                .ignoresSafeArea()
+            BackButton()
+                .offset(x:10, y:20)
+
             
             VStack{
-                ZStack(alignment: .topLeading){
-                    Image("MusicImage")
-                        .resizable()
-                        .frame(width:575, height:323)
-                    BackButton()
-                        .offset(x:80, y:20)
-                }
-                
-                
-                Spacer()
-                    .frame(height:555)
-                
-            }
-            
-            VStack{
-                
-                Spacer()
-                    .frame(height:290)
                 
                 ScrollView(.vertical) {
                     
@@ -156,19 +147,20 @@ struct MusicView: View {
                         
                     }
                     
-                    .frame(width: 400.0, height: 600.0)
-                    
-                    .background(Color.cPopover)
-                    
-                    .clipShape(.rect(cornerRadius: 50))
+
                     
                 }
-                
+              
             }
+            .frame(width: screenWidth, height: screenHeight)
+            .background(Color.cPopover)
+            .clipShape(.rect(cornerRadius: 50))
+            .offset(y: screenHeight * 0.3)
             // TODO: add dark mode? (this fix works for both light & dark modes)
             //.foregroundStyle(.black)
             
         }
+        .frame(width:screenWidth, height:screenHeight)
         .task {
             // TODO: dynamically assign country to view; use that information to retrieve Spotify API data.
             let demoModule = Module(title: "", information: "", country: "MEXICO", completed: false)
