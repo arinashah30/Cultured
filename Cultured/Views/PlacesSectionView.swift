@@ -51,8 +51,6 @@ struct PlacesSectionView: View {
                                 .foregroundColor(.cDarkGray)
                                 .padding(.top, 20)
                             HStack {
-                                .padding(.leading,32)
-                                .padding(.bottom,15)
                                 NavigationLink {
                                     LandmarksView(vm:vm)
                                         .navigationBarBackButtonHidden(true)
@@ -84,7 +82,7 @@ struct PlacesSectionView: View {
                             .shadow(radius: 4, x: 0, y: 4)
                             .padding(.bottom, 8)
                             .frame(width:screenWidth)
-                          
+                            
                             HStack {
                                 Button {} label: {
                                     Text("Quiz Me!")
@@ -94,24 +92,26 @@ struct PlacesSectionView: View {
                             }
                             .padding(.top, 30)
                             .frame(width: screenWidth)
-
-                    Spacer()
+                            
+                            Spacer()
+                        }
+                        .frame(width: screenWidth, height: screenHeight)
+                        .background(.cPopover)
+                        .clipShape(.rect(cornerRadius: 40))
+                        .offset(y:screenHeight * 0.6)
+                        
+                        
+                    }
+                    .frame(width: screenWidth, height: screenHeight)
                 }
-                .frame(width: screenWidth, height: screenHeight)
-                .background(.cPopover)
-                .clipShape(.rect(cornerRadius: 40))
-                .offset(y:screenHeight * 0.6)
-
-
+                .onAppear {
+                    vm.getImage(imageName: "\(vm.get_current_country().lowercased())_places_home") { image in
+                        uiImage = image
+                    }
+                }
             }
-            .frame(width: screenWidth, height: screenHeight)
-        }
-        .onAppear {
-            vm.getImage(imageName: "\(vm.get_current_country().lowercased())_places_home") { image in
-                uiImage = image
         }
     }
-}
 }
 
 #Preview {
