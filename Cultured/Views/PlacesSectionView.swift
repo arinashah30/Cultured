@@ -19,7 +19,7 @@ struct PlacesSectionView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: screenWidth, height: screenHeight * 0.8)
-                        .offset(y:screenHeight * -0.1)
+                        .ignoresSafeArea()
                 } else {
                     ProgressView()
                         .aspectRatio(contentMode: .fit)
@@ -41,13 +41,18 @@ struct PlacesSectionView: View {
                             Text("Places")
                                 .foregroundColor(.cDarkGray)
                                 .font(Font.custom("Quicksand-SemiBold", size: 32))
+                                .padding(.leading,32)
+                                .padding(.top,30)
                             Text(vm.current_user?.country ?? "Mexico")
                                 .foregroundColor(.cMedGray)
+                                .padding(.leading, 32)
                             Text("Categories")
                                 .font(Font.custom("Quicksand-Medium", size: 24))
                                 .foregroundColor(.cDarkGray)
                                 .padding(.top, 20)
                             HStack {
+                                .padding(.leading,32)
+                                .padding(.bottom,15)
                                 NavigationLink {
                                     LandmarksView(vm:vm)
                                         .navigationBarBackButtonHidden(true)
@@ -77,34 +82,36 @@ struct PlacesSectionView: View {
                                 .clipShape(.rect(cornerRadius: 14.0))
                             }
                             .shadow(radius: 4, x: 0, y: 4)
-                            
+                            .padding(.bottom, 8)
+                            .frame(width:screenWidth)
+                          
                             HStack {
-                                Spacer()
                                 Button {} label: {
                                     Text("Quiz Me!")
                                         .foregroundColor(.cMedGray)
                                         .font(.system(size: 20))
                                 }
-                                Spacer()
                             }
                             .padding(.top, 30)
-                            .padding(.leading, -35)
-                            
-                        }
-                        .padding(.top, 30)
-                        .padding(.leading, 32)
-                    }
-                    //.padding(.leading, 7)
+                            .frame(width: screenWidth)
+
+                    Spacer()
                 }
-                .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                .frame(width: screenWidth, height: screenHeight)
+                .background(.cPopover)
+                .clipShape(.rect(cornerRadius: 40))
+                .offset(y:screenHeight * 0.6)
+
+
             }
-            .onAppear {
-                vm.getImage(imageName: "\(vm.get_current_country().lowercased())_places_home") { image in
-                    uiImage = image
-                }
-            }
+            .frame(width: screenWidth, height: screenHeight)
+        }
+        .onAppear {
+            vm.getImage(imageName: "\(vm.get_current_country().lowercased())_places_home") { image in
+                uiImage = image
         }
     }
+}
 }
 
 #Preview {

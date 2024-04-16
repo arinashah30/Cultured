@@ -21,7 +21,7 @@ struct PopCultureSectionView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: screenWidth, height: screenHeight * 0.7)
-                        .offset(y:screenHeight * -0.1)
+                        .ignoresSafeArea()
                 } else {
                     ProgressView()
                         .aspectRatio(contentMode: .fit)
