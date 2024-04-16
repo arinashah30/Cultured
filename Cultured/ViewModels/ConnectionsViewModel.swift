@@ -115,13 +115,15 @@ class ConnectionsViewModel: ObservableObject {
     }
     
     func start_connections(category: String, completion: @escaping () -> ()) {
-        current_connections_game = connections["\(viewModel.current_user!.country)\(category)Connections"]
-        if current_connections_game!.history.count == 0 {
-            viewModel.addOnGoingActivity(userID: viewModel.current_user!.id, titleOfActivity: current_connections_game!.title, typeOfActivity: "connections", completion: { _ in
+        if (connections["\(viewModel.current_user!.country)\(category)Connections"] != nil && !connections["\(viewModel.current_user!.country)\(category)Connections"]!.title.isEmpty) {
+            current_connections_game = connections["\(viewModel.current_user!.country)\(category)Connections"]
+            if current_connections_game!.history.count == 0 {
+                viewModel.addOnGoingActivity(userID: viewModel.current_user!.id, titleOfActivity: current_connections_game!.title, typeOfActivity: "connections", completion: { _ in
+                    completion()
+                })
+            } else {
                 completion()
-            })
-        } else {
-            completion()
+            }
         }
     }
     
@@ -317,7 +319,7 @@ class ConnectionsViewModel: ObservableObject {
             for category in categories {
                 print(connections["\(country)\(category)Connections"])
                 if (Array(connections.keys).firstIndex(of: "\(country)\(category)Connections") != nil) {
-                    if connections["\(country)\(category)Connections"]!.mistakes_remaining == 0 {
+                    if connections["\(country)\(category)Connections"]!.mistakes_remaining == 0 || connections["\(country)\(category)Connections"]!.correct_history.count == 4 {
                         progress.append(1.0)
                     } else {
                         progress.append(Float(connections["\(country)\(category)Connections"]!.history.count) / Float(7))
