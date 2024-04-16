@@ -41,12 +41,8 @@ struct DanceView: View {
                     Text("Dance")
                         .font(Font.custom("Quicksand-semibold",size: 32))
                         .foregroundColor(Color.cDarkOrange)
-                    
-<<<<<<< HEAD
-                    Text(vm.get_current_country())
-=======
+
                     Text(vm.current_user?.country ?? "Mexico")
->>>>>>> b437241 (Landmark view connected to firebase)
                         .font(.system(size: 16))
                         .foregroundColor(
                             Color(red: 157/255, green: 157/255, blue: 157/255))
