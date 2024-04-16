@@ -235,7 +235,7 @@ struct FoodView: View {
                 } else {
                     // Placeholder image or loading indicator
                     ProgressView()
-                        .frame(width: 145, height: 185)
+                        .frame(width: 150, height: 200)
                 }
                 
                 Text(name)
