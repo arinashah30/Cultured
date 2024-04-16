@@ -11,6 +11,7 @@ struct MovieView: View {
     //    var actors = [(String, String] = [("")]
     //    @State var actors = [Actor]()
     @StateObject var viewModel = MovieViewModel()
+    @ObservedObject var vm: ViewModel
     
     var body: some View {
         ZStack() {
@@ -35,7 +36,7 @@ struct MovieView: View {
                         .font(Font.custom("Quicksand-SemiBold", size: 32))
                         .foregroundColor(Color(red: 19/255, green: 145/255, blue: 234/255))
                         .padding(.top, 20)
-                    Text("Mexico")
+                    Text(vm.current_user?.country ?? "Mexico")
                         .frame(maxWidth: UIScreen.main.bounds.width * (8/9), alignment: .leading)
                         .font(Font.custom("Sf-pro-display", size: 16))
                         .foregroundColor(Color(red: 148/255, green: 148/255, blue: 148/255))
@@ -143,6 +144,6 @@ struct MovieView: View {
         Spacer()
     }
 }
-#Preview {
-    MovieView()
-}
+//#Preview {
+//    MovieView()
+//}

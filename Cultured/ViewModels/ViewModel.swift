@@ -287,7 +287,8 @@ class ViewModel: ObservableObject {
     }
     
     func getInfoLandmarks(countryName: String, completion: @escaping (Landmarks) -> Void) {
-          self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("LANDMARKS").getDocument { document, error in
+        var country = countryName.uppercased()
+          self.db.collection("COUNTRIES").document(country).collection("MODULES").document("LANDMARKS").getDocument { document, error in
               if let error = error {
                   print(error.localizedDescription)
                   completion(Landmarks())

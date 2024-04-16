@@ -33,7 +33,7 @@ struct CustomsSectionView: View {
                             Text("Customs")
                                 .foregroundColor(.cDarkGray)
                                 .font(Font.custom("Quicksand-SemiBold", size: 32))
-                            Text("Mexico")
+                            Text(vm.current_user?.country ?? "Mexico")
                                 .foregroundColor(.cMedGray)
                             Text("Categories")
                                 .font(Font.custom("Quicksand-Medium", size: 24))
