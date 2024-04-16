@@ -977,6 +977,7 @@ class ViewModel: ObservableObject {
             let recordStreak = data["streakRecord"] as? Int ?? 0
             
             if currentStreak > recordStreak {
+                self.current_user?.streakRecord = currentStreak
                 documentReference.updateData(["streakRecord": currentStreak])
                 completion(true)
                 return
