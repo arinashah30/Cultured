@@ -21,7 +21,8 @@ struct SportsView: View {
                 .frame(width: screenWidth, height: screenHeight * 0.5)
                 .ignoresSafeArea()
                 .offset(y:-60)
-                .background(.blue)
+            
+            BackButton()
             
             
             VStack{
@@ -60,6 +61,8 @@ struct SportsView: View {
                                             AthleteCard(vm:vm, athleteName: athleteName,athleteImage: "\(vm.get_current_country().lowercased())_athlete_\(index+1)");
                                             
                                         }
+                                        Spacer()
+                                            .frame(width: 50)
                                     }
                                 }
                                 .scrollIndicators(.hidden)
@@ -69,17 +72,19 @@ struct SportsView: View {
                                     .padding(.leading, 30)
                                     .padding(.bottom, 15)
                                 
-                                ForEach(Array(sports.keys.sorted().enumerated()), id: \.element) { index, sportName in
-                                    SportCard(vm: vm, SportName: sportName, SportDescription: sports[sportName] ?? "", SportImage: "\(vm.get_current_country().lowercased())_sports_\(index+1)")
-                                    
+                                VStack(alignment:.center) {
+                                    ForEach(Array(sports.keys.sorted().enumerated()), id: \.element) { index, sportName in
+                                        SportCard(vm: vm, SportName: sportName, SportDescription: sports[sportName] ?? "", SportImage: "\(vm.get_current_country().lowercased())_sports_\(index+1)")
+                                            .frame(width: screenWidth * 0.8, height: screenHeight * 0.23)
+                                            .background(Color("cBarColor"))
+                                            .clipShape(RoundedRectangle(cornerRadius: 14))
+                                            .shadow(color: Color.black.opacity(0.2), radius: 1, x: 0, y: 3)
+                                        
+                                    }
                                 }
-                                
-                                .frame(width: screenWidth * 0.8, height: screenHeight * 0.23)
-                                
-                                
-                                .background(Color("cBarColor"))
-                                .clipShape(RoundedRectangle(cornerRadius: 14))
-                                .shadow(color: Color.black.opacity(0.2), radius: 1, x: 0, y: 3)
+                                .frame(width:screenWidth)
+//                                
+
                                 
                             }
                         }
@@ -156,7 +161,7 @@ struct AthleteCard: View {
             if let uiImage = uiImage {
                 Image(uiImage: uiImage)
                     .resizable()
-                    .aspectRatio(contentMode: .fit)
+                    .aspectRatio(contentMode: .fill)
                     .frame(width: screenHeight * 0.15, height: screenHeight * 0.15)
                     .clipped()
                     .clipShape(.circle)
@@ -173,7 +178,8 @@ struct AthleteCard: View {
             
             
         }
-        .frame(width:screenWidth * 0.2, height:screenHeight * 0.20)
+        .frame(width:screenWidth * 0.35, height:screenHeight * 0.20)
+        .padding(.horizontal, 5)
         .onAppear {
             vm.getImage(imageName: athleteImage) { image in
                 uiImage = image
