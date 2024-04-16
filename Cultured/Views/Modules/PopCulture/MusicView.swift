@@ -48,19 +48,21 @@ struct MusicView: View {
                     VStack{
                         Spacer()
                             .frame(height: 20)
-                        
-                        Text("Music")
-                            .frame(maxWidth:350, alignment: .leading)
-                            .font(Font.custom("Quicksand-Medium", size: 32))
-                            .foregroundColor(Color(red:252/255, green:64/255, blue:64/255))
-                        
-                        Text(vm.current_user?.country ?? "Mexico")
-                            .frame(maxWidth:325, alignment: .leading)
-                            .font(Font.custom("Quicksand-Light", size: 15))
-                        
-                        Text("Artist Spotlight")
-                            .font(Font.custom("Quicksand-Medium", size:20))
-                            .frame(maxWidth:350, alignment: .leading)
+                        VStack(alignment: .leading) {
+                            Text("Music")
+                                .frame(maxWidth:350, alignment: .leading)
+                                .font(Font.custom("Quicksand-Medium", size: 32))
+                                .foregroundColor(Color(red:252/255, green:64/255, blue:64/255))
+                            
+                            Text(vm.current_user?.country ?? "Mexico")
+                                .foregroundColor(.cMedGray)
+                                .frame(maxWidth:325, alignment: .leading)
+                                .font(Font.custom("Quicksand-Light", size: 15))
+                            
+                            Text("Artist Spotlight")
+                                .font(Font.custom("Quicksand-Medium", size:20))
+                                .frame(maxWidth:350, alignment: .leading)
+                        }
                         
                         ScrollView(.horizontal) {
                             LazyHStack {
