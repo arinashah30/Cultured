@@ -28,13 +28,16 @@ struct DetailView: View {
             
             VStack(alignment: .center) {
                 if let uiImage = uiImage {
-                    Image(uiImage: uiImage).resizable().scaledToFill().frame(width: 304, height: 200).clipShape(RoundedRectangle(cornerRadius: 10))
+                    Image(uiImage: uiImage).resizable().scaledToFill().frame(width: 304, height: 200)//.clipShape(RoundedRectangle(cornerRadius: 10))
+                        //.offset(y: 5)
+                        .clipShape(TopRoundedRectangle(topLeftRadius: 10, topRightRadius: 10))
                 } else {
                     // Placeholder image or loading indicator
                     ProgressView()
                         .frame(width: 304, height: 100)
                 }
                 
+                                
                 Text(title).font(Font.custom("Quicksand-Bold", size: 35)).multilineTextAlignment(.center).padding().background(Color.cPopover)
                 Text(description).padding().font(Font.custom("Quicksand-Medium", size: 25)).minimumScaleFactor(0.3)
                 Spacer()
@@ -44,6 +47,46 @@ struct DetailView: View {
                 uiImage = img
             }
         }
+    }
+}
+
+struct TopRoundedRectangle: Shape {
+    var topLeftRadius: CGFloat = 10
+    var topRightRadius: CGFloat = 10
+
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+
+        // Start at the top left, moving in by the radius to begin the arc
+        path.move(to: CGPoint(x: rect.minX + topLeftRadius, y: rect.minY))
+
+        // Top left corner arc
+        path.addArc(center: CGPoint(x: rect.minX + topLeftRadius, y: rect.minY + topLeftRadius),
+                    radius: topLeftRadius,
+                    startAngle: Angle(degrees: 180),
+                    endAngle: Angle(degrees: 270),
+                    clockwise: false)
+
+        // Top edge
+        path.addLine(to: CGPoint(x: rect.maxX - topRightRadius, y: rect.minY))
+
+        // Top right corner arc
+        path.addArc(center: CGPoint(x: rect.maxX - topRightRadius, y: rect.minY + topRightRadius),
+                    radius: topRightRadius,
+                    startAngle: Angle(degrees: 270),
+                    endAngle: Angle(degrees: 0),
+                    clockwise: false)
+
+        // Right vertical edge
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
+
+        // Bottom edge
+        path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))
+
+        // Close the path by connecting back to the start
+        path.addLine(to: CGPoint(x: rect.minX, y: rect.minY + topLeftRadius))
+
+        return path
     }
 }
 

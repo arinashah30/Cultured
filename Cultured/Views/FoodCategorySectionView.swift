@@ -9,16 +9,26 @@ import SwiftUI
 
 struct FoodCategorySectionView: View {
     @ObservedObject var vm: ViewModel
+    @State var uiImage: UIImage? = nil
     
     var body: some View {
         NavigationStack{
             ZStack (alignment: .topLeading){
-                Image("FoodCategory")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 400, height: 470)
+                if let uiImage = uiImage {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: screenWidth, height: screenHeight * 0.8)
+                        .offset(y:screenHeight * -0.1)
+                } else {
+                    ProgressView()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: screenWidth/2, height: screenHeight/2)
+                        .offset(y:screenHeight * -0.2)
+                }
                 
                 BackButton()
+                    .offset(x:10,y:30)
                 
                 VStack{
                     Spacer()
@@ -84,9 +94,14 @@ struct FoodCategorySectionView: View {
                         .padding(.top, 30)
                         .padding(.leading, 32)
                     }
-                    .padding(.leading, 7)
+                    //.padding(.leading, 7)
                 }
                 .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            }
+            .onAppear {
+                vm.getImage(imageName: "\(vm.get_current_country().lowercased())_food_home") { image in
+                    uiImage = image
+                }
             }
         }
     }

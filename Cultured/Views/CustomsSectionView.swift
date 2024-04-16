@@ -9,17 +9,26 @@ import SwiftUI
 
 struct CustomsSectionView: View {
     @ObservedObject var vm: ViewModel
+    @State var uiImage: UIImage? = nil
     
     var body: some View {
         NavigationStack {
             ZStack (alignment: .topLeading){
-                Image("Customs")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 400, height: 470)
-                    .offset(y:50)
+                if let uiImage = uiImage {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: screenWidth, height: screenHeight * 0.8)
+                        .offset(y:screenHeight * -0.1)
+                } else {
+                    ProgressView()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: screenWidth/2, height: screenHeight/2)
+                        .offset(y:screenHeight * -0.2)
+                }
                 
                 BackButton()
+                    .offset(x:10,y:30)
                 
                 
                 VStack {
@@ -54,22 +63,22 @@ struct CustomsSectionView: View {
                                 .background(Color.cRed)
                                 .clipShape(.rect(cornerRadius: 14.0))
                                 
-//                                NavigationLink {
-//                                    
-//                                } label: {
-//                                    Text("Holiday")
-//                                        .font(.system(size: 20))
-//                                        .foregroundColor(.cDarkGrayConstant)
-//                                        .padding()
-//                                }
-//                                .frame(maxWidth: 159, maxHeight: 57)
-//                                .background(Color.cOrange)
-//                                .clipShape(.rect(cornerRadius: 14.0))
-//                            }
-//                            .shadow(radius: 4, x: 0, y: 4)
-//                            .padding(.bottom, 7)
-                            
-//                            HStack (spacing: 13){
+                                //                                NavigationLink {
+                                //
+                                //                                } label: {
+                                //                                    Text("Holiday")
+                                //                                        .font(.system(size: 20))
+                                //                                        .foregroundColor(.cDarkGrayConstant)
+                                //                                        .padding()
+                                //                                }
+                                //                                .frame(maxWidth: 159, maxHeight: 57)
+                                //                                .background(Color.cOrange)
+                                //                                .clipShape(.rect(cornerRadius: 14.0))
+                                //                            }
+                                //                            .shadow(radius: 4, x: 0, y: 4)
+                                //                            .padding(.bottom, 7)
+                                
+                                //                            HStack (spacing: 13){
                                 NavigationLink {
                                     EtiquetteView(vm: vm)
                                         .navigationBarBackButtonHidden(true)
@@ -101,9 +110,14 @@ struct CustomsSectionView: View {
                         .padding(.leading, 32)
                     }
                 }
-                .padding(.leading, 3)
+                //.padding(.leading, 3)
             }
             .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            .onAppear {
+                vm.getImage(imageName: "\(vm.get_current_country().lowercased())_customs_home") { image in
+                    uiImage = image
+                }
+            }
         }
     }
 }
