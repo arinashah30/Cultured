@@ -89,12 +89,12 @@ struct FoodView: View {
                                             .font(Font.custom("Quicksand-Semibold", size: 16))
                                             .foregroundColor(foodRed)
                                             .underline()
-                                            .padding(.leading, 23)
+//                                            .padding(.leading, 23)
                                     } else {
                                         Text("Seasonal")
                                             .font(Font.custom("Quicksand-Semibold", size: 16))
                                             .foregroundColor(.cMedGray)
-                                            .padding(.leading, 23)
+//                                            .padding(.leading, 23)
                                     }
                                 }
                                 Button {

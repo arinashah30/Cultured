@@ -365,7 +365,8 @@ class ViewModel: ObservableObject {
     }
     
     func getInfoSports(countryName: String, completion: @escaping (Sports) -> Void) {
-        self.db.collection("COUNTRIES").document(countryName).collection("MODULES").document("SPORTS").getDocument { document, error in
+        var country = countryName.uppercased()
+        self.db.collection("COUNTRIES").document(country).collection("MODULES").document("SPORTS").getDocument { document, error in
             if let error = error {
                 print(error.localizedDescription)
                 completion(Sports())
