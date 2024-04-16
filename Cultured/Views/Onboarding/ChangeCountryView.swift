@@ -21,7 +21,8 @@ struct ChangeCountryView: View {
     }
     
     public var selectedGray: Color {
-        Color(red:240/255, green:240/255, blue:240/255)
+        .cDarkGray
+        //Color(red:240/255, green:240/255, blue:240/255)
     }
     
     var body: some View {
@@ -45,7 +46,7 @@ struct ChangeCountryView: View {
                         HStack {
                             Text("France 🇫🇷")
                                 .font(Font.custom("Quicksand-Medium", size: 24))
-                                .foregroundStyle(Color.cDarkGray)
+                                .foregroundStyle(Color.cDarkGrayReverse)
                             
                         }
                         .frame(width: screenWidth * 3/4, height: screenHeight * 1/17)
@@ -60,7 +61,7 @@ struct ChangeCountryView: View {
                             
                         }
                         .frame(width: screenWidth * 3/4, height: screenHeight * 1/17)
-                        .background(Color.white)
+                        .background(Color.cBar)
                         .cornerRadius(12)
                         .padding(.top, -8)
                     }
@@ -68,7 +69,7 @@ struct ChangeCountryView: View {
 
                 Divider()
                     .frame(width: screenWidth * 3/4, height: 2)
-                    .overlay(selectedGray)
+                    .overlay(.cDarkGray)
                     .padding([.top, .bottom], -5)
                 
                 Button {
@@ -78,7 +79,7 @@ struct ChangeCountryView: View {
                         HStack {
                             Text("India 🇮🇳")
                                 .font(Font.custom("Quicksand-Medium", size: 24))
-                                .foregroundStyle(Color.cDarkGray)
+                                .foregroundStyle(Color.cDarkGrayReverse)
                             
                         }
                         .frame(width: screenWidth * 3/4, height: screenHeight * 1/17)
@@ -93,7 +94,7 @@ struct ChangeCountryView: View {
                             
                         }
                         .frame(width: screenWidth * 3/4, height: screenHeight * 1/17)
-                        .background(Color.white)
+                        .background(Color.cBar)
                         .cornerRadius(12)
                         .padding(.top, -8)
                     }
@@ -101,7 +102,7 @@ struct ChangeCountryView: View {
 
                 Divider()
                     .frame(width: screenWidth * 3/4, height: 2)
-                    .overlay(selectedGray)
+                    .overlay(.cDarkGray)
                     .padding([.top, .bottom], -5)
                 
                 Button {
@@ -111,7 +112,7 @@ struct ChangeCountryView: View {
                         HStack {
                             Text("Mexico 🇲🇽")
                                 .font(Font.custom("Quicksand-Medium", size: 24))
-                                .foregroundStyle(Color.cDarkGray)
+                                .foregroundStyle(Color.cDarkGrayReverse)
                             
                         }
                         .frame(width: screenWidth * 3/4, height: screenHeight * 1/17)
@@ -126,7 +127,7 @@ struct ChangeCountryView: View {
                             
                         }
                         .frame(width: screenWidth * 3/4, height: screenHeight * 1/17)
-                        .background(Color.white)
+                        .background(Color.cBar)
                         .cornerRadius(12)
                         .padding(.top, -8)
                     }
@@ -134,7 +135,7 @@ struct ChangeCountryView: View {
 
                 Divider()
                     .frame(width: screenWidth * 3/4, height: 2)
-                    .overlay(selectedGray)
+                    .overlay(.cDarkGray)
                     .padding([.top, .bottom], -5)
                 
                 Button {
@@ -144,7 +145,7 @@ struct ChangeCountryView: View {
                         HStack {
                             Text("United Arab Emirates 🇦🇪")
                                 .font(Font.custom("Quicksand-Medium", size: 24))
-                                .foregroundStyle(Color.cDarkGray)
+                                .foregroundStyle(Color.cDarkGrayReverse)
                             
                         }
                         .frame(width: screenWidth * 3/4, height: screenHeight * 1/17)
@@ -159,7 +160,7 @@ struct ChangeCountryView: View {
                             
                         }
                         .frame(width: screenWidth * 3/4, height: screenHeight * 1/17)
-                        .background(Color.white)
+                        .background(Color.cBar)
                         .cornerRadius(12)
                         .padding(.top, -8)
                     }
@@ -167,7 +168,7 @@ struct ChangeCountryView: View {
 
                 Divider()
                     .frame(width: screenWidth * 3/4, height: 2)
-                    .overlay(selectedGray)
+                    .overlay(.cDarkGray)
                     .padding([.top, .bottom], -5)
                 
                 Button {
@@ -177,7 +178,7 @@ struct ChangeCountryView: View {
                         HStack {
                             Text("Italy 🇮🇹")
                                 .font(Font.custom("Quicksand-Medium", size: 24))
-                                .foregroundStyle(Color.cDarkGray)
+                                .foregroundStyle(Color.cDarkGrayReverse)
                             
                         }
                         .frame(width: screenWidth * 3/4, height: screenHeight * 1/17)
@@ -192,7 +193,7 @@ struct ChangeCountryView: View {
                             
                         }
                         .frame(width: screenWidth * 3/4, height: screenHeight * 1/17)
-                        .background(Color.white)
+                        .background(Color.cBar)
                         .cornerRadius(12)
                         .padding(.top, -8)
                     }
@@ -265,7 +266,7 @@ struct ChangeCountryView: View {
             }
         }
         .frame(width: screenWidth, height: screenHeight * 0.75)
-        .background(.white)
+        .background(.cPopover)
         .cornerRadius(40.0)
         .offset(y:screenHeight * 0.75/2 - 100)
     }

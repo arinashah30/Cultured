@@ -10,6 +10,7 @@ import SwiftUI
 struct WordGuessingResultsView: View {
     @ObservedObject var vm: WordGuessingViewModel
     @State var goHome: Bool = false
+    @Environment(\.dismiss) private var dismiss
 //    @State private var localHasWon: Bool = true
 
     var body: some View {
@@ -98,7 +99,7 @@ struct WordGuessingResultsView: View {
                 HStack(spacing: 35) {
                     Spacer()
                     Button(action: {
-                        goHome = true
+                        dismiss()
                     }) {
                         Text("Back to Home")
                             .font(Font.custom("Quicksand-Medium", size: 17))

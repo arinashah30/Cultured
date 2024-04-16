@@ -66,6 +66,7 @@ struct SelfProfileView: View {
                         if let data = try? await avatarItem?.loadTransferable(type: Data.self) {
                             if let uiImage = UIImage(data: data) {
                                 vm.updateProfilePic(userID: vm.current_user?.id ?? "", image: uiImage) { image in
+                                    self.vm.current_user?.profilePicture = image.absoluteString
                                     avatarImage = image
                                     
                                 }

@@ -11,6 +11,7 @@ struct ResultsView: View {
     @ObservedObject var vm: QuizViewModel
     @State var totalPoints: Int = 0
     @State var goHome: Bool = false
+    @Environment(\.dismiss) private var dismiss
     //var progress: CGFloat
     //var total: Int
     
@@ -56,69 +57,53 @@ struct ResultsView: View {
                 }
                 .padding(.bottom, 100)
                 
-                VStack {
-                    Text("You answered \(vm.current_quiz!.points / 10) out of \(vm.current_quiz!.questions.count)" as String)
-                        .font(Font.custom("Quicksand-SemiBold", size: 24))
-                        .foregroundColor(Color(red: 64/255, green: 64/255, blue: 64/255))
-                        .fixedSize(horizontal: true, vertical: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
-                    Text("questions correctly!")
-                        .font(Font.custom("Quicksand-SemiBold", size: 24))
-                        .foregroundColor(Color(red: 64/255, green: 64/255, blue: 64/255))
-                        .fixedSize(horizontal: true, vertical: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
-                        .padding(.bottom, 20)
-                    
-                    Text("Points Collected: \(vm.current_quiz!.points)")
-                        .font(.system(size: 20))
-                        .foregroundColor(Color(red: 64/255, green: 64/255, blue: 64/255))
-                    
-                    Text("Total Points: \(totalPoints)")
-                        .font(.system(size: 20))
-                        .foregroundColor(Color(red: 64/255, green: 64/255, blue: 64/255))
-                        .padding(.top, 20)
-                }
-                Spacer()
+                Text("You answered \(vm.current_quiz!.points / 10) out of \(vm.current_quiz!.questions.count)" as String)
+                    .font(Font.custom("Quicksand-SemiBold", size: 24))
+                    .foregroundColor(.cDarkGray)
+                    .fixedSize(horizontal: true, vertical: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
+                Text("questions correctly!")
+                    .font(Font.custom("Quicksand-SemiBold", size: 24))
+                    .foregroundColor(.cDarkGray)
+                    .fixedSize(horizontal: true, vertical: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
+                    .padding(.bottom, 20)
+                
+                Text("Points Collected: \(vm.current_quiz!.points)")
+                    .font(.system(size: 20))
+                    .foregroundColor(.cDarkGray)
+                
+                Text("Total Points: \(totalPoints)")
+                    .font(.system(size: 20))
+                    .foregroundColor(.cDarkGray)
+                    .padding(.top, 10)
+                
+                Spacer(minLength: 50)
                 
                 
-                VStack {
-                    Spacer()
-                    HStack {
-                        Button(action: {
-                            
-                        }) {
-                            Text("New Quiz")
-                                .padding()
-                                .frame(width: buttonWidth, height: buttonHeight)
-                                .background(Color(red: 228/255, green: 228/255, blue: 228/255))
-                                .foregroundColor(Color(red: 64/255, green: 64/255, blue: 64/255))
-                                .font(.system(size: 20, weight: .bold))
-                        }
-                        .cornerRadius(100)
-                        
-                        Button(action: {
-                            goHome = true
-                        }) {
-                            Text("Exit")
-                                .padding()
-                                .frame(width: buttonWidth, height: buttonHeight)
-                                .background(Color(red: 228/255, green: 228/255, blue: 228/255))
-                                .foregroundColor(Color(red: 64/255, green: 64/255, blue: 64/255))
-                                .font(.system(size: 20, weight: .bold))
-                        }.navigationDestination(isPresented: $goHome, destination: {HomeView(vm: vm.viewModel)})
-                        .cornerRadius(100)
-                    }
-                    .padding()
-                    .onAppear(perform: {
-                        if !vm.current_quiz!.completed {
-                            vm.finish_quiz() { totalPoints in
-                                self.totalPoints = totalPoints
-                            }
-                        } else {
-                            totalPoints = vm.viewModel.current_user!.points
-                        }
-                    })
-                }
+                
+                Button(action: {
+                    dismiss()
+                }) {
+                    Text("Exit")
+                        .padding()
+                        .frame(width: buttonWidth, height: buttonHeight)
+                        .background(.cDarkGray)
+                        .foregroundColor(.cPopover)
+                        .font(.system(size: 20, weight: .bold))
+                }//.navigationDestination(isPresented: $goHome, destination: {HomeView(vm: vm.viewModel)})
+                .cornerRadius(100)
             }
+            .padding()
+            .onAppear(perform: {
+                if !vm.current_quiz!.completed {
+                    vm.finish_quiz() { totalPoints in
+                        self.totalPoints = totalPoints
+                    }
+                } else {
+                    totalPoints = vm.viewModel.current_user!.points
+                }
+            })
         }
+        .toolbar(.hidden, for: .tabBar)
         .navigationBarBackButtonHidden(true)
     }
     
