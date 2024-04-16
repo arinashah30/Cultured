@@ -350,6 +350,7 @@ struct HomeView: View {
                 .scrollIndicators(.hidden)
                 
             }
+            .toolbar(.visible, for: .tabBar)
             .navigationBarBackButtonHidden()
             .onAppear() {
                 points = vm.current_user?.points ?? 0

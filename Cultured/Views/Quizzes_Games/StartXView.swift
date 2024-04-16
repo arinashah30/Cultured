@@ -57,15 +57,17 @@ struct StartXView: View {
                         backgroundImage
                             .resizable()
                             .aspectRatio(contentMode: .fill)
-                            .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height * 0.47, alignment: .top)
+                            .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height * 0.6, alignment: .top)
+                            //.position(x: 0, y: 400)
+                            .offset(y: 180)
                     } else {
                         ProgressView()
-                            .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height * 0.47, alignment: .top)
+                            .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height * 0.6, alignment: .top)
                     }
                     
 //                }
                 BackButton()
-                    .position(x:UIScreen.main.bounds.size.width/10, y:UIScreen.main.bounds.size.height/3.6)
+                    .position(x:UIScreen.main.bounds.size.width/10, y:UIScreen.main.bounds.size.height/3)
 //                        .offset(x:UIScreen.main.bounds.size.width/100, y:UIScreen.main.bounds.size.height/4.6)
                     
                 }
@@ -77,7 +79,7 @@ struct StartXView: View {
                         .foregroundColor(.cPopover)
                     VStack (alignment: .leading){
                         VStack (alignment: .leading){
-                            Text(gameName)
+                            Text(gameName.replacingOccurrences(of: "WordGuessing", with: "Word Guessing"))
                                 .foregroundColor(.cDarkGray)
                                 .font(Font.custom("Quicksand-SemiBold", size: 32))
                             Text(vm.get_current_country())
@@ -155,6 +157,7 @@ struct StartXView: View {
                 }
             }
         }
+        .toolbar(.hidden, for: .tabBar)
         .navigationBarBackButtonHidden()
     }
 }

@@ -18,87 +18,69 @@ struct QuestionView: View {
     
 
     var body: some View {
-//        BackButton()
-//            .position(x:UIScreen.main.bounds.size.width/20, y:UIScreen.main.bounds.size.height/20)
         NavigationStack {
             ZStack {
                 
-                
-                // the background image
-                VStack{
-                    Image(uiImage: UIImage(data: Data(base64Encoded: vm.current_quiz!.image.components(separatedBy: ",")[1], options: .ignoreUnknownCharacters)!)!)
-                        .resizable()
-                        .scaledToFill()
-                        .edgesIgnoringSafeArea(.all)
-                        .frame(width:UIScreen.main.bounds.width, height: 2*UIScreen.main.bounds.width/3)
-                        .offset(y:-UIScreen.main.bounds.width/2)
-                    //                .opacity(0.5)
-                }
+                Image(uiImage: UIImage(data: Data(base64Encoded: vm.current_quiz!.image.components(separatedBy: ",")[1], options: .ignoreUnknownCharacters)!)!)
+                    .resizable()
+                    .scaledToFill()
+                    .edgesIgnoringSafeArea(.all)
+                    .frame(width:UIScreen.main.bounds.width, height: 2*UIScreen.main.bounds.width/3)
+                    .offset(y:-UIScreen.main.bounds.width/2 - 20)
                 
                 BackButton()
-//                                    .position(x:UIScreen.main.bounds.size.width/9, y:UIScreen.main.bounds.size.height/30.6)
                     .position(x:UIScreen.main.bounds.size.width * 1.1 / 12, y:-UIScreen.main.bounds.size.height * 0.0001)
                 
-                VStack{
-                    
-                    RoundedRectangle(cornerRadius: 40)
-                        .fill(Color.cPopover)
-                        .frame(width: UIScreen.main.bounds.width, height: 2*UIScreen.main.bounds.height / 3)
-                        .offset(y: UIScreen.main.bounds.height / 10)
-                }
                 
+                RoundedRectangle(cornerRadius: 40)
+                    .fill(Color.cPopover)
+                    .frame(width: UIScreen.main.bounds.width, height: 2*UIScreen.main.bounds.height / 4)
+                    .offset(y: UIScreen.main.bounds.height / 10)
                 
-                // the quiz
-                
-                VStack{
-                    VStack(alignment: .leading) {
-                        Text("Quiz")
-                            .font(Font.custom("Quicksand-semibold",size: 32))
-                            .foregroundColor(colorRed)
-                            .offset(y:UIScreen.main.bounds.size.height/56)
-                            .padding(.bottom, UIScreen.main.bounds.size.height * 0.02)
-                        HStack{
-                            Text("\(vm.viewModel.get_current_country()) - \(vm.get_current_category())")
-                                .font(.system(size: 16))
-                                .foregroundColor(
-                                    Color(red: 157/255, green: 157/255, blue: 157/255))
-                            Spacer()
-                            Text("\(currentStep)/\(totalSteps)").font(.system(size:16))
-                                .foregroundColor(
-                                    Color(red: 157/255, green: 157/255, blue: 157/255))
-                        }
-                        
-                        
-                        //ProgressView(value: progress, total: 1.0)
-                        //            .progressViewStyle(LinearProgressViewStyle(tint: Color.red))
-                        .frame(height: 20)
-                        ProgressBar(progress: progress, height:5)
-                        //                            .padding(EdgeInsets(top: UIScreen.main.bounds.size.height * 0.01, leading: 0, bottom: UIScreen.main.bounds.size.height * 0.005, trailing: 0))
-                        
-                        Text("\(vm.get_current_question().question)")
-                            .padding(.top, UIScreen.main.bounds.size.height * 0.015)
+                                
+                VStack(alignment: .leading) {
+                    Text("Quiz")
+                        .font(Font.custom("Quicksand-semibold",size: 32))
+                        .foregroundColor(colorRed)
+                        .offset(y:UIScreen.main.bounds.size.height/72)
+                        .padding(.bottom, UIScreen.main.bounds.size.height * 0.02)
+                    HStack{
+                        Text("\(vm.viewModel.get_current_country()) - \(vm.get_current_category())")
                             .font(.system(size: 16))
-                            .fixedSize(horizontal: false, vertical: true) // Add this line
-                        
-                        
-                        VStack(spacing: UIScreen.main.bounds.size.height * 0.015) {
-                            ForEach(categories, id: \.self) { category in
-                                Button(action: {
-                                    toggleCategorySelection(category)
-                                }) {
-                                    Text(category)
-                                        .padding()
-                                        .font(.system(.body, design: .rounded)) // Use dynamic type
-                                        .minimumScaleFactor(0.4)
-                                }
-                                .frame(width: buttonWidth, height: buttonHeight)
-                                .background(buttonColor(category: category))
-                                .foregroundColor(textColor(category: category))
-                                .cornerRadius(buttonRadius)
-                            }
-                            
-                        }
+                            .foregroundColor(
+                                Color(red: 157/255, green: 157/255, blue: 157/255))
+                        Spacer()
+                        Text("\(currentStep)/\(totalSteps)").font(.system(size:16))
+                            .foregroundColor(
+                                Color(red: 157/255, green: 157/255, blue: 157/255))
                     }
+                    .frame(height: 20)
+                    
+                    ProgressBar(progress: progress, height:5)
+                    
+                    
+                    Text("\(vm.get_current_question().question)")
+                        .padding(.top, UIScreen.main.bounds.size.height * 0.015)
+                        .font(.system(size: 16))
+                        .fixedSize(horizontal: false, vertical: true) // Add this line
+                    
+                    
+                    ForEach(categories, id: \.self) { category in
+                        Button(action: {
+                            toggleCategorySelection(category)
+                        }) {
+                            Text(category)
+                            //.padding()
+                                .font(.system(.body, design: .rounded))
+                                .minimumScaleFactor(0.4)
+                        }
+                        .frame(width: buttonWidth, height: buttonHeight)
+                        .background(buttonColor(category: category))
+                        .foregroundColor(textColor(category: category))
+                        .cornerRadius(buttonRadius)
+                        .padding(.top, 10)
+                    }
+                                            
                     Button(action: {
                         let result = vm.check_answer(selected: selectedCategory)
                         vm.submit_answer(selectedAnswer: selectedCategory) {
@@ -109,7 +91,7 @@ struct QuestionView: View {
                     }) {
                         Text("Submit")
                             .foregroundColor(.red)
-                            .padding()
+                            .padding(.top, 10)
                             .background(Color.cPopover)
                             .frame(width: buttonWidth, height: buttonHeight)
                             .overlay(
@@ -119,14 +101,13 @@ struct QuestionView: View {
                             .font(.system(size:20))
                             .fontWeight(.bold)
                     }.navigationDestination(isPresented: $nav) { destinationView }
-                        .padding(.bottom, UIScreen.main.bounds.size.height * 0.07)
+                        .padding(.bottom, UIScreen.main.bounds.size.height * 0.15)
                         .frame(maxHeight: 11 * UIScreen.main.bounds.size.height / 12)
-                    //}.padding(.top, 20)
-                    
-                    
-                }.offset(y:UIScreen.main.bounds.height/7).padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 40))
+                }
+                .offset(y:UIScreen.main.bounds.height/4).padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 40))
                 
             }
+            .toolbar(.hidden, for: .tabBar)
             .navigationBarBackButtonHidden()
             .padding(.bottom, 100)
             .onAppear(perform: {
