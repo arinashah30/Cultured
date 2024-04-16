@@ -22,15 +22,22 @@ struct WordGuessingView: View {
         NavigationStack {
             VStack {
                 if let game = vm.current_word_guessing_game {
-                    ZStack {
-                        BackButton()
-                            .position(x:UIScreen.main.bounds.size.width/10, y:UIScreen.main.bounds.size.height/250)
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: UIScreen.main.bounds.size.height/250, alignment: .topLeading)
-                    HStack{
-                        Spacer()
-                        Text("Hints")
-                            .font(Font.custom("Quicksand-Medium", size: 24))
+                    HStack {
+                        VStack {
+                            BackButton()
+                                //.padding()
+                                //.position(y:UIScreen.main.bounds.size.height/250)
+                            
+                                //.frame(maxWidth: .infinity, maxHeight: UIScreen.main.bounds.size.height/250, alignment: .topLeading)
+                            
+                            
+                            Text("Hints")
+                                .font(Font.custom("Quicksand-Medium", size: 24))
+                                .padding()
+                                .padding(.leading, 20)
+                        }
+                        .frame(alignment: .topLeading)
+                        
                         Spacer()
                         
                         Button(action: {
@@ -40,10 +47,15 @@ struct WordGuessingView: View {
                                 .font(.title3)
                                 .foregroundColor(.gray)
                                 .font(Font.custom("SF-Pro-Display-Light", size: 18))
+                                .padding(.top, 110)
+                                .padding(.trailing, 20)
                         }
                         .disabled(vm.current_word_guessing_game!.current >= vm.current_word_guessing_game!.options.count - 1)
-                        Spacer(minLength: 20)
+                        //Spacer(minLength: 20)
                     }
+                    .frame(alignment: .topLeading)
+                    .offset(y: -40)
+                    
                     
                     ScrollView {
                         VStack {
@@ -70,6 +82,7 @@ struct WordGuessingView: View {
                         }
 //                        .padding()
                     }
+                    .offset(y: -25)
                     
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack {
@@ -119,6 +132,7 @@ struct WordGuessingView: View {
                     WordGuessingResultsView(vm: vm)
                 }
             }
+            .toolbar(.hidden, for: .tabBar)
             .navigationBarBackButtonHidden(true)
         }
     }

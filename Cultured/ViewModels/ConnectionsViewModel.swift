@@ -43,6 +43,8 @@ class ConnectionsViewModel: ObservableObject {
                                     connInfo.history.append(splitHistory[splitHistory.count - 1])
                                 }
                                 
+                                print(connInfo.history)
+                                
                                 for history in splitHistory {
                                     var amount_correct: [String: Int] = [:]
                                     for index in history.indices {
@@ -70,7 +72,7 @@ class ConnectionsViewModel: ObservableObject {
                                         
                                         var historyOptions: [Connections.Option] = []
                                         for historyItem in history {
-                                            historyOptions.append(Connections.Option(content: historyItem, category: category))
+                                            historyOptions.append(Connections.Option(isSelected: true, content: historyItem, category: category))
                                         }
                                         
                                         connInfo.correct_history.updateValue(historyOptions, forKey: category)
@@ -80,7 +82,7 @@ class ConnectionsViewModel: ObservableObject {
                                             for item in connInfo.answer_key {
                                                 for submittedOption in item.value {
                                                     if submittedOption.content == historyItem {
-                                                        historyOptions.append(Connections.Option(content: historyItem, category: item.key))
+                                                        historyOptions.append(Connections.Option(isSelected: true, content: historyItem, category: item.key))
                                                     }
                                                 }
                                             }
@@ -93,7 +95,7 @@ class ConnectionsViewModel: ObservableObject {
                                             for item in connInfo.answer_key {
                                                 for submittedOption in item.value {
                                                     if submittedOption.content == historyItem {
-                                                        historyOptions.append(Connections.Option(content: historyItem, category: item.key))
+                                                        historyOptions.append(Connections.Option(isSelected: true,content: historyItem, category: item.key))
                                                     }
                                                 }
                                             }
@@ -105,7 +107,15 @@ class ConnectionsViewModel: ObservableObject {
                                 connInfo.mistakes_remaining = 4 - (activityHistory["current"] as? Int ?? 0)
                             }
                             
-                            
+                            if connInfo.mistakes_remaining == 0 {
+                                connInfo.options.removeAll()
+                                for (key, value) in connInfo.answer_key {
+                                    if !connInfo.correct_history.keys.contains(key) {
+                                        connInfo.correct_history.updateValue(value, forKey: key)
+                                    }
+                                }
+                            }
+                            print("MISTAKES: \(connInfo.mistake_history)")
                             self.connections[activity] = connInfo
                         }
                     })
