@@ -42,7 +42,7 @@ struct DanceView: View {
                         .font(Font.custom("Quicksand-semibold",size: 32))
                         .foregroundColor(Color.cDarkOrange)
                     
-                    Text("Mexico")
+                    Text(vm.current_user?.country ?? "Mexico")
                         .font(.system(size: 16))
                         .foregroundColor(
                             Color(red: 157/255, green: 157/255, blue: 157/255))
