@@ -54,7 +54,7 @@ struct MusicView: View {
                             .font(Font.custom("Quicksand-Medium", size: 32))
                             .foregroundColor(Color(red:252/255, green:64/255, blue:64/255))
                         
-                        Text("Mexico")
+                        Text(vm.current_user?.country ?? "Mexico")
                             .frame(maxWidth:325, alignment: .leading)
                             .font(Font.custom("Quicksand-Light", size: 15))
                         
