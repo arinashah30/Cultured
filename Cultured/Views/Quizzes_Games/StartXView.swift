@@ -13,7 +13,7 @@ struct StartXView: View {
     
     @State var gameName: String
     @State var countryName: String
-    @State var backgroundImage: Image
+    @State var backgroundImage: Image? = nil
     @State var categories: [String]
     @State var categoryProgress: [Float] = [0.0, 0.0, 0.0, 0.0]
     
@@ -53,10 +53,15 @@ struct StartXView: View {
         NavigationStack {
             VStack {
                 ZStack (alignment: .topLeading){
-                    backgroundImage
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height * 0.47, alignment: .top)
+                    if let backgroundImage = backgroundImage {
+                        backgroundImage
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height * 0.47, alignment: .top)
+                    } else {
+                        ProgressView()
+                            .frame(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height * 0.47, alignment: .top)
+                    }
                     
 //                }
                 BackButton()
@@ -137,6 +142,10 @@ struct StartXView: View {
             }
             .padding(.bottom, 200)
             .onAppear() {
+                vm.getImage(imageName: "\(vm.get_current_country().lowercased())_\(gameName.lowercased())") { image in
+                    backgroundImage = Image(uiImage:image!)
+                }
+                
                 if gameName == "WordGuessing" {
                     categoryProgress = vm.wordGuessingViewModel!.getProgress()
                 } else if gameName == "Quiz" {
@@ -150,6 +159,6 @@ struct StartXView: View {
     }
 }
 
-#Preview {
-    StartXView(vm: ViewModel(), gameName: "Game Name", countryName: "Country", backgroundImage: Image("WordGuessing"), categories: ["Pop Culture", "Food", "Customs", "Places"], categoryProgress: [0.4, 0.7, 0.2, 1.0])
-}
+//#Preview {
+//    StartXView(vm: ViewModel(), gameName: "Game Name", countryName: "Country", backgroundImage: Image("WordGuessing"), categories: ["Pop Culture", "Food", "Customs", "Places"], categoryProgress: [0.4, 0.7, 0.2, 1.0])
+//}
