@@ -16,22 +16,22 @@ struct WordGuessingView: View {
     
 
     let colors: [Color] = [Color("Gradient1"), Color("Gradient2"), Color("Gradient3"), Color("Gradient4"), Color("Gradient5"), Color("Gradient6"), Color("Gradient7"), Color("Gradient8"), Color("Gradient9")]
+    
         
     var body: some View {
         NavigationStack {
             VStack {
                 if let game = vm.current_word_guessing_game {
-                    HStack {
+                    ZStack {
                         BackButton()
-                            .offset(x:UIScreen.main.bounds.size.width/100, y:UIScreen.main.bounds.size.height/50)
-                        Spacer()
+                            .position(x:UIScreen.main.bounds.size.width/10, y:UIScreen.main.bounds.size.height/250)
                     }
-                    Spacer(minLength: 15)
+                    .frame(maxWidth: .infinity, maxHeight: UIScreen.main.bounds.size.height/250, alignment: .topLeading)
                     HStack{
-                        Spacer(minLength: 20)
+                        Spacer()
                         Text("Hints")
                             .font(Font.custom("Quicksand-Medium", size: 24))
-                        Spacer(minLength: 190)
+                        Spacer()
                         
                         Button(action: {
                             vm.flipTile() {}
@@ -68,7 +68,7 @@ struct WordGuessingView: View {
                                 }
                             }
                         }
-                        .padding()
+//                        .padding()
                     }
                     
                     ScrollView(.horizontal, showsIndicators: false) {

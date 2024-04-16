@@ -38,11 +38,14 @@ struct QuestionSuccessView: View {
                     //                .opacity(0.5)
                 }
                 
+                BackButton()
+                    .position(x:UIScreen.main.bounds.size.width / 10, y:-UIScreen.main.bounds.size.height / 10000)
+                
                 VStack{
                     
                     RoundedRectangle(cornerRadius: 40)
                         .fill(Color.cPopover)
-                        .frame(width: UIScreen.main.bounds.width, height: 2*UIScreen.main.bounds.height / 3)
+                        .frame(width: UIScreen.main.bounds.width, height: 3*UIScreen.main.bounds.height / 4)
                         .offset(y: UIScreen.main.bounds.height / 10)
                 }
                 
@@ -54,7 +57,8 @@ struct QuestionSuccessView: View {
                         Text("Quiz")
                             .font(Font.custom("Quicksand-semibold",size: 32))
                             .foregroundColor(colorRed)
-                            .padding(.top, UIScreen.main.bounds.size.height * 0.025)
+                            .offset(y:UIScreen.main.bounds.size.height/72)
+                            .padding(.bottom, UIScreen.main.bounds.size.height * 0.01)
                         HStack{
                             Text("\(vm.viewModel.get_current_country()) - \(vm.get_current_category())")
                                 .font(.system(size: 16))
@@ -71,7 +75,7 @@ struct QuestionSuccessView: View {
                         //                                    .progressViewStyle(LinearProgressViewStyle(tint: Color.red))
                         //                                    .frame(height: 19)
                         ProgressBar(progress: progress, height:5)
-                            .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
+//                            .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
                         Text("Correct Answer!")
                             .foregroundColor(Color(red: 84/255, green: 191/255, blue: 110/255))
                             .font(Font.custom("Quicksand-semibold",size: 24))
@@ -79,9 +83,11 @@ struct QuestionSuccessView: View {
                             .font(Font.custom("Quicksand-medium",size: 16))
                             .foregroundColor(.cDarkGray)
                         Text("\(vm.get_current_question().correctAnswerDescription)")
-                            .padding(.vertical, 20).font(.system(size: 14))
+                            .padding(.top, UIScreen.main.bounds.size.height * 0.015)
+                            .font(.system(size: 14))
+                            .fixedSize(horizontal: false, vertical: true) // Add this line
                         
-                        VStack(spacing: 16) {
+                        VStack(spacing: UIScreen.main.bounds.size.height * 0.015) {
                             ForEach(vm.get_current_question().answers, id: \.self) { category in
                                 Button(action: {
                                     
@@ -115,8 +121,8 @@ struct QuestionSuccessView: View {
                             )
                             .font(.system(size:20))
                             .fontWeight(.bold)
-                            .padding(.top, UIScreen.main.bounds.size.height * 0.02)
-                            .padding(.bottom, UIScreen.main.bounds.size.height / 20)
+                            .padding(.top, UIScreen.main.bounds.size.height * 0.01)
+                            .padding(.bottom, UIScreen.main.bounds.size.height / 30)
                     }.navigationDestination(isPresented: $next) {
                         if vm.move_to_results() {
                             ResultsView(vm: vm)
@@ -124,11 +130,13 @@ struct QuestionSuccessView: View {
                             QuestionView(vm: vm, totalSteps: vm.current_quiz!.questions.count, currentStep: vm.current_quiz!.currentQuestion + 1, progress: CGFloat(Float(vm.current_quiz!.currentQuestion + 1) / Float(vm.current_quiz!.questions.count)))
                         }
                     }
+                    .padding(.bottom, UIScreen.main.bounds.size.height * 0.07)
+                    .frame(maxHeight: 10 * UIScreen.main.bounds.size.height / 12)
                     
                 }.offset(y:UIScreen.main.bounds.height/7).padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 40))
                 
             }
-            //.navigationBarBackButtonHidden()
+            .navigationBarBackButtonHidden()
             .padding(.bottom, UIScreen.main.bounds.size.height / 6)
             
         }

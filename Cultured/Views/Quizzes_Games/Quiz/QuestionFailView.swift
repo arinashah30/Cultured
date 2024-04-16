@@ -41,11 +41,15 @@ struct QuestionFailView: View {
                     //                .opacity(0.5)
                 }
                 
+                BackButton()
+                    .position(x:UIScreen.main.bounds.size.width / 10, y:-UIScreen.main.bounds.size.height / 10000)
+//                    .position(x:UIScreen.main.bounds.size.width/10, y:UIScreen.main.bounds.size.height/250)
+                
                 VStack{
                     
                     RoundedRectangle(cornerRadius: 40)
                         .fill(Color.cPopover)
-                        .frame(width: UIScreen.main.bounds.width, height: 2*UIScreen.main.bounds.height / 3)
+                        .frame(width: UIScreen.main.bounds.width, height: 3*UIScreen.main.bounds.height / 4)
                         .offset(y: UIScreen.main.bounds.height / 10)
                 }
                 
@@ -57,10 +61,11 @@ struct QuestionFailView: View {
                         Text("Quiz")
                             .foregroundColor(colorRed)
                             .font(Font.custom("Quicksand-semibold",size: 32))
-                            .padding(.top, UIScreen.main.bounds.size.height * 0.03)
+                            .offset(y:UIScreen.main.bounds.size.height/72)
+                            .padding(.bottom, UIScreen.main.bounds.size.height * 0.01)
                         HStack{
                             Text("\(vm.viewModel.get_current_country()) - \(vm.get_current_category())")
-                                .font(.system(size: 16))
+                                .font(.system(size: 14))
                                 .foregroundColor(
                                     Color(red: 157/255, green: 157/255, blue: 157/255))
                             Spacer()
@@ -74,7 +79,7 @@ struct QuestionFailView: View {
                         //                                    .progressViewStyle(LinearProgressViewStyle(tint: Color.red))
                         //                                    .frame(height: 19)
                         ProgressBar(progress: progress, height:5)
-                            .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
+//                            .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0))
                         Text("Incorrect Answer!")
                             .foregroundColor(colorRed)
                             .font(Font.custom("Quicksand-semibold",size: 24))
@@ -82,9 +87,11 @@ struct QuestionFailView: View {
                             .font(Font.custom("Quicksand-medium",size: 16))
                             //.foregroundColor(Color(red: 64/255, green: 64/255, blue: 64/255))
                         Text("\(vm.get_current_question().correctAnswerDescription)")
-                            .padding(.vertical, 20).font(.system(size: 14))
+                            .padding(.top, UIScreen.main.bounds.size.height * 0.015)
+                            .font(.system(size: 16))
+                            .fixedSize(horizontal: false, vertical: true) // Add this line
                         
-                        VStack(spacing: 16) {
+                        VStack(spacing: UIScreen.main.bounds.size.height * 0.015) {
                             ForEach(vm.get_current_question().answers, id: \.self) { category in
                                 Button(action: {
                                 }) {
@@ -118,8 +125,8 @@ struct QuestionFailView: View {
                                 )
                                 .font(.system(size:20))
                                 .fontWeight(.bold)
-                                .padding(.top, UIScreen.main.bounds.size.height * 0.02)
-                                .padding(.bottom, UIScreen.main.bounds.size.height / 20)
+                                .padding(.top, UIScreen.main.bounds.size.height * 0.01)
+                                .padding(.bottom, UIScreen.main.bounds.size.height / 30)
                         }.navigationDestination(isPresented: $next) {
                             if vm.move_to_results() {
                                 ResultsView(vm: vm)
@@ -127,13 +134,15 @@ struct QuestionFailView: View {
                                 QuestionView(vm: vm, totalSteps: vm.current_quiz!.questions.count, currentStep: vm.current_quiz!.currentQuestion + 1, progress: CGFloat(Float(vm.current_quiz!.currentQuestion + 1) / Float(vm.current_quiz!.questions.count)))
                             }
                         }
+                        .padding(.bottom, UIScreen.main.bounds.size.height * 0.07)
+                        .frame(maxHeight: 11 * UIScreen.main.bounds.size.height / 12)
                     
                     
                     
                 }.offset(y:UIScreen.main.bounds.height/7).padding(EdgeInsets(top: 0, leading: 40, bottom: 0, trailing: 40))
                 
             }
-            //.navigationBarBackButtonHidden()
+            .navigationBarBackButtonHidden()
             .padding(.bottom, UIScreen.main.bounds.size.height / 6)
             
         }
