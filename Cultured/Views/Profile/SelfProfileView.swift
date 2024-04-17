@@ -112,7 +112,9 @@ struct SelfProfileView: View {
                 Spacer()
                 ChallengeView(country: vm.current_user?.country ?? "Mexico", status: "In Progress")
                 ForEach(completedCountries, id: \.self) { country in
-                    ChallengeView(country: country, status: "Completed")
+                    if (vm.current_user?.country ?? "Mexico" != country) {
+                        ChallengeView(country: country, status: "Completed")
+                    }
                 }
                 
                 

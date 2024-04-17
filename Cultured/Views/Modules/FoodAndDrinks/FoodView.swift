@@ -263,7 +263,7 @@ struct FoodView: View {
                     Spacer(minLength: 15)
                     
                   
-                    ForEach((0...(fooditems.count / 2)), id: \.self) { index in
+                        ForEach((0..<(fooditems.count / 2)), id: \.self) { index in
                             var fooditem = Array(fooditems.keys)[index]
                             FoodTabView(vm: vm, imagename: "\(vm.get_current_country().lowercased())_\(type)_\(removeWhitespacesFromString(mStr: fooditem))", name: fooditem)
                         }
@@ -281,7 +281,7 @@ struct FoodView: View {
                 .foregroundColor(.cDarkGray)
                 .padding(.leading, 32)
             
-            ForEach((fooditems.count / 2) + 1..<fooditems.count, id: \.self) { index in
+            ForEach((fooditems.count / 2)..<fooditems.count, id: \.self) { index in
                 var fooditem = Array(fooditems.keys)[index]
                 FoodCardView(vm: vm, imagename: "\(vm.get_current_country().lowercased())_\(type)_\(removeWhitespacesFromString(mStr: fooditem))", foodname: fooditem, fooddescription: fooditems[fooditem] ?? "Description", popup: $popup, popupTitle: $popupTitle, popupDescription: $popupDescription, popupImage: $popupImage)
             }
