@@ -21,7 +21,6 @@ struct HomeView: View {
     @State var foodImage: UIImage? = nil
     @State var customsImage: UIImage? = nil
     @State var placesImage: UIImage? = nil
-    @State var wordGuessingImage: UIImage? = nil
 
     
     var body: some View {
