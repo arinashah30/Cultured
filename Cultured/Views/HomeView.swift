@@ -15,6 +15,7 @@ struct HomeView: View {
     @State var popUpOpen: Bool = false
     @State var quizImage: UIImage? = nil
     @State var connectionsImage: UIImage? = nil
+    @State var wordGuessingImage: UIImage? = nil
     @State var artourImage: UIImage? = nil
     @State var popCultureImage: UIImage? = nil
     @State var foodImage: UIImage? = nil
