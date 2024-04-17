@@ -49,6 +49,7 @@ struct SelfProfileView: View {
                     AsyncImage(url: avatarImage) { image in
                         image
                             .resizable()
+                            .scaledToFill()
                             .frame(width: 156, height: 156)
                             .background(Color(red:217/255, green: 217/255, blue: 217/255))
                             .background(Color.cLightGray)

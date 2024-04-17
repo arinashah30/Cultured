@@ -36,7 +36,9 @@ struct DetailView: View {
                 }
                 
                 Text(title).font(Font.custom("Quicksand-Bold", size: 35)).multilineTextAlignment(.center).padding().background(Color.cPopover)
-                Text(description).padding().font(Font.custom("Quicksand-Medium", size: 25)).minimumScaleFactor(0.3)
+                ScrollView(.vertical) {
+                    Text(description).padding().font(Font.custom("Quicksand-Medium", size: 20)).minimumScaleFactor(0.3)
+                }
                 Spacer()
             }.frame(width: 304, height: 550)
         }.onAppear {
