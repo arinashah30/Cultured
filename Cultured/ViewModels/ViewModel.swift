@@ -10,8 +10,10 @@ import Firebase
 import FirebaseAuth
 import FirebaseFirestore
 import FirebaseStorage
+import SwiftUI
 
 class ViewModel: ObservableObject {
+    @Published var loadedimages: [String: UIImage] = [:]
     @Published var current_user: User? = nil
     @Published var quizViewModel: QuizViewModel? = nil
     @Published var connectionsViewModel: ConnectionsViewModel? = nil
@@ -1560,6 +1562,10 @@ class ViewModel: ObservableObject {
 
 
     func getImage(imageName: String, completion: @escaping (UIImage?) -> Void) {
+        if (loadedimages.keys.contains(imageName)) {
+            completion(loadedimages[imageName])
+            return
+        }
         let storage = Storage.storage()
         let fileExtensions = ["jpg", "jpeg", "png"]
         for ext in fileExtensions {
@@ -1569,6 +1575,7 @@ class ViewModel: ObservableObject {
                     print("An error occurred when getting the image data for \(ext): \(error.localizedDescription)")
                 } else if let data = data, let image = UIImage(data: data) {
                     completion(image)
+                    self.loadedimages[imageName] = image
                     return // Return if image is successfully fetched
                 }
             }
