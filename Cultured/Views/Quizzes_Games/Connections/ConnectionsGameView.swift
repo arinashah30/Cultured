@@ -227,7 +227,7 @@ struct ConnectionsGameView: View {
                 RoundedRectangle(cornerRadius: 30.0)
                     .frame(width: 180, height: 50)
                     .foregroundStyle(.orange)
-                    .opacity(vm.selection.count < 4 ? 0.4 : 0.4)
+                    .opacity(vm.selection.count < 4 ? 0.4 : 1.0)
                 
                 Text("Submit")
                 
@@ -244,12 +244,12 @@ struct ConnectionsGameView: View {
                 ZStack {
                     RoundedRectangle(cornerRadius: 30.0)
                         .frame(width: 180, height: 50)
-                        .foregroundStyle(.gray)
+                        .foregroundStyle(.cDarkGray)
                         .opacity(0.2)
                     
                     Text("Back to Home")
                         .font(.system(size: 20))
-                        .foregroundStyle(.black)
+                        .foregroundStyle(.white)
                 }
             }
         }
