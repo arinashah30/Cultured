@@ -16,10 +16,9 @@ struct DanceView: View {
             // the background image
                 Image("Dance")
                     .resizable()
-                    .scaledToFit()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: screenWidth, height: screenHeight * 0.4)
                     .ignoresSafeArea()
-                    .frame(width:screenWidth, height: screenHeight * 2/3)
-                    .offset(y:-screenHeight * 0.1)
             
             BackButton()
                 .offset(x:10,y:30)

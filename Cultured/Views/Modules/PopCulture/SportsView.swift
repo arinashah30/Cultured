@@ -17,10 +17,9 @@ struct SportsView: View {
         ZStack(alignment: .topLeading){
             Image("Sports")
                 .resizable()
-                .aspectRatio(contentMode: .fit)
+                .aspectRatio(contentMode: .fill)
                 .frame(width: screenWidth, height: screenHeight * 0.5)
                 .ignoresSafeArea()
-                .offset(y:-60)
             
             BackButton()
             
@@ -174,11 +173,13 @@ struct AthleteCard: View {
             Text("\(athleteName)")
                 .multilineTextAlignment(.center)
                 .foregroundColor(Color.cDarkGray)
+                .lineLimit(2)
+                .frame(height: 50)
             
             
-            
+            Spacer()
         }
-        .frame(width:screenWidth * 0.35, height:screenHeight * 0.20)
+        .frame(width:screenWidth * 0.35, height:screenHeight * 0.22)
         .padding(.horizontal, 5)
         .onAppear {
             vm.getImage(imageName: athleteImage) { image in
