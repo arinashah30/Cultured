@@ -220,7 +220,7 @@ class LandmarkARView: ARView {
         
         
         anchor.addChild(modelEntity)
-        modelEntity.position = [Float(model.xDistance), 0, Float(model.zDistance)]
+        modelEntity.position = [model.xDistance, model.yDistance, model.zDistance]
         
         modelEntity.name = model.modelName
         modelEntity.generateCollisionShapes(recursive: true)
