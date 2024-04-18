@@ -16,6 +16,7 @@ struct TraditionsView: View {
     @State var popupTitle: String = "Title"
     @State var popupDescription: String = "Description"
     @State var popupImage: String = "Drink"
+    @State var titleImage: UIImage? = nil
     
     private enum Category: Hashable {
         case Spring
@@ -31,12 +32,19 @@ struct TraditionsView: View {
     
     var body: some View {
         ZStack (alignment: .topLeading){
-            Image("Traditions")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: screenWidth, height: screenHeight * 0.5)
-                .ignoresSafeArea()
-                .offset(y:-65)
+            if let titleImage = titleImage {
+                Image(uiImage: titleImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: screenWidth, height: screenHeight * 0.5)
+                    .ignoresSafeArea()
+                    .offset(y:-65)
+
+            } else {
+                // Placeholder image or loading indicator
+                ProgressView()
+                    .frame(width: 145, height: 185)
+            }
             
             BackButton()
             
@@ -62,7 +70,7 @@ struct TraditionsView: View {
                         
                         ScrollView(.vertical) {
                             VStack(alignment:.leading){
-                                TraditionsSeasonView(traditions: $traditions.traditionsDictionary, popup: $popup, popupTitle: $popupTitle, popupDescription: $popupDescription, popupImage: $popupImage)
+                                TraditionsSeasonView(vm: vm, traditions: $traditions.traditionsDictionary, popup: $popup, popupTitle: $popupTitle, popupDescription: $popupDescription, popupImage: $popupImage)
                                 
                             }
                         }
@@ -82,6 +90,9 @@ struct TraditionsView: View {
             vm.getInfoTraditions(countryName: vm.current_user?.country ?? "Mexico") { trads in
                 self.traditions = trads
             }
+            vm.getImage(imageName: "\(vm.get_current_country().lowercased())_tradition_0") { image in
+                titleImage = image
+            }
         }.popup(isPresented: $popup) {
             ZStack {
                 DetailView(vm: vm, image: $popupImage, title: $popupTitle, description: $popupDescription)
@@ -91,14 +102,15 @@ struct TraditionsView: View {
 }
 
 struct TraditionsCardView: View {
-    var imagename: String = "Drink"
+    @ObservedObject var vm: ViewModel
+    var imagename: String
     var name: String = "Tradition"
     var description : String = "Short description of item."
     @Binding var popup: Bool
     @Binding var popupTitle: String
     @Binding var popupDescription: String
     @Binding var popupImage: String
-
+    @State var uiImage: UIImage? = nil
     
     var body: some View {
         Button(action: {
@@ -110,11 +122,19 @@ struct TraditionsCardView: View {
             HStack {
                 Spacer()
                 HStack {
-                    Image(imagename)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: screenHeight * 0.1, height: screenHeight * 0.1)
-                        .cornerRadius(20)
+                    if let uiImage = uiImage {
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: screenHeight * 0.1, height: screenHeight * 0.1)
+                            .clipped()
+                            .clipShape(RoundedRectangle(cornerRadius: 20))
+
+                    } else {
+                        // Placeholder image or loading indicator
+                        ProgressView()
+                            .frame(width: 145, height: 185)
+                    }
                     VStack(alignment: .leading) {
                         Text(name)
                             .font(.system(size: 20))
@@ -130,12 +150,17 @@ struct TraditionsCardView: View {
                 .cornerRadius(14)
                 .shadow(color: .black.opacity(0.25), radius: 2, x: 0, y: 4)
                 Spacer()
+            }.onAppear {
+                vm.getImage(imageName: imagename) { image in
+                    uiImage = image
+                }
             }
-            }
+        }
     }
 }
 
 struct TraditionsSeasonView: View {
+    @ObservedObject var vm: ViewModel
     @Binding var traditions: [String : String]
     @Binding var popup: Bool
     @Binding var popupTitle: String
@@ -147,8 +172,8 @@ struct TraditionsSeasonView: View {
             .foregroundColor(.cDarkGray)
             .padding(.leading, 32)
         
-        ForEach(Array(traditions.keys), id: \.self) { fooditem in
-            TraditionsCardView(name: fooditem, description: traditions[fooditem] ?? "Description", popup: $popup, popupTitle: $popupTitle, popupDescription: $popupDescription, popupImage: $popupImage)
+        ForEach(Array(traditions.keys.sorted().enumerated()), id: \.element) { index, fooditem in
+            TraditionsCardView(vm: vm, imagename: "\(vm.get_current_country().lowercased())_tradition_\(index+1)", name: fooditem, description: traditions[fooditem] ?? "Description", popup: $popup, popupTitle: $popupTitle, popupDescription: $popupDescription, popupImage: $popupImage)
         }
     }
 }
